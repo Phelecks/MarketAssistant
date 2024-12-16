@@ -1,0 +1,13 @@
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\bin\Debug\net7.0\IdentityHelper.deps.json
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\bin\Debug\net7.0\IdentityHelper.dll
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\bin\Debug\net7.0\IdentityHelper.pdb
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.csproj.AssemblyReference.cache
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.AssemblyInfoInputs.cache
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.AssemblyInfo.cs
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.csproj.CoreCompileInputs.cache
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.dll
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\refint\IdentityHelper.dll
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.pdb
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\ref\IdentityHelper.dll
+C:\Users\system5\source\repos\CleanArchitectureCore\ClassLibraries\IdentityHelper\obj\Debug\net7.0\IdentityHelper.sourcelink.json

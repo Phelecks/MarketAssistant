@@ -1,0 +1,12 @@
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\bin\Debug\net9.0\ExecutorManager.deps.json
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\bin\Debug\net9.0\ExecutorManager.dll
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\bin\Debug\net9.0\ExecutorManager.pdb
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ExecutorManager.csproj.AssemblyReference.cache
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ExecutorManager.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ExecutorManager.AssemblyInfoInputs.cache
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ExecutorManager.AssemblyInfo.cs
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ExecutorManager.csproj.CoreCompileInputs.cache
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ExecutorManager.dll
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\refint\ExecutorManager.dll
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ExecutorManager.pdb
+c:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\ExecutorManager\obj\Debug\net9.0\ref\ExecutorManager.dll

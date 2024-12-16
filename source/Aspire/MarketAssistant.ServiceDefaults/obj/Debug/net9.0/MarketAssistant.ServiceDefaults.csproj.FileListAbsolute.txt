@@ -1,0 +1,12 @@
+C:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\bin\Debug\net9.0\MarketAssistant.ServiceDefaults.deps.json
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\bin\Debug\net9.0\MarketAssistant.ServiceDefaults.dll
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\bin\Debug\net9.0\MarketAssistant.ServiceDefaults.pdb
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.csproj.AssemblyReference.cache
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.AssemblyInfoInputs.cache
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.AssemblyInfo.cs
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.csproj.CoreCompileInputs.cache
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.dll
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\refint\MarketAssistant.ServiceDefaults.dll
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.pdb
+C:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\ref\MarketAssistant.ServiceDefaults.dll

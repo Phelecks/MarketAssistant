@@ -1,0 +1,17 @@
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\bin\Debug\net9.0\MassTransitManager.deps.json
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\bin\Debug\net9.0\MassTransitManager.dll
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\bin\Debug\net9.0\MassTransitManager.pdb
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\bin\Debug\net9.0\BaseDomain.dll
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\bin\Debug\net9.0\LoggerService.dll
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\bin\Debug\net9.0\BaseDomain.pdb
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\bin\Debug\net9.0\LoggerService.pdb
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTransitManager.csproj.AssemblyReference.cache
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTransitManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTransitManager.AssemblyInfoInputs.cache
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTransitManager.AssemblyInfo.cs
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTransitManager.csproj.CoreCompileInputs.cache
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTran.9102B6C3.Up2Date
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTransitManager.dll
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\refint\MassTransitManager.dll
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\MassTransitManager.pdb
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\MassTransitManager\obj\Debug\net9.0\ref\MassTransitManager.dll

@@ -1,0 +1,1055 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "IdentityHelper/1.0.0": {
+        "dependencies": {
+          "IdentityModel": "7.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Net.Http.Headers": "8.0.10",
+          "Nethereum.Siwe": "4.26.0",
+          "Nethereum.Siwe.Core": "4.26.0",
+          "NethereumStorage": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "8.1.2"
+        },
+        "runtime": {
+          "IdentityHelper.dll": {}
+        }
+      },
+      "ADRaffy.ENSNormalize/0.1.5": {
+        "runtime": {
+          "lib/net5.0/ADRaffy.ENSNormalize.dll": {
+            "assemblyVersion": "0.1.5.0",
+            "fileVersion": "0.1.5.0"
+          }
+        }
+      },
+      "IdentityModel/7.0.0": {
+        "runtime": {
+          "lib/net6.0/IdentityModel.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.0.0"
+          }
+        }
+      },
+      "MediatR/12.4.1": {
+        "dependencies": {
+          "MediatR.Contracts": "2.0.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
+        },
+        "runtime": {
+          "lib/net6.0/MediatR.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.4.1.0"
+          }
+        }
+      },
+      "MediatR.Contracts/2.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/MediatR.Contracts.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.0"
+          }
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "4.700.19.56404"
+          }
+        }
+      },
+      "Microsoft.Bcl.TimeProvider/8.0.1": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Bcl.TimeProvider.dll": {
+            "assemblyVersion": "8.0.0.1",
+            "fileVersion": "8.0.123.58001"
+          }
+        }
+      },
+      "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Caching.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.Extensions.Caching.Memory/8.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Options": "8.0.2",
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Caching.Memory.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
+      "Microsoft.Extensions.Caching.StackExchangeRedis/8.0.10": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Options": "8.0.2",
+          "StackExchange.Redis": "2.8.16"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Caching.StackExchangeRedis.dll": {
+            "assemblyVersion": "8.0.10.0",
+            "fileVersion": "8.0.1024.46804"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder/8.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Configuration.Binder.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.724.31311"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
+      "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions/8.0.10": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46804"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging/2.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Options": "8.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/8.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options/8.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Options.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.224.6711"
+          }
+        }
+      },
+      "Microsoft.Extensions.Primitives/8.0.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Primitives.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Abstractions/8.1.2": {
+        "runtime": {
+          "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "assemblyVersion": "8.1.2.0",
+            "fileVersion": "8.1.2.51008"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.JsonWebTokens/8.1.2": {
+        "dependencies": {
+          "Microsoft.Bcl.TimeProvider": "8.0.1",
+          "Microsoft.IdentityModel.Tokens": "8.1.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
+            "assemblyVersion": "8.1.2.0",
+            "fileVersion": "8.1.2.51008"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Logging/8.1.2": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Abstractions": "8.1.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.IdentityModel.Logging.dll": {
+            "assemblyVersion": "8.1.2.0",
+            "fileVersion": "8.1.2.51008"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Tokens/8.1.2": {
+        "dependencies": {
+          "Microsoft.Bcl.TimeProvider": "8.0.1",
+          "Microsoft.IdentityModel.Logging": "8.1.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.IdentityModel.Tokens.dll": {
+            "assemblyVersion": "8.1.2.0",
+            "fileVersion": "8.1.2.51008"
+          }
+        }
+      },
+      "Microsoft.Net.Http.Headers/8.0.10": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Net.Http.Headers.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46804"
+          }
+        }
+      },
+      "NBitcoin.Secp256k1/3.1.1": {
+        "runtime": {
+          "lib/net6.0/NBitcoin.Secp256k1.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
+        }
+      },
+      "Nethereum.ABI/4.26.0": {
+        "dependencies": {
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.ABI.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Accounts/4.26.0": {
+        "dependencies": {
+          "Nethereum.KeyStore": "4.26.0",
+          "Nethereum.RPC": "4.26.0",
+          "Nethereum.Signer": "4.26.0",
+          "Nethereum.Signer.EIP712": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Accounts.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.BlockchainProcessing/4.26.0": {
+        "dependencies": {
+          "Nethereum.Contracts": "4.26.0",
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.JsonRpc.RpcClient": "4.26.0",
+          "Nethereum.RPC": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.BlockchainProcessing.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Contracts/4.26.0": {
+        "dependencies": {
+          "ADRaffy.ENSNormalize": "0.1.5",
+          "Nethereum.ABI": "4.26.0",
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.RPC": "4.26.0",
+          "Nethereum.Util.Rest": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Contracts.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Hex/4.26.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Hex.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.JsonRpc.Client/4.26.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.JsonRpc.Client.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.JsonRpc.RpcClient/4.26.0": {
+        "dependencies": {
+          "Nethereum.JsonRpc.Client": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.JsonRpc.RpcClient.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.KeyStore/4.26.0": {
+        "dependencies": {
+          "Nethereum.Hex": "4.26.0",
+          "Newtonsoft.Json": "13.0.3",
+          "Portable.BouncyCastle": "1.8.2"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.KeyStore.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Merkle.Patricia/4.26.0": {
+        "dependencies": {
+          "Nethereum.Model": "4.26.0",
+          "Nethereum.RLP": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Merkle.Patricia.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Model/4.26.0": {
+        "dependencies": {
+          "Nethereum.RLP": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Model.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.RLP/4.26.0": {
+        "dependencies": {
+          "Nethereum.Hex": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.RLP.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.RPC/4.26.0": {
+        "dependencies": {
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.JsonRpc.Client": "4.26.0",
+          "Nethereum.Merkle.Patricia": "4.26.0",
+          "Nethereum.Model": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.RPC.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Signer/4.26.0": {
+        "dependencies": {
+          "NBitcoin.Secp256k1": "3.1.1",
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.Model": "4.26.0",
+          "Nethereum.RLP": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3",
+          "Portable.BouncyCastle": "1.8.2"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Signer.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Signer.EIP712/4.26.0": {
+        "dependencies": {
+          "Nethereum.ABI": "4.26.0",
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.Signer": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Signer.EIP712.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Siwe/4.26.0": {
+        "dependencies": {
+          "Nethereum.Signer": "4.26.0",
+          "Nethereum.Siwe.Core": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Nethereum.Web3": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Siwe.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Siwe.Core/4.26.0": {
+        "dependencies": {
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Siwe.Core.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Util/4.26.0": {
+        "dependencies": {
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.RLP": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Util.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Util.Rest/4.26.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Util.Rest.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Nethereum.Web3/4.26.0": {
+        "dependencies": {
+          "Nethereum.ABI": "4.26.0",
+          "Nethereum.Accounts": "4.26.0",
+          "Nethereum.BlockchainProcessing": "4.26.0",
+          "Nethereum.Contracts": "4.26.0",
+          "Nethereum.Hex": "4.26.0",
+          "Nethereum.JsonRpc.RpcClient": "4.26.0",
+          "Nethereum.KeyStore": "4.26.0",
+          "Nethereum.RPC": "4.26.0",
+          "Nethereum.Signer": "4.26.0",
+          "Nethereum.Util": "4.26.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net8.0/Nethereum.Web3.dll": {
+            "assemblyVersion": "4.26.0.0",
+            "fileVersion": "4.26.0.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.3.27908"
+          }
+        }
+      },
+      "Pipelines.Sockets.Unofficial/2.2.8": {
+        "dependencies": {
+          "System.IO.Pipelines": "5.0.1"
+        },
+        "runtime": {
+          "lib/net5.0/Pipelines.Sockets.Unofficial.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "2.2.8.1080"
+          }
+        }
+      },
+      "Portable.BouncyCastle/1.8.2": {
+        "runtime": {
+          "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
+            "assemblyVersion": "1.8.2.0",
+            "fileVersion": "1.8.2.223"
+          }
+        }
+      },
+      "RedLock.net/2.3.2": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.0",
+          "Microsoft.Extensions.Logging": "2.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "StackExchange.Redis": "2.8.16"
+        },
+        "runtime": {
+          "lib/netstandard2.0/RedLockNet.Abstractions.dll": {
+            "assemblyVersion": "2.3.2.0",
+            "fileVersion": "2.3.2.0"
+          },
+          "lib/netstandard2.0/RedLockNet.SERedis.dll": {
+            "assemblyVersion": "2.3.2.0",
+            "fileVersion": "2.3.2.0"
+          }
+        }
+      },
+      "StackExchange.Redis/2.8.16": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "Pipelines.Sockets.Unofficial": "2.2.8"
+        },
+        "runtime": {
+          "lib/net6.0/StackExchange.Redis.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.8.16.12844"
+          }
+        }
+      },
+      "StackExchange.Redis.Extensions.Core/10.2.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "StackExchange.Redis": "2.8.16"
+        },
+        "runtime": {
+          "lib/net8.0/StackExchange.Redis.Extensions.Core.dll": {
+            "assemblyVersion": "10.2.0.0",
+            "fileVersion": "10.2.0.0"
+          }
+        }
+      },
+      "StackExchange.Redis.Extensions.Newtonsoft/10.2.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "StackExchange.Redis.Extensions.Core": "10.2.0"
+        },
+        "runtime": {
+          "lib/net8.0/StackExchange.Redis.Extensions.Newtonsoft.dll": {
+            "assemblyVersion": "10.2.0.0",
+            "fileVersion": "10.2.0.0"
+          }
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/8.1.2": {
+        "dependencies": {
+          "Microsoft.IdentityModel.JsonWebTokens": "8.1.2",
+          "Microsoft.IdentityModel.Tokens": "8.1.2"
+        },
+        "runtime": {
+          "lib/net8.0/System.IdentityModel.Tokens.Jwt.dll": {
+            "assemblyVersion": "8.1.2.0",
+            "fileVersion": "8.1.2.51008"
+          }
+        }
+      },
+      "System.IO.Pipelines/5.0.1": {
+        "runtime": {
+          "lib/netcoreapp3.0/System.IO.Pipelines.dll": {
+            "assemblyVersion": "5.0.0.1",
+            "fileVersion": "5.0.120.57516"
+          }
+        }
+      },
+      "BaseDomain/1.0.0": {
+        "dependencies": {
+          "MediatR": "12.4.1",
+          "Nethereum.Web3": "4.26.0"
+        },
+        "runtime": {
+          "BaseDomain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "CacheManager/1.0.0": {
+        "dependencies": {
+          "BaseDomain": "1.0.0",
+          "Microsoft.Extensions.Caching.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Caching.Memory": "8.0.1",
+          "Microsoft.Extensions.Caching.StackExchangeRedis": "8.0.10",
+          "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "8.0.2",
+          "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions": "8.0.10",
+          "RedLock.net": "2.3.2",
+          "StackExchange.Redis": "2.8.16",
+          "StackExchange.Redis.Extensions.Core": "10.2.0",
+          "StackExchange.Redis.Extensions.Newtonsoft": "10.2.0"
+        },
+        "runtime": {
+          "CacheManager.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NethereumStorage/1.0.0": {
+        "dependencies": {
+          "CacheManager": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Nethereum.Siwe": "4.26.0",
+          "Nethereum.Siwe.Core": "4.26.0"
+        },
+        "runtime": {
+          "NethereumStorage.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IdentityHelper/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ADRaffy.ENSNormalize/0.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cdCbVBXLqt+q6nF02MjY3NBAN024UfxLzvSgklidWG384h6Rqz5PCcyo55hqQbe7JS8w1+XJ5x5bSNaj07eqQw==",
+      "path": "adraffy.ensnormalize/0.1.5",
+      "hashPath": "adraffy.ensnormalize.0.1.5.nupkg.sha512"
+    },
+    "IdentityModel/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-to99aLL5Gev1GOb2gUao/UZXT/uXMyjEmHPNrf/vJI2HBD1LMCTeC4SBCe/cqMIB12V9v+eSieq7ff0lju9pOQ==",
+      "path": "identitymodel/7.0.0",
+      "hashPath": "identitymodel.7.0.0.nupkg.sha512"
+    },
+    "MediatR/12.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0tLxCgEC5+r1OCuumR3sWyiVa+BMv3AgiU4+pz8xqTc+2q1WbUEXFOr7Orm96oZ9r9FsldgUtWvB2o7b9jDOaw==",
+      "path": "mediatr/12.4.1",
+      "hashPath": "mediatr.12.4.1.nupkg.sha512"
+    },
+    "MediatR.Contracts/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FYv95bNT4UwcNA+G/J1oX5OpRiSUxteXaUt2BJbRSdRNiIUNbggJF69wy6mnk2wYToaanpdXZdCwVylt96MpwQ==",
+      "path": "mediatr.contracts/2.0.1",
+      "hashPath": "mediatr.contracts.2.0.1.nupkg.sha512"
+    },
+    "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1Am6l4Vpn3/K32daEqZI+FFr96OlZkgwK2LcT3pZ2zWubR5zTPW3/FkO1Rat9kb7oQOa4rxgl9LJHc5tspCWfg==",
+      "path": "microsoft.bcl.asyncinterfaces/1.1.0",
+      "hashPath": "microsoft.bcl.asyncinterfaces.1.1.0.nupkg.sha512"
+    },
+    "Microsoft.Bcl.TimeProvider/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-C7kWHJnMRY7EvJev2S8+yJHZ1y7A4ZlLbA4NE+O23BDIAN5mHeqND1m+SKv1ChRS5YlCDW7yAMUe7lttRsJaAA==",
+      "path": "microsoft.bcl.timeprovider/8.0.1",
+      "hashPath": "microsoft.bcl.timeprovider.8.0.1.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3KuSxeHoNYdxVYfg2IRZCThcrlJ1XJqIXkAWikCsbm5C/bCjv7G0WoKDyuR98Q+T607QT2Zl5GsbGRkENcV2yQ==",
+      "path": "microsoft.extensions.caching.abstractions/8.0.0",
+      "hashPath": "microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Caching.Memory/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HFDnhYLccngrzyGgHkjEDU5FMLn4MpOsr5ElgsBMC4yx6lJh4jeWO7fHS8+TXPq+dgxCmUa/Trl8svObmwW4QA==",
+      "path": "microsoft.extensions.caching.memory/8.0.1",
+      "hashPath": "microsoft.extensions.caching.memory.8.0.1.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Caching.StackExchangeRedis/8.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-60BGmEIij4UjMf6iG9hUQy6+aZC5X4UVNpJ0O/TU2Dt3z/XnNuC/vgjtpbfrhYdkeVegqFwGIHnWk/kEI4eddA==",
+      "path": "microsoft.extensions.caching.stackexchangeredis/8.0.10",
+      "hashPath": "microsoft.extensions.caching.stackexchangeredis.8.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Abstractions/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3lE/iLSutpgX1CC0NOW70FJoGARRHbyKmG7dc0klnUZ9Dd9hS6N/POPWhKhMLCEuNN5nXEY5agmlFtH562vqhQ==",
+      "path": "microsoft.extensions.configuration.abstractions/8.0.0",
+      "hashPath": "microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Binder/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7IQhGK+wjyGrNsPBjJcZwWAr+Wf6D4+TwOptUt77bWtgNkiV8tDEbhFS+dDamtQFZ2X7kWG9m71iZQRj2x3zgQ==",
+      "path": "microsoft.extensions.configuration.binder/8.0.2",
+      "hashPath": "microsoft.extensions.configuration.binder.8.0.2.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3iE7UF7MQkCv1cxzCahz+Y/guQbTqieyxyaWKhrRO91itI9cOKO76OHeQDahqG4MmW5umr3CcCvGmK92lWNlbg==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.2",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions/8.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IRPhuY8RoP81Vhf9U0RFKVM9XHMGc297DWEE8J9qLEXG9yvW3DZtWRrm4MmE6gdl50FpMym8wZGLtRYdyyovog==",
+      "path": "microsoft.extensions.diagnostics.healthchecks.abstractions/8.0.10",
+      "hashPath": "microsoft.extensions.diagnostics.healthchecks.abstractions.8.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VP10syWV/vxYYMKgZ2eDESmUsz3gPxvBn5J6tkVN8lI4M+dF43RN8fWsEPbcAneDmZrHl3Pv23z05nmyGkJlpg==",
+      "path": "microsoft.extensions.logging/2.0.0",
+      "hashPath": "microsoft.extensions.logging.2.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Abstractions/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nroMDjS7hNBPtkZqVBbSiQaQjWRDxITI8Y7XnDs97rqG3EbzVTNLZQf7bIeUJcaHOV8bca47s1Uxq94+2oGdxA==",
+      "path": "microsoft.extensions.logging.abstractions/8.0.2",
+      "hashPath": "microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dWGKvhFybsaZpGmzkGCbNNwBD1rVlWzrZKANLW/CcbFJpCEceMCGzT7zZwHOGBCbwM0SzBuceMj5HN1LKV1QqA==",
+      "path": "microsoft.extensions.options/8.0.2",
+      "hashPath": "microsoft.extensions.options.8.0.2.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g==",
+      "path": "microsoft.extensions.primitives/8.0.0",
+      "hashPath": "microsoft.extensions.primitives.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Abstractions/8.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QSSDer3kvyTdNq6BefgX4EYi1lsia2zJUh5CfIMZFQUh6BhrXK1WE4i2C9ltUmmuUjoeVVX6AaSo9NZfpTGNdw==",
+      "path": "microsoft.identitymodel.abstractions/8.1.2",
+      "hashPath": "microsoft.identitymodel.abstractions.8.1.2.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.JsonWebTokens/8.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AWQINMvtamdYBqtG8q8muyYTfA9i5xRBEsMKQdzOn5xRzhVVDSzsNGYof1docfF3pX4hNRUpHlzs61RP0reZMw==",
+      "path": "microsoft.identitymodel.jsonwebtokens/8.1.2",
+      "hashPath": "microsoft.identitymodel.jsonwebtokens.8.1.2.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Logging/8.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pEn//qKJcEXDsLHLzACFrT3a2kkpIGOXLEYkcuxjqWoeDnbeotu0LY9fF8+Ds9WWpVE9ZGlxXamT0VR8rxaQeA==",
+      "path": "microsoft.identitymodel.logging/8.1.2",
+      "hashPath": "microsoft.identitymodel.logging.8.1.2.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Tokens/8.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZSzGsAA3BY20XHnsp8OjrHFtpd+pQtiu4UJDjPtXwCtEzcE5CjWP/8iZEJXy5AxVEFB0z6EwLSN+T1Fsdpjifw==",
+      "path": "microsoft.identitymodel.tokens/8.1.2",
+      "hashPath": "microsoft.identitymodel.tokens.8.1.2.nupkg.sha512"
+    },
+    "Microsoft.Net.Http.Headers/8.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DGW0rxxkWrBNJyR/qykis3Pn9am3s76tedl/3veortjajLaTptIYLz1KhQF9ZvRwbiu/ZufrJ9EvfOS6Nj2LEw==",
+      "path": "microsoft.net.http.headers/8.0.10",
+      "hashPath": "microsoft.net.http.headers.8.0.10.nupkg.sha512"
+    },
+    "NBitcoin.Secp256k1/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ekF91qDK2+TI9FFhXvjClfUOQ3DWxNhvjh8Eoqawk1KPk/hCURpc8xoyeprtAiIoM5wgPnWeFxQybVWhl2NsHA==",
+      "path": "nbitcoin.secp256k1/3.1.1",
+      "hashPath": "nbitcoin.secp256k1.3.1.1.nupkg.sha512"
+    },
+    "Nethereum.ABI/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wtikeSnkh/9x3/ybbe1Xh9E3rWvkaOmqcc/n5XAxEMBeV7jQT1mnAGidiUnVcDHA7uYRCff/6+YlM9NrNe5cfw==",
+      "path": "nethereum.abi/4.26.0",
+      "hashPath": "nethereum.abi.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Accounts/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-J0+2B3EMqm/O8c9QEyQpV0QJn2slZV1BiVl7mqrbtqY6ALhdyUlkHqKuAyroI1V4t7hYHIXOxdbrYQoWcxwVbA==",
+      "path": "nethereum.accounts/4.26.0",
+      "hashPath": "nethereum.accounts.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.BlockchainProcessing/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ksK1LI8a91Axr1wUOyXRsn4xHLOqvO+BvhOxmRfiZA3EoAsh/+JXUYTxpHHrULKCE2+ykKyMFsbVya8ljMh1Bw==",
+      "path": "nethereum.blockchainprocessing/4.26.0",
+      "hashPath": "nethereum.blockchainprocessing.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Contracts/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I10REPZmgUy6oZrLFTnfgqNjKg5ldk6sd2hbNFRlLMvnQ+HNjChNVv9ByEAotpW0vbwa6g4tJ6L4B9sPPVbZ1A==",
+      "path": "nethereum.contracts/4.26.0",
+      "hashPath": "nethereum.contracts.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Hex/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WH/GatO8W1u8uv+vuFgiG2y2Fr/VlpT9DQUCbTVyrxco9c1DBBRthVNDLBJWU63cyFpDX8oBcyqxzz+GKNMUYQ==",
+      "path": "nethereum.hex/4.26.0",
+      "hashPath": "nethereum.hex.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.JsonRpc.Client/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PP2dNx8WQ1Phig6H5bnzA2DwBroMJmgzzONxT8jCu1bWiIeC0lk7LDcnCdl+Bl/4gmocHUR5E0C9/+WsbmMUbw==",
+      "path": "nethereum.jsonrpc.client/4.26.0",
+      "hashPath": "nethereum.jsonrpc.client.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.JsonRpc.RpcClient/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-S3b6lViVqwy7hFuA1jx0S+6ynLk0ghMRP8xrAI/tNDxeGFs9DawLUhCOndOvdGlaYM3HAzyINJiUpKftZOriKw==",
+      "path": "nethereum.jsonrpc.rpcclient/4.26.0",
+      "hashPath": "nethereum.jsonrpc.rpcclient.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.KeyStore/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-N4VL+dg1DSZp22+eRSAbfmQ/MOIbLUVyxW8ajHu2rbvGAYuW/JaSvRJzmfHk5jSVZHFTr+QPUfy9ia5CJCO83A==",
+      "path": "nethereum.keystore/4.26.0",
+      "hashPath": "nethereum.keystore.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Merkle.Patricia/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gL9uxnCY4J3457khkxh9NYJKzb3S2oxnREacKB/JnNTSc14q4wsIgPlpK55zwYtpb2pdKXSyVlCHVNLma2cRgw==",
+      "path": "nethereum.merkle.patricia/4.26.0",
+      "hashPath": "nethereum.merkle.patricia.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Model/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QN0JY0OFsscJ99a27dQ5XC1vmp6Cx3Y9lWMLBvTLK9ahXTw0Rq1zJCVEceGA+2opVV8340hadrgktvo/Ge2Yfg==",
+      "path": "nethereum.model/4.26.0",
+      "hashPath": "nethereum.model.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.RLP/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UV4NqLsBO3oJiyOuTFCMSUrwvFvdXtQ1ULhMBxLTwHoGBvFGdt1+NJFTOqbiytkDKY+tFVTpkwf+05fW4g43BQ==",
+      "path": "nethereum.rlp/4.26.0",
+      "hashPath": "nethereum.rlp.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.RPC/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MdAPvChkP+r5mCeEH4wG9BOxWjh2V7fVOAa3GbCNFUcYlZA7MagQ1veZON+wSZz48eWQoKATfYxo3t/3wV0z6g==",
+      "path": "nethereum.rpc/4.26.0",
+      "hashPath": "nethereum.rpc.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Signer/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QVQg5aT+ITYTU28NX4GHcCNZDIn4lZUGxI+X/iCj86pSMxECHW0e3Z4ovuBy3DFzdW4NTFt7ehtVUO0NdjQcDQ==",
+      "path": "nethereum.signer/4.26.0",
+      "hashPath": "nethereum.signer.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Signer.EIP712/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uJcwbAkIaRY3EiNDebPQQ8Nv1rYMZTlbT4EQ2+aDM6RPbmwcYsBrtHW1tXYVMyCyapKQI6MGVYRYEJo7MtqFig==",
+      "path": "nethereum.signer.eip712/4.26.0",
+      "hashPath": "nethereum.signer.eip712.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Siwe/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nl+F6Nbtv5LVe1qyoUhlcxBsA1fCsdXd4ExU19f1U67CyrYWwZ1BhuGnwueHppA8Es+sdywjRXaVmlCYX7KHaA==",
+      "path": "nethereum.siwe/4.26.0",
+      "hashPath": "nethereum.siwe.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Siwe.Core/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cEPt5v3YBOnV8tInrabiC1Okr2tZw+FWx2J/OyUlMFGXycKt0iZZv+yRQ7+5lbyU1it19lFpQdPUaDNoEpHWjw==",
+      "path": "nethereum.siwe.core/4.26.0",
+      "hashPath": "nethereum.siwe.core.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Util/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NX5wPlTnRP0YE5ZAOtKaB7reDa72vk0+vSrW8jD4/IdUOMNP6L94Izgh9FxLn20drpF7uvWcNgeLO23yc8v5UA==",
+      "path": "nethereum.util/4.26.0",
+      "hashPath": "nethereum.util.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Util.Rest/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EAVRSMCjciBDtYvAF1uib43MR1OTiCCyV1IHutdigqrZF8k9a90LYHdf0XcWITdbSquH/B1riPNMmtEEpeLQcw==",
+      "path": "nethereum.util.rest/4.26.0",
+      "hashPath": "nethereum.util.rest.4.26.0.nupkg.sha512"
+    },
+    "Nethereum.Web3/4.26.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-w2xptamO8URXGOcT7bEe7mFAo0ixD1u2iv7RFfoRhLf9jwcOfXuMQGd3NByBGzpyis5csSnPDvOey70ju7/B5g==",
+      "path": "nethereum.web3/4.26.0",
+      "hashPath": "nethereum.web3.4.26.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "path": "newtonsoft.json/13.0.3",
+      "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+    },
+    "Pipelines.Sockets.Unofficial/2.2.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zG2FApP5zxSx6OcdJQLbZDk2AVlN2BNQD6MorwIfV6gVj0RRxWPEp2LXAxqDGZqeNV1Zp0BNPcNaey/GXmTdvQ==",
+      "path": "pipelines.sockets.unofficial/2.2.8",
+      "hashPath": "pipelines.sockets.unofficial.2.2.8.nupkg.sha512"
+    },
+    "Portable.BouncyCastle/1.8.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XpJVIhjPiO0o+DU36eeIzqnRilDmE8Z7Kfhm9V9o1yNqM3ikgleD94Z5W/LeEu3t63LaZl2CNJexaix+I6AUMg==",
+      "path": "portable.bouncycastle/1.8.2",
+      "hashPath": "portable.bouncycastle.1.8.2.nupkg.sha512"
+    },
+    "RedLock.net/2.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jlrALAArm4dCE292U3EtRoMnVKJ9M6sunbZn/oG5OuzlGtTpusXBfvDrnGWbgGDlWV027f5E9H5CiVnPxiq8+g==",
+      "path": "redlock.net/2.3.2",
+      "hashPath": "redlock.net.2.3.2.nupkg.sha512"
+    },
+    "StackExchange.Redis/2.8.16": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WaoulkOqOC9jHepca3JZKFTqndCWab5uYS7qCzmiQDlrTkFaDN7eLSlEfHycBxipRnQY9ppZM7QSsWAwUEGblw==",
+      "path": "stackexchange.redis/2.8.16",
+      "hashPath": "stackexchange.redis.2.8.16.nupkg.sha512"
+    },
+    "StackExchange.Redis.Extensions.Core/10.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wpgpVdZIm7sw5rx19SGXbPWeVBjDFVjxDa3GWUMZRcrbmOMCNNA54+7xPQP70pUZmDYuEYU1fHyb/HU0X1+Mqg==",
+      "path": "stackexchange.redis.extensions.core/10.2.0",
+      "hashPath": "stackexchange.redis.extensions.core.10.2.0.nupkg.sha512"
+    },
+    "StackExchange.Redis.Extensions.Newtonsoft/10.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BXguD4Ul/HtxP57Z0O1fQTaMD0uzg79hPCyZDOIf9CnhJkwcC9HUpTybQSFh0E64k0EIeyyikFSVV7uPbzHahQ==",
+      "path": "stackexchange.redis.extensions.newtonsoft/10.2.0",
+      "hashPath": "stackexchange.redis.extensions.newtonsoft.10.2.0.nupkg.sha512"
+    },
+    "System.IdentityModel.Tokens.Jwt/8.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UoidlNYjML1ZbV5s8bLP84VpxDzv8uhHzyt5YkZwqLmFTmtOQheNuTKpR/5UWmO5Ka4JT3kVmhUNq5Li733wTg==",
+      "path": "system.identitymodel.tokens.jwt/8.1.2",
+      "hashPath": "system.identitymodel.tokens.jwt.8.1.2.nupkg.sha512"
+    },
+    "System.IO.Pipelines/5.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qEePWsaq9LoEEIqhbGe6D5J8c9IqQOUuTzzV6wn1POlfdLkJliZY3OlB0j0f17uMWlqZYjH7txj+2YbyrIA8Yg==",
+      "path": "system.io.pipelines/5.0.1",
+      "hashPath": "system.io.pipelines.5.0.1.nupkg.sha512"
+    },
+    "BaseDomain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CacheManager/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NethereumStorage/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

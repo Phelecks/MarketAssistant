@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "5A/+ENE2cos=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\ExecutorManager\\ExecutorManager.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\system5\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.0\\microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\microsoft.extensions.options\\8.0.0\\microsoft.extensions.options.8.0.0.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\polly\\8.5.0\\polly.8.5.0.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\polly.core\\8.5.0\\polly.core.8.5.0.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\polly.extensions\\8.5.0\\polly.extensions.8.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
