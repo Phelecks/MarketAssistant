@@ -3936,8 +3936,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj": {
-              "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj"
+            "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj": {
+              "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj"
             },
             "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseDomain\\BaseDomain.csproj": {
               "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseDomain\\BaseDomain.csproj"
