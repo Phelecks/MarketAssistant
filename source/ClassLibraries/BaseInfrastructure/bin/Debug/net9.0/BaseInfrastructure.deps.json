@@ -29,6 +29,28 @@
           }
         }
       },
+      "Aspire.RabbitMQ.Client/9.0.0": {
+        "dependencies": {
+          "AspNetCore.HealthChecks.Rabbitmq": "8.0.2",
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "8.0.2",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "9.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options": "9.0.0",
+          "Microsoft.Extensions.Primitives": "9.0.0",
+          "OpenTelemetry.Extensions.Hosting": "1.9.0",
+          "Polly.Core": "8.5.0",
+          "RabbitMQ.Client": "7.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Aspire.RabbitMQ.Client.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.55103"
+          }
+        }
+      },
       "Aspire.StackExchange.Redis/9.0.0": {
         "dependencies": {
           "AspNetCore.HealthChecks.Redis": "8.0.1",
@@ -70,6 +92,18 @@
           "lib/net8.0/Aspire.StackExchange.Redis.DistributedCaching.dll": {
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.24.55103"
+          }
+        }
+      },
+      "AspNetCore.HealthChecks.Rabbitmq/8.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "9.0.0",
+          "RabbitMQ.Client": "7.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/HealthChecks.Rabbitmq.dll": {
+            "assemblyVersion": "8.0.2.0",
+            "fileVersion": "8.0.2.0"
           }
         }
       },
@@ -1160,6 +1194,7 @@
       },
       "MassTransitManager/1.0.0": {
         "dependencies": {
+          "Aspire.RabbitMQ.Client": "9.0.0",
           "BaseDomain": "1.0.0",
           "LoggerService": "1.0.0",
           "MassTransit": "8.3.4",
@@ -1203,6 +1238,13 @@
       "path": "adraffy.ensnormalize/0.1.5",
       "hashPath": "adraffy.ensnormalize.0.1.5.nupkg.sha512"
     },
+    "Aspire.RabbitMQ.Client/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-O6HK3R0qjRSl6ALEx/7BgF3IENXgx2UA8WVNwSQoOxtZz+uBDvW/QQ33zk/KZK3jQbdgYUhl/gfCZsDy2RRIWQ==",
+      "path": "aspire.rabbitmq.client/9.0.0",
+      "hashPath": "aspire.rabbitmq.client.9.0.0.nupkg.sha512"
+    },
     "Aspire.StackExchange.Redis/9.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1216,6 +1258,13 @@
       "sha512": "sha512-vLqYzMF7krsPBwmZXH2KqpacwyZ+O5HqvK1phFf5VHDr5+Y1aYRLzWdvUT+dwjwYYU2bF0VWxcwn0JXTnuTE7A==",
       "path": "aspire.stackexchange.redis.distributedcaching/9.0.0",
       "hashPath": "aspire.stackexchange.redis.distributedcaching.9.0.0.nupkg.sha512"
+    },
+    "AspNetCore.HealthChecks.Rabbitmq/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-A/29xmNWfssOY1zq1bWAaZPW/iJfBhJN+I737KKHQutzB0JFwAIKesjsUWN2BAJwqS/ciFMjNxvCDHtAgU0PIQ==",
+      "path": "aspnetcore.healthchecks.rabbitmq/8.0.2",
+      "hashPath": "aspnetcore.healthchecks.rabbitmq.8.0.2.nupkg.sha512"
     },
     "AspNetCore.HealthChecks.Redis/8.0.1": {
       "type": "package",

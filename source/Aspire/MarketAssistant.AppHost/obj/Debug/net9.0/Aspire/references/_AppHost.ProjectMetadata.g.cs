@@ -8,5 +8,5 @@ namespace Projects;
 public class MarketAssistant_AppHost
 {
     private MarketAssistant_AppHost() { }
-    public static string ProjectPath => """C:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.AppHost""";
+    public static string ProjectPath => """c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.AppHost""";
 }

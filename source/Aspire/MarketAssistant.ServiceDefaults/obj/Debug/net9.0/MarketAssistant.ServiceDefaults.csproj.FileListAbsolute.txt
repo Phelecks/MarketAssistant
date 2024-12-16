@@ -10,3 +10,4 @@ c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.Serv
 c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\refint\MarketAssistant.ServiceDefaults.dll
 c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.pdb
 C:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\ref\MarketAssistant.ServiceDefaults.dll
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.ServiceDefaults\obj\Debug\net9.0\MarketAssistant.ServiceDefaults.sourcelink.json

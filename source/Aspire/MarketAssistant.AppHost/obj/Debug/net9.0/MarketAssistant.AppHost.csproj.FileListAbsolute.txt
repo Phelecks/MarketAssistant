@@ -64,3 +64,4 @@ c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.AppH
 c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.AppHost\obj\Debug\net9.0\MarketAssistant.AppHost.pdb
 c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.AppHost\obj\Debug\net9.0\MarketAssistant.AppHost.genruntimeconfig.cache
 c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.AppHost\obj\Debug\net9.0\ref\MarketAssistant.AppHost.dll
+c:\Users\system5\source\repos\MarketAssistant\source\Aspire\MarketAssistant.AppHost\obj\Debug\net9.0\MarketAssistant.AppHost.sourcelink.json

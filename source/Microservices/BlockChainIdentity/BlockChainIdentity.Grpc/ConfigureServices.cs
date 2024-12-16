@@ -47,6 +47,9 @@ public static class ConfigureServices
             options.Issuer = builder.Configuration.GetValue<string>("TOKEN_ISSUER")!;
         });
 
+        builder.AddRedisDistributedCache("cache");
+        builder.AddRabbitMQClient("messaging");
+
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
         services.AddInfrastructureServices(builder.Configuration);

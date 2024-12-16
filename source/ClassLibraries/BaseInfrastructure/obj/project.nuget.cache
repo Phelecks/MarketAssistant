@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "BH+66gkLjBM=",
+  "dgSpecHash": "qcSXT89Ou5M=",
   "success": true,
   "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseInfrastructure\\BaseInfrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\system5\\.nuget\\packages\\adraffy.ensnormalize\\0.1.5\\adraffy.ensnormalize.0.1.5.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\aspire.rabbitmq.client\\9.0.0\\aspire.rabbitmq.client.9.0.0.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\aspire.stackexchange.redis\\9.0.0\\aspire.stackexchange.redis.9.0.0.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\aspire.stackexchange.redis.distributedcaching\\9.0.0\\aspire.stackexchange.redis.distributedcaching.9.0.0.nupkg.sha512",
+    "C:\\Users\\system5\\.nuget\\packages\\aspnetcore.healthchecks.rabbitmq\\8.0.2\\aspnetcore.healthchecks.rabbitmq.8.0.2.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\aspnetcore.healthchecks.redis\\8.0.1\\aspnetcore.healthchecks.redis.8.0.1.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
@@ -97,6 +99,16 @@
     "C:\\Users\\system5\\.nuget\\packages\\system.threading.ratelimiting\\8.0.0\\system.threading.ratelimiting.8.0.0.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package version outside of dependency constraint: Aspire.RabbitMQ.Client 9.0.0 requires RabbitMQ.Client (>= 6.8.1 && < 7.0.0) but version RabbitMQ.Client 7.0.0 was resolved.",
+      "libraryId": "RabbitMQ.Client",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    },
     {
       "code": "NU1608",
       "level": "Warning",

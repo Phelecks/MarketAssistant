@@ -40,6 +40,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainIdentity.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.EncryptColumn", "ClassLibraries\EntityFramework.Core.EncryptDBColumn\EntityFrameworkCore.EncryptColumn.csproj", "{4386FBEC-CA5B-406B-99C2-EE01C51AB0A7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Informing", "Informing", "{13D76127-275C-4087-AD68-A06DD19D8240}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Application", "Microservices\Informing\Informing.Application\Informing.Application.csproj", "{875A4571-8004-421C-A290-1E74BB6941A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Domain", "Microservices\Informing\Informing.Domain\Informing.Domain.csproj", "{BC215616-A9FF-4D40-8D0C-3185C77D5BEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Grpc", "Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj", "{EEC4B9CD-F65F-4810-B55C-10A4915E7C01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Infrastructure", "Microservices\Informing\Informing.Infrastructure\Informing.Infrastructure.csproj", "{B53CB433-5C1C-475F-9E72-6B95ED36C5AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +120,22 @@ Global
 		{4386FBEC-CA5B-406B-99C2-EE01C51AB0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4386FBEC-CA5B-406B-99C2-EE01C51AB0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4386FBEC-CA5B-406B-99C2-EE01C51AB0A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875A4571-8004-421C-A290-1E74BB6941A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875A4571-8004-421C-A290-1E74BB6941A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875A4571-8004-421C-A290-1E74BB6941A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875A4571-8004-421C-A290-1E74BB6941A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC215616-A9FF-4D40-8D0C-3185C77D5BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC215616-A9FF-4D40-8D0C-3185C77D5BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC215616-A9FF-4D40-8D0C-3185C77D5BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC215616-A9FF-4D40-8D0C-3185C77D5BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEC4B9CD-F65F-4810-B55C-10A4915E7C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC4B9CD-F65F-4810-B55C-10A4915E7C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEC4B9CD-F65F-4810-B55C-10A4915E7C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEC4B9CD-F65F-4810-B55C-10A4915E7C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B53CB433-5C1C-475F-9E72-6B95ED36C5AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B53CB433-5C1C-475F-9E72-6B95ED36C5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B53CB433-5C1C-475F-9E72-6B95ED36C5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B53CB433-5C1C-475F-9E72-6B95ED36C5AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +156,11 @@ Global
 		{BF11BF3E-A7E4-4A76-8E94-4D1042094035} = {3BA571D6-D688-4245-895A-CF076E3009C6}
 		{60F1750B-31CB-459A-AA6B-C76ACB3CD210} = {3BA571D6-D688-4245-895A-CF076E3009C6}
 		{4386FBEC-CA5B-406B-99C2-EE01C51AB0A7} = {E3D6E84E-B038-4339-854F-A3F2BE048EC0}
+		{13D76127-275C-4087-AD68-A06DD19D8240} = {36DF701C-02BA-486B-BCC3-1F94E71A09DF}
+		{875A4571-8004-421C-A290-1E74BB6941A0} = {13D76127-275C-4087-AD68-A06DD19D8240}
+		{BC215616-A9FF-4D40-8D0C-3185C77D5BEC} = {13D76127-275C-4087-AD68-A06DD19D8240}
+		{EEC4B9CD-F65F-4810-B55C-10A4915E7C01} = {13D76127-275C-4087-AD68-A06DD19D8240}
+		{B53CB433-5C1C-475F-9E72-6B95ED36C5AA} = {13D76127-275C-4087-AD68-A06DD19D8240}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18F9C98C-0AB3-4767-B4E3-1A1B455AE6B4}

@@ -656,6 +656,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Aspire.RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
             "MassTransit": {
               "target": "Package",
               "version": "[8.3.4, )"

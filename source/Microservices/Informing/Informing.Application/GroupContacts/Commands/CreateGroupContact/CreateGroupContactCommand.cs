@@ -1,0 +1,33 @@
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
+using IApplicationDbContext = Informing.Application.Interfaces.IApplicationDbContext;
+
+namespace Informing.Application.GroupContacts.Commands.CreateGroupContact;
+
+
+public record CreateGroupContactCommand([property: Required] long groupId, [property: Required] long contactId) : IRequest<long>;
+
+public class CreateGroupContactCommandHandler : IRequestHandler<CreateGroupContactCommand, long>
+{
+    private readonly IApplicationDbContext _context;
+
+    public CreateGroupContactCommandHandler(IApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<long> Handle(CreateGroupContactCommand request, CancellationToken cancellationToken)
+    {
+        var entity = new Domain.Entities.GroupContact
+        {
+            groupId = request.groupId,
+            contactId = request.contactId
+        };
+
+        await _context.groupContacts.AddAsync(entity, cancellationToken);
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return entity.id;
+    }
+}

@@ -11,6 +11,36 @@
           "lib/net5.0/ADRaffy.ENSNormalize.dll": {}
         }
       },
+      "Aspire.RabbitMQ.Client/9.0.0": {
+        "type": "package",
+        "dependencies": {
+          "AspNetCore.HealthChecks.Rabbitmq": "8.0.2",
+          "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "8.0.2",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11",
+          "Microsoft.Extensions.Hosting.Abstractions": "8.0.1",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Options": "8.0.2",
+          "Microsoft.Extensions.Primitives": "8.0.0",
+          "OpenTelemetry.Extensions.Hosting": "1.9.0",
+          "Polly.Core": "8.4.2",
+          "RabbitMQ.Client": "[6.8.1, 7.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/Aspire.RabbitMQ.Client.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Aspire.RabbitMQ.Client.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/Aspire.RabbitMQ.Client.targets": {}
+        }
+      },
       "Aspire.StackExchange.Redis/9.0.0": {
         "type": "package",
         "dependencies": {
@@ -69,6 +99,23 @@
         },
         "build": {
           "buildTransitive/net8.0/Aspire.StackExchange.Redis.DistributedCaching.targets": {}
+        }
+      },
+      "AspNetCore.HealthChecks.Rabbitmq/8.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0",
+          "RabbitMQ.Client": "6.8.1"
+        },
+        "compile": {
+          "lib/net6.0/HealthChecks.Rabbitmq.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/HealthChecks.Rabbitmq.dll": {
+            "related": ".xml"
+          }
         }
       },
       "AspNetCore.HealthChecks.Redis/8.0.1": {
@@ -1603,6 +1650,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
+          "Aspire.RabbitMQ.Client": "9.0.0",
           "BaseDomain": "1.0.0",
           "LoggerService": "1.0.0",
           "MassTransit": "8.3.4",
@@ -1655,6 +1703,24 @@
         "lib/netstandard2.0/ADRaffy.ENSNormalize.dll"
       ]
     },
+    "Aspire.RabbitMQ.Client/9.0.0": {
+      "sha512": "O6HK3R0qjRSl6ALEx/7BgF3IENXgx2UA8WVNwSQoOxtZz+uBDvW/QQ33zk/KZK3jQbdgYUhl/gfCZsDy2RRIWQ==",
+      "type": "package",
+      "path": "aspire.rabbitmq.client/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ConfigurationSchema.json",
+        "Icon.png",
+        "README.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "aspire.rabbitmq.client.9.0.0.nupkg.sha512",
+        "aspire.rabbitmq.client.nuspec",
+        "buildTransitive/net8.0/Aspire.RabbitMQ.Client.targets",
+        "lib/net8.0/Aspire.RabbitMQ.Client.dll",
+        "lib/net8.0/Aspire.RabbitMQ.Client.xml"
+      ]
+    },
     "Aspire.StackExchange.Redis/9.0.0": {
       "sha512": "FsY/QgsUFs4WsIFGYAxV0xHWK8r2i8fj2KCZFOZn0wAmV8/z2MHJAH9tigPP87ldKIyMvuEH+l2wpbGiPw/NtQ==",
       "type": "package",
@@ -1689,6 +1755,23 @@
         "buildTransitive/net8.0/Aspire.StackExchange.Redis.DistributedCaching.targets",
         "lib/net8.0/Aspire.StackExchange.Redis.DistributedCaching.dll",
         "lib/net8.0/Aspire.StackExchange.Redis.DistributedCaching.xml"
+      ]
+    },
+    "AspNetCore.HealthChecks.Rabbitmq/8.0.2": {
+      "sha512": "A/29xmNWfssOY1zq1bWAaZPW/iJfBhJN+I737KKHQutzB0JFwAIKesjsUWN2BAJwqS/ciFMjNxvCDHtAgU0PIQ==",
+      "type": "package",
+      "path": "aspnetcore.healthchecks.rabbitmq/8.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "aspnetcore.healthchecks.rabbitmq.8.0.2.nupkg.sha512",
+        "aspnetcore.healthchecks.rabbitmq.nuspec",
+        "icon.png",
+        "lib/net6.0/HealthChecks.Rabbitmq.dll",
+        "lib/net6.0/HealthChecks.Rabbitmq.xml",
+        "lib/netstandard2.0/HealthChecks.Rabbitmq.dll",
+        "lib/netstandard2.0/HealthChecks.Rabbitmq.xml"
       ]
     },
     "AspNetCore.HealthChecks.Redis/8.0.1": {
@@ -3922,6 +4005,16 @@
     }
   },
   "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package version outside of dependency constraint: Aspire.RabbitMQ.Client 9.0.0 requires RabbitMQ.Client (>= 6.8.1 && < 7.0.0) but version RabbitMQ.Client 7.0.0 was resolved.",
+      "libraryId": "RabbitMQ.Client",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    },
     {
       "code": "NU1608",
       "level": "Warning",

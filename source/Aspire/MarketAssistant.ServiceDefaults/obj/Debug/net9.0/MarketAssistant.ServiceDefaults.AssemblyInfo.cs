@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MarketAssistant.ServiceDefaults")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+911062661eeb6433b541f4c72de11b1a9517ef21")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe21e6b550d5308f2c2a46b479688a96c11ff65f")]
 [assembly: System.Reflection.AssemblyProductAttribute("MarketAssistant.ServiceDefaults")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MarketAssistant.ServiceDefaults")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

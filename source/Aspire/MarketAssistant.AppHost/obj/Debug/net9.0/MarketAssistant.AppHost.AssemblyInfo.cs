@@ -17,7 +17,7 @@ using System.Reflection;
     "\\ext\\"))]
 [assembly: System.Reflection.AssemblyMetadata("dcpbinpath", ("C:\\Users\\system5\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\9.0.0\\tools" +
     "\\ext\\bin\\"))]
-[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", ("C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\Aspire\\MarketAssistant.AppHo" +
+[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", ("c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\Aspire\\MarketAssistant.AppHo" +
     "st"))]
 [assembly: System.Reflection.AssemblyMetadata("apphostprojectname", "MarketAssistant.AppHost.csproj")]
 [assembly: System.Reflection.AssemblyMetadata("aspiredashboardpath", ("C:\\Users\\system5\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\9.0.0\\tools\\Aspire." +
@@ -25,7 +25,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MarketAssistant.AppHost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+911062661eeb6433b541f4c72de11b1a9517ef21")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe21e6b550d5308f2c2a46b479688a96c11ff65f")]
 [assembly: System.Reflection.AssemblyProductAttribute("MarketAssistant.AppHost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MarketAssistant.AppHost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
