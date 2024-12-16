@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Nethereum.Siwe.Core" Version="4.26.0" />
+		<PackageReference Include="Nethereum.Siwe" Version="4.26.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\MassTransitManager\MassTransitManager.csproj" />
+		<ProjectReference Include="..\BlockChainIdentity.Domain\BlockChainIdentity.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -27,7 +27,7 @@ public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
 			response = await next();
 			var expireInMinutes = request.expireInMinutes ?? 10;
 			await _distributedCache.SetAsync(key: request.cacheKey, 
-					value:System.Text.Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(response)), 
+					value: System.Text.Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(response)), 
 					options: new() 
 					{
 						AbsoluteExpiration = DateTime.Now.AddMinutes(expireInMinutes)

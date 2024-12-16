@@ -1243,7 +1243,7 @@
       },
       "CacheManager/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "Aspire.StackExchange.Redis.DistributedCaching": "9.0.0"
         },
@@ -1303,10 +1303,10 @@
       },
       "NethereumStorage/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "CacheManager": "1.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "Nethereum.Siwe": "4.26.0",
           "Nethereum.Siwe.Core": "4.26.0"
         },

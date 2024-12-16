@@ -1,8 +1,3 @@
-C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.csproj.AssemblyReference.cache
-C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.AssemblyInfoInputs.cache
-C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.AssemblyInfo.cs
-C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.csproj.CoreCompileInputs.cache
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\bin\Debug\net9.0\BaseInfrastructure.deps.json
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\bin\Debug\net9.0\BaseInfrastructure.dll
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\bin\Debug\net9.0\BaseInfrastructure.pdb
@@ -22,6 +17,12 @@ C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastr
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\bin\Debug\net9.0\ExecutorManager.pdb
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\bin\Debug\net9.0\LoggerService.pdb
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\bin\Debug\net9.0\NethereumStorage.pdb
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.csproj.AssemblyReference.cache
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.AssemblyInfoInputs.cache
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.AssemblyInfo.cs
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.csproj.CoreCompileInputs.cache
+C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.sourcelink.json
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfr.ACC02179.Up2Date
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\BaseInfrastructure.dll
 C:\Users\system5\source\repos\MarketAssistant\source\ClassLibraries\BaseInfrastructure\obj\Debug\net9.0\refint\BaseInfrastructure.dll
