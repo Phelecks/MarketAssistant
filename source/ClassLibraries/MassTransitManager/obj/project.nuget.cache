@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2M+ZuRbHUwg=",
+  "dgSpecHash": "eM2e6AJrE1s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\MassTransitManager\\MassTransitManager.csproj",
+  "projectFilePath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\MassTransitManager\\MassTransitManager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\system5\\.nuget\\packages\\adraffy.ensnormalize\\0.1.5\\adraffy.ensnormalize.0.1.5.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\aspire.rabbitmq.client\\9.0.0\\aspire.rabbitmq.client.9.0.0.nupkg.sha512",

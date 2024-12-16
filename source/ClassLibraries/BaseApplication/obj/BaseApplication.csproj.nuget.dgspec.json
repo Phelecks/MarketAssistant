@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj": {}
+    "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj": {
+    "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj",
+        "projectUniqueName": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj",
         "projectName": "BaseApplication",
-        "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj",
+        "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj",
         "packagesPath": "C:\\Users\\system5\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\obj\\",
+        "outputPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -39,11 +39,11 @@
               "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\ExecutorManager\\ExecutorManager.csproj": {
                 "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\ExecutorManager\\ExecutorManager.csproj"
               },
-              "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj": {
-                "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj"
+              "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj": {
+                "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj"
               },
-              "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj": {
-                "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj"
+              "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj": {
+                "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj"
               }
             }
           }
@@ -261,14 +261,14 @@
         }
       }
     },
-    "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj": {
+    "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj",
+        "projectUniqueName": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj",
         "projectName": "IdentityHelper",
-        "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj",
+        "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\IdentityHelper.csproj",
         "packagesPath": "C:\\Users\\system5\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\obj\\",
+        "outputPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\IdentityHelper\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -290,8 +290,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj": {
-                "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj"
+              "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj": {
+                "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj"
               }
             }
           }
@@ -357,14 +357,14 @@
         }
       }
     },
-    "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj": {
+    "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj",
+        "projectUniqueName": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj",
         "projectName": "LoggerService",
-        "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj",
+        "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj",
         "packagesPath": "C:\\Users\\system5\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\obj\\",
+        "outputPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -429,14 +429,14 @@
         }
       }
     },
-    "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj": {
+    "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj",
+        "projectUniqueName": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj",
         "projectName": "NethereumStorage",
-        "projectPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj",
+        "projectPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj",
         "packagesPath": "C:\\Users\\system5\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\obj\\",
+        "outputPath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

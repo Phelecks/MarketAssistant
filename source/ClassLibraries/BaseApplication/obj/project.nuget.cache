@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FY7dSq5IKoI=",
+  "dgSpecHash": "NR2fPOBCWEo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj",
+  "projectFilePath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseApplication\\BaseApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\system5\\.nuget\\packages\\adraffy.ensnormalize\\0.1.5\\adraffy.ensnormalize.0.1.5.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\aspire.stackexchange.redis\\9.0.0\\aspire.stackexchange.redis.9.0.0.nupkg.sha512",

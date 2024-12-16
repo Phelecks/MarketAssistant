@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ua5ctdVckjA=",
+  "dgSpecHash": "sahY4iDo6OI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseDomain\\BaseDomain.csproj",
+  "projectFilePath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\BaseDomain\\BaseDomain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\system5\\.nuget\\packages\\adraffy.ensnormalize\\0.1.5\\adraffy.ensnormalize.0.1.5.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\mediatr\\12.4.1\\mediatr.12.4.1.nupkg.sha512",

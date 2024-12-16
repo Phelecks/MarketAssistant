@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nC4rKr6CAmE=",
+  "dgSpecHash": "vJoZ7hsG8SU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj",
+  "projectFilePath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\NethereumStorage\\NethereumStorage.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\system5\\.nuget\\packages\\adraffy.ensnormalize\\0.1.5\\adraffy.ensnormalize.0.1.5.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\aspire.stackexchange.redis\\9.0.0\\aspire.stackexchange.redis.9.0.0.nupkg.sha512",

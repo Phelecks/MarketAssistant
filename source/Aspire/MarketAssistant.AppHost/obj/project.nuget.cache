@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "X1+q/nRhWnI=",
+  "dgSpecHash": "vzYo7ImAgtA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\Aspire\\MarketAssistant.AppHost\\MarketAssistant.AppHost.csproj",
+  "projectFilePath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\Aspire\\MarketAssistant.AppHost\\MarketAssistant.AppHost.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\system5\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\9.0.0\\aspire.dashboard.sdk.win-x64.9.0.0.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\aspire.hosting\\9.0.0\\aspire.hosting.9.0.0.nupkg.sha512",

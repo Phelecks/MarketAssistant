@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "N60kc8l5DiY=",
+  "dgSpecHash": "V2qkBs5/V8s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj",
+  "projectFilePath": "c:\\Users\\system5\\source\\repos\\MarketAssistant\\source\\ClassLibraries\\LoggerService\\LoggerService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\system5\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\system5\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
