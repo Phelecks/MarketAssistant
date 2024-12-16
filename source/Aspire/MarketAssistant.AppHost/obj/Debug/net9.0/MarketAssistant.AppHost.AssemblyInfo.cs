@@ -25,7 +25,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MarketAssistant.AppHost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+911062661eeb6433b541f4c72de11b1a9517ef21")]
 [assembly: System.Reflection.AssemblyProductAttribute("MarketAssistant.AppHost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MarketAssistant.AppHost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
