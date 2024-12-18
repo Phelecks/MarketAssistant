@@ -33,7 +33,11 @@ public static class ConfigureServices
                 {
                     var connectionString = configService.GetConnectionString("informingdb");
                     options.UseSqlServer(connectionString,
-                        builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+                        builder =>
+                        {
+                            builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                            builder.EnableRetryOnFailure();
+                        })
                         .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
                 }
                 

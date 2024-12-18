@@ -22,6 +22,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
+        builder.AddServiceDefaults();
         // builder.WebHost.ConfigureKestrel(options =>
         // {
         //     {

@@ -36,10 +36,10 @@ var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
     .WithReference(informingDb)
     .WithEnvironment(name: "BLOCKCHAIN_IDENTITY_AUTHORITY", value: builder.Configuration.GetValue("BLOCKCHAIN_IDENTITY_AUTHORITY", ""))
     .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
-    .WithEnvironment(name: "APPLICATION_NAME", value: "Informing");
-    //.WaitFor(redis)
-    //.WaitFor(rabbit)
-    //.WaitFor(informingDb);
+    .WithEnvironment(name: "APPLICATION_NAME", value: "Informing")
+    .WaitFor(redis)
+    .WaitFor(rabbit)
+    .WaitFor(informingDb);
 
 var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
     // .WithEndpoint(endpointName: "http", options => 
@@ -58,9 +58,47 @@ var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
     .WithEnvironment(name: "BLOCKCHAIN_IDENTITY_AUTHORITY", value: builder.Configuration.GetValue("BLOCKCHAIN_IDENTITY_AUTHORITY", ""))
     .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", ""))
     .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
-    .WithEnvironment(name: "APPLICATION_NAME", value: "Identity");
-    //.WaitFor(redis)
-    //.WaitFor(rabbit)
-    //.WaitFor(identityDb);
+    .WithEnvironment(name: "APPLICATION_NAME", value: "Identity")
+    .WaitFor(redis)
+    .WaitFor(rabbit)
+    .WaitFor(identityDb);
+
+var applicationGateway = builder.AddProject<Projects.Application_Gateway>("applicationgateway")
+    // .WithEndpoint(endpointName: "http", options => 
+    // {
+    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+    //     options.Transport = HttpProtocol.Http3;
+    // }, createIfNotExists: true)
+    // .WithEndpoint(endpointName: "grpc", options => 
+    // {
+    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+    //     options.Transport = HttpProtocol.Http2;
+    // }, createIfNotExists: true)
+    .WithReference(redis)
+    .WithReference(identity)
+    .WithReference(informing)
+    .WithEnvironment(name: "APPLICATION_NAME", value: "Application.Gateway")
+    .WaitFor(redis)
+    .WaitFor(rabbit)
+    .WaitFor(identityDb);
+
+var adminGateway = builder.AddProject<Projects.Admin_Gateway>("admingateway")
+    // .WithEndpoint(endpointName: "http", options => 
+    // {
+    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+    //     options.Transport = HttpProtocol.Http3;
+    // }, createIfNotExists: true)
+    // .WithEndpoint(endpointName: "grpc", options => 
+    // {
+    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+    //     options.Transport = HttpProtocol.Http2;
+    // }, createIfNotExists: true)
+    .WithReference(redis)
+    .WithReference(identity)
+    .WithReference(informing)
+    .WithEnvironment(name: "APPLICATION_NAME", value: "Admin.Gateway")
+    .WaitFor(redis)
+    .WaitFor(rabbit)
+    .WaitFor(identityDb);
 
 builder.Build().Run();

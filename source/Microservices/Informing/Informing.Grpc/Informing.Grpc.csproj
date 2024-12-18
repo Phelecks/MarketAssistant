@@ -30,20 +30,18 @@
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.*" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="8.*" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.*" />
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.*" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.*" />
 		<PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" Version="8.*" />
+		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" Version="9.0.0" />
 		<!--<PackageReference Include="Aspire.RabbitMQ.Client" Version="8.*" />-->
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
 		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
 		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
 		<ProjectReference Include="..\Informing.Application\Informing.Application.csproj" />

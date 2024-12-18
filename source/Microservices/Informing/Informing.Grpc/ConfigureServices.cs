@@ -1,5 +1,4 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Reflection;
 using Asp.Versioning;
 using BaseInfrastructure.Interceptors;
@@ -16,7 +15,6 @@ using Informing.Infrastructure;
 using Informing.Infrastructure.Persistence;
 using MassTransitManager.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace Informing.Grpc;
@@ -25,6 +23,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
+        builder.AddServiceDefaults();
         // builder.WebHost.ConfigureKestrel(options =>
         // {
         //     {
@@ -42,7 +41,7 @@ public static class ConfigureServices
         //             });
         //     }
         // });
-        
+
         builder.AddRedisDistributedCache("cache");
         //builder.AddRabbitMQClient("messaging");
 
@@ -118,7 +117,7 @@ public static class ConfigureServices
                        // If the request is for our hub...
                        var path = context.HttpContext.Request.Path;
                        if (!string.IsNullOrEmpty(accessToken) &&
-                           (path.StartsWithSegments("/hubs")))
+                           path.StartsWithSegments("/hubs"))
                        {
                            // Read the token out of the query string
                            context.Token = accessToken;
