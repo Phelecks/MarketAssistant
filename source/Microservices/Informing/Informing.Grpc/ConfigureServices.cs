@@ -25,31 +25,31 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        builder.WebHost.ConfigureKestrel(options =>
-        {
-            {
-                var grpcPort = builder.Configuration.GetValue("GRPC_PORT", 80);
-                options.Listen(IPAddress.Any, grpcPort, listenOptions =>
-                {
-                    listenOptions.Protocols = HttpProtocols.Http2;
-                });
+        // builder.WebHost.ConfigureKestrel(options =>
+        // {
+        //     {
+        //         var grpcPort = builder.Configuration.GetValue("GRPC_PORT", 80);
+        //         options.Listen(IPAddress.Any, grpcPort, listenOptions =>
+        //         {
+        //             listenOptions.Protocols = HttpProtocols.Http2;
+        //         });
 
-                var apiRPort = builder.Configuration.GetValue("API_PORT", 81);
-                if (apiRPort != 0)
-                    options.Listen(IPAddress.Any, apiRPort, listenOptions =>
-                    {
-                        listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
-                    });
-            }
-        });
-
+        //         var apiRPort = builder.Configuration.GetValue("API_PORT", 81);
+        //         if (apiRPort != 0)
+        //             options.Listen(IPAddress.Any, apiRPort, listenOptions =>
+        //             {
+        //                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
+        //             });
+        //     }
+        // });
         
         builder.AddRedisDistributedCache("cache");
-        builder.AddRabbitMQClient("messaging");
+        //builder.AddRabbitMQClient("messaging");
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
-        services.AddInfrastructureServices(builder.Configuration);
+        builder.AddSqlServerClient(connectionName: "informingdb");
+        services.AddInfrastructureServices();
         services.AddApplicationServices();
 
         services.AddDatabaseDeveloperPageExceptionFilter();
@@ -133,7 +133,7 @@ public static class ConfigureServices
 
         builder.Services.AddIdentityHelperDependencyInjections();
 
-        builder.Services.AddSignalRServices(builder.Configuration);
+        builder.Services.AddSignalRServices(builder.Configuration.GetConnectionString("redis"));
 
         return services;
     }

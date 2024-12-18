@@ -13,34 +13,35 @@ namespace BlockChainIdentity.Infrastructure;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
         services.AddBaseInfrastructureServices();
 
-        if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-        {
-            services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
             {
-                options.UseInMemoryDatabase(configuration.GetValue<string>("ApplicationName", Guid.NewGuid().ToString()))
-                    .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+                var configService = serviceProvider.GetRequiredService<IConfiguration>();
+                var useInMemoryDb = configService.GetValue("USE_INMEMORY_DATABASE", true);
+                if(useInMemoryDb)
+                {
+                    options.UseInMemoryDatabase(configService.GetValue<string>("ApplicationName", Guid.NewGuid().ToString()))
+                        .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+                }
+                else
+                {
+                    var connectionString = configService.GetConnectionString("identitydb");
+                    options.UseSqlServer(connectionString,
+                        builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+                        .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+                }
+                
             });
-        }
-        else
-        {
-            services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
-            {
-                options.UseSqlServer(configuration.GetValue<string>("DEFAULT_CONNECTION_STRING"),
-                    builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
-                    .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
-            });
-        }
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<ApplicationDbContextInitializer>();
 
         //Add mass transit dependency injections
-        services.AddMassTransitDependencyInjections(configuration);
+        services.AddMassTransitDependencyInjections();
 
         services.AddScoped<IIdentityService, IdentityService>();
 

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Net.Http.Headers" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.*" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="8.*" />
 	  <PackageReference Include="Nethereum.Siwe.Core" Version="4.26.0" />
 	  <PackageReference Include="Nethereum.Siwe" Version="4.26.0" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />

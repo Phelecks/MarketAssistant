@@ -10,7 +10,7 @@ namespace Informing.Infrastructure.MassTransit;
 
 internal static class MassTransitConfiguration
 {
-    public static void AddMassTransitDependencyInjections(this IServiceCollection services, IConfiguration configuration)
+    public static void AddMassTransitDependencyInjections(this IServiceCollection services)
     {
         services.AddMassTransit(x =>
         {
@@ -33,11 +33,9 @@ internal static class MassTransitConfiguration
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host(configuration.GetValue<string>("RABBITMQ_SERVER"), host =>
-                {
-                    host.Username(configuration.GetValue<string>("RABBITMQ_USERNAME"));
-                    host.Password(configuration.GetValue<string>("RABBITMQ_PASSWORD"));
-                });
+                var configService = context.GetRequiredService<IConfiguration>();
+                var connectionString = configService.GetConnectionString("messaging");
+                cfg.Host(connectionString);
 
                 cfg.UseMessageRetry(r => r.Exponential(retryLimit: 10, minInterval: TimeSpan.FromMinutes(1), maxInterval: TimeSpan.FromMinutes(20), intervalDelta: TimeSpan.FromMinutes(2)));
 

@@ -1,5 +1,4 @@
 ﻿using Informing.Application.Interfaces;
-using StackExchange.Redis;
 using Microsoft.AspNetCore.SignalR;
 using Informing.Grpc.Helpers;
 
@@ -11,17 +10,26 @@ public static class SignalRConfiguration
     /// Add dependency injections
     /// </summary>
     /// <param name="services"></param>
-    public static void AddSignalRServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddSignalRServices(this IServiceCollection services, string? redisConnectionString = default)
     {
         services.AddSingleton<IUserIdProvider, CustomSignalRUserIdProvider>();
 
-        services.AddSignalR()
-            .AddHubOptions<GameHub>(options =>
-            {
-                options.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
-            })
-            .AddStackExchangeRedis(redisConnectionString: "cache")
-            .AddMessagePackProtocol();
+        if(string.IsNullOrEmpty(redisConnectionString))
+            services.AddSignalR()
+                .AddHubOptions<GameHub>(options =>
+                {
+                    options.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
+                })
+                .AddMessagePackProtocol();
+        else
+            services.AddSignalR()
+                .AddHubOptions<GameHub>(options =>
+                {
+                    options.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
+                })
+                .AddStackExchangeRedis(redisConnectionString: redisConnectionString)
+                .AddMessagePackProtocol();
+
 
         services.AddScoped<IGameHubProxy, GameHubProxy>();
     }

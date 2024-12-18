@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.0.0
 MinimumVisualStudioVersion = 17.8.0.0
@@ -8,47 +9,49 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketAssistant.ServiceDefa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClassLibraries", "ClassLibraries", "{E3D6E84E-B038-4339-854F-A3F2BE048EC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseDomain", "ClassLibraries\BaseDomain\BaseDomain.csproj", "{6D8D2DE4-D279-4702-B50D-68B5E5E2C1E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseDomain", "ClassLibraries\BaseDomain\BaseDomain.csproj", "{6D8D2DE4-D279-4702-B50D-68B5E5E2C1E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseApplication", "ClassLibraries\BaseApplication\BaseApplication.csproj", "{81CA67B3-314E-4345-A7F7-99FC59709AD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseApplication", "ClassLibraries\BaseApplication\BaseApplication.csproj", "{81CA67B3-314E-4345-A7F7-99FC59709AD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseInfrastructure", "ClassLibraries\BaseInfrastructure\BaseInfrastructure.csproj", "{8B76A9BD-77D3-497F-8248-AF683126454B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseInfrastructure", "ClassLibraries\BaseInfrastructure\BaseInfrastructure.csproj", "{8B76A9BD-77D3-497F-8248-AF683126454B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransitManager", "ClassLibraries\MassTransitManager\MassTransitManager.csproj", "{D28B5414-6253-41C3-BEF6-F2F18128565A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassTransitManager", "ClassLibraries\MassTransitManager\MassTransitManager.csproj", "{D28B5414-6253-41C3-BEF6-F2F18128565A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "ClassLibraries\LoggerService\LoggerService.csproj", "{613C72A2-0979-44B1-B8DE-E3FD6ECB0761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "ClassLibraries\LoggerService\LoggerService.csproj", "{613C72A2-0979-44B1-B8DE-E3FD6ECB0761}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecutorManager", "ClassLibraries\ExecutorManager\ExecutorManager.csproj", "{42650595-8AE9-4AF4-ADDE-A23256984F2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExecutorManager", "ClassLibraries\ExecutorManager\ExecutorManager.csproj", "{42650595-8AE9-4AF4-ADDE-A23256984F2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityHelper", "ClassLibraries\IdentityHelper\IdentityHelper.csproj", "{CC397CAE-6A31-4183-ACD7-AF5F9AE2A05F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityHelper", "ClassLibraries\IdentityHelper\IdentityHelper.csproj", "{CC397CAE-6A31-4183-ACD7-AF5F9AE2A05F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NethereumStorage", "ClassLibraries\NethereumStorage\NethereumStorage.csproj", "{43FEE0CC-2909-46E2-A19E-41AB431A25DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NethereumStorage", "ClassLibraries\NethereumStorage\NethereumStorage.csproj", "{43FEE0CC-2909-46E2-A19E-41AB431A25DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheManager", "ClassLibraries\CacheManager\CacheManager.csproj", "{73C5A9E4-B031-4910-B61C-0C011C633A34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheManager", "ClassLibraries\CacheManager\CacheManager.csproj", "{73C5A9E4-B031-4910-B61C-0C011C633A34}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{36DF701C-02BA-486B-BCC3-1F94E71A09DF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlockChainIdentity", "BlockChainIdentity", "{3BA571D6-D688-4245-895A-CF076E3009C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainIdentity.Grpc", "Microservices\BlockChainIdentity\BlockChainIdentity.Grpc\BlockChainIdentity.Grpc.csproj", "{8EC4EBA4-602B-4CF7-B962-B291B3E6DFC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlockChainIdentity.Grpc", "Microservices\BlockChainIdentity\BlockChainIdentity.Grpc\BlockChainIdentity.Grpc.csproj", "{8EC4EBA4-602B-4CF7-B962-B291B3E6DFC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainIdentity.Domain", "Microservices\BlockChainIdentity\BlockChainIdentity.Domain\BlockChainIdentity.Domain.csproj", "{0B652A41-204D-42B2-AB9E-AE6B7DFA5F34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlockChainIdentity.Domain", "Microservices\BlockChainIdentity\BlockChainIdentity.Domain\BlockChainIdentity.Domain.csproj", "{0B652A41-204D-42B2-AB9E-AE6B7DFA5F34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainIdentity.Application", "Microservices\BlockChainIdentity\BlockChainIdentity.Application\BlockChainIdentity.Application.csproj", "{BF11BF3E-A7E4-4A76-8E94-4D1042094035}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlockChainIdentity.Application", "Microservices\BlockChainIdentity\BlockChainIdentity.Application\BlockChainIdentity.Application.csproj", "{BF11BF3E-A7E4-4A76-8E94-4D1042094035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainIdentity.Infrastructure", "Microservices\BlockChainIdentity\BlockChainIdentity.Infrastructure\BlockChainIdentity.Infrastructure.csproj", "{60F1750B-31CB-459A-AA6B-C76ACB3CD210}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlockChainIdentity.Infrastructure", "Microservices\BlockChainIdentity\BlockChainIdentity.Infrastructure\BlockChainIdentity.Infrastructure.csproj", "{60F1750B-31CB-459A-AA6B-C76ACB3CD210}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.EncryptColumn", "ClassLibraries\EntityFramework.Core.EncryptDBColumn\EntityFrameworkCore.EncryptColumn.csproj", "{4386FBEC-CA5B-406B-99C2-EE01C51AB0A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.EncryptColumn", "ClassLibraries\EntityFramework.Core.EncryptDBColumn\EntityFrameworkCore.EncryptColumn.csproj", "{4386FBEC-CA5B-406B-99C2-EE01C51AB0A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Informing", "Informing", "{13D76127-275C-4087-AD68-A06DD19D8240}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Application", "Microservices\Informing\Informing.Application\Informing.Application.csproj", "{875A4571-8004-421C-A290-1E74BB6941A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Informing.Application", "Microservices\Informing\Informing.Application\Informing.Application.csproj", "{875A4571-8004-421C-A290-1E74BB6941A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Domain", "Microservices\Informing\Informing.Domain\Informing.Domain.csproj", "{BC215616-A9FF-4D40-8D0C-3185C77D5BEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Informing.Domain", "Microservices\Informing\Informing.Domain\Informing.Domain.csproj", "{BC215616-A9FF-4D40-8D0C-3185C77D5BEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Grpc", "Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj", "{EEC4B9CD-F65F-4810-B55C-10A4915E7C01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Informing.Grpc", "Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj", "{EEC4B9CD-F65F-4810-B55C-10A4915E7C01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.Infrastructure", "Microservices\Informing\Informing.Infrastructure\Informing.Infrastructure.csproj", "{B53CB433-5C1C-475F-9E72-6B95ED36C5AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Informing.Infrastructure", "Microservices\Informing\Informing.Infrastructure\Informing.Infrastructure.csproj", "{B53CB433-5C1C-475F-9E72-6B95ED36C5AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{00DA55E1-7AC9-4707-AF35-6EFC4D683EEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +144,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{DC6D98F1-47EE-4727-B3C1-03D0F5EA5F66} = {00DA55E1-7AC9-4707-AF35-6EFC4D683EEB}
+		{014B4160-F3D7-4DB8-97C8-8064068A8BEE} = {00DA55E1-7AC9-4707-AF35-6EFC4D683EEB}
 		{6D8D2DE4-D279-4702-B50D-68B5E5E2C1E6} = {E3D6E84E-B038-4339-854F-A3F2BE048EC0}
 		{81CA67B3-314E-4345-A7F7-99FC59709AD0} = {E3D6E84E-B038-4339-854F-A3F2BE048EC0}
 		{8B76A9BD-77D3-497F-8248-AF683126454B} = {E3D6E84E-B038-4339-854F-A3F2BE048EC0}
