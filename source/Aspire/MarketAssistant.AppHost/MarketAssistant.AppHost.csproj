@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Gateways\Admin.Gateway\Admin.Gateway.csproj" />
     <ProjectReference Include="..\..\Gateways\Application.Gateway\Application.Gateway.csproj" />
+    <ProjectReference Include="..\..\Gateways\ReverseProxy.Gateway\ReverseProxy.Gateway.csproj" />
     <ProjectReference Include="..\..\Microservices\BlockChainIdentity\BlockChainIdentity.Grpc\BlockChainIdentity.Grpc.csproj" />
     <ProjectReference Include="..\..\Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj" />
   </ItemGroup>

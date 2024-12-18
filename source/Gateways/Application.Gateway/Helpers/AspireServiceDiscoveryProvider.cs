@@ -23,20 +23,28 @@ namespace Application.Gateway.Helpers
             var services = new List<Service>();
 
             // Apply configuration checks
+
             // ... if (_config.Host)
-            if (_downstreamRoute.ServiceName.Equals("downstream-service"))
-            {
-                //For this example we simply do a manual match to a single service
-                var service = new Service(
-                    name: "downstream-service",
-                    hostAndPort: new ServiceHostAndPort("localhost", 5001),
+            //if (_downstreamRoute.ServiceName.Equals("downstream-service"))
+            //{
+            //    //For this example we simply do a manual match to a single service
+            //    var service = new Service(
+            //        name: "downstream-service",
+            //        hostAndPort: new ServiceHostAndPort("localhost", 5001),
+            //        id: "downstream-service-1",
+            //        version: "1.0",
+            //        tags: new string[] { "downstream", "hardcoded" }
+            //    );
+
+            //    services.Add(service);
+            //}
+            services.Add(new Service(
+                    name: _downstreamRoute.ServiceName,
+                    hostAndPort: new ServiceHostAndPort($"{_downstreamRoute.DownstreamScheme}://{_downstreamRoute.ServiceName}{_downstreamRoute.DownstreamPathTemplate.Value}", 5001),
                     id: "downstream-service-1",
                     version: "1.0",
                     tags: new string[] { "downstream", "hardcoded" }
-                );
-
-                services.Add(service);
-            }
+                ));
 
             return Task.FromResult(services);
         }

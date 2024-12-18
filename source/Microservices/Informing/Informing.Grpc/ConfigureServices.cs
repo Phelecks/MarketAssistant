@@ -176,7 +176,9 @@ public static class ConfigureServices
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();
 
         app.AddSignalRConfigurations();
-        
+
+        app.MapDefaultEndpoints();
+
         using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
         var massTransitService = serviceScope?.ServiceProvider.GetRequiredService<IMassTransitService>();
         if(massTransitService is not null)

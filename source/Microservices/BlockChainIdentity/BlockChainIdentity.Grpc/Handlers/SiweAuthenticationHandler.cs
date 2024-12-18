@@ -24,7 +24,7 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
     }
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (Request.Path.HasValue && Request.Path.Value.Contains("/grpc.health.v1.Health/Check"))
+        if (Request.Path.HasValue && (Request.Path.Value.Contains("/grpc.health.v1.Health/Check") || Request.Path.Value.Equals("/health")))
             return await Task.FromResult(AuthenticateResult.NoResult());
 
         var user = Request.HttpContext.User;
