@@ -3,6 +3,7 @@ using LoggerService.Helpers;
 using Microsoft.EntityFrameworkCore;
 using BaseInfrastructure.Common;
 using Microsoft.Extensions.Logging;
+using BaseDomain.Enums;
 
 namespace BlockChainIdentity.Infrastructure.Persistence;
 
@@ -42,6 +43,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     {
         try
         {
+            await TrySeedBaseParametersAsync();
             await TrySeedRolesAsync();
             await TrySeedAdministratorWalletAsync();
             await TrySeedResourcesAsync();
@@ -119,10 +121,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                             {
                                 title = "BlockChainIdentity"
                             },
-                        new Resource
-                            {
-                                title = "Kernel"
-                            },
                          new Resource
                             {
                                 title = "Financial"
@@ -161,27 +159,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                             },
                         new Resource
                             {
-                                title = "CustomerClub"
-                            },
-                        new Resource
-                            {
-                                title = "Coin"
-                            },
-                        new Resource
-                            {
-                                title = "Dice"
-                            },
-                        new Resource
-                            {
-                                title = "RockPaperScissor"
-                            },
-                        new Resource
-                            {
                                 title = "Informing"
-                            },
-                        new Resource
-                            {
-                                title = "Contract"
                             }
             });
         }
@@ -195,7 +173,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
         if (!_context.clients.Any())
         {
             var BlockChainIdentityResource = await _context.resources.SingleAsync(exp => exp.title.Equals("BlockChainIdentity"));
-            var KernelResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Kernel"));
             var FinancialResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Financial"));
             var BlockChainLogProcessorResource = await _context.resources.SingleAsync(exp => exp.title.Equals("BlockChainLogProcessor"));
             var BlockChainPaymentResource = await _context.resources.SingleAsync(exp => exp.title.Equals("BlockChainPayment"));
@@ -205,12 +182,10 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
             var BasketResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Basket"));
             var CatalogResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Catalog"));
             var CustomerResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Customer"));
-            var CustomerClubResource = await _context.resources.SingleAsync(exp => exp.title.Equals("CustomerClub"));
             var CoinResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Coin"));
             var DiceResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Dice"));
             var RockPaperScissorResource = await _context.resources.SingleAsync(exp => exp.title.Equals("RockPaperScissor"));
             var InformingResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Informing"));
-            var ContractResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Contract"));
 
             await _context.clients.AddRangeAsync(new List<Client>
             {
@@ -221,17 +196,13 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                     tokenLifeTimeInSeconds = 36000,
                     enabled = true,
                     statement = "You are about to connect to Tricksfor Admin panel.",
-                    uri = new Uri("https://admin.tricksfor.com"),
+                    uri = new Uri("https://marketassitantadmin.tricksfor.com"),
                     version = "1",
                     clientResources = new List<ClientResource>
                     {
                         new ClientResource
                         {
                             resource = BlockChainIdentityResource
-                        },
-                        new ClientResource
-                        {
-                            resource = KernelResource
                         },
                         new ClientResource
                         {
@@ -271,10 +242,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                         },
                         new ClientResource
                         {
-                            resource = CustomerClubResource
-                        },
-                        new ClientResource
-                        {
                             resource = CoinResource
                         },
                         new ClientResource
@@ -288,84 +255,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                         new ClientResource
                         {
                             resource = InformingResource
-                        },
-                        new ClientResource
-                        {
-                            resource = ContractResource
                         }
-                    }
-                },
-                new Client
-                {
-                    clientId = "PwaAppClientId",
-                    clientSecret = "(PWA)&(Tricksfor)*2024",
-                    tokenLifeTimeInSeconds = 43200,
-                    enabled = true,
-                    statement = "You are about to connect to pwa.tricksfor.com.",
-                    uri = new Uri("https://pwa.tricksfor.com"),
-                    version = "1",
-                    clientResources = new List<ClientResource>
-                    {
-                        new ClientResource
-                        {
-                            resource = BlockChainIdentityResource
-                        },
-                        new ClientResource
-                        {
-                            resource = FinancialResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainLogProcessorResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainPaymentResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainTransferResource
-                        },
-                        new ClientResource
-                        {
-                            resource = OrderResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BasketResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CatalogResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CustomerResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CustomerClubResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CoinResource
-                        },
-                        new ClientResource
-                        {
-                            resource = DiceResource
-                        },
-                        new ClientResource
-                        {
-                            resource = RockPaperScissorResource
-                        },
-                        new ClientResource
-                        {
-                            resource = InformingResource
-                        },
                     }
                 },
                 new Client
@@ -374,8 +264,8 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                     clientSecret = "(APP)&(Tricksfor)*2024",
                     tokenLifeTimeInSeconds = 43200,
                     enabled = true,
-                    statement = "You are about to connect to app.tricksfor.com.",
-                    uri = new Uri("https://app.tricksfor.com"),
+                    statement = "You are about to connect to marketassistant.tricksfor.com.",
+                    uri = new Uri("https://marketassistant.tricksfor.com"),
                     version = "1",
                     clientResources = new List<ClientResource>
                     {
@@ -418,83 +308,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                         new ClientResource
                         {
                             resource = CustomerResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CustomerClubResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CoinResource
-                        },
-                        new ClientResource
-                        {
-                            resource = DiceResource
-                        },
-                        new ClientResource
-                        {
-                            resource = RockPaperScissorResource
-                        },
-                        new ClientResource
-                        {
-                            resource = InformingResource
-                        },
-                    }
-                },
-                new Client
-                {
-                    clientId = "botClientId",
-                    clientSecret = "botClientSecret",
-                    tokenLifeTimeInSeconds = 300,
-                    enabled = true,
-                    statement = "You are about to connect to bot.tricksfor.com.",
-                    uri = new Uri("https://bot.tricksfor.com"),
-                    version = "1",
-                    clientResources = new List<ClientResource>
-                    {
-                        new ClientResource
-                        {
-                            resource = BlockChainIdentityResource
-                        },
-                        new ClientResource
-                        {
-                            resource = FinancialResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainLogProcessorResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainPaymentResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BlockChainTransferResource
-                        },
-                        new ClientResource
-                        {
-                            resource = OrderResource
-                        },
-                        new ClientResource
-                        {
-                            resource = BasketResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CatalogResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CustomerResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CustomerClubResource
                         },
                         new ClientResource
                         {
@@ -520,41 +333,48 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
         }
     }
 
-    //private async Task TrySeedBaseParametersAsync()
-    //{
-    //    // Default data
-    //    // Seed, if necessary
-    //    if (!_context.baseParameters.Any())
-    //    {
-    //        await _context.baseParameters.AddRangeAsync(new List<BaseParameter>
-    //        {
-    //            new()
-    //            {
-    //                category = BaseParameterCategory.BlockChainIdentityConfiguration,
-    //                field = BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
-    //                value = "5"
-    //            },
-    //            new()
-    //            {
-    //                category = BaseParameterCategory.BlockChainIdentityConfiguration,
-    //                field = BaseParameterField.BlockChainIdentitySecret,
-    //                value = "CustomTokenValidationSecretKey123"
-    //            },
-    //            new()
-    //            {
-    //                category = BaseParameterCategory.BlockChainIdentityConfiguration,
-    //                field = BaseParameterField.BlockChainPolygonMainNetChainId,
-    //                value = "137"
-    //            },
-    //            new()
-    //            {
-    //                category = BaseParameterCategory.BlockChainIdentityConfiguration,
-    //                field = BaseParameterField.BlockChainEthereumMainNetChainId,
-    //                value = "1"
-    //            },
-    //        });
+    private async Task TrySeedBaseParametersAsync()
+    {
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+       // Default data
+       // Seed, if necessary
+       if (!_context.baseParameters.Any())
+       {
+           await _context.baseParameters.AddRangeAsync(new List<BaseParameter>
+           {
+               #region BlockChain Identity
+                new()
+                {
+                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
+                    field = BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
+                    value = "60"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
+                    field = BaseParameterField.BlockChainIdentitySecret,
+                    value = "CustomTokenValidationSecretKey123"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
+                    field = BaseParameterField.BlockChainIdentityPolygonMainNetRpcUrl,
+                    value = !string.IsNullOrEmpty(environment) && environment.Contains("Development")
+                        ? "https://polygon-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"
+                        : !string.IsNullOrEmpty(environment) && environment.Contains("Staging")
+                            ? "https://polygon-mainnet.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
+                            :"https://polygon-mainnet.g.alchemy.com/v2/qt44--X9fNPny4QLv8Lx72ICeJgr-b8p"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
+                    field = BaseParameterField.BlockChainIdentityPolygonTestNetRpcUrl,
+                    value = "https://polygon-amoy.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
+                },
+                #endregion
+           });
             
-    //        await _context.SaveChangesAsync();
-    //    }
-    //}
+           await _context.SaveChangesAsync();
+       }
+    }
 }

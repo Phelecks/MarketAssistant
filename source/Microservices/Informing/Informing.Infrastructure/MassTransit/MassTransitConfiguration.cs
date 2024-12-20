@@ -1,5 +1,4 @@
-﻿using Informing.Infrastructure.MassTransit.Consumers.Events;
-using Informing.Infrastructure.MassTransit.Consumers.Messages;
+﻿using Informing.Infrastructure.MassTransit.Consumers.Messages;
 using MassTransit;
 using MassTransitManager;
 using MassTransitManager.Helpers;
@@ -15,7 +14,7 @@ internal static class MassTransitConfiguration
         services.AddMassTransit(x =>
         {
             //Events
-            x.AddConsumer<InformingBaseParameterUpdatedEventConsumer>();
+            // x.AddConsumer<InformingBaseParameterUpdatedEventConsumer>();
 
             //Messages
             x.AddConsumer<UpdateInformingContactMessageConsumer>();
@@ -38,12 +37,6 @@ internal static class MassTransitConfiguration
                 cfg.Host(connectionString);
 
                 cfg.UseMessageRetry(r => r.Exponential(retryLimit: 10, minInterval: TimeSpan.FromMinutes(1), maxInterval: TimeSpan.FromMinutes(20), intervalDelta: TimeSpan.FromMinutes(2)));
-
-                //Events
-                cfg.ReceiveEndpoint(Queues.InformingBaseParameterUpdatedEventQueueName, e =>
-                {
-                    e.ConfigureConsumer<InformingBaseParameterUpdatedEventConsumer>(context);
-                });
 
                 //Messages
                 cfg.ReceiveEndpoint(Queues.CreateInformingContactMessageQueueName, e =>

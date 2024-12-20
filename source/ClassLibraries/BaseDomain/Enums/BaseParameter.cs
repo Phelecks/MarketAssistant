@@ -87,39 +87,23 @@ public enum BaseParameterField
 
     [Description("Polygon mainnet url")]
     BlockChainPolygonMainNetRpcUrl,
-    [Description("Polygon mainnet websocket")]
-    BlockChainPolygonMainNetWebSocket,
     [Description("Polygon testnet url")]
     BlockChainPolygonTestNetRpcUrl,
-    [Description("Polygon testnet websocket")]
-    BlockChainPolygonTestNetWebSocket,
     [Description("Ethereum mainnet url")]
     BlockChainEthereumMainNetRpcUrl,
-    [Description("Ethereum mainnet websocket")]
-    BlockChainEthereumMainNetWebSocket,
     [Description("Ethereum testnet url")]
     BlockChainEthereumTestNetRpcUrl,
-    [Description("Ethereum testnet websocket")]
-    BlockChainEthereumTestNetWebSocket,
     [Description("CoinMarketCap API Key")]
     CoinMarketCapApiKey,
 
     [Description("Polygon mainnet url")]
     BlockChainLogProcessorPolygonMainNetRpcUrl,
-    [Description("Polygon mainnet websocket")]
-    BlockChainLogProcessorPolygonMainNetWebSocket,
     [Description("Polygon testnet url")]
     BlockChainLogProcessorPolygonTestNetRpcUrl,
-    [Description("Polygon testnet websocket")]
-    BlockChainLogProcessorPolygonTestNetWebSocket,
     [Description("Ethereum mainnet url")]
     BlockChainLogProcessorEthereumMainNetRpcUrl,
-    [Description("Ethereum mainnet websocket")]
-    BlockChainLogProcessorEthereumMainNetWebSocket,
     [Description("Ethereum testnet url")]
     BlockChainLogProcessorEthereumTestNetRpcUrl,
-    [Description("Ethereum testnet websocket")]
-    BlockChainLogProcessorEthereumTestNetWebSocket,
     [Description("Wait interval between inquiry log from rpc in seconds")]
     BlockChainLogProcessorWaitInterval,
     [Description("Number of blocks that inquiry per batch")]
@@ -132,20 +116,12 @@ public enum BaseParameterField
 
     [Description("Polygon mainnet url")]
     BlockChainPaymentPolygonMainNetRpcUrl,
-    [Description("Polygon mainnet websocket")]
-    BlockChainPaymentPolygonMainNetWebSocket,
     [Description("Polygon testnet url")]
     BlockChainPaymentPolygonTestNetRpcUrl,
-    [Description("Polygon testnet websocket")]
-    BlockChainPaymentPolygonTestNetWebSocket,
     [Description("Ethereum mainnet url")]
     BlockChainPaymentEthereumMainNetRpcUrl,
-    [Description("Ethereum mainnet websocket")]
-    BlockChainPaymentEthereumMainNetWebSocket,
     [Description("Ethereum testnet url")]
     BlockChainPaymentEthereumTestNetRpcUrl,
-    [Description("Ethereum testnet websocket")]
-    BlockChainPaymentEthereumTestNetWebSocket,
     [Description("Wait interval between inquiry log from rpc in seconds")]
     BlockChainPaymentWaitInterval,
     [Description("Number of blocks that inquiry per batch")]
@@ -159,29 +135,19 @@ public enum BaseParameterField
 
     [Description("Polygon mainnet url")]
     BlockChainTransferPolygonMainNetRpcUrl,
-    [Description("Polygon mainnet websocket")]
-    BlockChainTransferPolygonMainNetWebSocket,
     [Description("Polygon testnet url")]
     BlockChainTransferPolygonTestNetRpcUrl,
-    [Description("Polygon testnet websocket")]
-    BlockChainTransferPolygonTestNetWebSocket,
     [Description("Ethereum mainnet url")]
     BlockChainTransferEthereumMainNetRpcUrl,
-    [Description("Ethereum mainnet websocket")]
-    BlockChainTransferEthereumMainNetWebSocket,
     [Description("Ethereum testnet url")]
     BlockChainTransferEthereumTestNetRpcUrl,
-    [Description("Ethereum testnet websocket")]
-    BlockChainTransferEthereumTestNetWebSocket,
 
     [Description("Block chain identity default generated siwe message lifetime in seconds")]
     BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
     [Description("Block chain identity secret to encrypt jwt token")]
     BlockChainIdentitySecret,
     BlockChainIdentityPolygonMainNetRpcUrl,
-    BlockChainIdentityPolygonMainNetWebSocket,
     BlockChainIdentityPolygonTestNetRpcUrl,
-    BlockChainIdentityPolygonTestNetWebSocket,
 
 
     GameMatchIntervalMinutes,

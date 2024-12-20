@@ -3,6 +3,7 @@ using LoggerService.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using BaseInfrastructure.Common;
+using BaseDomain.Enums;
 
 namespace Informing.Infrastructure.Persistence;
 
@@ -40,6 +41,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     {
         try
         {
+            await TrySeedBaseParametersAsync();
             await TrySeedTemplatesAsync();
             await TrySeedAdministratorsAsync();
         }
@@ -49,6 +51,68 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                 eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Seed database"),
                 exception: ex, message: "An error occurred while seeding the database."));
             throw;
+        }
+    }
+
+    private async Task TrySeedBaseParametersAsync()
+    {
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        // Default data
+        // Seed, if necessary
+        if (!_context.baseParameters.Any())
+        {
+            await _context.baseParameters.AddRangeAsync(new List<BaseParameter>
+            {
+                new()
+                {
+                    category = BaseParameterCategory.InformingConfiguration,
+                    field = BaseParameterField.InformingMailDisplayName,
+                    value = "Tricksfor"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.InformingConfiguration,
+                    field = BaseParameterField.InformingMailFrom,
+                    value = "tricksfor.develop@gmail.com"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.InformingConfiguration,
+                    field = BaseParameterField.InformingMailHost,
+                    value = "smtp.gmail.com"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.InformingConfiguration,
+                    field = BaseParameterField.InformingMailPassword,
+                    value = "rnyq yjsc ytda mtjq"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.InformingConfiguration,
+                    field = BaseParameterField.InformingMailPort,
+                    value = "587"
+                },
+                new()
+                {
+                    category = BaseParameterCategory.InformingConfiguration,
+                    field = BaseParameterField.InformingDiscordBotToken,
+                    value = "MTI5MjU1Mzk3MDE3MDIwMDIxNg.Grs33d.SLnWox7kHUFdJ9SMgb-CsVJrofK5SJZggWum-o"
+                }
+            });
+
+            await _context.SaveChangesAsync();
+        }
+
+        if (!await _context.baseParameters.AnyAsync(exp => exp.field == BaseParameterField.BlockChainTransferOrphanTransferThresholdInMinutes))
+        {
+            await _context.baseParameters.AddAsync(new()
+            {
+                category = BaseParameterCategory.BlockChainTransferConfiguration,
+                field = BaseParameterField.BlockChainTransferOrphanTransferThresholdInMinutes,
+                value = "1440"
+            });
+            await _context.SaveChangesAsync();
         }
     }
 
