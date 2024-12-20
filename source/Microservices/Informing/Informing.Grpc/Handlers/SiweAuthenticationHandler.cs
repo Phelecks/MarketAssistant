@@ -1,9 +1,6 @@
-﻿using CacheManager;
-using IdentityHelper.Services;
+﻿using IdentityHelper.Services;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Nethereum.JsonRpc.Client;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
