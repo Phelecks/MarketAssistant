@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using BaseInfrastructure.Common;
 using BaseDomain.Enums;
+using Microsoft.Extensions.Configuration;
 
 namespace Informing.Infrastructure.Persistence;
 
@@ -11,11 +12,13 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
 {
     private readonly ILogger<ApplicationDbContextInitializer> _logger;
     private readonly ApplicationDbContext _context;
+    private readonly IConfiguration _configuration;
 
-    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context)
+    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, IConfiguration configuration)
     {
         _logger = logger;
         _context = context;
+        _configuration = configuration;
     }
 
     public async Task InitialiseAsync()
@@ -66,38 +69,8 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                 new()
                 {
                     category = BaseParameterCategory.InformingConfiguration,
-                    field = BaseParameterField.InformingMailDisplayName,
-                    value = "Tricksfor"
-                },
-                new()
-                {
-                    category = BaseParameterCategory.InformingConfiguration,
-                    field = BaseParameterField.InformingMailFrom,
-                    value = "tricksfor.develop@gmail.com"
-                },
-                new()
-                {
-                    category = BaseParameterCategory.InformingConfiguration,
-                    field = BaseParameterField.InformingMailHost,
-                    value = "smtp.gmail.com"
-                },
-                new()
-                {
-                    category = BaseParameterCategory.InformingConfiguration,
-                    field = BaseParameterField.InformingMailPassword,
-                    value = "rnyq yjsc ytda mtjq"
-                },
-                new()
-                {
-                    category = BaseParameterCategory.InformingConfiguration,
-                    field = BaseParameterField.InformingMailPort,
-                    value = "587"
-                },
-                new()
-                {
-                    category = BaseParameterCategory.InformingConfiguration,
                     field = BaseParameterField.InformingDiscordBotToken,
-                    value = "MTI5MjU1Mzk3MDE3MDIwMDIxNg.Grs33d.SLnWox7kHUFdJ9SMgb-CsVJrofK5SJZggWum-o"
+                    value = _configuration.GetValue("DISCORD-BOT-TOKEN", "MyDiscordBotToken123")!
                 }
             });
 

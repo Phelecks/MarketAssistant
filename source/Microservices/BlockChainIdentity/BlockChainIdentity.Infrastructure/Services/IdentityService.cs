@@ -10,13 +10,14 @@ using BaseApplication.Helpers;
 using BaseApplication.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
 
 namespace BlockChainIdentity.Infrastructure.Services;
 
 public class IdentityService : Application.Interfaces.IIdentityService
 {
     private readonly SiweMessageService _siweMessageService;
-    private readonly IDistributedCache _distributedCache;
+    private readonly IConfiguration _configuration;
     private readonly ISender _sender;
     private readonly ICypherService _cypherService;
     private readonly IDateTimeService _dateTimeService;
@@ -40,10 +41,10 @@ public class IdentityService : Application.Interfaces.IIdentityService
     private const string ClaimTypeRequestId = "requestId";
     private const string ClaimTypeStatement = "statement";
 
-    public IdentityService(SiweMessageService siweMessageService, IDistributedCache distributedCache, ISender sender, ICypherService cypherService, IDateTimeService dateTimeService, IOptions<Domain.ConfigurationOptions> options)
+    public IdentityService(SiweMessageService siweMessageService, IConfiguration configuration, ISender sender, ICypherService cypherService, IDateTimeService dateTimeService, IOptions<Domain.ConfigurationOptions> options)
     {
         _siweMessageService = siweMessageService;
-        _distributedCache = distributedCache;
+        _configuration = configuration;
         _sender = sender;
         _cypherService = cypherService;
         _dateTimeService = dateTimeService;
@@ -56,7 +57,7 @@ public class IdentityService : Application.Interfaces.IIdentityService
         string statement, CancellationToken cancellationToken)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = System.Text.Encoding.ASCII.GetBytes(await GetSecretAsync(cancellationToken));
+        var key = System.Text.Encoding.ASCII.GetBytes(GetSecret());
         var symetricSecureKey = new SymmetricSecurityKey(key);
 
         var claims = new HashSet<Claim>();
@@ -103,7 +104,7 @@ public class IdentityService : Application.Interfaces.IIdentityService
         }
 
         var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
-        return (tokenHandler.WriteToken(token), tokenDescriptor);
+        return await Task.FromResult((tokenHandler.WriteToken(token), tokenDescriptor));
     }
 
     public async Task<BaseResponseDto<SiweMessage>> ValidateTokenAsync(string token, CancellationToken cancellationToken)
@@ -112,7 +113,7 @@ public class IdentityService : Application.Interfaces.IIdentityService
             return ResponseHelper.BadRequest<SiweMessage>("Token is null or empty.");
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = System.Text.Encoding.ASCII.GetBytes(await GetSecretAsync(cancellationToken));
+        var key = System.Text.Encoding.ASCII.GetBytes(GetSecret());
         try
         {
             tokenHandler.ValidateToken(token, new TokenValidationParameters
@@ -242,70 +243,8 @@ public class IdentityService : Application.Interfaces.IIdentityService
         return DateTime.ParseExact(iso8601dateTime, "o",
             System.Globalization.CultureInfo.InvariantCulture).ToUniversalTime();
     }
-    async Task<string> GetSecretAsync(CancellationToken cancellationToken)
+    string GetSecret()
     {
-        string? result;
-        var cacheResult = await _distributedCache.GetAsync(CacheManager.Helpers.CacheKeys.BlockChainIdentitySecret);
-        if(cacheResult is not null)
-        {
-            result = System.Text.Json.JsonSerializer.Deserialize<string>(cacheResult);
-            if(!string.IsNullOrEmpty(result)) return result;
-        }
-
-        var dbResult = await _sender.Send(new GetBaseParameterByFieldQuery(BaseDomain.Enums.BaseParameterField.BlockChainIdentitySecret));
-            await _distributedCache.SetAsync(key: CacheManager.Helpers.CacheKeys.BlockChainIdentitySecret,
-                value: System.Text.Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(dbResult.value)), 
-					options: new() 
-					{
-						AbsoluteExpiration = DateTime.Now.AddMinutes(int.MaxValue)
-					});
-        return dbResult.value;
+        return _configuration.GetValue("IDENTITY-SECRET", "DefaultSecretValue123")!;
     }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //void GenerateMessage(string address)
-    //{
-    //    var message = new DefaultSiweMessage();
-    //    message.SetExpirationTime(DateTime.Now.AddMinutes(10));
-    //    message.SetNotBefore(DateTime.Now);
-    //    message.Address = address.ConvertToEthereumChecksumAddress();
-    //    _siweMessageService.BuildMessageToSign(message);
-    //}
-
-
-    //public class DefaultSiweMessage : SiweMessage
-    //{
-    //    public DefaultSiweMessage()
-    //    {
-    //        Domain = "login.xyz";
-    //        Statement = "Sign-In With Ethereum ExampleProject";
-    //        Uri = "https://login.xyz";
-    //        Version = "1";
-    //        ChainId = "137";
-    //    }
-    //}
 }

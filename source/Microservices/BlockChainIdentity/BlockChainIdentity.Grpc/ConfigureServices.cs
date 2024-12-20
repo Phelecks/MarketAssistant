@@ -111,7 +111,7 @@ public static class ConfigureServices
            .AddScheme<SiweAuthenticationOptions, SiweAuthenticationHandler>(SiweAuthenticationOptions.DefaultScheme, options =>
            {
                options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION_NAME");
-               options.ValidIssuers = new[] { builder.Configuration.GetValue<string>("BLOCKCHAIN_IDENTITY_AUTHORITY") };
+               options.ValidIssuers = new[] { builder.Configuration.GetValue<string>("TOKEN_ISSUER") };
            });
 
         builder.Services.AddEndpointsApiExplorer();

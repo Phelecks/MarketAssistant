@@ -4,7 +4,7 @@ public static class CacheKeys
 {
 	public const string ConversationSequenceKeyPrefix = "ConversationSequence_", UserOnlineStatusKeyPrefix = "UserOnlineStatus_",
 		UserConversationKeyPrefix = "UserConversation_", UserConversationIdKeyPrefix = "UserConversationId_", 
-		RegisterUserReferralCodeKeyPrefix = "RegisterUser_", BlockChainIdentitySecret = "BlockChainIdentitySecret",
+		RegisterUserReferralCodeKeyPrefix = "RegisterUser_",
 		NethereumSessionStoragePrefix = "NethereumSessionStorage_", TemporaryBetPrefix = "TemporaryBet_", GameLadderPrefix = "GameLadder_",
 		BotBets = "BotBets", MaintenanaceState = "MaintenanceState", BlockProcessorInstancePrefix = "BlockProcessor_Instance_", 
 		LogProcessorInstancePrefix = "LogProcessor_Instance_", BotBalances = "BotBalances";

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using BaseInfrastructure.Common;
 using Microsoft.Extensions.Logging;
 using BaseDomain.Enums;
+using Microsoft.Extensions.Configuration;
 
 namespace BlockChainIdentity.Infrastructure.Persistence;
 
@@ -12,12 +13,14 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     private readonly ILogger<ApplicationDbContextInitializer> _logger;
     private readonly ApplicationDbContext _context;
     private readonly string? _environment;
+    private readonly IConfiguration _configuration;
 
-    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context)
+    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, IConfiguration configuration)
     {
         _logger = logger;
         _context = context;
         _environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        _configuration = configuration;
     }
 
     public async Task InitialiseAsync()
@@ -182,9 +185,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
             var BasketResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Basket"));
             var CatalogResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Catalog"));
             var CustomerResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Customer"));
-            var CoinResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Coin"));
-            var DiceResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Dice"));
-            var RockPaperScissorResource = await _context.resources.SingleAsync(exp => exp.title.Equals("RockPaperScissor"));
             var InformingResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Informing"));
 
             await _context.clients.AddRangeAsync(new List<Client>
@@ -239,18 +239,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                         new ClientResource
                         {
                             resource = CustomerResource
-                        },
-                        new ClientResource
-                        {
-                            resource = CoinResource
-                        },
-                        new ClientResource
-                        {
-                            resource = DiceResource
-                        },
-                        new ClientResource
-                        {
-                            resource = RockPaperScissorResource
                         },
                         new ClientResource
                         {
@@ -311,18 +299,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                         },
                         new ClientResource
                         {
-                            resource = CoinResource
-                        },
-                        new ClientResource
-                        {
-                            resource = DiceResource
-                        },
-                        new ClientResource
-                        {
-                            resource = RockPaperScissorResource
-                        },
-                        new ClientResource
-                        {
                             resource = InformingResource
                         },
                     }
@@ -348,12 +324,6 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                     category = BaseParameterCategory.BlockChainIdentityConfiguration,
                     field = BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
                     value = "60"
-                },
-                new()
-                {
-                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
-                    field = BaseParameterField.BlockChainIdentitySecret,
-                    value = "CustomTokenValidationSecretKey123"
                 },
                 new()
                 {

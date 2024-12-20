@@ -1,7 +1,5 @@
-﻿using CacheManager;
-using IdentityHelper.Services;
+﻿using IdentityHelper.Services;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -11,14 +9,14 @@ namespace BlockChainIdentity.Grpc.Handlers;
 
 public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticationOptions>
 {
-    private readonly IDistributedCache _distributedCache;
+    private readonly IConfiguration _configuration;
     private readonly ISiweService _siweService;
     private readonly ILogger<SiweAuthenticationHandler> _logger;
 
     public SiweAuthenticationHandler(IOptionsMonitor<SiweAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder,
-        TimeProvider timeProvider, IDistributedCache distributedCache, ISiweService siweService) : base(options, logger, encoder)
+        TimeProvider timeProvider, IConfiguration configuration, ISiweService siweService) : base(options, logger, encoder)
     {
-        _distributedCache = distributedCache;
+        _configuration = configuration;
         _siweService = siweService;
         _logger = logger.CreateLogger<SiweAuthenticationHandler>();
     }
@@ -40,8 +38,7 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
         if (!scheme.Equals(Options.TokenHeaderName)) return await Task.FromResult(AuthenticateResult.NoResult());
         var siweToken = tokenHeaderValue.Parameter;
 
-        var cacheResult = await _distributedCache.GetAsync(CacheManager.Helpers.CacheKeys.BlockChainIdentitySecret);
-        var securityKey = System.Text.Json.JsonSerializer.Deserialize<string>(cacheResult);
+        var securityKey = GetSecret();
         if (string.IsNullOrEmpty(securityKey))
         {
             //Log error
@@ -62,6 +59,11 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
         return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name));
+    }
+
+    string GetSecret()
+    {
+        return _configuration.GetValue("IDENTITY-SECRET", "DefaultSecretValue123")!;
     }
 }
 

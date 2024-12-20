@@ -64,20 +64,6 @@ public enum BaseParameterField
     [Description("Application url")]
     ApplicationUrl,
 
-    InformingFcmSenderId,
-    [Description("Google firebase server key")]
-    InformingFcmServerKey,
-    [Description("Sender email address")]
-    InformingMailFrom,
-    [Description("Mail display name")]
-    InformingMailDisplayName,
-    [Description("Mail server password")]
-    InformingMailPassword,
-    [Description("Mail server address")]
-    InformingMailHost,
-    [Description("Mail server port")]
-    InformingMailPort,
-
     [Description("Customer referral code digits")]
     CustomerReferralCodeDigits,
     [Description("Customer referral code prefix")]
@@ -144,8 +130,6 @@ public enum BaseParameterField
 
     [Description("Block chain identity default generated siwe message lifetime in seconds")]
     BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
-    [Description("Block chain identity secret to encrypt jwt token")]
-    BlockChainIdentitySecret,
     BlockChainIdentityPolygonMainNetRpcUrl,
     BlockChainIdentityPolygonTestNetRpcUrl,
 

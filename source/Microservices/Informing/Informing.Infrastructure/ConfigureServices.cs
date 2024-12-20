@@ -50,8 +50,6 @@ public static class ConfigureServices
         //Add communication dependency injections
         services.AddMassTransitDependencyInjections();
 
-        services.AddScoped<IMailService, MailService>();
-        services.AddScoped<IFCMService, FCMService>();
         services.AddScoped<IContactService, ContactService>();
 
         services.AddSingleton<DiscordSocketClient>();

@@ -16,6 +16,11 @@ var sql = builder.AddSqlServer("sql").WithDataVolume().WithImageTag("latest");
 var informingDb = sql.AddDatabase(name: "informingdb", databaseName: "informing");
 var identityDb = sql.AddDatabase(name: "identitydb", databaseName: "identity");
 
+
+// Add a secret parameters
+var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
+var identitySecret = builder.AddParameter("IDENTITY-SECRET", secret: true);
+
 var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
     // .WithEndpoint(endpointName: "http", options => 
     // {
@@ -34,9 +39,11 @@ var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
     .WithReference(redis)
     .WithReference(rabbit)
     .WithReference(informingDb)
-    .WithEnvironment(name: "BLOCKCHAIN_IDENTITY_AUTHORITY", value: builder.Configuration.GetValue("BLOCKCHAIN_IDENTITY_AUTHORITY", ""))
     .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
     .WithEnvironment(name: "APPLICATION_NAME", value: "Informing")
+    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
+    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
+    .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
     .WaitFor(redis)
     .WaitFor(rabbit)
     .WaitFor(informingDb);
@@ -55,10 +62,10 @@ var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
     .WithReference(redis)
     .WithReference(rabbit)
     .WithReference(identityDb)
-    .WithEnvironment(name: "BLOCKCHAIN_IDENTITY_AUTHORITY", value: builder.Configuration.GetValue("BLOCKCHAIN_IDENTITY_AUTHORITY", ""))
-    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", ""))
     .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
     .WithEnvironment(name: "APPLICATION_NAME", value: "Identity")
+    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
+    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
     .WaitFor(redis)
     .WaitFor(rabbit)
     .WaitFor(identityDb);
