@@ -29,7 +29,12 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
         {
             if (_context.Database.IsSqlServer())
             {
-                
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                if (!string.IsNullOrEmpty(environment) && environment.Equals("Development"))
+                {
+                    var ensureDeleted = _configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", false);
+                    if(ensureDeleted) await _context.Database.EnsureDeletedAsync();
+                }
                 await _context.Database.MigrateAsync();
             }
         }

@@ -51,7 +51,12 @@ public static class ConfigureServices
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
-        builder.AddSqlServerClient(connectionName: "identitydb");
+        var useInMemoryDb = builder.Configuration.GetValue("USE_INMEMORY_DATABASE", true);
+        
+        builder.AddSqlServerClient(connectionName: "identitydb", configureSettings: options =>
+        {
+            if (useInMemoryDb) options.DisableHealthChecks = true;
+        });
         services.AddInfrastructureServices();
         services.AddApplicationServices();
 
@@ -72,8 +77,6 @@ public static class ConfigureServices
         {
             configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
         });
-
-        services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
         builder.Services.AddControllers(options =>
             options.Filters.Add<ApiExceptionFilter>());
