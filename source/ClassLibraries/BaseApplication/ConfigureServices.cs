@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using BaseApplication.Behaviour;
+using CacheManager;
 using ExecutorManager;
 using FluentValidation;
 using MediatR;
@@ -26,6 +27,8 @@ public static class ConfigureServices
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
         services.AddExecutorManagerDependencyInjections();
+
+        services.AddCacheManagerDependencyInjections();
 
         return services;
     }

@@ -1,5 +1,4 @@
-﻿using BlockChainIdentity.Application.BaseParameter.Queries.GetBaseParameterByField;
-using MediatR;
+﻿using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Nethereum.Siwe;
@@ -9,7 +8,6 @@ using System.Security.Claims;
 using BaseApplication.Helpers;
 using BaseApplication.Interfaces;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 
 namespace BlockChainIdentity.Infrastructure.Services;
@@ -18,7 +16,6 @@ public class IdentityService : Application.Interfaces.IIdentityService
 {
     private readonly SiweMessageService _siweMessageService;
     private readonly IConfiguration _configuration;
-    private readonly ISender _sender;
     private readonly ICypherService _cypherService;
     private readonly IDateTimeService _dateTimeService;
     private readonly string _issuer;
@@ -45,7 +42,6 @@ public class IdentityService : Application.Interfaces.IIdentityService
     {
         _siweMessageService = siweMessageService;
         _configuration = configuration;
-        _sender = sender;
         _cypherService = cypherService;
         _dateTimeService = dateTimeService;
         _issuer = options.Value.Issuer;

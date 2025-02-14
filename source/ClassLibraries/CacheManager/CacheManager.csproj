@@ -16,6 +16,7 @@
   <ItemGroup>
 		<PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.*" />
+	    <PackageReference Include="RedLock.net" Version="2.3.2" />
 	</ItemGroup>
 
 </Project>

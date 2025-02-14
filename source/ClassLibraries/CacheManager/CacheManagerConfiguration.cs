@@ -1,0 +1,13 @@
+﻿using CacheManager.Interfaces;
+using CacheManager.Services;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace CacheManager;
+
+public static class CacheManagerConfiguration
+{
+    public static void AddCacheManagerDependencyInjections(this IServiceCollection services)
+    {
+        services.AddSingleton<IDistributedLockService, DistributedLockService>();
+    }
+}
