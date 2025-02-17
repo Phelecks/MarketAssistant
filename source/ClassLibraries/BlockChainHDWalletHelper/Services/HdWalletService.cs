@@ -1,4 +1,5 @@
-﻿using NBitcoin;
+﻿using BlockChainHDWalletHelper.Interfaces;
+using NBitcoin;
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
 

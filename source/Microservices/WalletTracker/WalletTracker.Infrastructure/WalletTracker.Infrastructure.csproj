@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseDomain\BaseDomain.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseInfrastructure\BaseInfrastructure.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\MassTransitManager\MassTransitManager.csproj" />
+		<ProjectReference Include="..\WalletTracker.Application\WalletTracker.Application.csproj" />
+		<ProjectReference Include="..\WalletTracker.Domain\WalletTracker.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -73,6 +73,12 @@ var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
     .WaitFor(rabbit)
     .WaitFor(identityDb);
 
+builder.AddProject<Projects.WalletTracker_Api>("wallettracker")
+    .WithReference(redis)
+    .WithReference(rabbit)
+    .WaitFor(redis)
+    .WaitFor(rabbit);
+
 //var applicationGateway = builder.AddProject<Projects.Application_Gateway>("applicationgateway")
 //    // .WithEndpoint(endpointName: "http", options => 
 //    // {

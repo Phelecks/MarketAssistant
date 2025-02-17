@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\Gateways\ReverseProxy.Gateway\ReverseProxy.Gateway.csproj" />
     <ProjectReference Include="..\..\Microservices\BlockChainIdentity\BlockChainIdentity.Grpc\BlockChainIdentity.Grpc.csproj" />
     <ProjectReference Include="..\..\Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj" />
+    <ProjectReference Include="..\..\Microservices\WalletTracker\WalletTracker.Api\WalletTracker.Api.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,11 @@
+@WalletTracker.Api_HostAddress = http://localhost:5158
+
+GET {{WalletTracker.Api_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{WalletTracker.Api_HostAddress}}/todos/1
+Accept: application/json
+
+###

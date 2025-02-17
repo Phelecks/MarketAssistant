@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <PublishAot>true</PublishAot>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+	  <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
+		<ProjectReference Include="..\WalletTracker.Application\WalletTracker.Application.csproj" />
+		<ProjectReference Include="..\WalletTracker.Infrastructure\WalletTracker.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

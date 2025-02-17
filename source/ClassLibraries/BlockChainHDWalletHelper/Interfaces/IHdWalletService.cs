@@ -2,6 +2,8 @@
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
 
+namespace BlockChainHDWalletHelper.Interfaces;
+
 public interface IHdWalletService
 {
     Nethereum.HdWallet.Wallet GenerateWallet(string seedPassword, WordCount wordCount);
