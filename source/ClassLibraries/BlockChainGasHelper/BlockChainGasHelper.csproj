@@ -10,5 +10,4 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
 		<PackageReference Include="Nethereum.Web3" Version="4.26.0" />
 	</ItemGroup>
-
 </Project>
