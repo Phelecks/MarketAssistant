@@ -10,7 +10,7 @@ public interface IWeb3ProviderService
     /// <param name="chain"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Web3 CreateWeb3(Nethereum.Signer.Chain chain, CancellationToken cancellationToken = default);
+    Web3 CreateWeb3(Nethereum.Signer.Chain chain, string rpcUrl, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Use it for transactions
@@ -19,5 +19,5 @@ public interface IWeb3ProviderService
     /// <param name="chain"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Web3 CreateWeb3(string privateKey, Nethereum.Signer.Chain chain, CancellationToken cancellationToken = default);
+    Web3 CreateWeb3(string privateKey, Nethereum.Signer.Chain chain, string rpcUrl, CancellationToken cancellationToken = default);
 }

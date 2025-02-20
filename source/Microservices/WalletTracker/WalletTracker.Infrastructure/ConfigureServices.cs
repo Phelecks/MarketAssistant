@@ -1,5 +1,7 @@
 ﻿using BaseInfrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using WalletTracker.Application.Interfaces;
+using WalletTracker.Infrastructure.Services;
 
 namespace WalletTracker.Infrastructure;
 
@@ -40,6 +42,10 @@ public static class ConfigureServices
         //services.AddMassTransitDependencyInjections();
 
         //services.AddScoped<IIdentityService, IdentityService>();
+
+        services.AddSingleton<ITokenService, TokenService>();
+        services.AddSingleton<IAddressService, AddressService>();
+        services.AddSingleton<IRpcUrlService, RpcUrlService>();
 
         return services;
     }

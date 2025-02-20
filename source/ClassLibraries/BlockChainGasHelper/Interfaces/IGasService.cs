@@ -38,7 +38,7 @@ public interface IGasService
     /// <param name="value"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<BigInteger> EstimateERC20TransferGasAsync(Web3 web3, string erc20ContractAddress, string toAddress, decimal value, CancellationToken cancellationToken = default);
+    Task<BigInteger> EstimateERC20TransferGasAsync(Web3 web3, string erc20ContractAddress, string toAddress, BigInteger value, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Suggest Fee To Transfer Whole Balance In Ether

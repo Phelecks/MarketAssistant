@@ -49,13 +49,13 @@ public class GasService : IGasService
         return estimate.Value;
     }
 
-    public async Task<BigInteger> EstimateERC20TransferGasAsync(Web3 web3, string erc20ContractAddress, string toAddress, decimal value, CancellationToken cancellationToken = default)
+    public async Task<BigInteger> EstimateERC20TransferGasAsync(Web3 web3, string erc20ContractAddress, string toAddress, BigInteger value, CancellationToken cancellationToken = default)
     {
         var transferHandler = web3.Eth.GetContractTransactionHandler<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferFunction>();
         var transfer = new Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferFunction()
         {
             To = toAddress,
-            AmountToSend = Web3.Convert.ToWei(value)
+            AmountToSend = value
         };
         var estimate = await transferHandler.EstimateGasAsync(erc20ContractAddress, transfer);
 
