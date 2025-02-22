@@ -8,9 +8,9 @@ public class RpcUrlService : IRpcUrlService
 {
     private ConcurrentBag<Domain.Entities.RpcUrl> _rpcUrls = new ConcurrentBag<Domain.Entities.RpcUrl>();
 
-    public void AddRpcUrl(Chain chain, string rpcUrl)
+    public void AddRpcUrl(Domain.Entities.RpcUrl rpcUrl)
     {
-        _rpcUrls.Add(new Domain.Entities.RpcUrl { chain = chain, rpcUrl = rpcUrl });
+        _rpcUrls.Add(rpcUrl);
     }
 
     public string? GetRpcUrl(Chain chain)

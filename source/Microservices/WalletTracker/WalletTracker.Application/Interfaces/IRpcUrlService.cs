@@ -2,6 +2,6 @@
 
 public interface IRpcUrlService
 {
-    void AddRpcUrl(Nethereum.Signer.Chain chain, string rpcUrl);
+    void AddRpcUrl(Domain.Entities.RpcUrl rpcUrl);
     string? GetRpcUrl(Nethereum.Signer.Chain chain);
 }

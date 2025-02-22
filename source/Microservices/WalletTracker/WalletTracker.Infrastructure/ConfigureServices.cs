@@ -46,6 +46,7 @@ public static class ConfigureServices
         services.AddSingleton<ITokenService, TokenService>();
         services.AddSingleton<IAddressService, AddressService>();
         services.AddSingleton<IRpcUrlService, RpcUrlService>();
+        services.AddSingleton<IApplicationInitializer, ApplicationInitializer>();
 
         return services;
     }
