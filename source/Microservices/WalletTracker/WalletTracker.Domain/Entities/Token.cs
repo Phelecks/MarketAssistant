@@ -1,6 +1,7 @@
 ﻿using BaseDomain.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WalletTracker.Domain.Entities;
 public class Token : BaseEntityWithNoPrimaryKey

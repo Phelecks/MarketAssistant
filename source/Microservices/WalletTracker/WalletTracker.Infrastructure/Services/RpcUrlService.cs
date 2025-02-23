@@ -13,8 +13,8 @@ public class RpcUrlService : IRpcUrlService
         _rpcUrls.Add(rpcUrl);
     }
 
-    public string? GetRpcUrl(Chain chain)
+    public string GetRpcUrl(Chain chain)
     {
-        return _rpcUrls.FirstOrDefault(x => x.chain == chain)?.rpcUrl;
+        return _rpcUrls.Single(x => x.chain == chain)?.rpcUrl;
     }
 }

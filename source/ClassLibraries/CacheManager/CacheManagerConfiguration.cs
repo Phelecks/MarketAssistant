@@ -8,6 +8,6 @@ public static class CacheManagerConfiguration
 {
     public static void AddCacheManagerDependencyInjections(this IServiceCollection services)
     {
-        services.AddSingleton<IDistributedLockService, DistributedLockService>();
+        services.AddScoped<IDistributedLockService, DistributedLockService>();
     }
 }

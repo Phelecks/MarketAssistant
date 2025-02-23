@@ -1,11 +1,9 @@
-﻿using BaseApplication.Interfaces;
-using BlockChainHDWalletHelper.Interfaces;
+﻿using BlockChainHDWalletHelper.Interfaces;
 using LoggerService.Helpers;
 using MediatR;
-using Microsoft.Extensions.Options;
-using System.Diagnostics.CodeAnalysis;
 using WalletTracker.Application.Interfaces;
 using WalletTracker.Application.Track.Commands.TrackWallet;
+using WalletTracker.Application.Wallet.Commands.GenerateHDWallet;
 
 namespace WalletTracker.Api.BackgroundServices;
 
@@ -24,36 +22,15 @@ public class MainHostedService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (!string.IsNullOrEmpty(environment) && environment.Contains("Test")) return;
+        Initialize();
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            Initialize();
-
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-                var hdWalletService = scope.ServiceProvider.GetRequiredService<IHdWalletService>();
-
-                foreach (var wordCount in Enum.GetValues<NBitcoin.WordCount>())
-                {
-                    var hdWallet = hdWalletService.GenerateWallet("", wordCount);
-                    while (true)
-                    {
-                        var account = hdWalletService.GetAccount(hdWallet,)
-                    }
-                }
-                
-                await sender.Send(new TrackWalletCommand(), cancellationToken);
-                
-
-                var intervalsInMinutes = 1;
-                _ = Task.Run(() => _logger.LogInformation(
-                     eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
-                     "{@hostedServiceName} is delaying for {@delay} minutes.", nameof(MainHostedService), intervalsInMinutes), cancellationToken);
-                await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), cancellationToken);
-            }
+            var intervalsInMinutes = 1;
+            _ = Task.Run(() => _logger.LogInformation(
+                 eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
+                 "{@hostedServiceName} is delaying for {@delay} minutes.", nameof(MainHostedService), intervalsInMinutes), cancellationToken);
+            await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), cancellationToken);
         }
     }
 
@@ -80,19 +57,76 @@ public class MainHostedService : BackgroundService
     {
         using var scope = _serviceProvider.CreateScope();
         var applicationInitializer = scope.ServiceProvider.GetRequiredService<IApplicationInitializer>();
-       
+
         var rpcUrlsString = _configuration.GetValue<string>("RPC_URLS", "");
         var rpcUrls = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.RpcUrl>>(rpcUrlsString);
 
         var tokensString = _configuration.GetValue<string>("TOKENS", "");
-        if(string.IsNullOrEmpty(tokensString)) return;
+        if (string.IsNullOrEmpty(tokensString)) return;
         var tokens = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.Token>>(tokensString);
 
         var destinationAddressesString = _configuration.GetValue<string>("DESTINATION_ADDRESS", "");
         var destinationAddresses = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.DestinationAddress>>(destinationAddressesString);
 
-        if(rpcUrls is null || tokens is null || destinationAddresses is null) throw new Exception("Initialize failed!!!");
+        if (rpcUrls is null || tokens is null || destinationAddresses is null) throw new Exception("Initialize failed!!!");
 
         applicationInitializer.Initialize(tokens, rpcUrls, destinationAddresses);
+    }
+
+    async Task DoProcessAsync(CancellationToken cancellationToken)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+        var tokenService = scope.ServiceProvider.GetRequiredService<ITokenService>();
+        
+
+        var chains = tokenService.GetAllTokens().Select(s => s.chain).Distinct().ToList();
+
+        while (true)
+        {
+            var hdWalletTasksQuery =
+                from wordCount in Enum.GetValues<NBitcoin.WordCount>()
+                where true
+                select sender.Send(new GenerateHDWalletCommand(wordCount));
+            var hdWalletTasks = hdWalletTasksQuery.ToList();
+
+            while (hdWalletTasks.Any())
+            {
+                var hdWalletTask = await Task.WhenAny(hdWalletTasks);
+                if (hdWalletTask.IsFaulted) continue;
+
+                hdWalletTasks.Remove(hdWalletTask);
+
+                var hdWallet = await hdWalletTask;
+
+                var accountTasksQuery =
+                    from chain in chains
+                    where true
+                    select TrackHDWallet(hdWallet, chain);
+                var accountTasks = accountTasksQuery.ToList();
+                await Task.WhenAll(accountTasks);
+            }
+        }
+    }
+
+    async Task TrackHDWallet(Nethereum.HdWallet.Wallet wallet, Nethereum.Signer.Chain chain)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var hdWalletService = scope.ServiceProvider.GetRequiredService<IHdWalletService>();
+        var rpcUrlService = scope.ServiceProvider.GetRequiredService<IRpcUrlService>();
+        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            var account = hdWalletService.GetAccount(wallet, chain, i);
+            try
+            {
+                await sender.Send(new TrackWalletCommand(account, rpcUrlService.GetRpcUrl((Nethereum.Signer.Chain)(int)account.ChainId!)));
+            }
+            catch (Exception exception)
+            {
+                //Log
+            }
+        }
     }
 }
