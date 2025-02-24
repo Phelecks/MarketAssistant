@@ -30,7 +30,17 @@ public class MainHostedService : BackgroundService
         {
             var intervalsInMinutes = 1;
 
-            await DoProcessAsync(cancellationToken);
+            try
+            {
+                await DoProcessAsync(cancellationToken);
+            }
+            catch (Exception exception)
+            {
+                _ = Task.Run(() => _logger.LogError(
+                     eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
+                     exception, exception.Message, cancellationToken), cancellationToken);
+            }
+            
 
             _ = Task.Run(() => _logger.LogInformation(
                  eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
@@ -68,20 +78,35 @@ public class MainHostedService : BackgroundService
             new Domain.Entities.RpcUrl(1, Nethereum.Signer.Chain.MainNet, "https://eth-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
             new Domain.Entities.RpcUrl(2, Nethereum.Signer.Chain.Polygon, "https://polygon-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
             new Domain.Entities.RpcUrl(3, Nethereum.Signer.Chain.Arbitrum, "https://arb-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
+            new Domain.Entities.RpcUrl(4, Nethereum.Signer.Chain.Binance, "https://bnb-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
+            new Domain.Entities.RpcUrl(5, Nethereum.Signer.Chain.Avalanche, "https://avax-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
+            new Domain.Entities.RpcUrl(6, Nethereum.Signer.Chain.Optimism, "https://opt-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
         }));
         var rpcUrls = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.RpcUrl>>(rpcUrlsString);
 
         var tokensString = _configuration.GetValue<string>("TOKENS", System.Text.Json.JsonSerializer.Serialize(new List<Domain.Entities.Token>
         {
-            new Domain.Entities.Token(1, "ETH", Nethereum.Signer.Chain.MainNet, BaseDomain.Enums.BlockChainEnums.TokenType.Main, true, null, 18 ),
-            new Domain.Entities.Token( id: 2, symbol: "USDT", chain: Nethereum.Signer.Chain.MainNet, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
-            new Domain.Entities.Token( id: 3, symbol: "USDC", chain: Nethereum.Signer.Chain.MainNet, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
-            new Domain.Entities.Token( id: 4, symbol: "POL", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
-            new Domain.Entities.Token( id: 5, symbol: "USDT", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
-            new Domain.Entities.Token( id: 6, symbol: "USDC", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
-            new Domain.Entities.Token( id: 7, symbol: "ARB", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
-            new Domain.Entities.Token( id: 8, symbol: "USDT", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Arbitrum), decimals: 6 ),
-            new Domain.Entities.Token( id: 9, symbol: "USDC", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Arbitrum), decimals: 6 ),
+            new Domain.Entities.Token(id: 1, "ETH", Nethereum.Signer.Chain.MainNet, BaseDomain.Enums.BlockChainEnums.TokenType.Main, true, null, 18 ),
+            new Domain.Entities.Token(id: 2, symbol: "USDT", chain: Nethereum.Signer.Chain.MainNet, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token(id: 3, symbol: "USDC", chain: Nethereum.Signer.Chain.MainNet, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token(id: 4, symbol: "POL", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
+            new Domain.Entities.Token(id: 5, symbol: "USDT", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token(id: 6, symbol: "USDC", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token(id: 7, symbol: "ARB", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
+            new Domain.Entities.Token(id: 8, symbol: "USDT", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Arbitrum), decimals: 6 ),
+            new Domain.Entities.Token(id: 9, symbol: "USDC", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Arbitrum), decimals: 6 ),
+
+            new Domain.Entities.Token(id: 10, symbol: "BNB", chain: Nethereum.Signer.Chain.Binance, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
+            new Domain.Entities.Token(id: 11, symbol: "USDT", chain: Nethereum.Signer.Chain.Binance, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Binance), decimals: 6 ),
+            new Domain.Entities.Token(id: 12, symbol: "USDC", chain: Nethereum.Signer.Chain.Binance, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Binance), decimals: 6 ),
+
+            new Domain.Entities.Token(id: 13, symbol: "AVAX", chain: Nethereum.Signer.Chain.Avalanche, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
+            new Domain.Entities.Token(id: 14, symbol: "USDT", chain: Nethereum.Signer.Chain.Avalanche, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Avalanche), decimals: 6 ),
+            new Domain.Entities.Token(id: 15, symbol: "USDC", chain: Nethereum.Signer.Chain.Avalanche, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Avalanche), decimals: 6 ),
+
+            new Domain.Entities.Token(id: 16, symbol: "OP", chain: Nethereum.Signer.Chain.Optimism, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
+            new Domain.Entities.Token(id: 17, symbol: "USDT", chain: Nethereum.Signer.Chain.Optimism, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Optimism), decimals: 6 ),
+            new Domain.Entities.Token(id: 18, symbol: "USDC", chain: Nethereum.Signer.Chain.Optimism, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Optimism), decimals: 6 ),
         }));
         if (string.IsNullOrEmpty(tokensString)) return;
         var tokens = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.Token>>(tokensString);
@@ -90,7 +115,10 @@ public class MainHostedService : BackgroundService
         {
             new Domain.Entities.DestinationAddress( id: 1, chain: Nethereum.Signer.Chain.MainNet, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" ),
             new Domain.Entities.DestinationAddress( id: 2, chain: Nethereum.Signer.Chain.Polygon, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" ),
-            new Domain.Entities.DestinationAddress( id: 3, chain: Nethereum.Signer.Chain.Arbitrum, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" )
+            new Domain.Entities.DestinationAddress( id: 3, chain: Nethereum.Signer.Chain.Arbitrum, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" ),
+            new Domain.Entities.DestinationAddress( id: 4, chain: Nethereum.Signer.Chain.Binance, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" ),
+            new Domain.Entities.DestinationAddress( id: 5, chain: Nethereum.Signer.Chain.Avalanche, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" ),
+            new Domain.Entities.DestinationAddress( id: 6, chain: Nethereum.Signer.Chain.Optimism, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" )
         }));
         var destinationAddresses = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.DestinationAddress>>(destinationAddressesString);
 

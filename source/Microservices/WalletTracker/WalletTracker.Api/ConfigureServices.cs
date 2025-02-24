@@ -2,11 +2,9 @@
 using System.Reflection;
 using Asp.Versioning;
 using BaseInfrastructure.Interceptors;
-using BaseInfrastructure.Services;
 using FluentValidation.AspNetCore;
 using IdentityHelper;
 using IdentityHelper.Helpers;
-using MassTransitManager.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using WalletTracker.Api.BackgroundServices;
@@ -161,7 +159,7 @@ public static class ConfigureServices
 
         //app.MapGrpcService<BaseparametersServiceV1>();
         //app.MapGrpcService<SchedulesServiceV1>();
-        app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+        app.MapGet("/", () => "Welcome to Wallet Track application");
 
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();
 
