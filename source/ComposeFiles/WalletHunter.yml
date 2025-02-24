@@ -1,0 +1,6 @@
+services:
+  wallethunter:
+    container_name: 'wallethunter'
+    image: phelecks/wallethunter:latest
+    ports:
+      - "5050:8080"
