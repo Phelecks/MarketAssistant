@@ -17,7 +17,7 @@ public class TrackWalletCommandValidator : AbstractValidator<TrackWalletCommand>
         RuleFor(v => v.rpcUrl)
             .NotEmpty().WithMessage("rpcUrl is required.")
             .NotNull().WithMessage("rpcUrl is required.");
-        RuleFor(v => v.account.ChainId)
+        RuleFor(v => v.chain)
             .NotEmpty().WithMessage("chainId is required.")
             .NotNull().WithMessage("chainId is required.")
             .Must(BeTokenExists).WithMessage("Main token does not exist.")
@@ -25,15 +25,13 @@ public class TrackWalletCommandValidator : AbstractValidator<TrackWalletCommand>
         
     }
 
-    bool BeTokenExists(BigInteger? ChainId)
+    bool BeTokenExists(Nethereum.Signer.Chain Chain)
     {
-        if(ChainId is null) return false;
-        return _tokenService.GetMainToken((Nethereum.Signer.Chain)(int)ChainId) is not null;
+        return _tokenService.GetMainToken(Chain) is not null;
     }
 
-    bool BePrcUrlExists(BigInteger? ChainId)
+    bool BePrcUrlExists(Nethereum.Signer.Chain Chain)
     {
-        if (ChainId is null) return false;
-        return _rpcUrlService.GetRpcUrl((Nethereum.Signer.Chain)(int)ChainId) is not null;
+        return _rpcUrlService.GetRpcUrl(Chain) is not null;
     }
 }

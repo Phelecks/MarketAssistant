@@ -10,7 +10,7 @@ public class DistributedLockService : IDistributedLockService
     private readonly RedLockFactory _redLockFactory;
     private readonly IConnectionMultiplexer _connectionMultiplexer;
 
-    public DistributedLockService(IConnectionMultiplexer connectionMultiplexer, RedLockFactory redLockFactory)
+    public DistributedLockService(IConnectionMultiplexer connectionMultiplexer)
     {
         _connectionMultiplexer = connectionMultiplexer;
         var endPoints = _connectionMultiplexer.GetEndPoints();

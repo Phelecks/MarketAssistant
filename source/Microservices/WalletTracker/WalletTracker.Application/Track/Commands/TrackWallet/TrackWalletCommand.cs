@@ -15,7 +15,7 @@ using WalletTracker.Application.Interfaces;
 namespace WalletTracker.Application.Track.Commands.TrackWallet;
 
 
-public record TrackWalletCommand([property: Required] Nethereum.Web3.Accounts.Account account, [property: Required] string rpcUrl) : IRequest<Unit>;
+public record TrackWalletCommand([property: Required] Nethereum.Web3.Accounts.Account account, [property: Required] Nethereum.Signer.Chain chain, [property: Required] string rpcUrl) : IRequest<Unit>;
 
 public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, Unit>
 {
@@ -40,9 +40,9 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
 
     public async Task<Unit> Handle(TrackWalletCommand request, CancellationToken cancellationToken)
     {
-        var destinationAddress = _addressService.GetDestinationAddress((Nethereum.Signer.Chain)(int)request.account.ChainId!);
+        var destinationAddress = _addressService.GetDestinationAddress(request.chain);
         if(destinationAddress is null)
-            throw new NotFoundException(nameof(Domain.Entities.DestinationAddress), request.account.ChainId);
+            throw new NotFoundException(nameof(Domain.Entities.DestinationAddress), request.chain);
 
         var web3 = new Web3(request.account, request.rpcUrl);
         var balance = await _balanceService.GetBalanceOfAsync(web3, request.account.Address, cancellationToken);
@@ -70,7 +70,7 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
                 }
             }
 
-            var token = _tokenService.GetMainToken((Nethereum.Signer.Chain)(int)request.account.ChainId!);
+            var token = _tokenService.GetMainToken(request.chain);
 
             estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateTransferGasAsync(web3, destinationAddress.address, Web3.Convert.FromWei(balance, token.decimals), cancellationToken));
             gasPrice = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.GetGasPriceAsync(request.rpcUrl, cancellationToken));

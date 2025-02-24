@@ -1,9 +1,11 @@
 ﻿using BlockChainHDWalletHelper.Interfaces;
 using LoggerService.Helpers;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using WalletTracker.Application.Interfaces;
 using WalletTracker.Application.Track.Commands.TrackWallet;
 using WalletTracker.Application.Wallet.Commands.GenerateHDWallet;
+using WalletTracker.Infrastructure.Services;
 
 namespace WalletTracker.Api.BackgroundServices;
 
@@ -27,6 +29,9 @@ public class MainHostedService : BackgroundService
         while (!cancellationToken.IsCancellationRequested)
         {
             var intervalsInMinutes = 1;
+
+            await DoProcessAsync(cancellationToken);
+
             _ = Task.Run(() => _logger.LogInformation(
                  eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
                  "{@hostedServiceName} is delaying for {@delay} minutes.", nameof(MainHostedService), intervalsInMinutes), cancellationToken);
@@ -58,14 +63,35 @@ public class MainHostedService : BackgroundService
         using var scope = _serviceProvider.CreateScope();
         var applicationInitializer = scope.ServiceProvider.GetRequiredService<IApplicationInitializer>();
 
-        var rpcUrlsString = _configuration.GetValue<string>("RPC_URLS", "");
+        var rpcUrlsString = _configuration.GetValue<string>("RPC_URLS", System.Text.Json.JsonSerializer.Serialize(new List<Domain.Entities.RpcUrl>
+        {
+            new Domain.Entities.RpcUrl(1, Nethereum.Signer.Chain.MainNet, "https://eth-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
+            new Domain.Entities.RpcUrl(2, Nethereum.Signer.Chain.Polygon, "https://polygon-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
+            new Domain.Entities.RpcUrl(3, Nethereum.Signer.Chain.Arbitrum, "https://arb-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
+        }));
         var rpcUrls = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.RpcUrl>>(rpcUrlsString);
 
-        var tokensString = _configuration.GetValue<string>("TOKENS", "");
+        var tokensString = _configuration.GetValue<string>("TOKENS", System.Text.Json.JsonSerializer.Serialize(new List<Domain.Entities.Token>
+        {
+            new Domain.Entities.Token(1, "ETH", Nethereum.Signer.Chain.MainNet, BaseDomain.Enums.BlockChainEnums.TokenType.Main, true, null, 18 ),
+            new Domain.Entities.Token( id: 2, symbol: "USDT", chain: Nethereum.Signer.Chain.MainNet, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token( id: 3, symbol: "USDC", chain: Nethereum.Signer.Chain.MainNet, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token( id: 4, symbol: "POL", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
+            new Domain.Entities.Token( id: 5, symbol: "USDT", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token( id: 6, symbol: "USDC", chain: Nethereum.Signer.Chain.Polygon, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Polygon), decimals: 6 ),
+            new Domain.Entities.Token( id: 7, symbol: "ARB", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Main, contractAddress: null, decimals: 18 ),
+            new Domain.Entities.Token( id: 8, symbol: "USDT", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdtContractAddress(Nethereum.Signer.Chain.Arbitrum), decimals: 6 ),
+            new Domain.Entities.Token( id: 9, symbol: "USDC", chain: Nethereum.Signer.Chain.Arbitrum, enabled: true, tokenType: BaseDomain.Enums.BlockChainEnums.TokenType.Erc20, contractAddress: BaseDomain.Helpers.SmartContractHelper.GetUsdcContractAddress(Nethereum.Signer.Chain.Arbitrum), decimals: 6 ),
+        }));
         if (string.IsNullOrEmpty(tokensString)) return;
         var tokens = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.Token>>(tokensString);
 
-        var destinationAddressesString = _configuration.GetValue<string>("DESTINATION_ADDRESS", "");
+        var destinationAddressesString = _configuration.GetValue<string>("DESTINATION_ADDRESS", System.Text.Json.JsonSerializer.Serialize(new List<Domain.Entities.DestinationAddress>
+        {
+            new Domain.Entities.DestinationAddress( id: 1, chain: Nethereum.Signer.Chain.MainNet, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" ),
+            new Domain.Entities.DestinationAddress( id: 2, chain: Nethereum.Signer.Chain.Polygon, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" ),
+            new Domain.Entities.DestinationAddress( id: 3, chain: Nethereum.Signer.Chain.Arbitrum, address: "0xEAbE38EEB8813ec8D90C594aC388267F26F9C559" )
+        }));
         var destinationAddresses = System.Text.Json.JsonSerializer.Deserialize<List<Domain.Entities.DestinationAddress>>(destinationAddressesString);
 
         if (rpcUrls is null || tokens is null || destinationAddresses is null) throw new Exception("Initialize failed!!!");
@@ -77,10 +103,7 @@ public class MainHostedService : BackgroundService
     {
         using var scope = _serviceProvider.CreateScope();
         var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-        var tokenService = scope.ServiceProvider.GetRequiredService<ITokenService>();
-        
-
-        var chains = tokenService.GetAllTokens().Select(s => s.chain).Distinct().ToList();
+        var hdWalletService = scope.ServiceProvider.GetRequiredService<IHdWalletService>();
 
         while (true)
         {
@@ -99,10 +122,21 @@ public class MainHostedService : BackgroundService
 
                 var hdWallet = await hdWalletTask;
 
+                //var accountTasksQuery =
+                //    from chain in chains
+                //    where true
+                //    select TrackHDWallet(hdWallet, chain);
+                //var accountTasks = accountTasksQuery.ToList();
+                //await Task.WhenAll(accountTasks);
+
+
+                var accounts = new List<Nethereum.Web3.Accounts.Account>();
+                for (int i = 0; i < 10; i++)
+                    accounts.Add(hdWalletService.GetAccount(hdWallet, i));
                 var accountTasksQuery =
-                    from chain in chains
+                    from account in accounts
                     where true
-                    select TrackHDWallet(hdWallet, chain);
+                    select TrackWallet(account);
                 var accountTasks = accountTasksQuery.ToList();
                 await Task.WhenAll(accountTasks);
             }
@@ -121,7 +155,29 @@ public class MainHostedService : BackgroundService
             var account = hdWalletService.GetAccount(wallet, chain, i);
             try
             {
-                await sender.Send(new TrackWalletCommand(account, rpcUrlService.GetRpcUrl((Nethereum.Signer.Chain)(int)account.ChainId!)));
+                await sender.Send(new TrackWalletCommand(account, (Nethereum.Signer.Chain)(int)account.ChainId!, rpcUrlService.GetRpcUrl((Nethereum.Signer.Chain)(int)account.ChainId!)));
+            }
+            catch (Exception exception)
+            {
+                //Log
+            }
+        }
+    }
+
+    async Task TrackWallet(Nethereum.Web3.Accounts.Account account)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var rpcUrlService = scope.ServiceProvider.GetRequiredService<IRpcUrlService>();
+        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+        var tokenService = scope.ServiceProvider.GetRequiredService<ITokenService>();
+
+        var chains = tokenService.GetAllTokens().Select(s => s.chain).Distinct().ToList();
+
+        foreach (var chain in chains)
+        {
+            try
+            {
+                await sender.Send(new TrackWalletCommand(account, chain, rpcUrlService.GetRpcUrl(chain)));
             }
             catch (Exception exception)
             {

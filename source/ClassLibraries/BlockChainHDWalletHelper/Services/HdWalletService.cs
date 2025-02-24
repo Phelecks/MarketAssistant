@@ -34,7 +34,18 @@ public class HdWalletService : IHdWalletService
         }
     }
 
-    //internal string CreateAddrss(Nethereum.HdWallet.Wallet wallet, int index) => wallet.GetAddresses(index).Last();
+    public Account GetAccount(Nethereum.HdWallet.Wallet wallet, int index)
+    {
+        try
+        {
+            var account = wallet.GetAccount(index);
+            return account;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Cannot get account by index from HD wallet with result: {e.Message}.", e.InnerException);
+        }
+    }
 
     public Account GetAccount(Nethereum.HdWallet.Wallet wallet, Nethereum.Signer.Chain chain, int index)
     {

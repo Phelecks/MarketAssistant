@@ -1,11 +1,21 @@
 ﻿using BaseDomain.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace WalletTracker.Domain.Entities;
 public class Token : BaseEntityWithNoPrimaryKey
 {
+    public Token(long id, string symbol, Nethereum.Signer.Chain chain, BaseDomain.Enums.BlockChainEnums.TokenType tokenType, bool enabled, string? contractAddress, int decimals)
+    {
+        this.id = id;
+        this.symbol = symbol;
+        _chain = (int)chain;
+        this.tokenType = tokenType;
+        this.enabled = enabled;
+        this.contractAddress = contractAddress;
+        this.decimals = decimals;
+    }
+
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     public long id { get; set; }
 
