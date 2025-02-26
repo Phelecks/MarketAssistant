@@ -1,11 +1,9 @@
 ﻿using BlockChainHDWalletHelper.Interfaces;
 using LoggerService.Helpers;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using WalletTracker.Application.Interfaces;
 using WalletTracker.Application.Track.Commands.TrackWallet;
 using WalletTracker.Application.Wallet.Commands.GenerateHDWallet;
-using WalletTracker.Infrastructure.Services;
 
 namespace WalletTracker.Api.BackgroundServices;
 
@@ -159,7 +157,7 @@ public class MainHostedService : BackgroundService
 
 
                 var accounts = new List<Nethereum.Web3.Accounts.Account>();
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 1; i++)
                     accounts.Add(hdWalletService.GetAccount(hdWallet, i));
                 var accountTasksQuery =
                     from account in accounts
@@ -167,27 +165,6 @@ public class MainHostedService : BackgroundService
                     select TrackWallet(account);
                 var accountTasks = accountTasksQuery.ToList();
                 await Task.WhenAll(accountTasks);
-            }
-        }
-    }
-
-    async Task TrackHDWallet(Nethereum.HdWallet.Wallet wallet, Nethereum.Signer.Chain chain)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var hdWalletService = scope.ServiceProvider.GetRequiredService<IHdWalletService>();
-        var rpcUrlService = scope.ServiceProvider.GetRequiredService<IRpcUrlService>();
-        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-
-        for (int i = 0; i < 10; i++)
-        {
-            var account = hdWalletService.GetAccount(wallet, chain, i);
-            try
-            {
-                await sender.Send(new TrackWalletCommand(account, (Nethereum.Signer.Chain)(int)account.ChainId!, rpcUrlService.GetRpcUrl((Nethereum.Signer.Chain)(int)account.ChainId!)));
-            }
-            catch (Exception exception)
-            {
-                //Log
             }
         }
     }
