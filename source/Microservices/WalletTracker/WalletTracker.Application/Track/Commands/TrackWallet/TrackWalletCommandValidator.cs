@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.Numerics;
 using WalletTracker.Application.Interfaces;
 
 namespace WalletTracker.Application.Track.Commands.TrackWallet;

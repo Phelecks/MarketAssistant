@@ -6,7 +6,7 @@ namespace WalletTracker.Infrastructure.Services;
 
 public class TokenService : ITokenService
 {
-    private ConcurrentBag<Domain.Entities.Token> _tokens = new ConcurrentBag<Domain.Entities.Token>();
+    private readonly ConcurrentBag<Domain.Entities.Token> _tokens = [];
 
     public void AddToken(Domain.Entities.Token token)
     {

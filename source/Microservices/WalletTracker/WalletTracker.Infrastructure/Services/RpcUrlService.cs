@@ -6,14 +6,14 @@ namespace WalletTracker.Infrastructure.Services;
 
 public class RpcUrlService : IRpcUrlService
 {
-    private ConcurrentBag<Domain.Entities.RpcUrl> _rpcUrls = new ConcurrentBag<Domain.Entities.RpcUrl>();
+    private readonly ConcurrentBag<Domain.Entities.RpcUrl> _rpcUrls = [];
 
     public void AddRpcUrl(Domain.Entities.RpcUrl rpcUrl)
     {
         _rpcUrls.Add(rpcUrl);
     }
 
-    public string GetRpcUrl(Chain chain)
+    public string? GetRpcUrl(Chain chain)
     {
         return _rpcUrls.Single(x => x.chain == chain)?.rpcUrl;
     }

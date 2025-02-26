@@ -20,23 +20,6 @@ public static class ConfigureServices
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
-        // builder.WebHost.ConfigureKestrel(options =>
-        // {
-        //     {
-        //         var grpcPort = builder.Configuration.GetValue("GRPC_PORT", 80);
-        //         options.Listen(IPAddress.Any, grpcPort, listenOptions =>
-        //         {
-        //             listenOptions.Protocols = HttpProtocols.Http2;
-        //         });
-
-        //         var apiRPort = builder.Configuration.GetValue("API_PORT", 81);
-        //         if (apiRPort != 0)
-        //             options.Listen(IPAddress.Any, apiRPort, listenOptions =>
-        //             {
-        //                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
-        //             });
-        //     }
-        // });
 
         builder.AddRedisDistributedCache("cache");
         //builder.AddRabbitMQClient("messaging");
@@ -61,7 +44,6 @@ public static class ConfigureServices
             options.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             options.EnableDetailedErrors = true;
         });
-        //services.AddCodeFirstGrpc();
 
         services.AddMediatR(configuration: configuration =>
         {
@@ -70,14 +52,7 @@ public static class ConfigureServices
 
         builder.Services.AddControllers(options =>
             options.Filters.Add<ApiExceptionFilter>());
-        //builder.Services
-        //    .AddFluentValidationAutoValidation(configurationExpression: x =>
-        //    {
-        //    })
-        //    .AddFluentValidationClientsideAdapters(configuration: configuration =>
-        //    {
-
-        //    });
+            
         builder.Services.AddFluentValidationAutoValidation(configuration =>
         {
             configuration.DisableBuiltInModelValidation = true;

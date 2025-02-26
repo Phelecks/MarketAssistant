@@ -17,7 +17,7 @@ public class RpcUrl : BaseEntity
     public Nethereum.Signer.Chain chain
     {
         get => (Nethereum.Signer.Chain)_chain;
-        set => _chain = (int)chain;
+        set => _chain = (int)value;
     }
 
     public string rpcUrl { get; set; }

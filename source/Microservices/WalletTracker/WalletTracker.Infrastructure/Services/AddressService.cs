@@ -5,7 +5,7 @@ namespace WalletTracker.Infrastructure.Services;
 
 public class AddressService : IAddressService
 {
-    private ConcurrentBag<Domain.Entities.DestinationAddress> _addresses = new ConcurrentBag<Domain.Entities.DestinationAddress>();
+    private readonly ConcurrentBag<Domain.Entities.DestinationAddress> _addresses = [];
 
     public void SetDestinationAddress(Domain.Entities.DestinationAddress address)
     {

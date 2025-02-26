@@ -44,28 +44,31 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
         
         var web3 = new Web3(request.account, request.rpcUrl);
         var balance = await _pollyPipeline.ExecuteAsync(async ct => await _balanceService.GetBalanceOfAsync(web3, request.account.Address, cancellationToken), cancellationToken);
-        ;
+        
         if(balance > 0)
         {
             BigInteger estimatedGas, gasPrice;
 
             var erc20Tokens = _tokenService.GetErc20Tokens();
-            foreach (var erc20Token in erc20Tokens)
+            foreach (var erc20TokenContractAddress in erc20Tokens.Select(s => s.contractAddress))
             {
-                var erc20Balance = await _pollyPipeline.ExecuteAsync(async ct => await _balanceService.GetBalanceOfERC20Async(web3, erc20Token.contractAddress!, request.account.Address, cancellationToken), cancellationToken);
-                if (erc20Balance > 0)
+                if(!string.IsNullOrEmpty(erc20TokenContractAddress))
                 {
-                    estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateERC20TransferGasAsync(web3, erc20Token.contractAddress!, destinationAddress.address, erc20Balance, cancellationToken), cancellationToken);
-                    gasPrice = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.GetGasPriceAsync(request.rpcUrl, cancellationToken), cancellationToken);
+                    var erc20Balance = await _pollyPipeline.ExecuteAsync(async ct => await _balanceService.GetBalanceOfERC20Async(web3, erc20TokenContractAddress, request.account.Address, cancellationToken), cancellationToken);
+                    if (erc20Balance > 0)
+                    {
+                        estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateERC20TransferGasAsync(web3, erc20TokenContractAddress, destinationAddress.address, erc20Balance, cancellationToken), cancellationToken);
+                        gasPrice = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.GetGasPriceAsync(request.rpcUrl, cancellationToken), cancellationToken);
 
-                    await _pollyPipeline.ExecuteAsync(async ct => await _transferService.TransferAsync(web3, erc20Token.contractAddress!,
-                        new Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferFunction
-                        {
-                            To = destinationAddress.address,
-                            Value = erc20Balance,
-                            Gas = estimatedGas,
-                            GasPrice = gasPrice
-                        }), cancellationToken);
+                        await _pollyPipeline.ExecuteAsync(async ct => await _transferService.TransferAsync(web3, erc20TokenContractAddress,
+                            new Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferFunction
+                            {
+                                To = destinationAddress.address,
+                                Value = erc20Balance,
+                                Gas = estimatedGas,
+                                GasPrice = gasPrice
+                            }), cancellationToken);
+                    }
                 }
             }
 
@@ -95,7 +98,7 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
         return Unit.Value;
     }
 
-    private BigInteger CalculatedValue(BigInteger balance, BigInteger estimatedGas, BigInteger gasPrice)
+    private static BigInteger CalculatedValue(BigInteger balance, BigInteger estimatedGas, BigInteger gasPrice)
     {
         return balance - (estimatedGas * gasPrice);
     }

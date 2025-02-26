@@ -20,30 +20,30 @@ public class MainHostedService : BackgroundService
         _configuration = configuration;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Initialize();
 
-        while (!cancellationToken.IsCancellationRequested)
+        while (!stoppingToken.IsCancellationRequested)
         {
             var intervalsInMinutes = 1;
 
             try
             {
-                await DoProcessAsync(cancellationToken);
+                await DoProcessAsync(stoppingToken);
             }
             catch (Exception exception)
             {
                 _ = Task.Run(() => _logger.LogError(
                      eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
-                     exception, exception.Message, cancellationToken), cancellationToken);
+                     exception, exception.Message, stoppingToken), stoppingToken);
             }
             
 
             _ = Task.Run(() => _logger.LogInformation(
                  eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
-                 "{@hostedServiceName} is delaying for {@delay} minutes.", nameof(MainHostedService), intervalsInMinutes), cancellationToken);
-            await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), cancellationToken);
+                 "{@HostedServiceName} is delaying for {@Delay} minutes.", nameof(MainHostedService), intervalsInMinutes), cancellationToken);
+            await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), stoppingToken);
         }
     }
 
@@ -53,7 +53,7 @@ public class MainHostedService : BackgroundService
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: nameof(MainHostedService)),
-           "{@hostedServiceName} is starting.", nameof(MainHostedService)), cancellationToken);
+           "{@HostedServiceName} is starting.", nameof(MainHostedService)), cancellationToken);
 
         await base.StartAsync(cancellationToken);
     }
@@ -61,7 +61,7 @@ public class MainHostedService : BackgroundService
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: nameof(MainHostedService)),
-           "{@hostedServiceName} is stopping.", nameof(MainHostedService)), cancellationToken);
+           "{@HostedServiceName} is stopping.", nameof(MainHostedService)), cancellationToken);
 
         await base.StopAsync(cancellationToken);
     }
@@ -133,43 +133,42 @@ public class MainHostedService : BackgroundService
 
         while (true)
         {
-            var hdWalletTasksQuery =
-                from wordCount in Enum.GetValues<NBitcoin.WordCount>()
-                where true
-                select sender.Send(new GenerateHDWalletCommand(wordCount));
-            var hdWalletTasks = hdWalletTasksQuery.ToList();
-
-            while (hdWalletTasks.Any())
+            try
             {
-                var hdWalletTask = await Task.WhenAny(hdWalletTasks);
-                if (hdWalletTask.IsFaulted) continue;
-
-                hdWalletTasks.Remove(hdWalletTask);
-
-                var hdWallet = await hdWalletTask;
-
-                //var accountTasksQuery =
-                //    from chain in chains
-                //    where true
-                //    select TrackHDWallet(hdWallet, chain);
-                //var accountTasks = accountTasksQuery.ToList();
-                //await Task.WhenAll(accountTasks);
-
-
-                var accounts = new List<Nethereum.Web3.Accounts.Account>();
-                for (int i = 0; i < 1; i++)
-                    accounts.Add(hdWalletService.GetAccount(hdWallet, i));
-                var accountTasksQuery =
-                    from account in accounts
+                var hdWalletTasksQuery =
+                    from wordCount in Enum.GetValues<NBitcoin.WordCount>()
                     where true
-                    select TrackWallet(account);
-                var accountTasks = accountTasksQuery.ToList();
-                await Task.WhenAll(accountTasks);
+                    select sender.Send(new GenerateHDWalletCommand(wordCount));
+                var hdWalletTasks = hdWalletTasksQuery.ToList();
+
+                while (hdWalletTasks.Any())
+                {
+                    var hdWalletTask = await Task.WhenAny(hdWalletTasks);
+                    if (hdWalletTask.IsFaulted) continue;
+
+                    hdWalletTasks.Remove(hdWalletTask);
+
+                    var hdWallet = await hdWalletTask;
+
+                    var accounts = new List<Nethereum.Web3.Accounts.Account>();
+                    for (int i = 0; i < 1; i++)
+                        accounts.Add(hdWalletService.GetAccount(hdWallet, i));
+                    var accountTasksQuery =
+                        from account in accounts
+                        where true
+                        select TrackWallet(account, cancellationToken);
+                    var accountTasks = accountTasksQuery.ToList();
+                    await Task.WhenAll(accountTasks);
+                }
+            }
+            catch
+            {
+                break;
             }
         }
     }
 
-    async Task TrackWallet(Nethereum.Web3.Accounts.Account account)
+    async Task TrackWallet(Nethereum.Web3.Accounts.Account account, CancellationToken cancellationToken)
     {
         using var scope = _serviceProvider.CreateScope();
         var rpcUrlService = scope.ServiceProvider.GetRequiredService<IRpcUrlService>();
@@ -182,11 +181,15 @@ public class MainHostedService : BackgroundService
         {
             try
             {
-                await sender.Send(new TrackWalletCommand(account, chain, rpcUrlService.GetRpcUrl(chain)));
+                var rpcUrl = rpcUrlService.GetRpcUrl(chain);
+                if(!string.IsNullOrEmpty(rpcUrl))
+                    await sender.Send(new TrackWalletCommand(account, chain, rpcUrl));
             }
             catch (Exception exception)
             {
-                //Log
+                _ = Task.Run(() => _logger.LogError(
+                    eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: nameof(TrackWallet)),
+                    exception, exception.Message, cancellationToken));
             }
         }
     }

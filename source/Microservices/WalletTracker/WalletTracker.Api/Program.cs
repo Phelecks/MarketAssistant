@@ -10,4 +10,4 @@ await app.AddConfiguration();
 
 app.MapDefaultEndpoints();
 
-app.Run();
+await app.RunAsync();
