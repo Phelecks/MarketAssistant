@@ -42,7 +42,7 @@ public class MainHostedService : BackgroundService
 
             _ = Task.Run(() => _logger.LogInformation(
                  eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
-                 "{@HostedServiceName} is delaying for {@Delay} minutes.", nameof(MainHostedService), intervalsInMinutes), cancellationToken);
+                 "{@HostedServiceName} is delaying for {@Delay} minutes.", nameof(MainHostedService), intervalsInMinutes), stoppingToken);
             await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), stoppingToken);
         }
     }

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseInfrastructure\BaseInfrastructure.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\DistributedProcessManager\DistributedProcessManager.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\MassTransitManager\MassTransitManager.csproj" />
+		<ProjectReference Include="..\BlockProcessor.Application\BlockProcessor.Application.csproj" />
+		<ProjectReference Include="..\BlockProcessor.Domain\BlockProcessor.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

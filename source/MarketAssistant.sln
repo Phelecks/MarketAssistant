@@ -83,6 +83,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletTracker.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletTracker.Api", "Microservices\WalletTracker\WalletTracker.Api\WalletTracker.Api.csproj", "{B9A3D9E6-BEC0-4A5F-AB40-266077F83D21}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlockProcessor", "BlockProcessor", "{6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockProcessor.Domain", "Microservices\BlockProcessor\BlockProcessor.Domain\BlockProcessor.Domain.csproj", "{2FD168F6-1555-44FE-87D7-7B7F6ECDF4C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockProcessor.Application", "Microservices\BlockProcessor\BlockProcessor.Application\BlockProcessor.Application.csproj", "{4BB25124-01AF-4493-AB80-479497A80950}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockProcessor.Infrastructure", "Microservices\BlockProcessor\BlockProcessor.Infrastructure\BlockProcessor.Infrastructure.csproj", "{870B64A9-62A5-4814-AECE-0F43FA4D4283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockProcessor.Api", "Microservices\BlockProcessor\BlockProcessor.Api\BlockProcessor.Api.csproj", "{FCE253D0-4881-452B-9EDC-5BA25BC0A087}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +231,22 @@ Global
 		{B9A3D9E6-BEC0-4A5F-AB40-266077F83D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9A3D9E6-BEC0-4A5F-AB40-266077F83D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9A3D9E6-BEC0-4A5F-AB40-266077F83D21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD168F6-1555-44FE-87D7-7B7F6ECDF4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD168F6-1555-44FE-87D7-7B7F6ECDF4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD168F6-1555-44FE-87D7-7B7F6ECDF4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD168F6-1555-44FE-87D7-7B7F6ECDF4C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB25124-01AF-4493-AB80-479497A80950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB25124-01AF-4493-AB80-479497A80950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB25124-01AF-4493-AB80-479497A80950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB25124-01AF-4493-AB80-479497A80950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{870B64A9-62A5-4814-AECE-0F43FA4D4283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870B64A9-62A5-4814-AECE-0F43FA4D4283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{870B64A9-62A5-4814-AECE-0F43FA4D4283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870B64A9-62A5-4814-AECE-0F43FA4D4283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCE253D0-4881-452B-9EDC-5BA25BC0A087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCE253D0-4881-452B-9EDC-5BA25BC0A087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCE253D0-4881-452B-9EDC-5BA25BC0A087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCE253D0-4881-452B-9EDC-5BA25BC0A087}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,6 +288,11 @@ Global
 		{8266007C-6CAA-4504-950B-EDB785A7477D} = {2C0E950F-6214-4D78-9300-54112F7CA55D}
 		{9182D62E-E7B7-4D17-B59E-3CD8C2F992F2} = {2C0E950F-6214-4D78-9300-54112F7CA55D}
 		{B9A3D9E6-BEC0-4A5F-AB40-266077F83D21} = {2C0E950F-6214-4D78-9300-54112F7CA55D}
+		{6B6C1FFA-6268-41C4-8F7A-B744BF318FC1} = {36DF701C-02BA-486B-BCC3-1F94E71A09DF}
+		{2FD168F6-1555-44FE-87D7-7B7F6ECDF4C0} = {6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}
+		{4BB25124-01AF-4493-AB80-479497A80950} = {6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}
+		{870B64A9-62A5-4814-AECE-0F43FA4D4283} = {6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}
+		{FCE253D0-4881-452B-9EDC-5BA25BC0A087} = {6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18F9C98C-0AB3-4767-B4E3-1A1B455AE6B4}

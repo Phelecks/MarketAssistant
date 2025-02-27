@@ -10,10 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
-    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
-    <PackageReference Include="Aspire.Hosting.Redis" Version="9.0.0" />
-    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\Gateways\Application.Gateway\Application.Gateway.csproj" />
     <ProjectReference Include="..\..\Gateways\ReverseProxy.Gateway\ReverseProxy.Gateway.csproj" />
     <ProjectReference Include="..\..\Microservices\BlockChainIdentity\BlockChainIdentity.Grpc\BlockChainIdentity.Grpc.csproj" />
+    <ProjectReference Include="..\..\Microservices\BlockProcessor\BlockProcessor.Api\BlockProcessor.Api.csproj" />
     <ProjectReference Include="..\..\Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj" />
     <ProjectReference Include="..\..\Microservices\WalletTracker\WalletTracker.Api\WalletTracker.Api.csproj" />
   </ItemGroup>
