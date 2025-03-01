@@ -74,4 +74,5 @@ public class Transfer : BaseAuditEntityWithNoPrimaryKey
     public DateTime ConfirmedDatetime { get; set; }
 
     public virtual ICollection<Erc20Transfer>? Erc20Transfers { get; set; }
+    public virtual ICollection<Erc721Transfer>? Erc721Transfers { get; set; }
 }
