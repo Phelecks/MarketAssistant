@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'source/**'
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -41,7 +43,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
-        working-directory: source\
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Phelecks_MarketAssistant" /o:"phelecks" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
