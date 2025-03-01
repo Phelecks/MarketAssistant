@@ -2,7 +2,7 @@
 
 namespace BlockProcessor.Domain.Events.WalletAddress;
 
-public class WalletAddressDeletedEvent(Entities.WalletAddress item) : BaseEvent
+public class WalletAddressDeletedEvent(Entities.WalletAddress entity) : BaseEvent
 {
-    public Entities.WalletAddress WalletAddress { get; } = item;
+    public Entities.WalletAddress Entity { get; } = entity;
 }

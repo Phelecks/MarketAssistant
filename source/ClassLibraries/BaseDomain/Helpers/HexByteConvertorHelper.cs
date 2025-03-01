@@ -34,7 +34,7 @@ public static class HexByteConvertorHelper
 
     public static string RemoveHexPrefix(this string value)
     {
-        return value.Substring(value.StartsWith("0x") ? 2 : 0);
+        return value[(value.StartsWith("0x") ? 2 : 0)..];
     }
 
     public static bool IsTheSameHex(this string first, string second)
@@ -45,13 +45,13 @@ public static class HexByteConvertorHelper
 
     public static string EnsureHexPrefix(this string value)
     {
-        if (value == null) return null;
+        if (value == null) return string.Empty;
         if (!value.HasHexPrefix())
             return "0x" + value;
         return value;
     }
 
-    public static string[] EnsureHexPrefix(this string[] values)
+    public static string[]? EnsureHexPrefix(this string[] values)
     {
         if (values != null)
             foreach (var value in values)
@@ -66,7 +66,7 @@ public static class HexByteConvertorHelper
 
     private static byte[] HexToByteArrayInternal(string value)
     {
-        byte[] bytes = null;
+        byte[] bytes;
         if (string.IsNullOrEmpty(value))
         {
             bytes = Empty;
@@ -141,11 +141,5 @@ public static class HexByteConvertorHelper
         }
 
         return value;
-    }
-
-    [Obsolete]
-    public static byte[] FromHex(this string value)
-    {
-        return value.HexToByteArray();
     }
 }

@@ -90,6 +90,6 @@ public class SiweAuthenticationOptions : AuthenticationSchemeOptions
 {
     public const string DefaultScheme = "Siwe";
     public string TokenHeaderName { get; set; } = "Siwe";
-    public string ApplicationName { get; set; }
+    public required string ApplicationName { get; set; }
     public string[] ValidIssuers { get; set; }
 }

@@ -2,7 +2,7 @@
 
 namespace BlockProcessor.Domain.Events.RpcUrl;
 
-public class RpcUrlDeletedEvent(Entities.RpcUrl item) : BaseEvent
+public class RpcUrlDeletedEvent(Entities.RpcUrl entity) : BaseEvent
 {
-    public Entities.RpcUrl RpcUrl { get; } = item;
+    public Entities.RpcUrl Entity { get; } = entity;
 }
