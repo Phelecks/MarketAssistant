@@ -70,4 +70,4 @@ if (!string.IsNullOrEmpty(environment) && environment.Equals("Development"))
 else
     app.UseCors(ProductCorsPoicyName);
 
-app.Run();
+await app.RunAsync();
