@@ -36,6 +36,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<InitiateTr
             BlockNumber = (long)request.BlockNumber,
             ConfirmedDatetime = request.ConfimedDatetime,
             Chain = request.Chain,
+            State = Domain.Entities.Transfer.TransferState.Initiated,
             Erc20Transfers = request.Erc20Transfers?.Select(erc20Transfer => new Domain.Entities.Erc20Transfer
             {
                 From = erc20Transfer.From,

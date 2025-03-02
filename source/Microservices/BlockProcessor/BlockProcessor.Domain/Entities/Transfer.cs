@@ -73,6 +73,11 @@ public class Transfer : BaseAuditEntityWithNoPrimaryKey
     [Required]
     public DateTime ConfirmedDatetime { get; set; }
 
+    public required TransferState State { get; set; }
+
     public virtual ICollection<Erc20Transfer>? Erc20Transfers { get; set; }
     public virtual ICollection<Erc721Transfer>? Erc721Transfers { get; set; }
+
+
+    public enum TransferState { Confirmed, Initiated, Failed }
 }
