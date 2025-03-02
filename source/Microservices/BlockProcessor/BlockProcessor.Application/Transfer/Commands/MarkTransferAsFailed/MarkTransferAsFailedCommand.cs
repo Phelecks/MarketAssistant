@@ -2,6 +2,7 @@
 using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Domain.Events.Transfer;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlockProcessor.Application.Transfer.Commands.MarkTransferAsFailed;
@@ -14,7 +15,8 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<MarkTransf
 
     public async Task<Unit> Handle(MarkTransferAsFailed request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Transfers.FindAsync([request.Hash, request.Chain], cancellationToken) ?? throw new NotFoundException(nameof(Transfer), request.Hash);
+        var entity = await _context.Transfers.SingleOrDefaultAsync(exp => exp.Hash.Equals(request.Hash) && exp.Chain == request.Chain, cancellationToken) 
+            ?? throw new NotFoundException(nameof(Transfer), request.Hash);
         entity.State = Domain.Entities.Transfer.TransferState.Failed;
         entity.AddDomainEvent(new TransferMarkedAsFailedEvent(entity));
         await _context.SaveChangesAsync(cancellationToken);

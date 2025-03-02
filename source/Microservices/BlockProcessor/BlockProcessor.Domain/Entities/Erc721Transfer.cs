@@ -13,9 +13,6 @@ public class Erc721Transfer : BaseEntity
     public required string To { get; set; }
 
     [Required]
-    public int Value { get; set; }
-
-    [Required]
     public required string ContractAddress { get; set; }
 
     [Required]

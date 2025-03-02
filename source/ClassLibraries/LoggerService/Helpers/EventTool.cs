@@ -187,15 +187,15 @@
         /// <summary>
         /// Block chain
         /// </summary>
-        BlockChainPayment = 15009,
+        BlockProcessor = 15009,
         /// <summary>
         /// Block chain exception
         /// </summary>
-        BlockChainPaymentException = 15010,
+        BlockProcessorException = 15010,
         /// <summary>
         /// Block chain background tasks
         /// </summary>
-        BlockChainPaymentBackgroundTasks = 15011,
+        BlockProcessorBackgroundTasks = 15011,
 
         /// <summary>
         /// Contract
