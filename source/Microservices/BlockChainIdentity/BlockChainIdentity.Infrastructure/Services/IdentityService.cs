@@ -28,11 +28,11 @@ public class IdentityService : Application.Interfaces.IIdentityService
     private const string ClaimTypeSiweIssuedAt = "siweIssueAt";
     private const string ClaimTypeSiweNotBefore = "siweNotBefore";
     private const string ClaimTypeRoles = IdentityModel.JwtClaimTypes.Role;
-    private const string ClaimTypeAudience = IdentityModel.JwtClaimTypes.Audience;// "aud";
+    private const string ClaimTypeAudience = IdentityModel.JwtClaimTypes.Audience;
     private const string ClaimTypePolicies = "policy";
     private const string ClaimTypeUserId = IdentityModel.JwtClaimTypes.Id;
     private const string ClaimTypeIssuer = IdentityModel.JwtClaimTypes.Issuer;
-    private const string ClaimTypeUri = IdentityModel.JwtClaimTypes.WebSite;// "uri";
+    private const string ClaimTypeUri = IdentityModel.JwtClaimTypes.WebSite;
     private const string ClaimTypeVersion = "version";
     private const string ClaimTypeChainId = "chainId";
     private const string ClaimTypeRequestId = "requestId";
@@ -160,23 +160,6 @@ public class IdentityService : Application.Interfaces.IIdentityService
             //and we may not want to expire and renew it
             //also milliseconds are not set in the jwtToken so this causes a validation failure, for this to match milliseconds have to be zero
 
-            //if (jwtToken.IssuedAt != DateTime.MinValue)
-            //{
-            //    siweMessage.SetIssuedAt(jwtToken.IssuedAt);
-            //}
-
-            //if (jwtToken.ValidFrom != DateTime.MinValue)
-            //{
-            //    siweMessage.SetNotBefore(jwtToken.ValidFrom);
-            //}
-
-            //if (jwtToken.ValidTo != DateTime.MinValue)
-            //{
-            //    siweMessage.SetExpirationTime(jwtToken.ValidTo);
-            //}
-            //Console.WriteLine($"Server ValidateTokenAsync SiweMessage: \n {System.Text.Json.JsonSerializer.Serialize(siweMessage)} \n Server ValidateTokenAsync Signature: \n {signature}");
-            //Console.WriteLine($"Server ValidateTokenAsync Builded message {SiweMessageStringBuilder.BuildMessage(siweMessage)}");
-            //Debug.WriteLine(SiweMessageStringBuilder.BuildMessage(siweMessage));
             if (await _siweMessageService.IsMessageSignatureValid(siweMessage, signature))
             {
                 if (_siweMessageService.IsMessageTheSameAsSessionStored(siweMessage))
@@ -234,7 +217,7 @@ public class IdentityService : Application.Interfaces.IIdentityService
 
 
 
-    protected DateTime GetIso8602AsDateTime(string iso8601dateTime)
+    protected static DateTime GetIso8602AsDateTime(string iso8601dateTime)
     {
         return DateTime.ParseExact(iso8601dateTime, "o",
             System.Globalization.CultureInfo.InvariantCulture).ToUniversalTime();
