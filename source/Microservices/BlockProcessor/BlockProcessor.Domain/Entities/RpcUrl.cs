@@ -22,5 +22,5 @@ public class RpcUrl : BaseEntity
     }
 
     [Required]
-    public int BlockOfConfirmation { get; set; } = 16;
+    public int BlockOfConfirmation { get; set; } = 3;
 }

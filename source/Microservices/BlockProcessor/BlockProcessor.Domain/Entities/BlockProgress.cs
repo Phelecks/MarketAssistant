@@ -15,4 +15,12 @@ public class BlockProgress : BaseAuditEntity
         get => (Nethereum.Signer.Chain)_chain;
         set => _chain = (int)value;
     }
+
+    public BlockProgressStatus Status { get; set; }
+
+    public enum BlockProgressStatus
+    {
+        Processed,
+        Processing
+    }
 }
