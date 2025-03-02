@@ -27,5 +27,5 @@ public class Erc20Transfer : BaseEntity
 
     [ForeignKey("Transfer")]
     public Guid TransferId { get; set; }
-    public virtual required Transfer Transfer { get; set; }
+    public virtual Transfer Transfer { get; set; }
 }
