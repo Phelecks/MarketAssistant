@@ -10,20 +10,12 @@ using Microsoft.Extensions.Logging;
 
 namespace BlockProcessor.Application.BlockProgress.EventHandlers;
 
-public class BlockProcessedEventHandler : INotificationHandler<BlockProcessedEvent>
+public class BlockProcessedEventHandler(IApplicationDbContext context, ILogger<BlockProcessedEventHandler> logger, IWeb3ProviderService web3ProviderService, ITransactionService transactionService) : INotificationHandler<BlockProcessedEvent>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly ILogger<BlockProcessedEventHandler> _logger;
-    private readonly IWeb3ProviderService _web3ProviderService;
-    private readonly ITransactionService _transactionService;
-
-    public BlockProcessedEventHandler(IApplicationDbContext context, ILogger<BlockProcessedEventHandler> logger, IWeb3ProviderService web3ProviderService, ITransactionService transactionService)
-    {
-        _context = context;
-        _logger = logger;
-        _web3ProviderService = web3ProviderService;
-        _transactionService = transactionService;
-    }
+    private readonly IApplicationDbContext _context = context;
+    private readonly ILogger<BlockProcessedEventHandler> _logger = logger;
+    private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
+    private readonly ITransactionService _transactionService = transactionService;
 
     public async Task Handle(BlockProcessedEvent notification, CancellationToken cancellationToken)
     {
