@@ -8,7 +8,11 @@ using DistributedProcessManager.Repositories;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Nethereum.BlockchainProcessing;
 using Nethereum.BlockchainProcessing.BlockProcessing;
+using Nethereum.BlockchainProcessing.Orchestrator;
+using Nethereum.Contracts;
+using Nethereum.RPC.Eth.Blocks;
 using Nethereum.Util;
 using Polly;
 
@@ -64,48 +68,29 @@ public class BlockProcessorService(IServiceProvider serviceProvider, ILogger<Blo
 
         var blockProcessingSteps = new BlockProcessingSteps();
 
-        //Filter both source address and destination adress
-        //blockProcessingSteps.TransactionStep.SetMatchCriteria(criteria =>
-        //    //Filter source address
-        //    _sourceAddresses.Any(sourceAddress => _addressUtil.AreAddressesTheSame(sourceAddress, criteria.Transaction.From))
-        //    &&
-        //    (
-        //        //Filter contract based transfers (USDC, USDT, ...)
-        //        //_tokens.Any(token => _addressUtil.AreAddressesTheSame(token.contractAddress, criteria.Transaction.To))
-        //        //||
-        //        //Filter main token transfer (MATIC, ...)
-        //        _destinationAddresses.Any(address => _addressUtil.AreAddressesTheSame(address.Address, criteria.Transaction.To))
-        //    )
-        //    );
-        //blockProcessingSteps.FilterLogStep.SetMatchCriteria(criteria =>
-        //    criteria.IsLogForEvent<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferEventDTO>()
-        //    &&
-        //    _sourceAddresses.Any(address => _addressUtil.AreAddressesTheSame(criteria.Transaction.From, address))
-        //    &&
-        //    _destinationAddresses.Any(address => criteria.IsTo(address.Address)));
-
         //Filter destination address only
         blockProcessingSteps.TransactionStep.SetMatchCriteria(criteria =>
-            _destinationAddresses is not null &&
-            _destinationAddresses.Any(address => _addressUtil.AreAddressesTheSame(address.Address, criteria.Transaction.To) && address.chainId == chainId)
+            _addresses is not null &&
+            _addresses.Any(address => _addressUtil.AreAddressesTheSame(address, criteria.Transaction.To) || _addressUtil.AreAddressesTheSame(address, criteria.Transaction.From))
            );
         blockProcessingSteps.FilterLogStep.SetMatchCriteria(criteria =>
             criteria.IsLogForEvent<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferEventDTO>()
             &&
-            _destinationAddresses is not null &&
-            _destinationAddresses.Any(address => criteria.IsTo(address.Address) && address.chainId == chainId));
+            _addresses is not null &&
+            _addresses.Any(address => criteria.IsTo(address) || _addressUtil.AreAddressesTheSame(address, criteria.Transaction.From)));
+        blockProcessingSteps.FilterLogStep.SetMatchCriteria(criteria =>
+            criteria.IsLogForEvent<Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferEventDTO>()
+            &&
+            _addresses is not null &&
+            _addresses.Any(address => criteria.IsTo(address) || _addressUtil.AreAddressesTheSame(address, criteria.Transaction.From)));
 
         blockProcessingSteps.TransactionReceiptStep.AddProcessorHandler(async (transactionReceipt) => await ProcessTransactionAsync(chainId, transactionReceipt, cancellationToken));
-
-        //blockProcessingSteps.BlockStep.AddProcessorHandler(async (blockWithTransactions) => await ProcessBlockAsync(chain, blockWithTransactions, cancellationToken));
 
         IBlockchainProcessingOrchestrator orchestrator = new BlockCrawlOrchestrator(ethApi: web3.Eth, blockProcessingSteps: blockProcessingSteps);
 
         //create an in-memory context and repository factory 
         var progressRepository = distributedBlockChainProgressRepository;
-        //var lastProcessBlock = await GetLastProcessedBlockAsync(chain, cancellationToken);
-        //var progressRepository = new InMemoryBlockchainProgressRepository(lastProcessBlock.processedBlockNumber);
-
+        
         // this strategy is applied while waiting for block confirmations
         // it will apply a wait to allow the chain to add new blocks
         // the wait duration is dependant on the number of retries
