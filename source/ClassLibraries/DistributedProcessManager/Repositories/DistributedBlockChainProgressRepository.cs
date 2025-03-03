@@ -6,24 +6,18 @@ using System.Numerics;
 
 namespace DistributedProcessManager.Repositories
 {
-    public class DistributedBlockChainProgressRepository : IBlockProgressRepository
+    public class DistributedBlockChainProgressRepository(IDistributedCache distributedCache, IDistributedLockService distributedLockService) : IBlockProgressRepository
     {
-        private readonly IDistributedCache _distributedCache;
-        private readonly IDistributedLockService _distributedLockService;
+        private readonly IDistributedCache _distributedCache = distributedCache;
+        private readonly IDistributedLockService _distributedLockService = distributedLockService;
         private Nethereum.Signer.Chain _chain;
         private string _cacheKey = string.Empty;
-        private bool _withCache = false;
+        private bool _withCache;
 
         public BigInteger? LastBlockProcessed { get; private set; }
 
-        public DistributedBlockChainProgressRepository(IDistributedCache distributedCache, IDistributedLockService distributedLockService)
-        {
-            _distributedCache = distributedCache;
-            _distributedLockService = distributedLockService;
-        }
-
         public async Task<DistributedBlockChainProgressRepository> GetInstanceAsync(Nethereum.Signer.Chain chain, 
-            string cacheKey, BigInteger lastBlockNumber, bool withCache = false)
+            string cacheKey, BigInteger lastBlockNumber, bool withCache = true)
         {
             LastBlockProcessed = lastBlockNumber;
             _chain = chain;
@@ -38,7 +32,7 @@ namespace DistributedProcessManager.Repositories
             return await ReadBlockNumberAsync();
         }
 
-        public delegate Task AsyncEventHandler<TEventArgs>(object? sender, TEventArgs e);
+        public delegate Task AsyncEventHandler<in TEventArgs>(object? sender, TEventArgs e);
         /// <summary>
         /// Fires when a blocknumber update occurred
         /// </summary>

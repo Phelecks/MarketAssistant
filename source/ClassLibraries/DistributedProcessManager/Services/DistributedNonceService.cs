@@ -1,89 +1,84 @@
-﻿using CacheManager.Interfaces;
+using System.Numerics;
+using CacheManager.Interfaces;
 using Nethereum.Hex.HexTypes;
 using Nethereum.JsonRpc.Client;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Eth.Transactions;
 using Nethereum.RPC.NonceServices;
-using System.Numerics;
 
 namespace DistributedProcessManager.Services;
 
-public class DistributedNonceService : INonceService
+public class DistributedNonceService(IDistributedLockService distributedLockService)
 {
-    private readonly string _accountAddress;
-    private readonly IDistributedLockService _distributedLockService;
-    public IClient Client { get; set; }
-    public BigInteger CurrentNonce { get; set; } = -1;
-    public bool UseLatestTransactionsOnly { get; set; }
+    private readonly IDistributedLockService _distributedLockService = distributedLockService;
 
-    public DistributedNonceService(string accountAddress, IClient client, IDistributedLockService distributedLockService, bool useLatestTransactionsOnly = false)
+    public INonceService GetInstance(string accountAddress, IClient client, bool useLatestTransactionsOnly = false)
     {
-        Client = client;
-        _accountAddress = accountAddress;
-        _distributedLockService = distributedLockService;
-        UseLatestTransactionsOnly = useLatestTransactionsOnly;
+        return new CreateDistributedNonceServiceInstance(accountAddress, client, _distributedLockService, useLatestTransactionsOnly);
     }
 
-    public async Task<HexBigInteger> GetNextNonceAsync()
+    private sealed class CreateDistributedNonceServiceInstance(string accountAddress, IClient client, IDistributedLockService distributedLockService, bool useLatestTransactionsOnly = false) : INonceService
     {
-        HexBigInteger nextNonce = new HexBigInteger(BigInteger.Zero);
-        if (Client == null)
+        private readonly IDistributedLockService _distributedLockService = distributedLockService;
+        private readonly string _accountAddress = accountAddress;
+        public IClient Client { get; set; } = client;
+        public BigInteger CurrentNonce { get; set; } = -1;
+        public bool UseLatestTransactionsOnly { get; set; } = useLatestTransactionsOnly;
+
+        public async Task<HexBigInteger> GetNextNonceAsync()
         {
-            throw new NullReferenceException("Client not configured");
+            HexBigInteger nextNonce = new(BigInteger.Zero);
+
+            EthGetTransactionCount ethGetTransactionCount = new(Client);
+
+            await _distributedLockService.RunWithLockAsync(func: async () =>
+            {
+                try
+                {
+                    BlockParameter block = BlockParameter.CreatePending();
+                    if (UseLatestTransactionsOnly)
+                    {
+                        block = BlockParameter.CreateLatest();
+                    }
+
+                    HexBigInteger hexBigInteger = 
+                        await ethGetTransactionCount.SendRequestAsync(_accountAddress, block).
+                            ConfigureAwait(continueOnCapturedContext: false);
+                    if (hexBigInteger.Value <= CurrentNonce)
+                    {
+                        CurrentNonce += (BigInteger)1;
+                        hexBigInteger = new HexBigInteger(CurrentNonce);
+                    }
+                    else
+                    {
+                        CurrentNonce = hexBigInteger.Value;
+                    }
+
+                    nextNonce = hexBigInteger;
+                }
+                catch(Exception exception)
+                {
+                    throw new InvalidOperationException($"An error occurred during get next nonce for account: {_accountAddress}, {exception.Message}");
+                }
+            }, $"Nonce_{_accountAddress}");
+
+            return nextNonce;
         }
 
-        EthGetTransactionCount ethGetTransactionCount = new EthGetTransactionCount(Client);
-
-        await _distributedLockService.RunWithLockAsync(func: async () =>
+        public async Task ResetNonceAsync()
         {
-            try
+            await _distributedLockService.RunWithLockAsync(func: async () =>
             {
-                BlockParameter block = BlockParameter.CreatePending();
-                if (UseLatestTransactionsOnly)
+                try
                 {
-                    block = BlockParameter.CreateLatest();
+                    CurrentNonce = -1;
+                    await Task.CompletedTask;
                 }
-
-                HexBigInteger hexBigInteger = 
-                    await ethGetTransactionCount.SendRequestAsync(_accountAddress, block).
-                        ConfigureAwait(continueOnCapturedContext: false);
-                if (hexBigInteger.Value <= CurrentNonce)
+                catch (Exception)
                 {
-                    CurrentNonce += (BigInteger)1;
-                    hexBigInteger = new HexBigInteger(CurrentNonce);
+                    throw new InvalidOperationException($"An error occurred during reset nonce for account: {_accountAddress}.");
                 }
-                else
-                {
-                    CurrentNonce = hexBigInteger.Value;
-                }
-
-                nextNonce = hexBigInteger;
-            }
-            catch(Exception exception)
-            {
-                throw new Exception($"An error occurred during get next nonce for account: {_accountAddress}, {exception.Message}");
-            }
-        }, $"Nonce_{_accountAddress}");
-
-        //if(nextNonce.Value.IsZero) 
-        //    throw new Exception($"An error occurred during get next nonce for account: {_accountAddress}.");
-
-        return nextNonce;
-    }
-
-    public async Task ResetNonceAsync()
-    {
-        await _distributedLockService.RunWithLockAsync(func: async () =>
-        {
-            try
-            {
-                CurrentNonce = -1;
-                await Task.CompletedTask;
-            }
-            catch (Exception)
-            {
-                throw new Exception($"An error occurred during reset nonce for account: {_accountAddress}.");
-            }
-        }, $"Nonce_{_accountAddress}");
+            }, $"Nonce_{_accountAddress}");
+        }
     }
 }
