@@ -31,11 +31,11 @@ public class RemoveWalletFromRoleCommandValidator : AbstractValidator<RemoveWall
 
     async Task<bool> BeRoleExistsAsync(long roleId, CancellationToken cancellationToken)
     {
-        return await _context.roles.AnyAsync(exp => exp.id == roleId, cancellationToken);
+        return await _context.roles.AnyAsync(exp => exp.Id == roleId, cancellationToken);
     }
 
     async Task<bool> BeWaletRoleExistsAsync(RemoveWalletFromRoleCommand request, CancellationToken cancellationToken)
     {
-        return await _context.walletRoles.AnyAsync(exp => exp.id == request.RoleId && exp.walletAddress.Equals(request.WalletAddress), cancellationToken);
+        return await _context.walletRoles.AnyAsync(exp => exp.Id == request.RoleId && exp.walletAddress.Equals(request.WalletAddress), cancellationToken);
     }
 }

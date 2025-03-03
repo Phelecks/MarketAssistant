@@ -47,6 +47,6 @@ public class CreateInformationCommandHandler : IRequestHandler<CreateInformation
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

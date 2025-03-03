@@ -7,9 +7,9 @@ public class DestinationAddress : BaseEntity
 {
     public DestinationAddress(long id, Nethereum.Signer.Chain chain, string address)
     {
-        this.id = id;
+        Id = id;
         _chain = (int)chain;
-        this.address = address;
+        Address = address;
     }
 
     private int _chain;
@@ -20,5 +20,5 @@ public class DestinationAddress : BaseEntity
         set => _chain = (int)value;
     }
 
-    public string address { get; set; }
+    public string Address { get; set; }
 }

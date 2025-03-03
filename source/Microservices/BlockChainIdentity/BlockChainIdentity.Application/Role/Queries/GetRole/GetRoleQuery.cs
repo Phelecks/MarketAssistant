@@ -25,7 +25,7 @@ public class Handler : IRequestHandler<GetRoleQuery, RoleDto>
 
     public async Task<RoleDto> Handle(GetRoleQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.roles.SingleOrDefaultAsync(exp => exp.id == request.Id, cancellationToken);
+        var entity = await _context.roles.SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.Role), request.Id);

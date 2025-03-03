@@ -24,6 +24,6 @@ public class CreateWalletCommandValidator : AbstractValidator<CreateWalletComman
 
     async Task<bool> BeClientExistsAsync(long clientId, CancellationToken cancellationToken)
     {
-        return await _context.clients.AnyAsync(exp => exp.id == clientId, cancellationToken);
+        return await _context.clients.AnyAsync(exp => exp.Id == clientId, cancellationToken);
     }
 }

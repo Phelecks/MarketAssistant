@@ -57,13 +57,13 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
                     var erc20Balance = await _pollyPipeline.ExecuteAsync(async ct => await _balanceService.GetBalanceOfERC20Async(web3, erc20TokenContractAddress, request.account.Address, cancellationToken), cancellationToken);
                     if (erc20Balance > 0)
                     {
-                        estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateERC20TransferGasAsync(web3, erc20TokenContractAddress, destinationAddress.address, erc20Balance, cancellationToken), cancellationToken);
+                        estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateERC20TransferGasAsync(web3, erc20TokenContractAddress, destinationAddress.Address, erc20Balance, cancellationToken), cancellationToken);
                         gasPrice = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.GetGasPriceAsync(request.rpcUrl, cancellationToken), cancellationToken);
 
                         await _pollyPipeline.ExecuteAsync(async ct => await _transferService.TransferAsync(web3, erc20TokenContractAddress,
                             new Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferFunction
                             {
-                                To = destinationAddress.address,
+                                To = destinationAddress.Address,
                                 Value = erc20Balance,
                                 Gas = estimatedGas,
                                 GasPrice = gasPrice
@@ -74,13 +74,13 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
 
             var token = _tokenService.GetMainToken(request.chain) ?? throw new NotFoundException(nameof(Domain.Entities.Token), request.chain);
             
-            estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateTransferGasAsync(web3, destinationAddress.address, Web3.Convert.FromWei(balance, token.decimals), cancellationToken), cancellationToken);
+            estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateTransferGasAsync(web3, destinationAddress.Address, Web3.Convert.FromWei(balance, token.decimals), cancellationToken), cancellationToken);
             gasPrice = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.GetGasPriceAsync(request.rpcUrl, cancellationToken), cancellationToken);
             var transferValue = CalculatedValue(balance, estimatedGas, gasPrice);
             var hash = await _pollyPipeline.ExecuteAsync(async ct => await _transferService.TransferAsync(web3, 
                         new Nethereum.RPC.Eth.DTOs.TransactionInput
                         {
-                            To = destinationAddress.address,
+                            To = destinationAddress.Address,
                             Value = transferValue.ToHexBigInteger(),
                             Gas = estimatedGas.ToHexBigInteger(),
                             GasPrice = gasPrice.ToHexBigInteger()
@@ -90,7 +90,7 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
                 var value = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.CalculateTotalAmountToTransferWholeBalanceInEtherAsync(web3, request.account.Address, cancellationToken), cancellationToken);
                 await _pollyPipeline.ExecuteAsync(async ct => await _transferService.TransferAsync(web3, new Nethereum.RPC.Eth.DTOs.TransactionInput
                 {
-                    To = destinationAddress.address,
+                    To = destinationAddress.Address,
                     Value = Web3.Convert.ToWei(value, token.decimals).ToHexBigInteger(),
                 }), cancellationToken);
             }

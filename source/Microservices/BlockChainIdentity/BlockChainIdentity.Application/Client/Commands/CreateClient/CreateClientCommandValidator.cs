@@ -29,7 +29,7 @@ public class CreateClientCommandValidator : AbstractValidator<CreateClientComman
 
     async Task<bool> BeResourcesExistsAsync(List<long> resources, CancellationToken cancellationToken)
     {
-        var result = await _context.resources.Where(exp => resources.Any(resourceId => resourceId == exp.id)).CountAsync(cancellationToken);
+        var result = await _context.resources.Where(exp => resources.Any(resourceId => resourceId == exp.Id)).CountAsync(cancellationToken);
         return result == resources.Count;
     }
 }

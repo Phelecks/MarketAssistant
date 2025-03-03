@@ -28,6 +28,6 @@ public class AddWalletToRoleCommandValidator : AbstractValidator<AddWalletToRole
 
     async Task<bool> BeRoleExistsAsync(long roleId, CancellationToken cancellationToken)
     {
-        return await _context.roles.AnyAsync(exp => exp.id == roleId, cancellationToken);
+        return await _context.roles.AnyAsync(exp => exp.Id == roleId, cancellationToken);
     }
 }

@@ -28,6 +28,6 @@ public class CreateGroupContactCommandHandler : IRequestHandler<CreateGroupConta
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

@@ -28,6 +28,6 @@ public class Handler : IRequestHandler<CreateRoleCommand, long>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

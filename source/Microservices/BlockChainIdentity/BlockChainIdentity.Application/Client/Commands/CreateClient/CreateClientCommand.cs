@@ -20,7 +20,7 @@ public class Handler : IRequestHandler<CreateClientCommand, long>
 
     public async Task<long> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
-        var resources = await _context.resources.Where(exp => request.Resources.Any(resourceId => resourceId == exp.id)).ToListAsync(cancellationToken);
+        var resources = await _context.resources.Where(exp => request.Resources.Any(resourceId => resourceId == exp.Id)).ToListAsync(cancellationToken);
 
         int tokenLifeTime;
         if (request.tokenLifeTimeInSeconds.HasValue) tokenLifeTime = request.tokenLifeTimeInSeconds.Value;
@@ -42,7 +42,7 @@ public class Handler : IRequestHandler<CreateClientCommand, long>
             version = request.Version,
             clientResources = resources.Select(s => new Domain.Entities.ClientResource
             {
-                resourceId = s.id
+                resourceId = s.Id
             }).ToList()
         };
 
@@ -50,6 +50,6 @@ public class Handler : IRequestHandler<CreateClientCommand, long>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

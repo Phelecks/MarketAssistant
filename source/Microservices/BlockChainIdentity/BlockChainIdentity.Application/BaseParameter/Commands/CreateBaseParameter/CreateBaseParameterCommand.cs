@@ -62,6 +62,6 @@ public class Handler : IRequestHandler<CreateBaseParameterCommand, long>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

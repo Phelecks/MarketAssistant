@@ -9,5 +9,6 @@ public static class ConfigureServices
     public static void AddBlockChainQueryDependencyInjections(this IServiceCollection services)
     {
         services.AddScoped<ITransactionService, TransactionService>();
+        services.AddScoped<IBlockService, BlockService>();
     }
 }

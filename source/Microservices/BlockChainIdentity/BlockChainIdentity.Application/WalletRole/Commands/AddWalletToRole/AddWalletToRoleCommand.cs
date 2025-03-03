@@ -29,6 +29,6 @@ public class Handler : IRequestHandler<AddWalletToRoleCommand, long>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

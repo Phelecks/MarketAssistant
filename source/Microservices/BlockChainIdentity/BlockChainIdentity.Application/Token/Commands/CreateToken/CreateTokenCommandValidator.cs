@@ -26,7 +26,7 @@ public class CreateTokenCommandValidator : AbstractValidator<CreateTokenCommand>
 
     async Task<bool> BeValidClientAsync(long ClientId, CancellationToken cancellationToken)
     {
-        var result = await _context.clients.SingleOrDefaultAsync(exp => exp.id == ClientId, cancellationToken);
+        var result = await _context.clients.SingleOrDefaultAsync(exp => exp.Id == ClientId, cancellationToken);
         if (result == null) return false;
         return result.enabled;
     }

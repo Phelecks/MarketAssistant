@@ -70,7 +70,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     {
         // Default data
         // Seed, if necessary
-        if (!_context.roles.Any())
+        if (!await _context.roles.AnyAsync())
         {
             await _context.roles.AddRangeAsync(new List<Domain.Entities.Role>
             {
@@ -91,7 +91,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     {
         // Default data
         // Seed, if necessary
-        if (!_context.wallets.Any())
+        if (!await _context.wallets.AnyAsync())
         {
             var adminRole = await _context.roles.SingleAsync(exp => exp.title.Equals("Administrators"));
             await _context.wallets.AddRangeAsync(new List<Domain.Entities.Wallet>
@@ -102,7 +102,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                         ? "0xe1BA310dC3481EE3a242B1aDDbDE4049F70784B9"
                         : "0x599c632a9A37b749F7F14b7C7d842c42496d34C0",
                     chainId = 137,
-                    created = DateTime.UtcNow,
+                    Created = DateTime.UtcNow,
                     walletRoles = new List<WalletRole> 
                     {
                         new WalletRole
@@ -121,7 +121,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     }
     private async Task TrySeedResourcesAsync()
     {
-        if (!_context.resources.Any())
+        if (!await _context.resources.AnyAsync())
         {
             await _context.resources.AddRangeAsync(new List<Resource>
                     {
@@ -178,7 +178,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
 
         // Default data
         // Seed, if necessary
-        if (!_context.clients.Any())
+        if (!await _context.clients.AnyAsync())
         {
             var BlockChainIdentityResource = await _context.resources.SingleAsync(exp => exp.title.Equals("BlockChainIdentity"));
             var FinancialResource = await _context.resources.SingleAsync(exp => exp.title.Equals("Financial"));
@@ -319,7 +319,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
        // Default data
        // Seed, if necessary
-       if (!_context.baseParameters.Any())
+       if (!await _context.baseParameters.AnyAsync())
        {
            await _context.baseParameters.AddRangeAsync(new List<BaseParameter>
            {

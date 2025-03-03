@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace BlockChainIdentity.Application.Client.Queries.GetClient;
 
 //[Authorize(roles = "Administrators")]
-public record GetClientQuery([property: Required] long id) : IRequest<ClientDto>;
+public record GetClientQuery([property: Required] long Id) : IRequest<ClientDto>;
 
 public class Handler : IRequestHandler<GetClientQuery, ClientDto>
 {
@@ -23,10 +23,10 @@ public class Handler : IRequestHandler<GetClientQuery, ClientDto>
 
     public async Task<ClientDto> Handle(GetClientQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.id == request.id, cancellationToken);
+        var entity = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 
         if (entity == null)
-            throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.id);
+            throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.Id);
 
         return _mapper.Map<Domain.Entities.Client, ClientDto>(entity);
     }

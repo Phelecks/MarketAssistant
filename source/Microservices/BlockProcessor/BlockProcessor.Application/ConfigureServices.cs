@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using BaseApplication;
+using BlockChainQueryHelper;
+using BlockChainWeb3ProviderHelper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlockProcessor.Application;
@@ -15,7 +17,8 @@ public static class ConfigureServices
             configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
         });
 
-        //Add custom behaviour
+        services.AddBlockChainWeb3ProviderDependencyInjections();
+        services.AddBlockChainQueryDependencyInjections();
 
         return services;
     }

@@ -23,7 +23,7 @@ public class Handler : IRequestHandler<CreateTokenCommand, long>
 
     public async Task<long> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
     {
-        var client = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).SingleAsync(exp => exp.id == request.ClientId, cancellationToken);
+        var client = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).SingleAsync(exp => exp.Id == request.ClientId, cancellationToken);
 
         var entity = new Domain.Entities.Token
         {
@@ -44,6 +44,6 @@ public class Handler : IRequestHandler<CreateTokenCommand, long>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

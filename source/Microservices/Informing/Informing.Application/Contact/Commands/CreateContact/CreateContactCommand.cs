@@ -30,6 +30,6 @@ public class CreateContactCommandHandler : IRequestHandler<CreateContactCommand,
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

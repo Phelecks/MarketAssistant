@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using BaseDomain.Common;
 
 namespace BlockProcessor.Domain.Entities;
 
-public class WalletAddress : BaseAuditEntity
+public class WalletAddress : BaseAuditEntityWithNoPrimaryKey
 {
-    [Required]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     public required string Address { get; set; }
 }

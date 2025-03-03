@@ -7,7 +7,7 @@ public class RpcUrl : BaseEntity
 {
     public RpcUrl(long id, Nethereum.Signer.Chain chain, string rpcUrl)
     {
-        this.id = id;
+        Id = id;
         _chain = (int)chain;
         this.rpcUrl = rpcUrl;
     }

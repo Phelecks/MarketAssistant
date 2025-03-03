@@ -50,7 +50,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                         
                         await CreateTokenAsync(tokenResult.tokenDescriptor.IssuedAt!.Value, tokenResult.tokenDescriptor.Expires!.Value, 
                             tokenResult.tokenDescriptor.NotBefore!.Value, client.statement, client.uri, client.version, siweMessage.Nonce, siweMessage.RequestId,
-                            true, siweMessage.Address, request.chainId, client.id, cancellationToken);
+                            true, siweMessage.Address, request.chainId, client.Id, cancellationToken);
 
                         return new TokenDto(tokenResult.token, siweMessage.Address);
                     }
@@ -68,7 +68,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
      string version, string nonce, string requestId, bool enabled, string walletAddress, int chainId,
      long clientId, CancellationToken cancellationToken)
     {
-        var client = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.id == clientId, cancellationToken);
+        var client = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
 
         var wallet = await _context.wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).SingleOrDefaultAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
         if (wallet == null)
@@ -82,7 +82,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                 {
                     new Domain.Entities.WalletRole
                     {
-                        roleId = defaultRole.id
+                        roleId = defaultRole.Id
                     }
                 }
             };

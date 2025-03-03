@@ -2,7 +2,7 @@
 
 namespace MassTransitManager.Events.Interfaces;
 
-public interface IMatchWalletCreatedEvent : CorrelatedBy<Guid>
+public interface IDeleteBlockProcessingWalletAddressEvent : CorrelatedBy<Guid>
 {
     string WalletAddress { get; }
 }

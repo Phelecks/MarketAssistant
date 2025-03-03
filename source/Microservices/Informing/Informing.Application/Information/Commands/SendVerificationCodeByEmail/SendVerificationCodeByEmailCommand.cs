@@ -48,6 +48,6 @@ public class SendVerificationCodeByEmailCommandHandler : IRequestHandler<SendVer
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.id;
+        return entity.Id;
     }
 }

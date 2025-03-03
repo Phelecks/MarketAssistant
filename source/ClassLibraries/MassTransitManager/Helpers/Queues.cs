@@ -193,10 +193,8 @@ public class Queues
     public const string CreateMatchAccountMessageQueueName = "initiate-match-flow:create-match-account-message-queue";
     #endregion
 
-    public static List<(int id, string queue)> ScheduleQueues = new List<(int id, string queue)>
-    {
-        (1, "schedule:rock-paper-scissors-queue"),
-        (2, "schedule:rock-paper-scissors-fire-queue"),
-        (3, "schedule:heads-or-tails-queue")
-    }; 
+    #region BlockProcessor
+    public const string BlockProcessorCreateWalletAddressEventQueueName = "blockprocessor:create-wallet-address-event-queue";
+    public const string BlockProcessorDeleteWalletAddressEventQueueName = "blockprocessor:delete-wallet-address-event-queue";
+    #endregion
 }
