@@ -6,44 +6,24 @@ using BaseInfrastructure.Services;
 using FluentValidation.AspNetCore;
 using IdentityHelper;
 using IdentityHelper.Helpers;
-using Informing.Application;
-using Informing.Grpc.Filters;
-using Informing.Grpc.Handlers;
-using Informing.Grpc.Hubs;
-using Informing.Grpc.Services;
-using Informing.Infrastructure;
-using Informing.Infrastructure.Persistence;
+using BlockProcessor.Application;
+using BlockProcessor.Api.Filters;
+using BlockProcessor.Api.Handlers;
+using BlockProcessor.Infrastructure;
+using BlockProcessor.Infrastructure.Persistence;
 using MassTransitManager.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
-namespace Informing.Grpc;
+namespace BlockProcessor.Api;
 
 public static class ConfigureServices
 {
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
-        // builder.WebHost.ConfigureKestrel(options =>
-        // {
-        //     {
-        //         var grpcPort = builder.Configuration.GetValue("GRPC_PORT", 80);
-        //         options.Listen(IPAddress.Any, grpcPort, listenOptions =>
-        //         {
-        //             listenOptions.Protocols = HttpProtocols.Http2;
-        //         });
-
-        //         var apiRPort = builder.Configuration.GetValue("API_PORT", 81);
-        //         if (apiRPort != 0)
-        //             options.Listen(IPAddress.Any, apiRPort, listenOptions =>
-        //             {
-        //                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
-        //             });
-        //     }
-        // });
 
         builder.AddRedisDistributedCache("cache");
-        //builder.AddRabbitMQClient("messaging");
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
@@ -135,8 +115,6 @@ public static class ConfigureServices
 
         builder.Services.AddIdentityHelperDependencyInjections();
 
-        builder.Services.AddSignalRServices(builder.Configuration.GetConnectionString("redis"));
-
         return services;
     }
 
@@ -171,12 +149,9 @@ public static class ConfigureServices
         app.MapControllers();
 
         // Configure the HTTP request pipeline.
-        app.MapGrpcService<GreeterService>();
-        app.MapGet("/", () => "Welcome to Informing application.");
+        app.MapGet("/", () => "Welcome to Block Processor application.");
 
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();
-
-        app.AddSignalRConfigurations();
 
         app.MapDefaultEndpoints();
     }

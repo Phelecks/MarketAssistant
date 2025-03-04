@@ -1,6 +1,4 @@
-﻿using BaseApplication.Interfaces;
-using BaseInfrastructure;
-using BaseInfrastructure.Services;
+﻿using BaseInfrastructure;
 using Discord.WebSocket;
 using Informing.Application.Interfaces;
 using Informing.Infrastructure.MassTransit;
@@ -53,7 +51,6 @@ public static class ConfigureServices
         services.AddScoped<IContactService, ContactService>();
 
         services.AddSingleton<DiscordSocketClient>();
-        //services.AddSingleton<InteractionService>();
         services.AddSingleton<IDiscordService, DiscordService>();
 
         return services;

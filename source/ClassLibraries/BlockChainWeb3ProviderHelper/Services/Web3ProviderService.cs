@@ -10,14 +10,12 @@ public class Web3ProviderService(DistributedNonceService distributedNonceService
 {
     private readonly DistributedNonceService _distributedNonceService = distributedNonceService;
 
-    public Web3 CreateWeb3(Chain chain, string rpcUrl, CancellationToken cancellationToken = default)
+    public Web3 CreateWeb3(Chain chain, string rpcUrl)
     {
-        var web3 = new Web3(rpcUrl);
-
-        return web3;
+        return new Web3(rpcUrl);
     }
 
-    public Web3 CreateWeb3(string privateKey, Chain chain, string rpcUrl, CancellationToken cancellationToken = default)
+    public Web3 CreateWeb3(string privateKey, Chain chain, string rpcUrl)
     {
         var account = new Account(privateKey, chain);
         var web3 = new Web3(account, rpcUrl)

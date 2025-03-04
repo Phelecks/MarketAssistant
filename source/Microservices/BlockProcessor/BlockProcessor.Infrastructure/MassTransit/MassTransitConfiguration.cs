@@ -1,5 +1,4 @@
-﻿using BaseApplication.Exceptions;
-using BlockProcessor.Infrastructure.MassTransit.Consumers.Events;
+﻿using BlockProcessor.Infrastructure.MassTransit.Consumers.Events;
 using MassTransit;
 using MassTransitManager;
 using MassTransitManager.Helpers;
@@ -10,7 +9,7 @@ namespace BlockProcessor.Infrastructure.MassTransit;
 
 internal static class MassTransitConfiguration
 {
-    public static void AddMassTransitDependencyInjections(this IServiceCollection services, IConfiguration configuration)
+    public static void AddMassTransitDependencyInjections(this IServiceCollection services)
     {
         services.AddMassTransit(x =>
         {
@@ -19,16 +18,9 @@ internal static class MassTransitConfiguration
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host(configuration.GetValue<string>("RABBITMQ_SERVER"), host =>
-                {
-                    var username = configuration.GetValue<string>("RABBITMQ_USERNAME");
-                    var password = configuration.GetValue<string>("RABBITMQ_PASSWORD");
-                    if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                        throw new NotFoundException("RabbitMQ username or password is not set in the configuration.");
-                    
-                    host.Username(username);
-                    host.Password(password);
-                });
+                var configService = context.GetRequiredService<IConfiguration>();
+                var connectionString = configService.GetConnectionString("messaging");
+                cfg.Host(connectionString);
 
                 cfg.UseMessageRetry(r => r.Exponential(retryLimit: 10, minInterval: TimeSpan.FromMinutes(1), maxInterval: TimeSpan.FromMinutes(20), intervalDelta: TimeSpan.FromMinutes(2)));
 

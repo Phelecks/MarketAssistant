@@ -8,16 +8,14 @@ public interface IWeb3ProviderService
     /// Use it for inquiry balance and not for ransactions
     /// </summary>
     /// <param name="chain"></param>
-    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Web3 CreateWeb3(Nethereum.Signer.Chain chain, string rpcUrl, CancellationToken cancellationToken = default);
+    Web3 CreateWeb3(Nethereum.Signer.Chain chain, string rpcUrl);
 
     /// <summary>
     /// Use it for transactions
     /// </summary>
     /// <param name="privateKey"></param>
     /// <param name="chain"></param>
-    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Web3 CreateWeb3(string privateKey, Nethereum.Signer.Chain chain, string rpcUrl, CancellationToken cancellationToken = default);
+    Web3 CreateWeb3(string privateKey, Nethereum.Signer.Chain chain, string rpcUrl);
 }

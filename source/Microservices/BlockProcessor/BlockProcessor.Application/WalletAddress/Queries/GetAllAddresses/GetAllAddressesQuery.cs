@@ -1,11 +1,10 @@
-﻿using BaseApplication.Models;
-using BlockProcessor.Application.Interfaces;
+﻿using BlockProcessor.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockProcessor.Application.WalletAddress.Queries.GetAllAddresses;
 
-public record GetAllAddressesQuery : PagingInformationRequest, IRequest<List<string>>;
+public record GetAllAddressesQuery : IRequest<List<string>>;
 
 public class Handler(IApplicationDbContext context) : IRequestHandler<GetAllAddressesQuery, List<string>>
 {

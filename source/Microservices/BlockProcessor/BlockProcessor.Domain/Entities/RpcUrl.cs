@@ -23,4 +23,7 @@ public class RpcUrl : BaseEntity
 
     [Required]
     public int BlockOfConfirmation { get; set; } = 3;
+
+    [Required]
+    public int WaitIntervalOfBlockProgress { get; set; } = 10;
 }

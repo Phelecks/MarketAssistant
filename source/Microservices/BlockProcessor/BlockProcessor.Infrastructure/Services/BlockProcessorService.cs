@@ -1,10 +1,16 @@
 using System.Numerics;
 using BaseApplication.Interfaces;
+using BlockChainWeb3ProviderHelper.Interfaces;
 using BlockProcessor.Application.BlockProgress.Commands.MarkBlockAsProcessed;
 using BlockProcessor.Application.BlockProgress.Queries.GetLastProcessedBlock;
 using BlockProcessor.Application.Interfaces;
+using BlockProcessor.Application.RpcUrl.Queries.GetMinimumBlockOfConfirmation;
+using BlockProcessor.Application.RpcUrl.Queries.GetRpcUrl;
+using BlockProcessor.Application.RpcUrl.Queries.GetWaitIntervalOfBlockProgress;
+using BlockProcessor.Application.Transfer.Commands.InitiateTransfer;
 using BlockProcessor.Application.WalletAddress.Queries.GetAllAddresses;
 using DistributedProcessManager.Repositories;
+using ExecutorManager.Helpers;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,32 +19,30 @@ using Nethereum.BlockchainProcessing.BlockProcessing;
 using Nethereum.BlockchainProcessing.Orchestrator;
 using Nethereum.Contracts;
 using Nethereum.RPC.Eth.Blocks;
+using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
 using Polly;
 
 namespace BlockProcessor.Infrastructure.Services;
 
-public class BlockProcessorService(IServiceProvider serviceProvider, ILogger<BlockProcessorService> logger, IDateTimeService dateTimeService) : IBlockProcessorService
+public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService> logger, 
+    IWeb3ProviderService web3ProviderService,
+    [FromKeyedServices(PipelineHelper.RetryEverythingFiveTimes)] ResiliencePipeline pollyPipeline, 
+    DistributedBlockChainProgressRepository distributedBlockChainProgressRepository, IDateTimeService dateTimeService) : IBlockProcessorService
 {
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly ISender _sender = sender;
     private readonly ILogger<BlockProcessorService> _logger = logger;
+    private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
+    private readonly ResiliencePipeline _pollyPipeline = pollyPipeline;
     private readonly IDateTimeService _dateTimeService = dateTimeService;
-
-    private ResiliencePipeline _pollyPipeline;
     private readonly AddressUtil _addressUtil =  new();
-    private List<string> _addresses = new();
+    private readonly DistributedBlockChainProgressRepository _distributedBlockChainProgressRepository = distributedBlockChainProgressRepository;
 
+    private List<string> _addresses = new();
     public async Task StartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
     {
-        using var scope = _serviceProvider.CreateScope();
-        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-        _pollyPipeline = scope.ServiceProvider.GetRequiredKeyedService<ResiliencePipeline>(ExecutorManager.Helpers.PipelineHelper.RetryEverythingForever);
-
-        _addresses = await sender.Send(new GetAllAddressesQuery(), cancellationToken);
-
-        var lastProcessBlock = await sender.Send(new GetLastProcessedBlockQuery(chain), cancellationToken);
-        var distributedBlockChainProgressRepository = scope.ServiceProvider.GetRequiredService<DistributedBlockChainProgressRepository>();
-        var distributedBlockChainProgressRepositoryInstance = await distributedBlockChainProgressRepository.
+        var lastProcessBlock = await _sender.Send(new GetLastProcessedBlockQuery(chain), cancellationToken);
+        var distributedBlockChainProgressRepositoryInstance = await _distributedBlockChainProgressRepository.
             GetInstanceAsync(chain: chain, cacheKey: "BlockProcessor_BlockProgress", lastBlockNumber: lastProcessBlock, withCache: true);
         distributedBlockChainProgressRepositoryInstance.BlockProcessedEventHandler += async (sender, @event) => await RaiseBlockProcessedEvent(@event.Chain, @event.BlockNumber, cancellationToken);
 
@@ -55,17 +59,17 @@ public class BlockProcessorService(IServiceProvider serviceProvider, ILogger<Blo
         throw new NotImplementedException();
     }
 
-
-
-
+    
     private async Task ProcessAsync(Nethereum.Signer.Chain chain, DistributedBlockChainProgressRepository distributedBlockChainProgressRepository,
         CancellationToken cancellationToken)
     {
-        var minimumBlockConfirmations = await GetMinimumBlockConfirmationsAsync(cancellationToken);
-        var waitInterval = await GetWaitIntervalAsync(cancellationToken);
-
-        var web3 = await _web3ProviderService.CreateWeb3Async(chainId, cancellationToken);
-
+        var minimumBlockConfirmations = await _sender.Send(new GetMinimumBlockOfConfirmationQuery(chain), cancellationToken);
+        var waitInterval = await _sender.Send(new GetWaitIntervalOfBlockProgressQuery(chain), cancellationToken);
+        var rpcUrl = await _sender.Send(new GetRpcUrlQuery(chain), cancellationToken);
+        var web3 = _web3ProviderService.CreateWeb3(chain, rpcUrl);
+        
+        _addresses = await _sender.Send(new GetAllAddressesQuery(), cancellationToken);
+        
         var blockProcessingSteps = new BlockProcessingSteps();
 
         //Filter destination address only
@@ -84,7 +88,7 @@ public class BlockProcessorService(IServiceProvider serviceProvider, ILogger<Blo
             _addresses is not null &&
             _addresses.Any(address => criteria.IsTo(address) || _addressUtil.AreAddressesTheSame(address, criteria.Transaction.From)));
 
-        blockProcessingSteps.TransactionReceiptStep.AddProcessorHandler(async (transactionReceipt) => await ProcessTransactionAsync(chainId, transactionReceipt, cancellationToken));
+        blockProcessingSteps.TransactionReceiptStep.AddProcessorHandler(async (transactionReceipt) => await ProcessTransactionAsync(chain, transactionReceipt, cancellationToken));
 
         IBlockchainProcessingOrchestrator orchestrator = new BlockCrawlOrchestrator(ethApi: web3.Eth, blockProcessingSteps: blockProcessingSteps);
 
@@ -130,13 +134,28 @@ public class BlockProcessorService(IServiceProvider serviceProvider, ILogger<Blo
     /// </summary>
     private async Task RaiseBlockProcessedEvent(Nethereum.Signer.Chain chain, BigInteger blockNumber, CancellationToken cancellationToken)
     {
-        using var scope = _serviceProvider.CreateScope();
-        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-        
         // Mark block as processed
-        await sender.Send(new MarkBlockAsProcessedCommand(chain, blockNumber), cancellationToken);
+        await _sender.Send(new MarkBlockAsProcessedCommand(chain, blockNumber), cancellationToken);
 
         // Update addresses
+        _addresses = await _sender.Send(new GetAllAddressesQuery(), cancellationToken);
+    }
+
+    private async Task ProcessTransactionAsync(Nethereum.Signer.Chain chain, TransactionReceiptVO transactionReceiptVO, CancellationToken cancellationToken)
+    {
+        if(transactionReceiptVO.Succeeded)
+        {
+            var erc20TransferLogs = transactionReceiptVO.TransactionReceipt.Logs?.DecodeAllEvents<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferEventDTO>();
+            var erc721TransferLogs = transactionReceiptVO.TransactionReceipt.Logs?.DecodeAllEvents<Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferEventDTO>();
+                        
+            await _sender.Send(new InitiateTransferCommand(
+                Hash: transactionReceiptVO.TransactionHash, From: transactionReceiptVO.TransactionReceipt.From.ConvertToEthereumChecksumAddress(), To: transactionReceiptVO.TransactionReceipt.To.ConvertToEthereumChecksumAddress(), 
+                Value: transactionReceiptVO.Transaction.Value, GasUsed: transactionReceiptVO.TransactionReceipt.GasUsed.Value, EffectiveGasPrice: transactionReceiptVO.TransactionReceipt.EffectiveGasPrice.Value,
+                CumulativeGasUsed: transactionReceiptVO.TransactionReceipt.CumulativeGasUsed.Value, BlockNumber: transactionReceiptVO.BlockNumber.Value, ConfirmedDatetime: _dateTimeService.ConvertFromUnixTimestamp(transactionReceiptVO.BlockTimestamp), Chain: chain, 
+                Erc20Transfers: erc20TransferLogs?.Select(eventLog => new Erc20Transfer(From: eventLog.Event.From.ConvertToEthereumChecksumAddress(), To: eventLog.Event.To.ConvertToEthereumChecksumAddress(), Value: eventLog.Event.Value, ContractAddress: transactionReceiptVO.TransactionReceipt.To.ConvertToEthereumChecksumAddress())).ToList(),
+                Erc721Transfers: erc721TransferLogs?.Select(eventLog => new Erc721Transfer(From: eventLog.Event.From.ConvertToEthereumChecksumAddress(), To: eventLog.Event.To.ConvertToEthereumChecksumAddress(), ContractAddress: transactionReceiptVO.TransactionReceipt.To.ConvertToEthereumChecksumAddress(), TokenId: eventLog.Event.TokenId)).ToList()), cancellationToken);
+
+        }
     }
 
 

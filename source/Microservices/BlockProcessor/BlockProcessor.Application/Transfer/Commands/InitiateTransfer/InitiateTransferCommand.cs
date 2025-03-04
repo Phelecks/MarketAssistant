@@ -10,7 +10,7 @@ namespace BlockProcessor.Application.Transfer.Commands.InitiateTransfer;
 public record InitiateTransferCommand([property: Required] string Hash, [property: Required] string From,
     [property: Required] string To, [property: Required] BigInteger Value, [property: Required] BigInteger GasUsed,
     [property: Required] BigInteger EffectiveGasPrice, [property: Required] BigInteger CumulativeGasUsed,
-    [property: Required] BigInteger BlockNumber, [property: Required] DateTime ConfimedDatetime,
+    [property: Required] BigInteger BlockNumber, [property: Required] DateTime ConfirmedDatetime,
     [property: Required] Nethereum.Signer.Chain Chain,
     List<Erc20Transfer>? Erc20Transfers, List<Erc721Transfer>? Erc721Transfers) : IRequest<Unit>;
 
@@ -34,7 +34,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<InitiateTr
             EffectiveGasPrice = request.EffectiveGasPrice.ConvertToDecimal(18),
             CumulativeGasUsed = request.CumulativeGasUsed.ConvertToDecimal(18),
             BlockNumber = (long)request.BlockNumber,
-            ConfirmedDatetime = request.ConfimedDatetime,
+            ConfirmedDatetime = request.ConfirmedDatetime,
             Chain = request.Chain,
             State = Domain.Entities.Transfer.TransferState.Initiated,
             Erc20Transfers = request.Erc20Transfers?.Select(erc20Transfer => new Domain.Entities.Erc20Transfer
