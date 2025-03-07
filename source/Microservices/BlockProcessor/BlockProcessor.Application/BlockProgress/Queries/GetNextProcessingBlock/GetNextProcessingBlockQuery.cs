@@ -3,7 +3,6 @@ using BlockChainQueryHelper.Interfaces;
 using BlockChainWeb3ProviderHelper.Interfaces;
 using BlockProcessor.Application.Interfaces;
 using CacheManager.Interfaces;
-using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -31,7 +30,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService<long
         {
             var rpcUrls = await _context.RpcUrls.Where(exp => exp.Chain == chain).Select(s => s.Uri).ToListAsync(cancellationToken);
             if(rpcUrls.Count == 0) throw new NotFoundException("No RPC Urls found for the chain");
-            var web3 = _web3ProviderService.CreateWeb3(chain, rpcUrls[0].ToString(), cancellationToken);
+            var web3 = _web3ProviderService.CreateWeb3(chain, rpcUrls[0].ToString());
             var lastBlock = await _blockService.GetLastBlockAsync(web3, cancellationToken);
             processedBlock = new Domain.Entities.BlockProgress
             {

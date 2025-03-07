@@ -23,7 +23,7 @@ public class Handler(IApplicationDbContext context, IBlockService blockService, 
         {
             var rpcUrls = await _context.RpcUrls.Where(exp => exp.Chain == request.Chain).Select(s => s.Uri).ToListAsync(cancellationToken);
             if(rpcUrls.Count == 0) throw new NotFoundException("No RPC Urls found for the chain");
-            var web3 = _web3ProviderService.CreateWeb3(request.Chain, rpcUrls[0].ToString(), cancellationToken);
+            var web3 = _web3ProviderService.CreateWeb3(request.Chain, rpcUrls[0].ToString());
             var lastBlock = await _blockService.GetLastBlockAsync(web3, cancellationToken);
             processedBlock = new Domain.Entities.BlockProgress
             {

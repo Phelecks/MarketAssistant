@@ -35,7 +35,7 @@ public class BlockProcessedEventHandler(IApplicationDbContext context, ILogger<B
         foreach(var blockTransfer in blockTransfers)
         {
             var blockTransferRpcUrl = await _context.RpcUrls.SingleAsync(exp => exp.Chain == notification.Entity.Chain, cancellationToken);
-            var web3 = _web3ProviderService.CreateWeb3(blockTransfer.Chain, blockTransferRpcUrl.Uri.ToString(), cancellationToken);
+            var web3 = _web3ProviderService.CreateWeb3(blockTransfer.Chain, blockTransferRpcUrl.Uri.ToString());
             var blockChainTransaction = await _transactionService.GetTransactionByHashAsync(web3, blockTransfer.Hash, cancellationToken);
             if(blockChainTransaction is null)
             {
