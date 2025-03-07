@@ -2,7 +2,6 @@
 using System.Reflection;
 using Asp.Versioning;
 using BaseInfrastructure.Interceptors;
-using BaseInfrastructure.Services;
 using FluentValidation.AspNetCore;
 using IdentityHelper;
 using IdentityHelper.Helpers;
@@ -11,9 +10,9 @@ using BlockProcessor.Api.Filters;
 using BlockProcessor.Api.Handlers;
 using BlockProcessor.Infrastructure;
 using BlockProcessor.Infrastructure.Persistence;
-using MassTransitManager.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using BlockProcessor.Api.BackgroundServices;
 
 namespace BlockProcessor.Api;
 
@@ -114,6 +113,8 @@ public static class ConfigureServices
         builder.Services.AddSwaggerGen(options => { options.CustomSchemaIds(type => type.ToString());});
 
         builder.Services.AddIdentityHelperDependencyInjections();
+
+        builder.Services.AddHostedService<BlockProcessorHostedService>();
 
         return services;
     }

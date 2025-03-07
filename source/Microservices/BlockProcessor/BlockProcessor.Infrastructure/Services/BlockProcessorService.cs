@@ -10,9 +10,7 @@ using BlockProcessor.Application.RpcUrl.Queries.GetWaitIntervalOfBlockProgress;
 using BlockProcessor.Application.Transfer.Commands.InitiateTransfer;
 using BlockProcessor.Application.WalletAddress.Queries.GetAllAddresses;
 using DistributedProcessManager.Repositories;
-using ExecutorManager.Helpers;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nethereum.BlockchainProcessing;
 using Nethereum.BlockchainProcessing.BlockProcessing;
@@ -21,24 +19,21 @@ using Nethereum.Contracts;
 using Nethereum.RPC.Eth.Blocks;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
-using Polly;
 
 namespace BlockProcessor.Infrastructure.Services;
 
 public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService> logger, 
-    IWeb3ProviderService web3ProviderService,
-    [FromKeyedServices(PipelineHelper.RetryEverythingFiveTimes)] ResiliencePipeline pollyPipeline, 
+    IWeb3ProviderService web3ProviderService, 
     DistributedBlockChainProgressRepository distributedBlockChainProgressRepository, IDateTimeService dateTimeService) : IBlockProcessorService
 {
     private readonly ISender _sender = sender;
     private readonly ILogger<BlockProcessorService> _logger = logger;
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
-    private readonly ResiliencePipeline _pollyPipeline = pollyPipeline;
     private readonly IDateTimeService _dateTimeService = dateTimeService;
     private readonly AddressUtil _addressUtil =  new();
     private readonly DistributedBlockChainProgressRepository _distributedBlockChainProgressRepository = distributedBlockChainProgressRepository;
 
-    private List<string> _addresses = new();
+    private List<string> _addresses = [];
     public async Task StartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
     {
         var lastProcessBlock = await _sender.Send(new GetLastProcessedBlockQuery(chain), cancellationToken);
@@ -46,23 +41,6 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
             GetInstanceAsync(chain: chain, cacheKey: "BlockProcessor_BlockProgress", lastBlockNumber: lastProcessBlock, withCache: true);
         distributedBlockChainProgressRepositoryInstance.BlockProcessedEventHandler += async (sender, @event) => await RaiseBlockProcessedEvent(@event.Chain, @event.BlockNumber, cancellationToken);
 
-        await ProcessAsync(chain, distributedBlockChainProgressRepositoryInstance, cancellationToken);
-    }
-
-    public Task StopAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task RestartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    
-    private async Task ProcessAsync(Nethereum.Signer.Chain chain, DistributedBlockChainProgressRepository distributedBlockChainProgressRepository,
-        CancellationToken cancellationToken)
-    {
         var minimumBlockConfirmations = await _sender.Send(new GetMinimumBlockOfConfirmationQuery(chain), cancellationToken);
         var waitInterval = await _sender.Send(new GetWaitIntervalOfBlockProgressQuery(chain), cancellationToken);
         var rpcUrl = await _sender.Send(new GetRpcUrlQuery(chain), cancellationToken);
@@ -119,13 +97,19 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
             lastConfirmedBlockNumberService: lastConfirmedBlockNumberService,
             log: _logger);
 
-
-        // Execute the pipeline asynchronously
-        await _pollyPipeline.ExecuteAsync(async (ct) => {
-            await processor.ExecuteAsync(
+        await processor.ExecuteAsync(
                waitInterval: waitInterval,
                cancellationToken: cancellationToken);
-        }, cancellationToken);
+    }
+
+    public Task StopAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RestartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 
 

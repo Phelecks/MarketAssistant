@@ -1,40 +1,30 @@
-﻿using System.Collections.Concurrent;
-using BlockProcessor.Application.Interfaces;
+﻿using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Application.RpcUrl.Queries.GetAllChains;
 using LoggerService.Helpers;
 using MediatR;
 
 namespace BlockProcessor.Api.BackgroundServices;
 
-public class BlockProcessorHostedService : BackgroundService
+public class BlockProcessorHostedService(IServiceProvider serviceProvider, ILogger<BlockProcessorHostedService> logger) : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider;
-    private readonly ILogger<BlockProcessorHostedService> _logger;
-
-    public BlockProcessorHostedService(IServiceProvider serviceProvider, ILogger<BlockProcessorHostedService> logger)
-    {
-        _logger = logger;
-        _serviceProvider = serviceProvider;
-    }
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly ILogger<BlockProcessorHostedService> _logger = logger;
+    private readonly List<Nethereum.Signer.Chain> _blockProcessors = [];
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        var intervalsInMinutes = 1;
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            var intervalsInMinutes = 1;
+            using var scope = _serviceProvider.CreateScope();
+            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+            
+            var chains = await sender.Send(new GetAllChainsQuery(), stoppingToken);
 
-            try
-            {
-                await DoProcessAsync(stoppingToken);
-            }
-            catch (Exception exception)
-            {
-                _ = Task.Run(() => _logger.LogError(
-                     eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorBackgroundTasks, eventName: $"{nameof(BlockProcessorHostedService)}"),
-                     exception, exception.Message, stoppingToken), stoppingToken);
-            }
-
+            foreach (var chain in chains)
+                if(!_blockProcessors.Any(exp => exp == chain))
+                    _ = Task.Run(() => StartBlockProcessorAsync(chain, stoppingToken), stoppingToken);
 
             _ = Task.Run(() => _logger.LogInformation(
                  eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorBackgroundTasks, eventName: $"{nameof(BlockProcessorHostedService)}"),
@@ -42,8 +32,6 @@ public class BlockProcessorHostedService : BackgroundService
             await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), stoppingToken);
         }
     }
-
-
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
@@ -62,52 +50,26 @@ public class BlockProcessorHostedService : BackgroundService
         await base.StopAsync(cancellationToken);
     }
 
-    async Task DoProcessAsync(CancellationToken cancellationToken)
+    async Task StartBlockProcessorAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
     {
-        using var scope = _serviceProvider.CreateScope();
-        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-        var blockProcessor = scope.ServiceProvider.GetRequiredService<IBlockProcessorService>();
-
-        var chains = await sender.Send(new GetAllChainsQuery(), cancellationToken);
-
-        var exceptions = new ConcurrentBag<Exception>();
-        var options = new ParallelOptions() { MaxDegreeOfParallelism = chains.Count, CancellationToken = cancellationToken };
-        await Parallel.ForEachAsync(chains, options, async (chain, _) => 
+        try
         {
-            try
-            {
-                await blockProcessor.StartAsync(chain, cancellationToken);
-            }
-            catch(Exception exception)
-            {
-                exceptions.Add(exception);
-            }
-        });
+            _blockProcessors.Add(chain);
 
-        while (true)
+            using var scope = _serviceProvider.CreateScope();
+            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+            var blockProcessor = scope.ServiceProvider.GetRequiredService<IBlockProcessorService>();
+            await blockProcessor.StartAsync(chain, cancellationToken);
+        }
+        catch(Exception exception)
         {
-            try
-            {
-                var blockProcessorTasksQuery =
-                        from chain in chains
-                        where true
-                        select blockProcessor.StartAsync(chain, cancellationToken);
-                var blockProcessorTasks = blockProcessorTasksQuery.ToList();
-                while(blockProcessorTasks.Count != 0)
-                {
-                    var blockProcessorTask = await Task.WhenAny(blockProcessorTasks);
-                    if (blockProcessorTask.IsFaulted) 
-                    {
-                        //raise error and do something
-                    }
-
-                    blockProcessorTasks.Remove(blockProcessorTask);
-                }
-            }
-            catch
-            {
-                break;
-            }
+            _ = Task.Run(() => _logger.LogError(
+                eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorBackgroundTasks, eventName: nameof(BlockProcessorHostedService)),
+                exception, exception.Message), cancellationToken);
+        }
+        finally
+        {
+            _blockProcessors.RemoveAll(exp => exp == chain);
         }
     }
 }
