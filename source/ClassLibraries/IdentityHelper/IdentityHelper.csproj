@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="9.0.2" />
 	  <PackageReference Include="Nethereum.Siwe.Core" Version="4.29.0" />
 	  <PackageReference Include="Nethereum.Siwe" Version="4.29.0" />
-	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.0" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />
   </ItemGroup>
 
   <ItemGroup>
