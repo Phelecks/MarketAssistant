@@ -6,10 +6,11 @@ using Nethereum.Contracts.Services;
 using Nethereum.RPC.Eth.DTOs;
 using System.Numerics;
 using Nethereum.Contracts;
+using BlockProcessor.Application.Interfaces;
 
 namespace BlockProcessor.Infrastructure.Services
 {
-    public class CustomBlockCrawlOrchestrator : IBlockchainProcessingOrchestrator
+    public class CustomBlockCrawlOrchestrator : ICustomBlockchainProcessingOrchestrator
     {
         public IEthApiContractService EthApi { get; set; }
         public IEnumerable<BlockProcessingSteps> ProcessingStepsCollection { get; }
@@ -105,30 +106,9 @@ namespace BlockProcessor.Infrastructure.Services
             }
         }
 
-        public async Task<OrchestrationProgress> ProcessAsync(BigInteger fromNumber, BigInteger toNumber, CancellationToken cancellationToken = default(CancellationToken), IBlockProgressRepository blockProgressRepository = null)
+        public async Task ProcessAsync(BigInteger blockNumber, CancellationToken cancellationToken)
         {
-            var progress = new OrchestrationProgress();
-            try
-            {
-                var currentBlockNumber = fromNumber;
-                while (currentBlockNumber <= toNumber && !cancellationToken.IsCancellationRequested)
-                {
-
-                    await CrawlBlockAsync(currentBlockNumber).ConfigureAwait(false);
-                    progress.BlockNumberProcessTo = currentBlockNumber;
-                    if (blockProgressRepository != null)
-                    {
-                        await blockProgressRepository.UpsertProgressAsync(progress.BlockNumberProcessTo.Value).ConfigureAwait(false);
-                    }
-                    currentBlockNumber = currentBlockNumber + 1;
-                }
-            }
-            catch (Exception ex)
-            {
-                progress.Exception = ex;
-            }
-
-            return progress;
+            await CrawlBlockAsync(blockNumber).ConfigureAwait(false);
         }
     }
 }

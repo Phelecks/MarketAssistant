@@ -21,6 +21,7 @@ public class BlockProgress : BaseAuditEntity
     public enum BlockProgressStatus
     {
         Processed,
-        Processing
+        Processing,
+        Failed
     }
 }

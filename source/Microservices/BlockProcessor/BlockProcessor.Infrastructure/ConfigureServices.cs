@@ -49,7 +49,6 @@ public static class ConfigureServices
         services.AddMassTransitDependencyInjections();
 
         services.AddDistributedBlockProgressRepositoryDependencyInjections();
-        services.AddScoped<ICustomBlockProgressRepository, CustomBlockProgressRepository>();
         services.AddScoped<IBlockProcessorService, BlockProcessorService>();
 
         return services;

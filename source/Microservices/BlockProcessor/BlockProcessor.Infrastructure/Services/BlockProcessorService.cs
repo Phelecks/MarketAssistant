@@ -1,41 +1,40 @@
 using BaseApplication.Interfaces;
 using BlockChainWeb3ProviderHelper.Interfaces;
+using BlockProcessor.Application.BlockProgress.Commands.MarkBlockAsFailed;
+using BlockProcessor.Application.BlockProgress.Commands.MarkBlockAsProcessed;
 using BlockProcessor.Application.BlockProgress.Queries.GetNextProcessingBlock;
 using BlockProcessor.Application.Interfaces;
-using BlockProcessor.Application.RpcUrl.Queries.GetMinimumBlockOfConfirmation;
 using BlockProcessor.Application.RpcUrl.Queries.GetRpcUrl;
 using BlockProcessor.Application.RpcUrl.Queries.GetWaitIntervalOfBlockProgress;
 using BlockProcessor.Application.Transfer.Commands.InitiateTransfer;
 using BlockProcessor.Application.WalletAddress.Queries.GetAllAddresses;
+using ExecutorManager.Helpers;
+using LoggerService.Helpers;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nethereum.BlockchainProcessing.BlockProcessing;
-using Nethereum.BlockchainProcessing.Orchestrator;
-using Nethereum.BlockchainProcessing.ProgressRepositories;
 using Nethereum.Contracts;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
+using Polly;
 
 namespace BlockProcessor.Infrastructure.Services;
 
 public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService> logger, 
-    IWeb3ProviderService web3ProviderService,
-    ICustomBlockProgressRepository customBlockProgressRepository, IDateTimeService dateTimeService) : IBlockProcessorService
+    IWeb3ProviderService web3ProviderService, [FromKeyedServices(PipelineHelper.RetryEverythingFiveTimes)] ResiliencePipeline pollyPipeline,
+    IDateTimeService dateTimeService) : IBlockProcessorService
 {
     private readonly ISender _sender = sender;
     private readonly ILogger<BlockProcessorService> _logger = logger;
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
     private readonly IDateTimeService _dateTimeService = dateTimeService;
     private readonly AddressUtil _addressUtil =  new();
-    private readonly ICustomBlockProgressRepository _customBlockProgressRepository = customBlockProgressRepository;
+    private readonly ResiliencePipeline _pollyPipeline = pollyPipeline;
     
     private List<string> _addresses = [];
     public async Task StartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
     {
-        var blockProgressRepository = await _customBlockProgressRepository.
-            GetInstanceAsync(chain: chain);
-        
-        var minimumBlockConfirmations = await _sender.Send(new GetMinimumBlockOfConfirmationQuery(chain), cancellationToken);
         var waitInterval = await _sender.Send(new GetWaitIntervalOfBlockProgressQuery(chain), cancellationToken);
         var rpcUrl = await _sender.Send(new GetRpcUrlQuery(chain), cancellationToken);
         var web3 = _web3ProviderService.CreateWeb3(chain, rpcUrl);
@@ -62,9 +61,9 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
 
         blockProcessingSteps.TransactionReceiptStep.AddProcessorHandler(async (transactionReceipt) => await ProcessTransactionAsync(chain, transactionReceipt, cancellationToken));
 
-        IBlockchainProcessingOrchestrator orchestrator = new CustomBlockCrawlOrchestrator(ethApi: web3.Eth, blockProcessingSteps: blockProcessingSteps);
+        ICustomBlockchainProcessingOrchestrator orchestrator = new CustomBlockCrawlOrchestrator(ethApi: web3.Eth, blockProcessingSteps: blockProcessingSteps);
 
-        await ExecuteAsync(chain, waitInterval, blockProgressRepository, orchestrator, cancellationToken);
+        await ExecuteAsync(chain, waitInterval, orchestrator, cancellationToken);
     }
 
     public Task StopAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
@@ -79,16 +78,27 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
 
     public async Task ExecuteAsync(Nethereum.Signer.Chain chain,
         int waitInterval,
-        IBlockProgressRepository blockProgressRepository,
-        IBlockchainProcessingOrchestrator orchestrator,
+        ICustomBlockchainProcessingOrchestrator orchestrator,
         CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
             await Task.Delay(waitInterval, cancellationToken);
 
-            var processingBlockNumber = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
-            var progress = await orchestrator.ProcessAsync(processingBlockNumber, processingBlockNumber, cancellationToken, blockProgressRepository);
+            var blockNumber = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
+            try
+            {
+                await _pollyPipeline.ExecuteAsync(async ct => await orchestrator.ProcessAsync(blockNumber, cancellationToken), cancellationToken);
+                await _sender.Send(new MarkBlockAsProcessedCommand(chain, blockNumber));
+                 _addresses = await _sender.Send(new GetAllAddressesQuery(), cancellationToken);
+            }
+            catch (Exception exception)
+            {
+                _ = Task.Run(() => _logger.LogError(
+                    eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorException, eventName: "BlockProcessorException"),
+                    exception, exception.Message, cancellationToken), cancellationToken);
+                await _sender.Send(new MarkBlockAsFailedCommand(chain, blockNumber));
+            }
         }
     }
 
