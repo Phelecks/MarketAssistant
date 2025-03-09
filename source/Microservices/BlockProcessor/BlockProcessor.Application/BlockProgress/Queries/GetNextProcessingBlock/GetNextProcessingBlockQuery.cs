@@ -22,7 +22,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService<long
 
     public async Task<long> Handle(GetNextProcessingBlockQuery request, CancellationToken cancellationToken)
     {
-        return await _distributedLockService.RunWithLockAsync(GetNextProcessingBlock(request.Chain, cancellationToken), $"BlockProcessor_NextProcessingBlock_{request.Chain}", cancellationToken: cancellationToken);
+        return await _distributedLockService.RunWithLockAsync(async () => await GetNextProcessingBlock(request.Chain, cancellationToken), $"BlockProcessor_NextProcessingBlock_{request.Chain}", cancellationToken: cancellationToken);
     }
 
     private async Task<long> GetNextProcessingBlock(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService<long
             nextBlockNumber = maxBlockNumber + 1;
 
             uint attemptCount = 0;
-            while (!(lastBlockOfBlockChain - blockOfConfirmation >= nextBlockNumber))
+            while (lastBlockOfBlockChain - blockOfConfirmation < nextBlockNumber)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await _waitStrategy.ApplyAsync(attemptCount).ConfigureAwait(false);

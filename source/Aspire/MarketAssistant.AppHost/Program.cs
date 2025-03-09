@@ -88,7 +88,8 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
     .WaitFor(redis)
     .WaitFor(rabbit)
-    .WaitFor(blockProcessorDb);
+    .WaitFor(blockProcessorDb)
+    .WithReplicas(2);
 
 //builder.AddProject<Projects.WalletTracker_Api>("wallettracker")
 //    .WithReference(redis)

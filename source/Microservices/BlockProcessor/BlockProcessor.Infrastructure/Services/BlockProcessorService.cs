@@ -86,6 +86,7 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
             await Task.Delay(waitInterval, cancellationToken);
 
             var blockNumber = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
+            Console.WriteLine($"***********************************************************************************{blockNumber}**************************************************************************");
             try
             {
                 await _pollyPipeline.ExecuteAsync(async ct => await orchestrator.ProcessAsync(blockNumber, cancellationToken), cancellationToken);

@@ -1,0 +1,1 @@
+dotnet ef migrations add Init --project .\source\Microservices\BlockProcessor\BlockProcessor.Infrastructure\BlockProcessor.Infrastructure.csproj --startup-project .\source\Microservices\BlockProcessor\BlockProcessor.Api\BlockProcessor.Api.csproj --output-dir Persistence/Migrations

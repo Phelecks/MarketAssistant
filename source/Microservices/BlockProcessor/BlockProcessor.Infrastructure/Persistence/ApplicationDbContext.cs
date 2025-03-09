@@ -8,14 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlockProcessor.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext
 {
-    private readonly IEncryptionProvider _encryptionProvider;
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-        _encryptionProvider = new GenerateEncryptionProvider(SqlColumnEncryptionHelper.BlockChainPaymentEncryptionKey);
-    }
+    private readonly IEncryptionProvider _encryptionProvider = new GenerateEncryptionProvider(SqlColumnEncryptionHelper.BlockChainPaymentEncryptionKey);
 
     public DbSet<Domain.Entities.BlockProgress> BlockProgresses => Set<Domain.Entities.BlockProgress>();
     public DbSet<Domain.Entities.WalletAddress> WalletAddresses => Set<Domain.Entities.WalletAddress>();
