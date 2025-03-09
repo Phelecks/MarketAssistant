@@ -6,10 +6,13 @@ var builder = DistributedApplication.CreateBuilder(args);
 var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
 var identitySecret = builder.AddParameter("IDENTITY-SECRET", secret: true);
 var sqlPassword = builder.AddParameter("SQL-SA-PASSWORD", secret: true);
+var rabbitUsername = builder.AddParameter("RABBIT-USERNAME", secret: true);
+var rabbitPassword = builder.AddParameter("RABBIT-PASSWORD", secret: true);
 
 var redis = builder.AddRedis("cache").WithDataVolume();
 
-var rabbit = builder.AddRabbitMQ("messaging").WithDataVolume();
+var rabbit = builder.AddRabbitMQ("messaging")
+    .WithDataVolume().WithManagementPlugin();
 
 // var postgresdb = builder.AddPostgres("postgresdb")
 //                         .WithHealthCheck(key: "postgresdb_healthcheck")
@@ -85,7 +88,7 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
     .WaitFor(redis)
     .WaitFor(rabbit)
-    .WaitFor(blockProcessorDb); ;
+    .WaitFor(blockProcessorDb);
 
 //builder.AddProject<Projects.WalletTracker_Api>("wallettracker")
 //    .WithReference(redis)
@@ -140,4 +143,4 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
 //    .WaitFor(rabbit)
 //    .WaitFor(identityDb);
 
-builder.Build().Run();
+await builder.Build().RunAsync();
