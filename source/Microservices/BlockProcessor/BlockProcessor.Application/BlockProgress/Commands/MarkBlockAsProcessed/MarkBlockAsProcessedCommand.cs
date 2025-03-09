@@ -21,7 +21,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<MarkBlockA
             
         if (entity is not null)
         {
-            _context.BlockProgresses.Remove(entity);
+            entity.Status = Domain.Entities.BlockProgress.BlockProgressStatus.Processed;
             entity.AddDomainEvent(new BlockProcessedEvent(entity));
             await _context.SaveChangesAsync(cancellationToken);
         }

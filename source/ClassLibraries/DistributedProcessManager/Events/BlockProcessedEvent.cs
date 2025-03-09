@@ -2,14 +2,8 @@
 
 namespace DistributedProcessManager.Events;
 
-public class BlockProcessedEvent : EventArgs
+public class BlockProcessedEvent(Nethereum.Signer.Chain chain, BigInteger blockNumber) : EventArgs
 {
-    public BlockProcessedEvent(Nethereum.Signer.Chain chain, BigInteger blockNumber)
-    {
-        Chain = chain;
-        BlockNumber = blockNumber;
-    }
-
-    public Nethereum.Signer.Chain Chain { get; }
-    public BigInteger BlockNumber { get; }
+    public Nethereum.Signer.Chain Chain { get; } = chain;
+    public BigInteger BlockNumber { get; } = blockNumber;
 }

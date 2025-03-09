@@ -21,13 +21,13 @@ public class Handler(IApplicationDbContext context, IBlockService blockService, 
         var processedBlock = await _context.BlockProgresses.SingleOrDefaultAsync(exp => exp.Chain == request.Chain && exp.Status == Domain.Entities.BlockProgress.BlockProgressStatus.Processed, cancellationToken);
         if(processedBlock is null) 
         {
-            var rpcUrls = await _context.RpcUrls.Where(exp => exp.Chain == request.Chain).Select(s => s.Uri).ToListAsync(cancellationToken);
+            var rpcUrls = await _context.RpcUrls.Where(exp => exp.Chain == request.Chain).Select(s => new { s.Uri, s.BlockOfConfirmation }).ToListAsync(cancellationToken);
             if(rpcUrls.Count == 0) throw new NotFoundException("No RPC Urls found for the chain");
-            var web3 = _web3ProviderService.CreateWeb3(request.Chain, rpcUrls[0].ToString());
+            var web3 = _web3ProviderService.CreateWeb3(request.Chain, rpcUrls[0].Uri.ToString());
             var lastBlock = await _blockService.GetLastBlockAsync(web3, cancellationToken);
             processedBlock = new Domain.Entities.BlockProgress
             {
-                BlockNumber = (long)lastBlock,
+                BlockNumber = (long)lastBlock - rpcUrls[0].BlockOfConfirmation,
                 Chain = request.Chain,
                 Status = Domain.Entities.BlockProgress.BlockProgressStatus.Processed
             };

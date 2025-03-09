@@ -23,56 +23,56 @@ var informingDb = sql.AddDatabase(name: "informingdb", databaseName: "informing"
 var identityDb = sql.AddDatabase(name: "identitydb", databaseName: "identity");
 var blockProcessorDb = sql.AddDatabase(name: "blockprocessordb", databaseName: "blockProcessor");
 
-var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
-    // .WithEndpoint(endpointName: "http", options => 
-    // {
-    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-    //     options.Transport = HttpProtocol.Http3;
-    //     //options.Port = 80;
-    //     options.TargetPort = 80;
-    // }, createIfNotExists: true)
-    // .WithEndpoint(endpointName: "grpc", options => 
-    // {
-    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-    //     options.Transport = HttpProtocol.Http2;
-    //     //options.Port = 81;
-    //     options.TargetPort = 81;
-    // }, createIfNotExists: true)
-    .WithReference(redis)
-    .WithReference(rabbit)
-    .WithReference(informingDb)
-    .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
-    .WithEnvironment(name: "ENSURE_DELETED_DATABASE_ON_STARTUP", value: builder.Configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", "false"))
-    .WithEnvironment(name: "APPLICATION_NAME", value: "Informing")
-    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
-    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
-    .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
-    .WaitFor(redis)
-    .WaitFor(rabbit)
-    .WaitFor(informingDb);
+//var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
+//    // .WithEndpoint(endpointName: "http", options => 
+//    // {
+//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+//    //     options.Transport = HttpProtocol.Http3;
+//    //     //options.Port = 80;
+//    //     options.TargetPort = 80;
+//    // }, createIfNotExists: true)
+//    // .WithEndpoint(endpointName: "grpc", options => 
+//    // {
+//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+//    //     options.Transport = HttpProtocol.Http2;
+//    //     //options.Port = 81;
+//    //     options.TargetPort = 81;
+//    // }, createIfNotExists: true)
+//    .WithReference(redis)
+//    .WithReference(rabbit)
+//    .WithReference(informingDb)
+//    .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
+//    .WithEnvironment(name: "ENSURE_DELETED_DATABASE_ON_STARTUP", value: builder.Configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", "false"))
+//    .WithEnvironment(name: "APPLICATION_NAME", value: "Informing")
+//    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
+//    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
+//    .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
+//    .WaitFor(redis)
+//    .WaitFor(rabbit)
+//    .WaitFor(informingDb);
 
-var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
-    // .WithEndpoint(endpointName: "http", options => 
-    // {
-    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-    //     options.Transport = HttpProtocol.Http3;
-    // }, createIfNotExists: true)
-    // .WithEndpoint(endpointName: "grpc", options => 
-    // {
-    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-    //     options.Transport = HttpProtocol.Http2;
-    // }, createIfNotExists: true)
-    .WithReference(redis)
-    .WithReference(rabbit)
-    .WithReference(identityDb)
-    .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
-    .WithEnvironment(name: "ENSURE_DELETED_DATABASE_ON_STARTUP", value: builder.Configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", "false"))
-    .WithEnvironment(name: "APPLICATION_NAME", value: "Identity")
-    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
-    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
-    .WaitFor(redis)
-    .WaitFor(rabbit)
-    .WaitFor(identityDb);
+//var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
+//    // .WithEndpoint(endpointName: "http", options => 
+//    // {
+//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+//    //     options.Transport = HttpProtocol.Http3;
+//    // }, createIfNotExists: true)
+//    // .WithEndpoint(endpointName: "grpc", options => 
+//    // {
+//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
+//    //     options.Transport = HttpProtocol.Http2;
+//    // }, createIfNotExists: true)
+//    .WithReference(redis)
+//    .WithReference(rabbit)
+//    .WithReference(identityDb)
+//    .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
+//    .WithEnvironment(name: "ENSURE_DELETED_DATABASE_ON_STARTUP", value: builder.Configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", "false"))
+//    .WithEnvironment(name: "APPLICATION_NAME", value: "Identity")
+//    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
+//    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
+//    .WaitFor(redis)
+//    .WaitFor(rabbit)
+//    .WaitFor(identityDb);
 
 var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockprocessor")
     .WithReference(redis)
@@ -131,13 +131,13 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
 //    .WaitFor(rabbit)
 //    .WaitFor(identityDb);
 
-builder.AddProject<Projects.ReverseProxy_Gateway>("reverseproxy-gateway")
-    .WithReference(redis)
-    .WithReference(identity)
-    .WithReference(informing)
-    .WithEnvironment(name: "APPLICATION_NAME", value: "ReverseProxy.Gateway")
-    .WaitFor(redis)
-    .WaitFor(rabbit)
-    .WaitFor(identityDb);
+//builder.AddProject<Projects.ReverseProxy_Gateway>("reverseproxy-gateway")
+//    .WithReference(redis)
+//    .WithReference(identity)
+//    .WithReference(informing)
+//    .WithEnvironment(name: "APPLICATION_NAME", value: "ReverseProxy.Gateway")
+//    .WaitFor(redis)
+//    .WaitFor(rabbit)
+//    .WaitFor(identityDb);
 
 builder.Build().Run();
