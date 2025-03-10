@@ -55,10 +55,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{00DA55
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{4143790E-45A8-4D22-ABC1-D111E8F9E2B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Gateway", "Gateways\Admin.Gateway\Admin.Gateway.csproj", "{0503A3C2-A517-4203-AD17-2519D93D93A2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Gateway", "Gateways\Application.Gateway\Application.Gateway.csproj", "{45B053DE-899B-43E5-8B5F-509AC35D929C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReverseProxy.Gateway", "Gateways\ReverseProxy.Gateway\ReverseProxy.Gateway.csproj", "{40BF26AD-3D95-4DF1-8F8D-E8240BA9EFBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainBalanceHelper", "ClassLibraries\BlockChainBalanceHelper\BlockChainBalanceHelper.csproj", "{31DB8DD6-22B2-41C9-A248-08D58CFD0FAB}"

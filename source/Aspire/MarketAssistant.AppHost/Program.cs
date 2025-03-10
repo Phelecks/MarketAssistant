@@ -114,44 +114,6 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
 //    .WaitFor(redis)
 //    .WaitFor(rabbit);
 
-//var applicationGateway = builder.AddProject<Projects.Application_Gateway>("applicationgateway")
-//    // .WithEndpoint(endpointName: "http", options => 
-//    // {
-//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-//    //     options.Transport = HttpProtocol.Http3;
-//    // }, createIfNotExists: true)
-//    // .WithEndpoint(endpointName: "grpc", options => 
-//    // {
-//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-//    //     options.Transport = HttpProtocol.Http2;
-//    // }, createIfNotExists: true)
-//    .WithReference(redis)
-//    .WithReference(identity)
-//    .WithReference(informing)
-//    .WithEnvironment(name: "APPLICATION_NAME", value: "Application.Gateway")
-//    .WaitFor(redis)
-//    .WaitFor(rabbit)
-//    .WaitFor(identityDb);
-
-//var adminGateway = builder.AddProject<Projects.Admin_Gateway>("admingateway")
-//    // .WithEndpoint(endpointName: "http", options => 
-//    // {
-//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-//    //     options.Transport = HttpProtocol.Http3;
-//    // }, createIfNotExists: true)
-//    // .WithEndpoint(endpointName: "grpc", options => 
-//    // {
-//    //     options.Protocol = System.Net.Sockets.ProtocolType.Tcp;
-//    //     options.Transport = HttpProtocol.Http2;
-//    // }, createIfNotExists: true)
-//    .WithReference(redis)
-//    .WithReference(identity)
-//    .WithReference(informing)
-//    .WithEnvironment(name: "APPLICATION_NAME", value: "Admin.Gateway")
-//    .WaitFor(redis)
-//    .WaitFor(rabbit)
-//    .WaitFor(identityDb);
-
 //builder.AddProject<Projects.ReverseProxy_Gateway>("reverseproxy-gateway")
 //    .WithReference(redis)
 //    .WithReference(identity)
