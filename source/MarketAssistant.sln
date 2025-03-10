@@ -95,6 +95,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockProcessor.Api", "Micro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainQueryHelper", "ClassLibraries\BlockChainQueryHelper\BlockChainQueryHelper.csproj", "{F5FB00D8-2B32-4C0F-921E-0B4FEB06FCD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockProcessor.MigrationWorker", "Microservices\BlockProcessor\BlockProcessor.MigrationWorker\BlockProcessor.MigrationWorker.csproj", "{5DDAF846-0F56-434D-ADB1-23590F00DAF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -561,6 +563,18 @@ Global
 		{F5FB00D8-2B32-4C0F-921E-0B4FEB06FCD8}.Release|x64.Build.0 = Release|Any CPU
 		{F5FB00D8-2B32-4C0F-921E-0B4FEB06FCD8}.Release|x86.ActiveCfg = Release|Any CPU
 		{F5FB00D8-2B32-4C0F-921E-0B4FEB06FCD8}.Release|x86.Build.0 = Release|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Debug|x64.Build.0 = Debug|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Debug|x86.Build.0 = Debug|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Release|x64.ActiveCfg = Release|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Release|x64.Build.0 = Release|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Release|x86.ActiveCfg = Release|Any CPU
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -608,6 +622,7 @@ Global
 		{870B64A9-62A5-4814-AECE-0F43FA4D4283} = {6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}
 		{FCE253D0-4881-452B-9EDC-5BA25BC0A087} = {6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}
 		{F5FB00D8-2B32-4C0F-921E-0B4FEB06FCD8} = {E3D6E84E-B038-4339-854F-A3F2BE048EC0}
+		{5DDAF846-0F56-434D-ADB1-23590F00DAF8} = {6B6C1FFA-6268-41C4-8F7A-B744BF318FC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18F9C98C-0AB3-4767-B4E3-1A1B455AE6B4}

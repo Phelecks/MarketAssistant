@@ -15,6 +15,8 @@ public class BlockProcessorHostedService(IServiceProvider serviceProvider, ILogg
     {
         var intervalsInMinutes = 1;
 
+        await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), stoppingToken);
+
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();
@@ -23,7 +25,7 @@ public class BlockProcessorHostedService(IServiceProvider serviceProvider, ILogg
             var chains = await sender.Send(new GetAllChainsQuery(), stoppingToken);
 
             foreach (var chain in chains)
-                if(!_blockProcessors.Any(exp => exp == chain))
+                if(!_blockProcessors.Contains(chain))
                     _ = Task.Run(() => StartBlockProcessorAsync(chain, stoppingToken), stoppingToken);
 
             _ = Task.Run(() => _logger.LogInformation(

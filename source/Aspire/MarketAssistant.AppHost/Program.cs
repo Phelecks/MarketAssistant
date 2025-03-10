@@ -2,6 +2,11 @@ using Microsoft.Extensions.Configuration;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+const string UseInMemoryDatabase = "USE_INMEMORY_DATABASE";
+const string EnsureDeletedDatabaseOnStartup = "ENSURE_DELETED_DATABASE_ON_STARTUP";
+const string IdentitySecret = "IDENTITY_SECRET";
+const string TokenIssuer = "TOKEN_ISSUER";
+
 // Add a secret parameters
 var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
 var identitySecret = builder.AddParameter("IDENTITY-SECRET", secret: true);
@@ -44,11 +49,11 @@ var blockProcessorDb = sql.AddDatabase(name: "blockprocessordb", databaseName: "
 //    .WithReference(redis)
 //    .WithReference(rabbit)
 //    .WithReference(informingDb)
-//    .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
-//    .WithEnvironment(name: "ENSURE_DELETED_DATABASE_ON_STARTUP", value: builder.Configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", "false"))
+//    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+//    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
 //    .WithEnvironment(name: "APPLICATION_NAME", value: "Informing")
-//    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
-//    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
+//    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
+//    .WithEnvironment(name: IdentitySecret, identitySecret)
 //    .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
 //    .WaitFor(redis)
 //    .WaitFor(rabbit)
@@ -68,27 +73,33 @@ var blockProcessorDb = sql.AddDatabase(name: "blockprocessordb", databaseName: "
 //    .WithReference(redis)
 //    .WithReference(rabbit)
 //    .WithReference(identityDb)
-//    .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
-//    .WithEnvironment(name: "ENSURE_DELETED_DATABASE_ON_STARTUP", value: builder.Configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", "false"))
+//    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+//    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
 //    .WithEnvironment(name: "APPLICATION_NAME", value: "Identity")
-//    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
-//    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
+//    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
+//    .WithEnvironment(name: IdentitySecret, identitySecret)
 //    .WaitFor(redis)
 //    .WaitFor(rabbit)
 //    .WaitFor(identityDb);
 
+var blockProcessorMigration = builder.AddProject<Projects.BlockProcessor_MigrationWorker>("blockprocessor-migrations")
+    .WithReference(blockProcessorDb)
+    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+    .WaitFor(blockProcessorDb);
 var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockprocessor")
     .WithReference(redis)
     .WithReference(rabbit)
     .WithReference(blockProcessorDb)
-    .WithEnvironment(name: "USE_INMEMORY_DATABASE", value: builder.Configuration.GetValue("USE_INMEMORY_DATABASE", "true"))
-    .WithEnvironment(name: "ENSURE_DELETED_DATABASE_ON_STARTUP", value: builder.Configuration.GetValue("ENSURE_DELETED_DATABASE_ON_STARTUP", "false"))
+    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
     .WithEnvironment(name: "APPLICATION_NAME", value: "BlockProcessor")
-    .WithEnvironment(name: "TOKEN_ISSUER", value: builder.Configuration.GetValue("TOKEN_ISSUER", "https://identity.contoso.com"))
-    .WithEnvironment(name: "IDENTITY_SECRET", identitySecret)
+    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
+    .WithEnvironment(name: IdentitySecret, identitySecret)
     .WaitFor(redis)
     .WaitFor(rabbit)
     .WaitFor(blockProcessorDb)
+    .WaitFor(blockProcessorMigration)
     .WithReplicas(2);
 
 //builder.AddProject<Projects.WalletTracker_Api>("wallettracker")

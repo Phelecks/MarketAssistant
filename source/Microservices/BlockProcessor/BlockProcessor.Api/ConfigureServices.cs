@@ -136,12 +136,6 @@ public static class ConfigureServices
             app.UseHsts();
         }
 
-        // Initialise and seed database
-        using var scope = app.Services.CreateScope();
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        await initializer.InitialiseAsync();
-        await initializer.SeedAsync();
-
         app.UseRouting();
 
         app.UseAuthentication();

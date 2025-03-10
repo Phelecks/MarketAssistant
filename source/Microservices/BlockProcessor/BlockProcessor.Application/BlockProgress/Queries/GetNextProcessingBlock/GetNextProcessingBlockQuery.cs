@@ -18,7 +18,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService<long
     private readonly IDistributedLockService<long> _distributedLockService = distributedLockService;
     private readonly IBlockService _blockService = blockService;
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
-    private readonly IWaitStrategy _waitStrategy = new CustomWaitStrategy();
+    private readonly CustomWaitStrategy _waitStrategy = new();
 
     public async Task<long> Handle(GetNextProcessingBlockQuery request, CancellationToken cancellationToken)
     {
@@ -77,7 +77,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService<long
         return nextBlockNumber;
     }
 
-    private class CustomWaitStrategy : IWaitStrategy
+    private sealed class CustomWaitStrategy : IWaitStrategy
     {
         private static readonly int[] WaitIntervals = [1000, 5000, 10000, 20000, 30000, 40000, 50000, 60000];
 

@@ -86,11 +86,10 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
             await Task.Delay(waitInterval, cancellationToken);
 
             var blockNumber = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
-            Console.WriteLine($"***********************************************************************************{blockNumber}**************************************************************************");
             try
             {
                 await _pollyPipeline.ExecuteAsync(async ct => await orchestrator.ProcessAsync(blockNumber, cancellationToken), cancellationToken);
-                await _sender.Send(new MarkBlockAsProcessedCommand(chain, blockNumber));
+                await _sender.Send(new MarkBlockAsProcessedCommand(chain, blockNumber), cancellationToken);
                  _addresses = await _sender.Send(new GetAllAddressesQuery(), cancellationToken);
             }
             catch (Exception exception)
@@ -98,7 +97,7 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
                 _ = Task.Run(() => _logger.LogError(
                     eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorException, eventName: "BlockProcessorException"),
                     exception, exception.Message, cancellationToken), cancellationToken);
-                await _sender.Send(new MarkBlockAsFailedCommand(chain, blockNumber));
+                await _sender.Send(new MarkBlockAsFailedCommand(chain, blockNumber), cancellationToken);
             }
         }
     }

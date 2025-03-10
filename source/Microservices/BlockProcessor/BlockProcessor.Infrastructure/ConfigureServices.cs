@@ -43,8 +43,6 @@ public static class ConfigureServices
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-        services.AddScoped<ApplicationDbContextInitializer>();
-
         //Add mass transit dependency injections
         services.AddMassTransitDependencyInjections();
 

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Domain.Events.BlockProgress;
 using MediatR;
@@ -7,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlockProcessor.Application.BlockProgress.Commands.MarkBlockAsFailed;
 
-public record MarkBlockAsFailedCommand([property: Required] Nethereum.Signer.Chain Chain, [property: Required] BigInteger BlockNumber) : IRequest<Unit>;
+public record MarkBlockAsFailedCommand([property: Required] Nethereum.Signer.Chain Chain, [property: Required] long BlockNumber) : IRequest<Unit>;
 
 public class Handler(IApplicationDbContext context) : IRequestHandler<MarkBlockAsFailedCommand, Unit>
 {
