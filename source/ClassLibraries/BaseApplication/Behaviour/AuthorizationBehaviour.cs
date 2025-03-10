@@ -6,77 +6,33 @@ using MediatR;
 
 namespace BaseApplication.Behaviour;
 
-public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class AuthorizationBehaviour<TRequest, TResponse>(IIdentityHelper identityHelper) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly IIdentityHelper _identityHelper;
-    //private readonly IIdentityService _identityService;
-
-    public AuthorizationBehaviour(
-        IIdentityHelper identityHelper/*, IIdentityService identityService*/)
-    {
-        _identityHelper = identityHelper;
-        //_identityService = identityService;
-    }
+    private readonly IIdentityHelper _identityHelper = identityHelper;
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();
-
         if (authorizeAttributes.Any())
         {
-            //try authenticate and authorize with SIWE
-
             // Must be authenticated user
-            if (string.IsNullOrEmpty(_identityHelper.GetUserIdentity()))
-            {
-                throw new UnauthorizedAccessException();
-            }
-
+            if (string.IsNullOrEmpty(_identityHelper.GetUserIdentity())) throw new UnauthorizedAccessException();
             // Role-based authorization
             var authorizeAttributesWithRoles = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.roles));
-
             if (authorizeAttributesWithRoles.Any())
             {
-                var authorized = false;
-
-                foreach (var roles in authorizeAttributesWithRoles.Select(a => a.roles.Split(',')))
-                {
-                    foreach (var role in roles)
-                    {
-                        //var isInRole = await _identityService.IsInRoleAsync(_identityHelper.GetUserIdentity(), role.Trim());
-                        var isInRole = _identityHelper.IsInRole(role);
-                        if (isInRole)
-                        {
-                            authorized = true;
-                            break;
-                        }
-                    }
-                }
-
+                var authorized = authorizeAttributesWithRoles.Select(a => a.roles.Split(',')).Any(roles => roles.Any(role => _identityHelper.IsInRole(role)));
                 // Must be a member of at least one role in roles
-                if (!authorized)
-                {
-                    throw new ForbiddenAccessException("Access denied.");
-                }
+                if (!authorized) throw new ForbiddenAccessException("Access denied.");
             }
-
             // Policy-based authorization
             var authorizeAttributesWithPolicies = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.policy));
             if (authorizeAttributesWithPolicies.Any())
             {
-                foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.policy))
-                {
-                    //var authorized = await _identityService.AuthorizeAsync(_identityHelper.GetUserIdentity(), policy);
-                    var authorized = _identityHelper.IsAuthorized(policy);
-                    if (!authorized)
-                    {
-                        throw new ForbiddenAccessException("Access denied.");
-                    }
-                }
+                var authorized = authorizeAttributesWithPolicies.Select(a => a.policy).Any(policy => _identityHelper.IsAuthorized(policy));
+                if (!authorized) throw new ForbiddenAccessException("Access denied.");
             }
         }
-
-        // User is authorized / authorization not required
         return await next();
     }
 }

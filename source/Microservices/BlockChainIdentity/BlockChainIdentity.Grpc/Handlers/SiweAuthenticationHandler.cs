@@ -11,14 +11,12 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
 {
     private readonly IConfiguration _configuration;
     private readonly ISiweService _siweService;
-    private readonly ILogger<SiweAuthenticationHandler> _logger;
 
     public SiweAuthenticationHandler(IOptionsMonitor<SiweAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder,
         TimeProvider timeProvider, IConfiguration configuration, ISiweService siweService) : base(options, logger, encoder)
     {
         _configuration = configuration;
         _siweService = siweService;
-        _logger = logger.CreateLogger<SiweAuthenticationHandler>();
     }
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
@@ -31,12 +29,13 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
         if (user is not null && !string.IsNullOrWhiteSpace(user.Identity?.Name))
             return await Task.FromResult(AuthenticateResult.NoResult()); //Already authenticated 
 
-        if (!Request.Headers.ContainsKey("Authorization"))
+        if(!AuthenticationHeaderValue.TryParse(Request.Headers.Authorization, out var tokenHeaderValue))
             return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
-        var tokenHeaderValue = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
         var scheme = tokenHeaderValue.Scheme;
         if (!scheme.Equals(Options.TokenHeaderName)) return await Task.FromResult(AuthenticateResult.NoResult());
+        
         var siweToken = tokenHeaderValue.Parameter;
+        if(string.IsNullOrEmpty(siweToken)) return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
 
         var securityKey = GetSecret();
         if (string.IsNullOrEmpty(securityKey))

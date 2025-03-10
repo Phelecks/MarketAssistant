@@ -6,12 +6,10 @@ namespace Informing.Infrastructure.MassTransit.Consumers.Messages;
 
 public class NotifyRewardPaidMessageConsumer : IConsumer<INotifyRewardPaidMessage>
 {
-    private readonly IGameHubProxy _gameHubProxy;
     private readonly IDiscordService _discordService;
 
-    public NotifyRewardPaidMessageConsumer(IGameHubProxy gameHubProxy, IDiscordService discordService)
+    public NotifyRewardPaidMessageConsumer(IDiscordService discordService)
     {
-        _gameHubProxy = gameHubProxy;
         _discordService = discordService;
     }
     public async Task Consume(ConsumeContext<INotifyRewardPaidMessage> context)

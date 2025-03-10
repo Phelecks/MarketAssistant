@@ -1,15 +1,11 @@
 ﻿using FluentValidation;
-using Informing.Application.Interfaces;
 
 namespace Informing.Application.BaseParameter.Commands.UpdateBaseParameter;
 
 public class UpdateBaseParameterCommandValidator : AbstractValidator<UpdateBaseParameterCommand>
 {
-    private readonly IApplicationDbContext _context;
-
-    public UpdateBaseParameterCommandValidator(IApplicationDbContext context)
+    public UpdateBaseParameterCommandValidator()
     {
-        _context = context;
 
         RuleFor(v => v.value)
             .NotEmpty().WithMessage("Value is required.")

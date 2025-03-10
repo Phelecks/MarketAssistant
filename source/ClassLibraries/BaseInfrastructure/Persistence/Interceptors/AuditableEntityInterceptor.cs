@@ -7,18 +7,12 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BaseInfrastructure.Persistence.Interceptors;
 
-public class AuditableEntityInterceptor : SaveChangesInterceptor
+public class AuditableEntityInterceptor(
+    IIdentityHelper identityHelper,
+    IDateTimeService dateTimeService) : SaveChangesInterceptor
 {
-    private readonly IIdentityHelper _identityHelper;
-    private readonly IDateTimeService _dateTimeService;
-
-    public AuditableEntityInterceptor(
-        IIdentityHelper identityHelper,
-        IDateTimeService dateTimeService)
-    {
-        _identityHelper = identityHelper;
-        _dateTimeService = dateTimeService;
-    }
+    private readonly IIdentityHelper _identityHelper = identityHelper;
+    private readonly IDateTimeService _dateTimeService = dateTimeService;
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
@@ -38,6 +32,12 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
     {
         if (context == null) return;
 
+        UpdateBaseAuditEntities(context);
+        UpdateBaseAuditEntityWithNoPrimaryKeyEntities(context);
+    }
+
+    private void UpdateBaseAuditEntities(DbContext context)
+    {
         if(context.ChangeTracker.Entries<BaseAuditEntity>().Any())
             foreach (var entry in context.ChangeTracker.Entries<BaseAuditEntity>())
             {
@@ -53,6 +53,9 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
                     entry.Entity.LastModified = _dateTimeService.UtcNow;
                 }
             }
+    }
+    private void UpdateBaseAuditEntityWithNoPrimaryKeyEntities(DbContext context)
+    {
         if(context.ChangeTracker.Entries<BaseAuditEntityWithNoPrimaryKey>().Any())
             foreach (var entry in context.ChangeTracker.Entries<BaseAuditEntityWithNoPrimaryKey>())
             {

@@ -6,12 +6,10 @@ namespace Informing.Infrastructure.MassTransit.Consumers.Messages;
 
 public class NotifyMatchOverviewMessageConsumer : IConsumer<INotifyMatchOverviewMessage>
 {
-    private readonly IGameHubProxy _gameHubProxy;
     private readonly IDiscordService _discordService;
 
-    public NotifyMatchOverviewMessageConsumer(IGameHubProxy gameHubProxy, IDiscordService discordService)
+    public NotifyMatchOverviewMessageConsumer(IDiscordService discordService)
     {
-        _gameHubProxy = gameHubProxy;
         _discordService = discordService;
     }
     public async Task Consume(ConsumeContext<INotifyMatchOverviewMessage> context)

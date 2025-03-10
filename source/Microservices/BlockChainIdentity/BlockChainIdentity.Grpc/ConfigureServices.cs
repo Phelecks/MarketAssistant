@@ -2,7 +2,6 @@
 using System.Reflection;
 using IdentityHelper;
 using BlockChainIdentity.Application;
-using BlockChainIdentity.Grpc.Services;
 using BlockChainIdentity.Infrastructure;
 using BlockChainIdentity.Infrastructure.Persistence;
 using BaseInfrastructure.Interceptors;
@@ -71,7 +70,6 @@ public static class ConfigureServices
             options.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             options.EnableDetailedErrors = true;
         });
-        //services.AddCodeFirstGrpc();
 
         services.AddMediatR(configuration: configuration =>
         {
@@ -80,14 +78,7 @@ public static class ConfigureServices
 
         builder.Services.AddControllers(options =>
             options.Filters.Add<ApiExceptionFilter>());
-        //builder.Services
-        //    .AddFluentValidationAutoValidation(configurationExpression: x =>
-        //    {
-        //    })
-        //    .AddFluentValidationClientsideAdapters(configuration: configuration =>
-        //    {
 
-        //    });
         builder.Services.AddFluentValidationAutoValidation(configuration =>
         {
             configuration.DisableBuiltInModelValidation = true;
@@ -156,9 +147,6 @@ public static class ConfigureServices
         app.MapControllers();
 
         // Configure the HTTP request pipeline.
-        app.MapGrpcService<GreeterService>();
-        // app.MapGrpcService<ConnectServiceV1>();
-        //app.MapGrpcService<SchedulesServiceV1>();
         app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();

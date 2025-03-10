@@ -6,12 +6,10 @@ namespace Informing.Infrastructure.MassTransit.Consumers.Messages;
 
 public class NotifyMatchMinutesLeftMessageConsumer : IConsumer<INotifyMatchMinutesLeftMessage>
 {
-    private readonly IGameHubProxy _gameHubProxy;
     private readonly IDiscordService _discordService;
 
-    public NotifyMatchMinutesLeftMessageConsumer(IGameHubProxy gameHubProxy, IDiscordService discordService)
+    public NotifyMatchMinutesLeftMessageConsumer(IDiscordService discordService)
     {
-        _gameHubProxy = gameHubProxy;
         _discordService = discordService;
     }
     public async Task Consume(ConsumeContext<INotifyMatchMinutesLeftMessage> context)
