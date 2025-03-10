@@ -22,10 +22,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<ContactInformation> contactInformations => Set<ContactInformation>(); 
     public DbSet<GroupInformation> groupInformations => Set<GroupInformation>();
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
     }
 }

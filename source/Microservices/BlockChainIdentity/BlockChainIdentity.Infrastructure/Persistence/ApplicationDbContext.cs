@@ -6,6 +6,7 @@ using EntityFrameworkCore.EncryptColumn.Extension;
 using EntityFrameworkCore.EncryptColumn.Interfaces;
 using EntityFrameworkCore.EncryptColumn.Util;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BlockChainIdentity.Infrastructure.Persistence;
 
@@ -13,9 +14,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly IEncryptionProvider _encryptionProvider;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
     {
-        _encryptionProvider = new GenerateEncryptionProvider(SqlColumnEncryptionHelper.BlockChainIdentityEncryptionKey);
+        var encryptionKey = configuration.GetValue<string>("DATABASE-ENCRYPTION-KEY");
+        _encryptionProvider = new GenerateEncryptionProvider(encryptionKey);
     }
 
     public DbSet<BaseParameter> baseParameters => Set<BaseParameter>();
@@ -28,10 +30,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<WalletRole> walletRoles => Set<WalletRole>();
 
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        builder.UseEncryption(_encryptionProvider);
-        base.OnModelCreating(builder);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.UseEncryption(_encryptionProvider);
+        base.OnModelCreating(modelBuilder);
     }
 }

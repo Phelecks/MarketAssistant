@@ -21,7 +21,7 @@ public static class ConfigureServices
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
             {
                 var configService = serviceProvider.GetRequiredService<IConfiguration>();
-                var useInMemoryDb = configService.GetValue("USE_INMEMORY_DATABASE", true);
+                var useInMemoryDb = configService.GetValue("USE-INMEMORY-DATABASE", true);
                 if(useInMemoryDb)
                 {
                     options.UseInMemoryDatabase(configService.GetValue<string>("ApplicationName", Guid.NewGuid().ToString()))

@@ -2,10 +2,11 @@ using Microsoft.Extensions.Configuration;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-const string UseInMemoryDatabase = "USE_INMEMORY_DATABASE";
-const string EnsureDeletedDatabaseOnStartup = "ENSURE_DELETED_DATABASE_ON_STARTUP";
+const string UseInMemoryDatabase = "USE-INMEMORY-DATABASE";
+const string EnsureDeletedDatabaseOnStartup = "ENSURE-DELETED-DATABASE-ON-STARTUP";
 const string IdentitySecret = "IDENTITY_SECRET";
-const string TokenIssuer = "TOKEN_ISSUER";
+const string TokenIssuer = "TOKEN-ISSUER";
+const string DatabaseEncryptionKey = "DATABASE-ENCRYPTION-KEY";
 
 // Add a secret parameters
 var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
@@ -13,6 +14,7 @@ var identitySecret = builder.AddParameter("IDENTITY-SECRET", secret: true);
 var sqlPassword = builder.AddParameter("SQL-SA-PASSWORD", secret: true);
 var rabbitUsername = builder.AddParameter("RABBIT-USERNAME", secret: true);
 var rabbitPassword = builder.AddParameter("RABBIT-PASSWORD", secret: true);
+var databaseEncryptionKey = builder.AddParameter("DATABASE-ENCRYPTION-KEY", secret: true);
 
 var redis = builder.AddRedis("cache").WithDataVolume();
 
@@ -25,7 +27,7 @@ var rabbit = builder.AddRabbitMQ("messaging")
 //                         .WithDataVolume()
 //                         .AddDatabase("marketassitant_db", "marketassitant_db");
 
-var sql = builder.AddSqlServer("sql", password: sqlPassword).WithDataVolume().WithImageTag("latest");
+var sql = builder.AddSqlServer("sql", password: sqlPassword, 1433).WithDataVolume().WithImageTag("latest");
 
 var informingDb = sql.AddDatabase(name: "informingdb", databaseName: "informing");
 var identityDb = sql.AddDatabase(name: "identitydb", databaseName: "identity");
@@ -78,6 +80,7 @@ var blockProcessorDb = sql.AddDatabase(name: "blockprocessordb", databaseName: "
 //    .WithEnvironment(name: "APPLICATION_NAME", value: "Identity")
 //    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
 //    .WithEnvironment(name: IdentitySecret, identitySecret)
+//    .WithEnvironment(name: DatabaseEncryptionKey, value: builder.Configuration.GetValue<string>(DatabaseEncryptionKey))
 //    .WaitFor(redis)
 //    .WaitFor(rabbit)
 //    .WaitFor(identityDb);
@@ -86,6 +89,8 @@ var blockProcessorMigration = builder.AddProject<Projects.BlockProcessor_Migrati
     .WithReference(blockProcessorDb)
     .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
     .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+    .WithEnvironment(name: "RPC-URLS", value: builder.Configuration.GetValue<string>("RPC-URLS"))
+    .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
     .WaitFor(blockProcessorDb);
 var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockprocessor")
     .WithReference(redis)
@@ -95,7 +100,8 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
     .WithEnvironment(name: "APPLICATION_NAME", value: "BlockProcessor")
     .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
-    .WithEnvironment(name: IdentitySecret, identitySecret)
+    .WithEnvironment(name: IdentitySecret, parameter: identitySecret)
+    .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
     .WaitFor(redis)
     .WaitFor(rabbit)
     .WaitFor(blockProcessorDb)

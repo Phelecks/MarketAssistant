@@ -1,16 +1,21 @@
 ﻿using System.Reflection;
-using BaseDomain.Helpers;
 using BlockProcessor.Application.Interfaces;
 using EntityFrameworkCore.EncryptColumn.Extension;
 using EntityFrameworkCore.EncryptColumn.Interfaces;
 using EntityFrameworkCore.EncryptColumn.Util;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BlockProcessor.Infrastructure.Persistence;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    private readonly IEncryptionProvider _encryptionProvider = new GenerateEncryptionProvider(SqlColumnEncryptionHelper.BlockChainPaymentEncryptionKey);
+    private readonly IEncryptionProvider _encryptionProvider;
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
+    {
+        var encryptionKey = configuration.GetValue<string>("DATABASE-ENCRYPTION-KEY");
+        _encryptionProvider = new GenerateEncryptionProvider(encryptionKey);
+    }
 
     public DbSet<Domain.Entities.BlockProgress> BlockProgresses => Set<Domain.Entities.BlockProgress>();
     public DbSet<Domain.Entities.WalletAddress> WalletAddresses => Set<Domain.Entities.WalletAddress>();

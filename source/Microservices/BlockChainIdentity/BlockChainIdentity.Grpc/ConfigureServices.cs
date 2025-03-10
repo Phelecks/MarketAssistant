@@ -43,7 +43,7 @@ public static class ConfigureServices
 
         builder.Services.Configure<Domain.ConfigurationOptions>(options =>
         {
-            options.Issuer = builder.Configuration.GetValue<string>("TOKEN_ISSUER")!;
+            options.Issuer = builder.Configuration.GetValue<string>("TOKEN-ISSUER")!;
         });
 
         builder.AddRedisDistributedCache("cache");
@@ -51,7 +51,7 @@ public static class ConfigureServices
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
-        var useInMemoryDb = builder.Configuration.GetValue("USE_INMEMORY_DATABASE", true);
+        var useInMemoryDb = builder.Configuration.GetValue("USE-INMEMORY-DATABASE", true);
         
         builder.AddSqlServerClient(connectionName: "identitydb", configureSettings: options =>
         {
@@ -114,7 +114,7 @@ public static class ConfigureServices
            .AddScheme<SiweAuthenticationOptions, SiweAuthenticationHandler>(SiweAuthenticationOptions.DefaultScheme, options =>
            {
                options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION_NAME")!;
-               options.ValidIssuers = new[] { builder.Configuration.GetValue<string>("TOKEN_ISSUER")! };
+               options.ValidIssuers = new[] { builder.Configuration.GetValue<string>("TOKEN-ISSUER")! };
            });
 
         builder.Services.AddEndpointsApiExplorer();

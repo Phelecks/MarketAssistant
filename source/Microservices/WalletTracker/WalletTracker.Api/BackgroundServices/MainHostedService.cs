@@ -71,7 +71,7 @@ public class MainHostedService : BackgroundService
         using var scope = _serviceProvider.CreateScope();
         var applicationInitializer = scope.ServiceProvider.GetRequiredService<IApplicationInitializer>();
 
-        var rpcUrlsString = _configuration.GetValue<string>("RPC_URLS", System.Text.Json.JsonSerializer.Serialize(new List<Domain.Entities.RpcUrl>
+        var rpcUrlsString = _configuration.GetValue<string>("RPC-URLS", System.Text.Json.JsonSerializer.Serialize(new List<Domain.Entities.RpcUrl>
         {
             new Domain.Entities.RpcUrl(1, Nethereum.Signer.Chain.MainNet, "https://eth-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
             new Domain.Entities.RpcUrl(2, Nethereum.Signer.Chain.Polygon, "https://polygon-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"),
