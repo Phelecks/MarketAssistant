@@ -12,9 +12,6 @@ namespace EntityFrameworkCore.EncryptColumn.Util
 
         public string Encrypt(string dataToEncrypt)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key), "Please initialize your encryption key.");
-
             if (string.IsNullOrEmpty(dataToEncrypt))
                 return string.Empty;
                 
@@ -41,9 +38,6 @@ namespace EntityFrameworkCore.EncryptColumn.Util
 
         public string Decrypt(string dataToDecrypt)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key), "Please initialize your encryption key.");
-
             if (string.IsNullOrEmpty(dataToDecrypt))
                 return string.Empty;
                 

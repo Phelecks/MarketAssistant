@@ -3,10 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EntityFrameworkCore.EncryptColumn.Converter
 {
-    internal sealed class EncryptionConverter : ValueConverter<string, string>
+    internal sealed class EncryptionConverter(IEncryptionProvider encryptionProvider, ConverterMappingHints mappingHints = null) : ValueConverter<string, string>(x => encryptionProvider.Encrypt(x), x => encryptionProvider.Decrypt(x), mappingHints)
     {
-        public EncryptionConverter(IEncryptionProvider encryptionProvider, ConverterMappingHints mappingHints = null) : base (x => encryptionProvider.Encrypt(x), x => encryptionProvider.Decrypt(x), mappingHints)
-        {
-        }
     }
 }
