@@ -25,8 +25,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
 		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" Version="9.1.0" />
-		<PackageReference Include="Aspire.RabbitMQ.Client" Version="9.1.0" />
-		<PackageReference Include="RabbitMQ.Client" Version="7.1.1" />
+		<PackageReference Include="Aspire.RabbitMQ.Client.v7" Version="9.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
