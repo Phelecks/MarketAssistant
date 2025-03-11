@@ -238,7 +238,7 @@
         /// <param name="eventType"></param>
         /// <param name="eventName"></param>
         /// <returns></returns>
-        public static Microsoft.Extensions.Logging.EventId GetEventInformation(EventType eventType, string eventName = null)
+        public static Microsoft.Extensions.Logging.EventId GetEventInformation(EventType eventType, string eventName)
         {
             return new Microsoft.Extensions.Logging.EventId((int)eventType, string.IsNullOrEmpty(eventName) ? eventType.ToString() : eventName);
         }

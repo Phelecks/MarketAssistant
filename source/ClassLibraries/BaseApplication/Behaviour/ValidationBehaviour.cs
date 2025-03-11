@@ -3,15 +3,10 @@ using FluentValidation;
 
 namespace BaseApplication.Behaviour;
 
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
      where TRequest : IRequest<TResponse>
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
-
-    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
-    {
-        _validators = validators;
-    }
+    private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -28,7 +23,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                 .SelectMany(r => r.Errors)
                 .ToList();
 
-            if (failures.Any())
+            if (failures.Count != 0)
                 throw new Exceptions.ValidationException(failures);
         }
         return await next();

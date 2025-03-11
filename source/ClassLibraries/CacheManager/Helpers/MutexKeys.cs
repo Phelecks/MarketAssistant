@@ -6,7 +6,7 @@ public static class MutexKeys
     private const string FinancialAccountPrefix = "Lock_Account_";
     private const string FinancialSubAccountPrefix = "Lock_SubAccount_";
     private const string BlockChainPaymentAddress = "Lock_HDWallet";
-    private const string GameBetPrefix = "GameBet_", GameRewardPrefix = "GameReward_";
+    private const string GameBetPrefix = "GameBet_";
 
     public static string FinancialSubAccountBalance(string userId, long currencyId) => $"{FinancialSubAccountBalancePrefix}{userId}_{currencyId}";
     public static string FinancialAccount(string userId) => $"{FinancialAccountPrefix}{userId}";

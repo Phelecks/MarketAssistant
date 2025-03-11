@@ -31,11 +31,11 @@ public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
 					options: new() 
 					{
 						AbsoluteExpiration = DateTime.Now.AddMinutes(expireInMinutes)
-					});
+					}, cancellationToken);
 			return response;
 		}
 
-		var cacheResult = await _distributedCache.GetAsync(key: request.cacheKey);
+		var cacheResult = await _distributedCache.GetAsync(key: request.cacheKey, cancellationToken);
 		if (cacheResult != null)
 		{
 			try
@@ -43,7 +43,7 @@ public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
 				var result = System.Text.Json.JsonSerializer.Deserialize<TResponse>(cacheResult);
                 if (result is null) return await next();
                 response = result;
-                _logger.LogInformation($"Fetched from Cache -> '{request.cacheKey}'.");
+				_logger.LogInformation("Fetched from Cache -> '{CacheKey}'.", request.cacheKey);
             }
 			catch (Exception)
 			{
@@ -53,7 +53,7 @@ public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
 		else
 		{
 			response = await GetResponseAndAddToCache();
-			_logger.LogInformation($"Added to Cache -> '{request.cacheKey}'.");
+			_logger.LogInformation("Added to Cache -> '{CacheKey}'.", request.cacheKey);
 		}
 		return response;
 	}

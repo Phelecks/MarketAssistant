@@ -4,59 +4,151 @@ namespace BaseApplication.Helpers;
 
 public static class ResponseHelper
 {
-    public static BaseResponseDto Success() => new(
+    private const string DefaultErrorMessage = "An error occurred during the process.";
+
+    public static BaseResponseDto Success()
+    {
+        return new(
         ResponseCode.Success, "Success");
-    public static BaseResponseDto<T> Success<T>(T data) => new(
-        data: data, ResponseCode.Success, "Success");
-    public static BaseResponseDto Success(string responseInformation) => new(
-        ResponseCode.Success, responseInformation);
-    public static BaseResponseDto<T> Success<T>(T data, string responseInformation) => new(
-        data, ResponseCode.Success, responseInformation);
+    }
 
+    public static BaseResponseDto<T> Success<T>(T data)
+    {
+        return new(
+            data: data, ResponseCode.Success, "Success");
+    }
 
-    public static BaseResponseDto Error() => new(
-        ResponseCode.Fail, "An error occurred during the process.");
-    public static BaseResponseDto<T> Error<T>() => new(
-        default, ResponseCode.Fail, "An error occurred during the process.");
-    public static BaseResponseDto Error(ResponseCode responseCode) => new(
-        responseCode, "An error occurred during the process.");
-    public static BaseResponseDto<T> Error<T>(ResponseCode responseCode) => new(
-        default, responseCode, "An error occurred during the process.");
-    public static BaseResponseDto Error(string responseInformation) => new(
-        ResponseCode.Fail, string.IsNullOrEmpty(responseInformation) ? "An error occurred during the process." : responseInformation);
-    public static BaseResponseDto<T> Error<T>(string responseInformation) => new(
-        default, ResponseCode.Fail, string.IsNullOrEmpty(responseInformation) ? "An error occurred during the process." : responseInformation);
-    public static BaseResponseDto Error(ResponseCode responseCode, string responseInformation) => new(
-        responseCode, responseInformation);
-    public static BaseResponseDto<T> Error<T>(ResponseCode responseCode, string responseInformation) => new(
-        default, responseCode, responseInformation);
+    public static BaseResponseDto Success(string responseInformation)
+    {
+        return new(
+            ResponseCode.Success, responseInformation);
+    }
 
-    public static BaseResponseDto NotFound() => new(
+    public static BaseResponseDto<T> Success<T>(T data, string responseInformation)
+    {
+        return new(
+            data, ResponseCode.Success, responseInformation);
+    }
+
+    public static BaseResponseDto Error()
+    {
+        return new(
+        ResponseCode.Fail, DefaultErrorMessage);
+    }
+
+    public static BaseResponseDto<T> Error<T>()
+    {
+        return new(
+            default!, ResponseCode.Fail, DefaultErrorMessage);
+    }
+
+    public static BaseResponseDto Error(ResponseCode responseCode)
+    {
+        return new(
+            responseCode, DefaultErrorMessage);
+    }
+
+    public static BaseResponseDto<T> Error<T>(ResponseCode responseCode)
+    {
+        return new(
+            default!, responseCode, DefaultErrorMessage);
+    }
+
+    public static BaseResponseDto Error(string responseInformation)
+    {
+        return new(
+            ResponseCode.Fail, string.IsNullOrEmpty(responseInformation) ? DefaultErrorMessage : responseInformation);
+    }
+
+    public static BaseResponseDto<T> Error<T>(string responseInformation)
+    {
+        return new(
+            default!, ResponseCode.Fail, string.IsNullOrEmpty(responseInformation) ? DefaultErrorMessage : responseInformation);
+    }
+
+    public static BaseResponseDto Error(ResponseCode responseCode, string responseInformation)
+    {
+        return new(
+            responseCode, responseInformation);
+    }
+
+    public static BaseResponseDto<T> Error<T>(ResponseCode responseCode, string responseInformation)
+    {
+        return new(
+            default!, responseCode, responseInformation);
+    }
+
+    public static BaseResponseDto NotFound()
+    {
+        return new(
         ResponseCode.NotFound, "Record cannot be found.");
-    public static BaseResponseDto<T> NotFound<T>() => new(
-        default, ResponseCode.NotFound, "Record cannot be found.");
-    public static BaseResponseDto NotFound(string responseInformation) => new(
-        ResponseCode.NotFound, responseInformation);
-    public static BaseResponseDto<T> NotFound<T>(string responseInformation) => new(
-        default, ResponseCode.NotFound, responseInformation);
+    }
 
-    public static BaseResponseDto BadRequest() => new(
+    public static BaseResponseDto<T> NotFound<T>()
+    {
+        return new(
+            default!, ResponseCode.NotFound, "Record cannot be found.");
+    }
+
+    public static BaseResponseDto NotFound(string responseInformation)
+    {
+        return new(
+            ResponseCode.NotFound, responseInformation);
+    }
+
+    public static BaseResponseDto<T> NotFound<T>(string responseInformation)
+    {
+        return new(
+            default!, ResponseCode.NotFound, responseInformation);
+    }
+
+    public static BaseResponseDto BadRequest()
+    {
+        return new(
         ResponseCode.BadRequest, "Your input does not meet the required values.");
-    public static BaseResponseDto<T> BadRequest<T>() => new(
-        default, ResponseCode.BadRequest, "Your input does not meet the required values.");
-    public static BaseResponseDto BadRequest(string responseInformation) => new(
-        ResponseCode.BadRequest, responseInformation);
-    public static BaseResponseDto<T> BadRequest<T>(string responseInformation) => new(
-        default, ResponseCode.BadRequest, responseInformation);
+    }
 
-    public static BaseResponseDto Forbidden() => new(
+    public static BaseResponseDto<T> BadRequest<T>()
+    {
+        return new(
+            default!, ResponseCode.BadRequest, "Your input does not meet the required values.");
+    }
+
+    public static BaseResponseDto BadRequest(string responseInformation)
+    {
+        return new(
+            ResponseCode.BadRequest, responseInformation);
+    }
+
+    public static BaseResponseDto<T> BadRequest<T>(string responseInformation)
+    {
+        return new(
+            default!, ResponseCode.BadRequest, responseInformation);
+    }
+
+    public static BaseResponseDto Forbidden()
+    {
+        return new(
         ResponseCode.Unauthorized, "Access denied.");
-    public static BaseResponseDto<T> Forbidden<T>() => new(
-        default, ResponseCode.Unauthorized, "Access denied.");
-    public static BaseResponseDto Forbidden(string responseInformation) => new(
-        ResponseCode.Unauthorized, responseInformation);
-    public static BaseResponseDto<T> Forbidden<T>(string responseInformation) => new(
-        default, ResponseCode.Unauthorized, responseInformation);
+    }
+
+    public static BaseResponseDto<T> Forbidden<T>()
+    {
+        return new(
+            default!, ResponseCode.Unauthorized, "Access denied.");
+    }
+
+    public static BaseResponseDto Forbidden(string responseInformation)
+    {
+        return new(
+            ResponseCode.Unauthorized, responseInformation);
+    }
+
+    public static BaseResponseDto<T> Forbidden<T>(string responseInformation)
+    {
+        return new(
+            default!, ResponseCode.Unauthorized, responseInformation);
+    }
 }
 
 public class BaseResponseDto
@@ -72,17 +164,24 @@ public class BaseResponseDto
 
     private bool isSuccess => responseCode == ResponseCode.Success;
 
-    public bool IsSuccess() => isSuccess;
+    public bool IsSuccess()
+    {
+        return isSuccess;
+    }
+
     public string ResponseInformation => responseInformation;
 
-    public StatusCode GrpcStatusCode() => responseCode switch
+    public StatusCode GrpcStatusCode()
     {
-        ResponseCode.Success => StatusCode.OK,
-        ResponseCode.NotFound => StatusCode.NotFound,
-        ResponseCode.BadRequest => StatusCode.InvalidArgument,
-        ResponseCode.Unauthorized => StatusCode.Unauthenticated,
-        _ => StatusCode.Unknown
-    };
+        return responseCode switch
+        {
+            ResponseCode.Success => StatusCode.OK,
+            ResponseCode.NotFound => StatusCode.NotFound,
+            ResponseCode.BadRequest => StatusCode.InvalidArgument,
+            ResponseCode.Unauthorized => StatusCode.Unauthenticated,
+            _ => StatusCode.Unknown
+        };
+    }
 
     public ResponseCode ResponseCode => responseCode;
 }

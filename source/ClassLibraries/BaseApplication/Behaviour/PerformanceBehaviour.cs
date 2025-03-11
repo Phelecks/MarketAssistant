@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using BaseApplication.Interfaces;
 using IdentityHelper.Helpers;
 using LoggerService.Helpers;
 using MediatR;
@@ -7,23 +6,13 @@ using Microsoft.Extensions.Logging;
 
 namespace BaseApplication.Behaviour;
 
-public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class PerformanceBehaviour<TRequest, TResponse>(
+    ILogger<PerformanceBehaviour<TRequest, TResponse>> logger,
+    IIdentityHelper identityHelper) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly Stopwatch _timer;
-    private readonly ILogger<TRequest> _logger;
-    private readonly IIdentityHelper _identityHelper;
-    //private readonly IIdentityService _identityService;
-
-    public PerformanceBehaviour(
-        ILogger<TRequest> logger,
-        IIdentityHelper identityHelper/*, IIdentityService identityService*/)
-    {
-        _timer = new Stopwatch();
-
-        _logger = logger;
-        _identityHelper = identityHelper;
-        //_identityService = identityService;
-    }
+    private readonly Stopwatch _timer = new Stopwatch();
+    private readonly ILogger<PerformanceBehaviour<TRequest, TResponse>> _logger = logger;
+    private readonly IIdentityHelper _identityHelper = identityHelper;
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -40,11 +29,6 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
             var requestName = typeof(TRequest).Name;
             var userId = _identityHelper.GetUserIdentity();
             var username = _identityHelper.GetUserName();
-
-            //if (!string.IsNullOrEmpty(userId))
-            //{
-            //    userName = await _identityService.GetUserNameAsync(userId);
-            //}
 
             _ = Task.Run(() => _logger.LogWarning(
                 eventId: EventTool.GetEventInformation(eventType: EventType.Performance, eventName: "Application Long Running Request"),

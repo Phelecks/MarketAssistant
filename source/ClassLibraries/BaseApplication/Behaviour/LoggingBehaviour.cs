@@ -5,18 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace BaseApplication.Behaviour;
 
-public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
+public class LoggingBehaviour<TRequest>(ILogger<LoggingBehaviour<TRequest>> logger, IIdentityHelper identityHelper) : IRequestPreProcessor<TRequest> where TRequest : notnull
 {
-    private readonly ILogger _logger;
-    private readonly IIdentityHelper _identityHelper;
-    //private readonly IIdentityService _identityService;
-
-    public LoggingBehaviour(ILogger<TRequest> logger, IIdentityHelper identityHelper/*, IIdentityService identityService*/)
-    {
-        _logger = logger;
-        _identityHelper = identityHelper;
-        //_identityService = identityService;
-    }
+    private readonly ILogger _logger = logger;
+    private readonly IIdentityHelper _identityHelper = identityHelper;
 
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
@@ -24,14 +16,11 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
         var userId = _identityHelper.GetUserIdentity();
         string username = _identityHelper.GetUserName();
 
-        //if (!string.IsNullOrEmpty(userId))
-        //{
-        //    userName = await _identityService.GetUserNameAsync(userId);
-        //}
-
         _ = Task.Run(() => _logger.LogInformation(
             eventId: EventTool.GetEventInformation(eventType: EventType.General, eventName: "Application Request"),
             "Application request, Name: {@requestName}, UserId: {@userId}, username: {@username}, request: {@request}",
             requestName, userId, username, request), cancellationToken);
+
+        await Task.CompletedTask;
     }
 }

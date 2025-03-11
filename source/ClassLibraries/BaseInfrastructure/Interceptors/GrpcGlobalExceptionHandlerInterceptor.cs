@@ -28,25 +28,21 @@ public class GrpcGlobalExceptionHandlerInterceptor : Interceptor
         {
             var response = ResponseHelper.NotFound(exception.Message);
             throw new RpcException(new Status(response.GrpcStatusCode(), response.ResponseInformation));
-            //return MapResponse<TRequest, TResponse>(ResponseHelper.NotFound(exception.Message));
         }
         catch (ValidationException exception)
         {
             var response = ResponseHelper.BadRequest(exception.Message);
             throw new RpcException(new Status(response.GrpcStatusCode(), response.ResponseInformation));
-            //return MapResponse<TRequest, TResponse>(ResponseHelper.BadRequest(string.IsNullOrEmpty(exception.Message) ? $"{string.Join(',', exception.Errors)}" : exception.Message));
         }
         catch (ForbiddenAccessException exception)
         {
             var response = ResponseHelper.Forbidden(exception.Message);
             throw new RpcException(new Status(response.GrpcStatusCode(), response.ResponseInformation));
-            //return MapResponse<TRequest, TResponse>(ResponseHelper.Forbidden(string.IsNullOrEmpty(exception.Message) ? null : exception.Message));
         }
         catch (UnauthorizedAccessException exception)
         {
             var response = ResponseHelper.Forbidden(exception.Message);
             throw new RpcException(new Status(response.GrpcStatusCode(), response.ResponseInformation));
-            //return MapResponse<TRequest, TResponse>(ResponseHelper.Forbidden(string.IsNullOrEmpty(exception.Message) ? null : exception.Message));
         }
         catch (Exception exception)
         {
@@ -56,18 +52,6 @@ public class GrpcGlobalExceptionHandlerInterceptor : Interceptor
 
             var response = ResponseHelper.Error();
             throw new RpcException(new Status(response.GrpcStatusCode(), response.ResponseInformation));
-            //return MapResponse<TRequest, TResponse>(ResponseHelper.Error());
         }
     }
-
-    //private TResponse MapResponse<TRequest, TResponse>(BaseResponseDto dto)
-    //{
-    //    var concreteResponse = Activator.CreateInstance<TResponse>();
-
-    //    concreteResponse?.GetType().GetProperty(nameof(dto.GetResponseCode))?.SetValue(concreteResponse, dto.GetResponseCode());
-
-    //    concreteResponse?.GetType().GetProperty(nameof(dto.GetResponseInformation))?.SetValue(concreteResponse, dto.GetResponseInformation());
-
-    //    return concreteResponse;
-    //}
 }

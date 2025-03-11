@@ -7,8 +7,6 @@ namespace BlockChainHDWalletHelper.Services;
 
 public class HdWalletService : IHdWalletService
 {
-    //const WordCount wordCount = WordCount.Eighteen;
-
     public Nethereum.HdWallet.Wallet GenerateWallet(string seedPassword, WordCount wordCount)
     {
         try
@@ -18,7 +16,7 @@ public class HdWalletService : IHdWalletService
         }
         catch (Exception e)
         {
-            throw new Exception($"Cannot generate HD wallet with result: {e.Message}.", e.InnerException);
+            throw new InvalidOperationException($"Cannot generate HD wallet with result: {e.Message}.", e.InnerException);
         }
     }
 
@@ -30,7 +28,7 @@ public class HdWalletService : IHdWalletService
         }
         catch (Exception e)
         {
-            throw new Exception($"Cannot restore HD wallet with result: {e.Message}.", e.InnerException);
+            throw new InvalidOperationException($"Cannot restore HD wallet with result: {e.Message}.", e.InnerException);
         }
     }
 
@@ -43,7 +41,7 @@ public class HdWalletService : IHdWalletService
         }
         catch (Exception e)
         {
-            throw new Exception($"Cannot get account by index from HD wallet with result: {e.Message}.", e.InnerException);
+            throw new InvalidOperationException($"Cannot get account by index from HD wallet with result: {e.Message}.", e.InnerException);
         }
     }
 
@@ -56,7 +54,7 @@ public class HdWalletService : IHdWalletService
         }
         catch (Exception e)
         {
-            throw new Exception($"Cannot get account by index from HD wallet with result: {e.Message}.", e.InnerException);
+            throw new InvalidOperationException($"Cannot get account by index from HD wallet with result: {e.Message}.", e.InnerException);
         }
     }
 
@@ -69,7 +67,7 @@ public class HdWalletService : IHdWalletService
         }
         catch (Exception e)
         {
-            throw new Exception($"Cannot get account by address from HD wallet with result: {e.Message}.", e.InnerException);
+            throw new InvalidOperationException($"Cannot get account by address from HD wallet with result: {e.Message}.", e.InnerException);
         }
     }
 
@@ -83,7 +81,7 @@ public class HdWalletService : IHdWalletService
         }
         catch (Exception e)
         {
-            throw new Exception($"Cannot get web3 by index from HD wallet with result: {e.Message}.", e.InnerException);
+            throw new InvalidOperationException($"Cannot get web3 by index from HD wallet with result: {e.Message}.", e.InnerException);
         }
     }
 
@@ -96,7 +94,7 @@ public class HdWalletService : IHdWalletService
         }
         catch (Exception e)
         {
-            throw new Exception($"Cannot get web3 by address from HD wallet with result: {e.Message}.", e.InnerException);
+            throw new InvalidOperationException($"Cannot get web3 by address from HD wallet with result: {e.Message}.", e.InnerException);
         }
     }
 }

@@ -11,14 +11,12 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
 {
     private readonly IConfiguration _configuration;
     private readonly ISiweService _siweService;
-    private readonly ILogger<SiweAuthenticationHandler> _logger;
 
     public SiweAuthenticationHandler(IOptionsMonitor<SiweAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder,
         TimeProvider timeProvider, IConfiguration configuration, ISiweService siweService) : base(options, logger, encoder)
     {
         _configuration = configuration;
         _siweService = siweService;
-        _logger = logger.CreateLogger<SiweAuthenticationHandler>();
     }
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
