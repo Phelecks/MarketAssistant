@@ -28,7 +28,7 @@ public class IdentityHelper : IIdentityHelper
         var context = _accessor.HttpContext;
         if (context == null) return string.Empty;
 
-        var claim = context.User.FindFirst(IdentityModel.JwtClaimTypes.Id);
+        var claim = context.User.FindFirst("id");
         if (claim is null) claim = context.User.FindFirst(ClaimTypes.NameIdentifier);
         return claim is null ? string.Empty : claim.Value;
     }
@@ -42,7 +42,7 @@ public class IdentityHelper : IIdentityHelper
         var context = _accessor.HttpContext;
         if (context == null) return string.Empty;
 
-        var claim = context.User.FindFirst(IdentityModel.JwtClaimTypes.ClientId);
+        var claim = context.User.FindFirst("client_id");
         return claim is null ? string.Empty : claim.Value;
     }
 
@@ -55,7 +55,7 @@ public class IdentityHelper : IIdentityHelper
         var context = _accessor.HttpContext;
         if (context == null) return string.Empty;
 
-        var claim = context.User.FindFirst(IdentityModel.JwtClaimTypes.PreferredUserName);
+        var claim = context.User.FindFirst("preferred_username");
         return claim is null ? string.Empty : claim.Value;
     }
 
@@ -64,7 +64,7 @@ public class IdentityHelper : IIdentityHelper
         var context = _accessor.HttpContext;
         if (context == null) return string.Empty;
 
-        var claim = context.User.FindFirst(IdentityModel.JwtClaimTypes.Name);
+        var claim = context.User.FindFirst("name");
         return claim is null ? string.Empty : claim.Value;
     }
 
@@ -101,8 +101,8 @@ public class IdentityHelper : IIdentityHelper
         var context = _accessor.HttpContext;
         if (context == null) return false;
 
-        var claim = context.User.FindFirst(IdentityModel.JwtClaimTypes.Role);
-        if(claim is null) claim = context.User.FindFirst(ClaimTypes.Role);
+        var claim = context.User.FindFirst("role");
+        if (claim is null) claim = context.User.FindFirst(ClaimTypes.Role);
         return claim is not null && claim.Value.ToLower().Equals(role.ToLower());
     }
 }

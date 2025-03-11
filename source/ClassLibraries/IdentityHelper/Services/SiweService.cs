@@ -16,12 +16,12 @@ public class SiweService : ISiweService
     private const string ClaimTypeSiweExpiry = "siweExpiry";
     private const string ClaimTypeSiweIssuedAt = "siweIssueAt";
     private const string ClaimTypeSiweNotBefore = "siweNotBefore";
-    private const string ClaimTypeRoles = IdentityModel.JwtClaimTypes.Role;
-    private const string ClaimTypeAudience = IdentityModel.JwtClaimTypes.Audience;// "aud";
+    private const string ClaimTypeRoles = "role";
+    private const string ClaimTypeAudience =  "aud";
     private const string ClaimTypePolicies = "policy";
-    private const string ClaimTypeUserId = IdentityModel.JwtClaimTypes.Id;
-    private const string ClaimTypeIssuer = IdentityModel.JwtClaimTypes.Issuer;
-    private const string ClaimTypeUri = IdentityModel.JwtClaimTypes.WebSite;// "uri";
+    private const string ClaimTypeUserId = "id";
+    private const string ClaimTypeIssuer = "iss";
+    private const string ClaimTypeUri = "uri";
     private const string ClaimTypeVersion = "version";
     private const string ClaimTypeChainId = "chainId";
     private const string ClaimTypeRequestId = "requestId";

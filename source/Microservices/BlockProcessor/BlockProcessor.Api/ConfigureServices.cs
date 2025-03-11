@@ -9,8 +9,6 @@ using BlockProcessor.Application;
 using BlockProcessor.Api.Filters;
 using BlockProcessor.Api.Handlers;
 using BlockProcessor.Infrastructure;
-using BlockProcessor.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using BlockProcessor.Api.BackgroundServices;
 
@@ -23,6 +21,7 @@ public static class ConfigureServices
         builder.AddServiceDefaults();
 
         builder.AddRedisDistributedCache("cache");
+        builder.AddRabbitMQClient(connectionName: "messaging");
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
@@ -46,7 +45,6 @@ public static class ConfigureServices
             options.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             options.EnableDetailedErrors = true;
         });
-        //services.AddCodeFirstGrpc();
 
         services.AddMediatR(configuration: configuration =>
         {
@@ -55,14 +53,7 @@ public static class ConfigureServices
 
         builder.Services.AddControllers(options =>
             options.Filters.Add<ApiExceptionFilter>());
-        //builder.Services
-        //    .AddFluentValidationAutoValidation(configurationExpression: x =>
-        //    {
-        //    })
-        //    .AddFluentValidationClientsideAdapters(configuration: configuration =>
-        //    {
-
-        //    });
+            
         builder.Services.AddFluentValidationAutoValidation(configuration =>
         {
             configuration.DisableBuiltInModelValidation = true;
@@ -89,24 +80,7 @@ public static class ConfigureServices
            .AddScheme<SiweAuthenticationOptions, SiweAuthenticationHandler>(SiweAuthenticationOptions.DefaultScheme, options =>
            {
                options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION_NAME")!;
-               options.ValidIssuers = new[] { builder.Configuration.GetValue<string>("TOKEN-ISSUER")! };
-               options.Events = new JwtBearerEvents
-               {
-                   OnMessageReceived = context =>
-                   {
-                       var accessToken = context.Request.Query["access_token"];
-
-                       // If the request is for our hub...
-                       var path = context.HttpContext.Request.Path;
-                       if (!string.IsNullOrEmpty(accessToken) &&
-                           path.StartsWithSegments("/hubs"))
-                       {
-                           // Read the token out of the query string
-                           context.Token = accessToken;
-                       }
-                       return Task.CompletedTask;
-                   }
-               };
+               options.ValidIssuers = [builder.Configuration.GetValue<string>("TOKEN-ISSUER")!];
            });
 
         builder.Services.AddEndpointsApiExplorer();
@@ -149,5 +123,7 @@ public static class ConfigureServices
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();
 
         app.MapDefaultEndpoints();
+
+        await Task.CompletedTask;
     }
 }

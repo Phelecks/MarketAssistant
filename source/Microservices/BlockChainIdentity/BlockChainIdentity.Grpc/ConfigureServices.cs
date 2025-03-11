@@ -22,23 +22,6 @@ public static class ConfigureServices
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
-        // builder.WebHost.ConfigureKestrel(options =>
-        // {
-        //     {
-        //         var grpcPort = builder.Configuration.GetValue("GRPC_PORT", 80);
-        //         options.Listen(IPAddress.Any, grpcPort, listenOptions =>
-        //         {
-        //             listenOptions.Protocols = HttpProtocols.Http2;
-        //         });
-
-        //         var apiRPort = builder.Configuration.GetValue("API_PORT", 81);
-        //         if (apiRPort != 0)
-        //             options.Listen(IPAddress.Any, apiRPort, listenOptions =>
-        //             {
-        //                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
-        //             });
-        //     }
-        // });
 
         builder.Services.Configure<Domain.ConfigurationOptions>(options =>
         {
@@ -46,7 +29,7 @@ public static class ConfigureServices
         });
 
         builder.AddRedisDistributedCache("cache");
-        //builder.AddRabbitMQClient("messaging");
+        builder.AddRabbitMQClient("messaging");
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
@@ -105,7 +88,7 @@ public static class ConfigureServices
            .AddScheme<SiweAuthenticationOptions, SiweAuthenticationHandler>(SiweAuthenticationOptions.DefaultScheme, options =>
            {
                options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION_NAME")!;
-               options.ValidIssuers = new[] { builder.Configuration.GetValue<string>("TOKEN-ISSUER")! };
+               options.ValidIssuers = [builder.Configuration.GetValue<string>("TOKEN-ISSUER")!];
            });
 
         builder.Services.AddEndpointsApiExplorer();

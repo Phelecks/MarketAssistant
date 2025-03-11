@@ -2,7 +2,6 @@
 using System.Reflection;
 using Asp.Versioning;
 using BaseInfrastructure.Interceptors;
-using BaseInfrastructure.Services;
 using FluentValidation.AspNetCore;
 using IdentityHelper;
 using IdentityHelper.Helpers;
@@ -10,10 +9,8 @@ using Informing.Application;
 using Informing.Grpc.Filters;
 using Informing.Grpc.Handlers;
 using Informing.Grpc.Hubs;
-using Informing.Grpc.Services;
 using Informing.Infrastructure;
 using Informing.Infrastructure.Persistence;
-using MassTransitManager.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
@@ -24,26 +21,9 @@ public static class ConfigureServices
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
-        // builder.WebHost.ConfigureKestrel(options =>
-        // {
-        //     {
-        //         var grpcPort = builder.Configuration.GetValue("GRPC_PORT", 80);
-        //         options.Listen(IPAddress.Any, grpcPort, listenOptions =>
-        //         {
-        //             listenOptions.Protocols = HttpProtocols.Http2;
-        //         });
-
-        //         var apiRPort = builder.Configuration.GetValue("API_PORT", 81);
-        //         if (apiRPort != 0)
-        //             options.Listen(IPAddress.Any, apiRPort, listenOptions =>
-        //             {
-        //                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
-        //             });
-        //     }
-        // });
 
         builder.AddRedisDistributedCache("cache");
-        //builder.AddRabbitMQClient("messaging");
+        builder.AddRabbitMQClient("messaging");
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
@@ -67,7 +47,6 @@ public static class ConfigureServices
             options.Interceptors.Add<GrpcGlobalExceptionHandlerInterceptor>();
             options.EnableDetailedErrors = true;
         });
-        //services.AddCodeFirstGrpc();
 
         services.AddMediatR(configuration: configuration =>
         {
@@ -76,14 +55,7 @@ public static class ConfigureServices
 
         builder.Services.AddControllers(options =>
             options.Filters.Add<ApiExceptionFilter>());
-        //builder.Services
-        //    .AddFluentValidationAutoValidation(configurationExpression: x =>
-        //    {
-        //    })
-        //    .AddFluentValidationClientsideAdapters(configuration: configuration =>
-        //    {
-
-        //    });
+            
         builder.Services.AddFluentValidationAutoValidation(configuration =>
         {
             configuration.DisableBuiltInModelValidation = true;
@@ -171,7 +143,6 @@ public static class ConfigureServices
         app.MapControllers();
 
         // Configure the HTTP request pipeline.
-        app.MapGrpcService<GreeterService>();
         app.MapGet("/", () => "Welcome to Informing application.");
 
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();
