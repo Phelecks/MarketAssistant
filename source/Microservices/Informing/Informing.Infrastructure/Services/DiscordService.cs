@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using BaseApplication.Interfaces;
+using Discord;
 using Discord.WebSocket;
 using Informing.Application.Interfaces;
 using Informing.Infrastructure.Helpers;
@@ -11,19 +12,21 @@ namespace Informing.Infrastructure.Services;
 
 public class DiscordService : IDiscordService
 {
+    private const string DiscordException = "DiscordException";
+
     private readonly IServiceProvider _serviceProvider;
     private readonly DiscordSocketClient _discord;
+    private readonly IShuffleService<string> _shuffleService;
     private readonly ILogger<DiscordSocketClient> _logger;
     private bool Initialized = false;
-    private readonly Random _random;
 
-    public DiscordService(IServiceProvider serviceProvider, DiscordSocketClient discord, ILogger<DiscordSocketClient> logger)
+    public DiscordService(IServiceProvider serviceProvider, DiscordSocketClient discord, IShuffleService<string> shuffleService, ILogger<DiscordSocketClient> logger)
     {
         _serviceProvider = serviceProvider;
+        _shuffleService = shuffleService;
         _discord = discord;
         _logger = logger;
         _discord.Log += msg => DiscordLogHelper.OnLogAsync(_logger, msg);
-        _random = new Random();
     }
 
     public async Task InitializeAsync(CancellationToken cancellationToken)
@@ -60,9 +63,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -99,9 +101,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -136,9 +137,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -173,9 +173,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -210,9 +209,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -247,9 +245,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -284,9 +281,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -322,9 +318,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -357,9 +352,8 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
-            return;
         }
     }
 
@@ -387,9 +381,8 @@ public class DiscordService : IDiscordService
             "What do you think? Maybe the winner is this one",
             "Guess what? It looks like it might have the winning ticket!"
         };
-        var span = new Span<string>([.. messages]);
-        _random.Shuffle<string>(span);
-        return span.ToArray().First();
+
+        return _shuffleService.Shuffle(messages);
     }
     private string GetRewardDescription()
     {
@@ -404,9 +397,7 @@ public class DiscordService : IDiscordService
             "You earned rewards; fantastic! Good luck ahead.",
             "You were rewarded; incredible! All the best in the next games."
         };
-        var span = new Span<string>([.. messages]);
-        _random.Shuffle<string>(span);
-        return span.ToArray().First();
+        return _shuffleService.Shuffle(messages);
     }
     private string GetReferralRewardDescription()
     {
@@ -421,8 +412,6 @@ public class DiscordService : IDiscordService
             "Your champions are basking in their rewards—what serendipity!",
             "Your supporters have been handsomely rewarded; sheer good fortune!"
         };
-        var span = new Span<string>([.. messages]);
-        _random.Shuffle<string>(span);
-        return span.ToArray().First();
+        return _shuffleService.Shuffle(messages);
     }
 }

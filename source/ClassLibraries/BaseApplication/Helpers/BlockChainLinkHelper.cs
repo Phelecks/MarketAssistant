@@ -4,35 +4,25 @@ public static class BlockChainLinkHelper
 {
     public static string GenerateTransactionUrl(int chainId, string transactionHash)
     {
-        switch (chainId)
+        return chainId switch
         {
-            case 137:
-                return $"https://polygonscan.com/tx/{transactionHash}";
-            case 8001:
-                return $"https://mumbai.polygonscan.com/tx/{transactionHash}";
-            case 1:
-                return $"https://etherscan.io/tx/{transactionHash}";
-            case 2:
-                return $"https://goerli.etherscan.io/tx/{transactionHash}";
-            default:
-                return transactionHash;
-        }
+            137 => $"https://polygonscan.com/tx/{transactionHash}",
+            8001 => $"https://mumbai.polygonscan.com/tx/{transactionHash}",
+            1 => $"https://etherscan.io/tx/{transactionHash}",
+            2 => $"https://goerli.etherscan.io/tx/{transactionHash}",
+            _ => transactionHash,
+        };
     }
 
     public static string GenerateAddressUrl(int chainId, string address)
     {
-        switch (chainId)
+        return chainId switch
         {
-            case 137:
-                return $"https://polygonscan.com/address/{address}";
-            case 8001:
-                return $"https://mumbai.polygonscan.com/address/{address}";
-            case 1:
-                return $"https://etherscan.io/address/{address}";
-            case 2:
-                return $"https://goerli.etherscan.io/address/{address}";
-            default:
-                return address;
-        }
+            137 => $"https://polygonscan.com/address/{address}",
+            8001 => $"https://mumbai.polygonscan.com/address/{address}",
+            1 => $"https://etherscan.io/address/{address}",
+            2 => $"https://goerli.etherscan.io/address/{address}",
+            _ => address,
+        };
     }
 }

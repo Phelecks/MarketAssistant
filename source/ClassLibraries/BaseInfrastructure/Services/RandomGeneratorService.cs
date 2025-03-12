@@ -1,4 +1,5 @@
-﻿using BaseApplication.Interfaces;
+﻿using System.Text;
+using BaseApplication.Interfaces;
 
 namespace BaseInfrastructure.Services;
 
@@ -13,9 +14,9 @@ public class RandomGeneratorService : IRandomGeneratorService
 
     public string GenerateNumericCode(int length = 6)
     {
-        var code = string.Empty;
+        var codeBuilder = new StringBuilder();
         for (var i = 0; i < length; i++)
-            code += _random.Next(minValue: 0, maxValue: 10);
-        return code;
+            codeBuilder.Append(_random.Next(minValue: 0, maxValue: 10));
+        return codeBuilder.ToString();
     }
 }

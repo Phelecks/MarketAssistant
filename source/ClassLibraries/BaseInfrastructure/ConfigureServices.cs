@@ -13,6 +13,7 @@ public static class ConfigureServices
         services.AddSingleton<IRandomGeneratorService, RandomGeneratorService>();
         services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddSingleton<ICypherService, CypherService>();
+        services.AddSingleton(typeof(IShuffleService<>), typeof(ShuffleService<>));
 
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
