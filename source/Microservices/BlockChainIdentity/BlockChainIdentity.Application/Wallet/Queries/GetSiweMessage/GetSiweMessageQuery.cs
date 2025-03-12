@@ -28,10 +28,10 @@ public class Handler : IRequestHandler<GetSiweMessageQuery, SiweMessageDto>
     {
         var clientResult = _identityService.GetClient(request.ClientKey);
 
-        var client = await _context.clients.SingleAsync(exp => exp.clientId.Equals(clientResult.data.ClientId) &&
-            exp.clientSecret.Equals(clientResult.data.ClientSecret) && exp.enabled, cancellationToken);
+        var client = await _context.clients.SingleAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
+            exp.ClientSecret.Equals(clientResult.data.ClientSecret) && exp.Enabled, cancellationToken);
 
-        var siweMessage = _identityService.GenerateSiweMessage(request.Address, client.uri, client.statement, client.version, request.chainId, Guid.NewGuid().ToString(), _dateTimeService.UtcNow.AddSeconds(client.tokenLifeTimeInSeconds));
+        var siweMessage = _identityService.GenerateSiweMessage(request.Address, client.Uri, client.Statement, client.Version, request.chainId, Guid.NewGuid().ToString(), _dateTimeService.UtcNow.AddSeconds(client.TokenLifeTimeInSeconds));
 
         return new SiweMessageDto(siweMessage);
     }

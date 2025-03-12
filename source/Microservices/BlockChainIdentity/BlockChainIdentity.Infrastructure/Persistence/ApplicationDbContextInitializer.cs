@@ -196,14 +196,14 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
             {
                 new Client
                 {
-                    clientId = "adminPanelClientId",
-                    clientSecret = "!AdminPanel@Tricksfor#2024",
-                    tokenLifeTimeInSeconds = 36000,
-                    enabled = true,
-                    statement = "You are about to connect to Tricksfor Admin panel.",
-                    uri = new Uri("https://marketassitantadmin.tricksfor.com"),
-                    version = "1",
-                    clientResources = new List<ClientResource>
+                    ClientId = "adminPanelClientId",
+                    ClientSecret = "!AdminPanel@Tricksfor#2024",
+                    TokenLifeTimeInSeconds = 36000,
+                    Enabled = true,
+                    Statement = "You are about to connect to Tricksfor Admin panel.",
+                    Uri = new Uri("https://marketassitantadmin.tricksfor.com"),
+                    Version = "1",
+                    ClientResources = new List<ClientResource>
                     {
                         new ClientResource
                         {
@@ -253,14 +253,14 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                 },
                 new Client
                 {
-                    clientId = "WebAppClientId",
-                    clientSecret = "(APP)&(Tricksfor)*2024",
-                    tokenLifeTimeInSeconds = 43200,
-                    enabled = true,
-                    statement = "You are about to connect to marketassistant.tricksfor.com.",
-                    uri = new Uri("https://marketassistant.tricksfor.com"),
-                    version = "1",
-                    clientResources = new List<ClientResource>
+                    ClientId = "WebAppClientId",
+                    ClientSecret = "(APP)&(Tricksfor)*2024",
+                    TokenLifeTimeInSeconds = 43200,
+                    Enabled = true,
+                    Statement = "You are about to connect to marketassistant.tricksfor.com.",
+                    Uri = new Uri("https://marketassistant.tricksfor.com"),
+                    Version = "1",
+                    ClientResources = new List<ClientResource>
                     {
                         new ClientResource
                         {
@@ -326,15 +326,15 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                #region BlockChain Identity
                 new()
                 {
-                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
-                    field = BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
-                    value = "60"
+                    Category = BaseParameterCategory.BlockChainIdentityConfiguration,
+                    Field = BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
+                    Value = "60"
                 },
                 new()
                 {
-                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
-                    field = BaseParameterField.BlockChainIdentityPolygonMainNetRpcUrl,
-                    value = !string.IsNullOrEmpty(environment) && environment.Contains("Development")
+                    Category = BaseParameterCategory.BlockChainIdentityConfiguration,
+                    Field = BaseParameterField.BlockChainIdentityPolygonMainNetRpcUrl,
+                    Value = !string.IsNullOrEmpty(environment) && environment.Contains("Development")
                         ? "https://polygon-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"
                         : !string.IsNullOrEmpty(environment) && environment.Contains("Staging")
                             ? "https://polygon-mainnet.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
@@ -342,9 +342,9 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
                 },
                 new()
                 {
-                    category = BaseParameterCategory.BlockChainIdentityConfiguration,
-                    field = BaseParameterField.BlockChainIdentityPolygonTestNetRpcUrl,
-                    value = "https://polygon-amoy.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
+                    Category = BaseParameterCategory.BlockChainIdentityConfiguration,
+                    Field = BaseParameterField.BlockChainIdentityPolygonTestNetRpcUrl,
+                    Value = "https://polygon-amoy.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
                 },
                 #endregion
            });

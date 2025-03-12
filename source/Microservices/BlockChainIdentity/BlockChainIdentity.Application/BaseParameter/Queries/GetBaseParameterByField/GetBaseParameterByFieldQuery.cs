@@ -8,25 +8,19 @@ using System.ComponentModel.DataAnnotations;
 namespace BlockChainIdentity.Application.BaseParameter.Queries.GetBaseParameterByField;
 
 //[Authorize(roles = "Administrators")]
-public record GetBaseParameterByFieldQuery([property: Required] BaseDomain.Enums.BaseParameterField field) : IRequest<BaseParameterDto>;
+public record GetBaseParameterByFieldQuery([property: Required] BaseDomain.Enums.BaseParameterField Field) : IRequest<BaseParameterDto>;
 
-public class Handler : IRequestHandler<GetBaseParameterByFieldQuery, BaseParameterDto>
+public class Handler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetBaseParameterByFieldQuery, BaseParameterDto>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
-
-    public Handler(IApplicationDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
+    private readonly IApplicationDbContext _context = context;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<BaseParameterDto> Handle(GetBaseParameterByFieldQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.baseParameters.SingleOrDefaultAsync(exp => exp.field == request.field, cancellationToken);
+        var entity = await _context.baseParameters.SingleOrDefaultAsync(exp => exp.Field == request.Field, cancellationToken);
 
         if (entity == null)
-            throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.field);
+            throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.Field);
 
         return _mapper.Map<Domain.Entities.BaseParameter, BaseParameterDto>(entity);
     }

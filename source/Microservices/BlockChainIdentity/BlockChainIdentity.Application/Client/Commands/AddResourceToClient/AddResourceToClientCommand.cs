@@ -21,14 +21,14 @@ public class Handler : IRequestHandler<AddResourceToClientCommand, Unit>
 
     public async Task<Unit> Handle(AddResourceToClientCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.clients.Include(inc => inc.clientResources).SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
+        var entity = await _context.clients.Include(inc => inc.ClientResources).SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
         if (entity == null) throw new NotFoundException(nameof(Domain.Entities.Client), request.Id);
 
         var resources = await _context.resources.Where(exp => request.Resources.Any(resourceId => resourceId == exp.Id)).ToListAsync(cancellationToken);
 
         foreach ( var resource in resources )
         {
-            entity.clientResources.Add(new Domain.Entities.ClientResource
+            entity.ClientResources.Add(new Domain.Entities.ClientResource
             {
                 clientId = entity.Id,
                 resourceId = resource.Id

@@ -7,7 +7,7 @@ using MediatR;
 namespace Informing.Application.BaseParameter.Queries.GetBaseParameter;
 
 //[Authorize(roles = "Administrators")]
-public record GetBaseParameterQuery(long id) : IRequest<BaseParameterDto>;
+public record GetBaseParameterQuery(long Id) : IRequest<BaseParameterDto>;
 
 public class Handler : IRequestHandler<GetBaseParameterQuery, BaseParameterDto>
 {
@@ -23,11 +23,7 @@ public class Handler : IRequestHandler<GetBaseParameterQuery, BaseParameterDto>
     public async Task<BaseParameterDto> Handle(GetBaseParameterQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.baseParameters
-            .FindAsync(new object[] { request.id }, cancellationToken);
-
-        if (entity == null)
-            throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.id);
-
+            .FindAsync([request.Id], cancellationToken) ?? throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.Id);
         return _mapper.Map<Domain.Entities.BaseParameter, BaseParameterDto>(entity);
     }
 }

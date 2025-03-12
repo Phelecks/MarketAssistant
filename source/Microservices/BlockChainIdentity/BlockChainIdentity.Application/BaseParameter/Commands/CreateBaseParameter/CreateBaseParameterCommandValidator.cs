@@ -20,6 +20,6 @@ public class CreateBaseParameterCommandValidator : AbstractValidator<CreateBaseP
     public async Task<bool> BeUniqueFieldAsync(BaseParameterField field, CancellationToken cancellationToken)
     {
         return await _context.baseParameters
-            .AllAsync(l => l.field != field, cancellationToken);
+            .AllAsync(l => l.Field != field, cancellationToken);
     }
 }

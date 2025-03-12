@@ -30,8 +30,8 @@ public class GetSiweMessageQueryValidator : AbstractValidator<GetSiweMessageQuer
         var clientResult = _identityService.GetClient(clientKey);
         if (!clientResult.IsSuccess()) return false;
 
-        var client = await _context.clients.SingleOrDefaultAsync(exp => exp.clientId.Equals(clientResult.data.ClientId) && 
-            exp.clientSecret.Equals(clientResult.data.ClientSecret) && exp.enabled, cancellationToken);
+        var client = await _context.clients.SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) && 
+            exp.ClientSecret.Equals(clientResult.data.ClientSecret) && exp.Enabled, cancellationToken);
         if(client == null) return false;
         return true;
     }

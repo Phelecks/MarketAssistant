@@ -7,7 +7,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Domain.Entities.Clie
 {
     public void Configure(EntityTypeBuilder<Domain.Entities.Client> builder)
     {
-        builder.HasIndex(index => index.clientId).IsUnique(true);
+        builder.HasIndex(index => index.ClientId).IsUnique(true);
         builder.ToTable("Client");
     }
 }

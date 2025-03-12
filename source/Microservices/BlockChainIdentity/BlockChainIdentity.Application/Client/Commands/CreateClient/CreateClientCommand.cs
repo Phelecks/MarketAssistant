@@ -9,14 +9,9 @@ namespace BlockChainIdentity.Application.Client.Commands.CreateClient;
 [Authorize(roles = "Administrators")]
 public record CreateClientCommand([property: Required] string ClientId, [property: Required] string ClientSecret, [property: Required] Uri Uri, [property: Required] bool Enabled, [property: Required] string Statement, [property: Required] string Version, [property: Required] List<long> Resources, int? tokenLifeTimeInSeconds) : IRequest<long>;
 
-public class Handler : IRequestHandler<CreateClientCommand, long>
+public class Handler(IApplicationDbContext context) : IRequestHandler<CreateClientCommand, long>
 {
-    private readonly IApplicationDbContext _context;
-
-    public Handler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
+    private readonly IApplicationDbContext _context = context;
 
     public async Task<long> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
@@ -26,21 +21,21 @@ public class Handler : IRequestHandler<CreateClientCommand, long>
         if (request.tokenLifeTimeInSeconds.HasValue) tokenLifeTime = request.tokenLifeTimeInSeconds.Value;
         else
         {
-            var baseParameter = await _context.baseParameters.SingleOrDefaultAsync(exp => exp.field == BaseDomain.Enums.BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime, cancellationToken);
+            var baseParameter = await _context.baseParameters.SingleOrDefaultAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime, cancellationToken);
             if (baseParameter == null) tokenLifeTime = 60;
-            else tokenLifeTime = int.Parse(baseParameter.value);
+            else tokenLifeTime = int.Parse(baseParameter.Value);
         }
 
         var entity = new Domain.Entities.Client
         {
-            clientId = request.ClientId,
-            clientSecret = request.ClientSecret,
-            tokenLifeTimeInSeconds = tokenLifeTime,
-            enabled = request.Enabled,
-            uri = request.Uri,
-            statement = request.Statement,
-            version = request.Version,
-            clientResources = resources.Select(s => new Domain.Entities.ClientResource
+            ClientId = request.ClientId,
+            ClientSecret = request.ClientSecret,
+            TokenLifeTimeInSeconds = tokenLifeTime,
+            Enabled = request.Enabled,
+            Uri = request.Uri,
+            Statement = request.Statement,
+            Version = request.Version,
+            ClientResources = resources.Select(s => new Domain.Entities.ClientResource
             {
                 resourceId = s.Id
             }).ToList()

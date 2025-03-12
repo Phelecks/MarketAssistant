@@ -11,23 +11,23 @@ public class BaseParameterDto : IMapFrom<Domain.Entities.BaseParameter>
     /// Category
     /// </summary>
     [Required]
-    public BaseParameterCategory category { get; set; }
+    public BaseParameterCategory Category { get; set; }
 
     /// <summary>
     /// Field
     /// </summary>
     [Required]
-    public BaseParameterField field { get; set; }
+    public BaseParameterField Field { get; set; }
 
     /// <summary>
     /// Value
     /// </summary>
     [Required]
-    public string value { get; set; }
+    public required string Value { get; set; }
 
     /// <summary>
     /// Kernel base parameter identifier
     /// </summary>
     [Required]
-    public long kernelBaseParameterId { get; set; }
+    public long KernelBaseParameterId { get; set; }
 }

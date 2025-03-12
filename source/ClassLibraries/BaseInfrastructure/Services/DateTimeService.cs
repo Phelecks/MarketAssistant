@@ -9,7 +9,7 @@ public class DateTimeService : IDateTimeService
     public DateTime Now => DateTime.Now;
     public DateTime ConvertFromUnixTimestamp(BigInteger timestamp)
     {
-        DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        DateTime origin = DateTime.UnixEpoch;
         return origin.AddSeconds((double)timestamp);
     }
 }

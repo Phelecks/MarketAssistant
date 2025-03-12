@@ -2,34 +2,32 @@
 using EntityFrameworkCore.EncryptColumn.Attribute;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlockChainIdentity.Domain.Entities;
 
 public class Client : BaseAuditEntity
 {
     [Required]
-    public string clientId { get; set; }
+    public required string ClientId { get; set; }
 
     [Required]
     [EncryptColumn]
-    public string clientSecret { get; set; }
+    public required string ClientSecret { get; set; }
 
-    private string url { get; set; }
-    //[NotMapped]
-    [BackingField(nameof(url))]
-    public Uri uri { get { return new Uri(url); } set { url = value.AbsoluteUri; } }
-
-    [Required]
-    public int tokenLifeTimeInSeconds { get; set; }
-
-    public bool enabled { get; set; }
+    private string Url { get; set; }
+    [BackingField(nameof(Url))]
+    public Uri Uri { get { return new Uri(Url); } set { Url = value.AbsoluteUri; } }
 
     [Required]
-    public string statement { get; set; }
+    public int TokenLifeTimeInSeconds { get; set; }
+
+    public bool Enabled { get; set; }
 
     [Required]
-    public string version { get; set; }
+    public required string Statement { get; set; }
 
-    public virtual ICollection<ClientResource> clientResources { get; set; }
+    [Required]
+    public required string Version { get; set; }
+
+    public virtual ICollection<ClientResource> ClientResources { get; set; }
 }

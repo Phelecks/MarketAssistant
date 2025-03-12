@@ -24,7 +24,7 @@ public class CreateClientCommandValidator : AbstractValidator<CreateClientComman
 
     async Task<bool> BeUniqueClientIdAsync(string clientId, CancellationToken cancellationToken)
     {
-        return await _context.clients.AllAsync(l => l.clientId != clientId, cancellationToken);
+        return await _context.clients.AllAsync(l => l.ClientId != clientId, cancellationToken);
     }
 
     async Task<bool> BeResourcesExistsAsync(List<long> resources, CancellationToken cancellationToken)

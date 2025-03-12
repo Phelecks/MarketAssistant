@@ -5,23 +5,24 @@ namespace BlockChainIdentity.Application.Client.Queries.GetClient;
 
 public class ClientDto :  IMapFrom<Domain.Entities.Client>
 {
-    public long id { get; set; }
+    public long Id { get; set; }
+    
     [Required]
-    public string clientId { get; set; }
-
-    [Required]
-    public string clientSecret { get; set; }
-
-    public Uri uri { get; set; }
+    public required string ClientId { get; set; }
 
     [Required]
-    public int tokenLifeTimeInSeconds { get; set; }
+    public required string ClientSecret { get; set; }
 
-    public bool enabled { get; set; }
-
-    [Required]
-    public string statement { get; set; }
+    public required Uri Uri { get; set; }
 
     [Required]
-    public string version { get; set; }
+    public int TokenLifeTimeInSeconds { get; set; }
+
+    public bool Enabled { get; set; }
+
+    [Required]
+    public required string Statement { get; set; }
+
+    [Required]
+    public required string Version { get; set; }
 }

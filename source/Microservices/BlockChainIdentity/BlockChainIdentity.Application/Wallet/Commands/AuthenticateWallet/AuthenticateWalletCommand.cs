@@ -44,12 +44,12 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                         var roles = await GetWalletRolesAsync(siweMessage.Address, request.chainId, cancellationToken);
                         var policies = await GetWalletPoliciesAsync(siweMessage.Address, request.chainId, cancellationToken);
                         var tokenResult = await _identityService.GenerateTokenAsync(siweMessage, signature, 
-                            roles.Select(s => s.title).ToList(), client.clientResources.Select(s => s.resource.title).ToList(), 
-                            policies, client.uri, client.version, request.chainId,
-                            siweMessage.RequestId, client.statement, cancellationToken);
+                            roles.Select(s => s.title).ToList(), client.ClientResources.Select(s => s.resource.title).ToList(), 
+                            policies, client.Uri, client.Version, request.chainId,
+                            siweMessage.RequestId, client.Statement, cancellationToken);
                         
                         await CreateTokenAsync(tokenResult.tokenDescriptor.IssuedAt!.Value, tokenResult.tokenDescriptor.Expires!.Value, 
-                            tokenResult.tokenDescriptor.NotBefore!.Value, client.statement, client.uri, client.version, siweMessage.Nonce, siweMessage.RequestId,
+                            tokenResult.tokenDescriptor.NotBefore!.Value, client.Statement, client.Uri, client.Version, siweMessage.Nonce, siweMessage.RequestId,
                             true, siweMessage.Address, request.chainId, client.Id, cancellationToken);
 
                         return new TokenDto(tokenResult.token, siweMessage.Address);
@@ -68,7 +68,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
      string version, string nonce, string requestId, bool enabled, string walletAddress, int chainId,
      long clientId, CancellationToken cancellationToken)
     {
-        var client = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
+        var client = await _context.clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
 
         var wallet = await _context.wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).SingleOrDefaultAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
         if (wallet == null)
@@ -88,7 +88,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
             };
 
             await _context.wallets.AddAsync(wallet, cancellationToken);
-            wallet.AddDomainEvent(new WalletCreatedEvent(wallet, client.clientId));
+            wallet.AddDomainEvent(new WalletCreatedEvent(wallet, client.ClientId));
         }
 
         var entity = new Domain.Entities.Token
@@ -102,7 +102,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
             statement = statement,
             version = version,
             walletAddress = walletAddress,
-            resources = string.Join(',', client.clientResources.Select(s => s.resource.title).ToList()),
+            resources = string.Join(',', client.ClientResources.Select(s => s.resource.title).ToList()),
             uri = uri
         };
         await _context.tokens.AddAsync(entity, cancellationToken);
@@ -115,8 +115,8 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
         var clientResult = _identityService.GetClient(clientKey);
         if (!clientResult.IsSuccess()) throw new ForbiddenAccessException();
 
-        var client = await _context.clients.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.clientId.Equals(clientResult.data.ClientId) &&
-            exp.clientSecret.Equals(clientResult.data.ClientSecret) && exp.enabled, cancellationToken);
+        var client = await _context.clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
+            exp.ClientSecret.Equals(clientResult.data.ClientSecret) && exp.Enabled, cancellationToken);
         if (client == null) throw new ForbiddenAccessException();
         return client;
     }
@@ -137,6 +137,6 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
 
     async Task<List<string>> GetWalletPoliciesAsync(string address, int chainId, CancellationToken cancellationToken)
     {
-        return new List<string>();
+        return await Task.FromResult(new List<string>());
     }
 }

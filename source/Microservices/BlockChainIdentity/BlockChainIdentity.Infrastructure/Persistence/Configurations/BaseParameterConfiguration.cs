@@ -8,13 +8,13 @@ public class BaseParameterConfiguration : IEntityTypeConfiguration<BaseParameter
 {
     public void Configure(EntityTypeBuilder<BaseParameter> builder)
     {
-        builder.Property(t => t.value)
+        builder.Property(t => t.Value)
             .HasMaxLength(512)
             .IsRequired();
-        builder.Property(t => t.category)
+        builder.Property(t => t.Category)
             .IsRequired();
-        builder.Property(t => t.field)
+        builder.Property(t => t.Field)
             .IsRequired();
-        builder.ToTable("BaseParameter").HasIndex(index => index.field).IsUnique();
+        builder.ToTable("BaseParameter").HasIndex(index => index.Field).IsUnique();
     }
 }

@@ -36,7 +36,7 @@ public class Handler : IRequestHandler<UpdateBaseParameterCommand, Unit>
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.id);
 
-        entity.value = request.value;
+        entity.Value = request.value;
 
         entity.AddDomainEvent(new BaseParameterUpdatedEvent(entity));
 

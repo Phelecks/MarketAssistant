@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BlockChainIdentity.Grpc.Controllers.V1.Models;
 
@@ -11,11 +12,12 @@ public class GetSiweRequest
     /// Wallet Address
     /// </summary>
     [Required]
-    public string Address { get; set; }
+    public required string Address { get; set; }
 
     /// <summary>
     /// Chain
     /// </summary>
     [Required]
+    [JsonRequired]
     public int ChainId { get; set; }
 }

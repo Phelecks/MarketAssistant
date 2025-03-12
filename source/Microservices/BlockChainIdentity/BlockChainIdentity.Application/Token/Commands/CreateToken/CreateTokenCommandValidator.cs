@@ -28,6 +28,6 @@ public class CreateTokenCommandValidator : AbstractValidator<CreateTokenCommand>
     {
         var result = await _context.clients.SingleOrDefaultAsync(exp => exp.Id == ClientId, cancellationToken);
         if (result == null) return false;
-        return result.enabled;
+        return result.Enabled;
     }
 }

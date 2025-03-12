@@ -24,10 +24,10 @@ public class GasService : IGasService
         request.Headers.Add("accept", "application/json");
         var content = new StringContent($"{{\"id\": {requestDto.id},\"jsonrpc\": \"{requestDto.jsonrpc}\",\"method\": \"{requestDto.method}\"}}", null, "application/json");
         request.Content = content;
-        var response = await _httpClient.SendAsync(request);
+        var response = await _httpClient.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
-        var result = await response.Content.ReadFromJsonAsync<GasPriceResponse>();
-        if (result is null) throw new Exception("Cannot parse alchemy response.");
+        var result = await response.Content.ReadFromJsonAsync<GasPriceResponse>(cancellationToken);
+        if (result is null) throw new InvalidOperationException("Cannot parse alchemy response.");
         return new HexBigInteger(result.result).Value;
     }
 
@@ -70,7 +70,7 @@ public class GasService : IGasService
     public async Task<decimal> CalculateTotalAmountToTransferWholeBalanceInEtherAsync(Web3 web3, string fromAddress, CancellationToken cancellationToken = default)
     {
         var suggestedFee = await web3.Eth.GetEtherTransferService().SuggestFeeToTransferWholeBalanceInEtherAsync();
-        if (suggestedFee is null || suggestedFee.MaxFeePerGas is null) throw new Exception();
+        if (suggestedFee is null || suggestedFee.MaxFeePerGas is null) throw new InvalidOperationException("Suggested fee or MaxFeePerGas is null.");
         return await web3.Eth.GetEtherTransferService().CalculateTotalAmountToTransferWholeBalanceInEtherAsync(address: fromAddress, maxFeePerGas: suggestedFee.MaxFeePerGas.Value);
     }
 }

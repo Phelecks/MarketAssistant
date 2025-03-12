@@ -64,10 +64,9 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
 
     private async Task TrySeedBaseParametersAsync()
     {
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         // Default data
         // Seed, if necessary
-        if (!_context.baseParameters.Any())
+        if (!await _context.baseParameters.AnyAsync())
         {
             await _context.baseParameters.AddRangeAsync(new List<BaseParameter>
             {
@@ -99,7 +98,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     {
         // Default data
         // Seed, if necessary
-        if (!_context.templates.Any())
+        if (!await _context.templates.AnyAsync())
         {
             await _context.templates.AddRangeAsync(new List<Template>
             {
@@ -127,7 +126,7 @@ public class ApplicationDbContextInitializer : IApplicationDbContextInitializer
     {
         // Default data
         // Seed, if necessary
-        if (!_context.contacts.Any(contact => contact.groupContacts.Any(groupContact => groupContact.group.title.Equals("Administrators"))))
+        if (!await _context.contacts.AnyAsync(contact => contact.groupContacts.Any(groupContact => groupContact.group.title.Equals("Administrators"))))
         {
             await _context.contacts.AddRangeAsync(new List<Contact>
             {

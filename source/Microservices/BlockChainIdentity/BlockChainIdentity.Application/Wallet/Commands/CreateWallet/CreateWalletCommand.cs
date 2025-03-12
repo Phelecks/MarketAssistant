@@ -30,7 +30,7 @@ public class Handler : IRequestHandler<CreateWalletCommand, string>
 
         await _context.wallets.AddAsync(entity, cancellationToken);
 
-        entity.AddDomainEvent(new WalletCreatedEvent(entity, client.clientId));
+        entity.AddDomainEvent(new WalletCreatedEvent(entity, client.ClientId));
 
         await _context.SaveChangesAsync(cancellationToken);
 
