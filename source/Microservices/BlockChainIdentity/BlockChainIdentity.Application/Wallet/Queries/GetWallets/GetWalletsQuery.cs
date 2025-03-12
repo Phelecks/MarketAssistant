@@ -27,6 +27,6 @@ public class Handler : IRequestHandler<GetWalletsQuery, PaginatedList<WalletDto>
     {
         return await _context.wallets
             .ProjectTo<WalletDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

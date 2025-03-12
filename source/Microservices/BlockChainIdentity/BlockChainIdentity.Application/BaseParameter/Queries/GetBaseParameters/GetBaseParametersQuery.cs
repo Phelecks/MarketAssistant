@@ -27,6 +27,6 @@ public class Handler : IRequestHandler<GetBaseParametersQuery, PaginatedList<Bas
         return await _context.baseParameters
             .ProjectTo<BaseParametersDto>(_mapper.ConfigurationProvider)
             .OrderBy(t => t.field)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

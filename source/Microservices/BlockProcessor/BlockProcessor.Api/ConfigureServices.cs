@@ -11,6 +11,8 @@ using BlockProcessor.Api.Handlers;
 using BlockProcessor.Infrastructure;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using BlockProcessor.Api.BackgroundServices;
+using BlockProcessor.Api.Extensions;
+using BaseInfrastructure.Helpers;
 
 namespace BlockProcessor.Api;
 
@@ -22,6 +24,18 @@ public static class ConfigureServices
 
         builder.AddRedisDistributedCache("cache");
         builder.AddRabbitMQClient(connectionName: "messaging");
+
+        builder.Services.AddOutputCache(options =>
+        {
+            options.AddBasePolicy(builder =>
+                builder.Expire(TimeSpan.FromSeconds(5)));
+            options.AddPolicy(OutputCacheKeys.CacheForTenSeconds, builder =>
+                builder.Expire(TimeSpan.FromSeconds(10)));
+            options.AddPolicy(OutputCacheKeys.CacheForThirtySeconds, builder =>
+                builder.Expire(TimeSpan.FromSeconds(30)));
+            options.AddPolicy(OutputCacheKeys.CacheForOneMinute, builder =>
+                builder.Expire(TimeSpan.FromSeconds(60)));
+        });
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
@@ -66,7 +80,7 @@ public static class ConfigureServices
             // reporting api versions will return the headers
             // "api-supported-versions" and "api-deprecated-versions"
             options.ReportApiVersions = true;
-
+            options.DefaultApiVersion = new ApiVersion(majorVersion: 1, minorVersion: 0);
             options.ApiVersionReader = ApiVersionReader.Combine(
                 new HeaderApiVersionReader()
                 {
@@ -95,6 +109,9 @@ public static class ConfigureServices
 
     public static async Task AddConfiguration(this WebApplication app)
     {
+        //Map minimal APIs
+        app.RegisterEndpointDefinitions();
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {

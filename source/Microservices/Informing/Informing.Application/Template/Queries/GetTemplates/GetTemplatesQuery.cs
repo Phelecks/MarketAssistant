@@ -27,6 +27,6 @@ public class GetTemplatesQueryHandler : IRequestHandler<GetTemplatesQuery, Pagin
     {
         return await _context.templates
             .ProjectTo<TemplatesDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

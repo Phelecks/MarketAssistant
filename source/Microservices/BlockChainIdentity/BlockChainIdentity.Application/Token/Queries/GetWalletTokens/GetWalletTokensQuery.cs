@@ -28,6 +28,6 @@ public class Handler : IRequestHandler<GetWalletTokensQuery, PaginatedList<Walle
         return await _context.tokens
             .Where(exp => exp.walletAddress.Equals(request.address))
             .ProjectTo<WalletTokenDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

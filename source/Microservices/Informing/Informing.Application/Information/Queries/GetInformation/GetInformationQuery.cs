@@ -27,6 +27,6 @@ public class GetInformationQueryHandler : IRequestHandler<GetInformationQuery, P
     {
         return await _context.information
             .ProjectTo<InformationDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

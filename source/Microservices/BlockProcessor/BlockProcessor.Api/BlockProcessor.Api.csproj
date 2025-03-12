@@ -32,7 +32,6 @@
 		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
 		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
 		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
-		<!-- <ProjectReference Include="..\..\Identity\Identity.AccessTokenValidation\Identity.AccessTokenValidation.csproj" /> -->
 		<ProjectReference Include="..\BlockProcessor.Infrastructure\BlockProcessor.Infrastructure.csproj" />
 	</ItemGroup>
 

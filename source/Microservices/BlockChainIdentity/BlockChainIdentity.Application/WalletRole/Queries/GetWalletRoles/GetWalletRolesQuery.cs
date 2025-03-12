@@ -27,6 +27,6 @@ public class Handler : IRequestHandler<GetWalletRolesQuery, PaginatedList<Wallet
         return await _context.roles
             .Where(exp => exp.walletRoles.Any(walletRole => walletRole.walletAddress.Equals(request.WalletAddress)))
             .ProjectTo<WalletRoleDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

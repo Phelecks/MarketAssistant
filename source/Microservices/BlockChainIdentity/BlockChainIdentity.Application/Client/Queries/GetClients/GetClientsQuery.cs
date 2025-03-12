@@ -5,7 +5,6 @@ using BaseApplication.Models;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Application.Client.Queries.GetClients;
 
@@ -28,6 +27,6 @@ public class Handler : IRequestHandler<GetClientsQuery, PaginatedList<ClientDto>
         return await _context.clients
             //.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource)
             .ProjectTo<ClientDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

@@ -33,6 +33,6 @@ public class GetUserInformationQueryHandler : IRequestHandler<GetUserInformation
                 && (exp.contactInformations.Any(ciExp => ciExp.contact.userId.Equals(_identityHelper.GetUserIdentity()))
                 || exp.groupInformations.Any(giExp => giExp.group.groupContacts.Any(gcExp => gcExp.contact.userId.Equals(_identityHelper.GetUserIdentity())))))
             .ProjectTo<UserInformationDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

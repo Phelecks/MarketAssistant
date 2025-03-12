@@ -20,7 +20,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Resource.Queries.GetResources.ResourceDto>>> Get([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetResourcesQuery { pageNumber = pageNumber, pageSize = pageSize, orderBy = orderBy }, cancellationToken);
+            return await Sender.Send(new GetResourcesQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{id:long}")]

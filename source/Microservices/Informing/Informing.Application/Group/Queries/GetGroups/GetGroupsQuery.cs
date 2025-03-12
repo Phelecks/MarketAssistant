@@ -27,6 +27,6 @@ public class GetGroupsQueryHandler : IRequestHandler<GetGroupsQuery, PaginatedLi
     {
         return await _context.groups
             .ProjectTo<GroupDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

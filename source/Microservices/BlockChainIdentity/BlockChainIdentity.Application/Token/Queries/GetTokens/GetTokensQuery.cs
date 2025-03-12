@@ -26,6 +26,6 @@ public class Handler : IRequestHandler<GetTokensQuery, PaginatedList<TokenDto>>
     {
         return await _context.tokens
             .ProjectTo<TokenDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

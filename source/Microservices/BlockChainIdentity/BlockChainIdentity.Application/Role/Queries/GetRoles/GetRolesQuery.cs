@@ -29,6 +29,6 @@ public class Handler : IRequestHandler<GetRolesQuery, PaginatedList<RoleDto>>
         return await _context.roles
             .Include(inc => inc.walletRoles).ThenInclude(inc => inc.role)
             .ProjectTo<RoleDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

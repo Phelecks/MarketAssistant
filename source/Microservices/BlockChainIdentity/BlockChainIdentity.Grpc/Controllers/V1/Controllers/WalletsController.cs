@@ -22,7 +22,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Wallet.Queries.GetWallets.WalletDto>>> Get([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetWalletsQuery { pageNumber = pageNumber, pageSize = pageSize, orderBy = orderBy }, cancellationToken);
+            return await Sender.Send(new GetWalletsQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{address}")]
@@ -46,7 +46,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<WalletRoleDto>>> GetWalletRoles(string address, [FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetWalletRolesQuery(address) { pageNumber = pageNumber, pageSize = pageSize, orderBy = orderBy }, cancellationToken);
+            return await Sender.Send(new GetWalletRolesQuery(address) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{address}/Tokens")]
@@ -58,7 +58,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<WalletTokenDto>>> GetWalletTokens(string address, [FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetWalletTokensQuery(address) { pageNumber = pageNumber, pageSize = pageSize, orderBy = orderBy }, cancellationToken);
+            return await Sender.Send(new GetWalletTokensQuery(address) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
     }
 }

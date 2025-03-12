@@ -28,6 +28,6 @@ public class Handler : IRequestHandler<GetClientResourcesQuery, PaginatedList<Re
         return await _context.resources
             .Where(exp => exp.clientResources.Any(clientResource => clientResource.clientId == request.clientId))
             .ProjectTo<ResourceDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

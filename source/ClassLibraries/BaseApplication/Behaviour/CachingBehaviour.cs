@@ -1,5 +1,4 @@
 ﻿using BaseApplication.Interfaces;
-using CacheManager;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -8,10 +7,10 @@ namespace BaseApplication.Behaviour;
 
 public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>, ICacheableMediatrQuery
 {
-	private readonly ILogger<TRequest> _logger;
+	private readonly ILogger<CachingBehaviour<TRequest, TResponse>> _logger;
 	private readonly IDistributedCache _distributedCache;
 
-    public CachingBehaviour(ILogger<TRequest> logger, IDistributedCache distributedCache)
+	public CachingBehaviour(ILogger<CachingBehaviour<TRequest, TResponse>> logger, IDistributedCache distributedCache)
 	{
 		_logger = logger;
 		_distributedCache = distributedCache;
@@ -45,7 +44,7 @@ public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
                 response = result;
 				_logger.LogInformation("Fetched from Cache -> '{CacheKey}'.", request.cacheKey);
             }
-			catch (Exception)
+			catch (Exception exception)
 			{
                 return await next();
             }

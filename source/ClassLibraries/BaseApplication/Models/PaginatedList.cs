@@ -7,16 +7,24 @@ namespace BaseApplication.Models;
 
 public class PaginatedList<T>
 {
-    public List<T> data { get; }
-
-    public PagingInformationResponse pagingInformation { get; }
-
     public PaginatedList(List<T> data, int count, int pageNumber, int pageSize)
     {
-        pagingInformation =
-            new PagingInformationResponse(pageNumber, (int) Math.Ceiling(count / (double) pageSize), count);
-        this.data = data;
+        Data = data;
+        PagingInformation = new PagingInformationResponse(pageNumber, (int)Math.Ceiling(count / (double)pageSize), count);
     }
+
+    //For cache pipeline
+    [System.Text.Json.Serialization.JsonConstructor]
+    public PaginatedList(List<T> data, PagingInformationResponse pagingInformation)
+    {
+        Data = data;
+        PagingInformation = pagingInformation;
+    }
+
+
+    public List<T> Data { get; }
+
+    public PagingInformationResponse PagingInformation { get; }
 
     public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize, string? orderBy, CancellationToken cancellationToken)
     {
@@ -63,22 +71,11 @@ public class PaginatedList<T>
     }
 }
 
-public class PagingInformationResponse
+public class PagingInformationResponse(int pageNumber, int totalPages, int totalCount)
 {
-    public PagingInformationResponse(int pageNumber, int totalPages, int totalCount)
-    {
-        this.pageNumber = pageNumber;
-        this.totalPages = totalPages;
-        this.totalCount = totalCount;
-    }
-
-    public int pageNumber { get; }
-    public int totalPages { get; }
-    public int totalCount { get; }
-
-   
-
-    public bool hasPreviousPage => pageNumber > 1;
-
-    public bool hasNextPage => pageNumber < totalPages;
+    public int PageNumber { get; } = pageNumber;
+    public int TotalPages { get; } = totalPages;
+    public int TotalCount { get; } = totalCount;
+    public bool HasPreviousPage => PageNumber > 1;
+    public bool HasNextPage => PageNumber < TotalPages;
 }

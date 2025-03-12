@@ -27,6 +27,6 @@ public class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, Paginat
     {
         return await _context.contacts
             .ProjectTo<ContactsDto>(_mapper.ConfigurationProvider)
-            .ProjectToPaginatedListAsync(request.pageNumber, request.pageSize, request.orderBy, cancellationToken);
+            .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }
 }

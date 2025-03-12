@@ -24,7 +24,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Role.Queries.GetRoles.RoleDto>>> Get([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetRolesQuery { pageNumber = pageNumber, pageSize = pageSize, orderBy = orderBy }, cancellationToken);
+            return await Sender.Send(new GetRolesQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{id:long}")]
