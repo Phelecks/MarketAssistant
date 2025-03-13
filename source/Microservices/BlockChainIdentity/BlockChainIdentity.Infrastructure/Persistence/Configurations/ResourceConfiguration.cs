@@ -7,7 +7,7 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Domain.Entities.Re
 {
     public void Configure(EntityTypeBuilder<Domain.Entities.Resource> builder)
     {
-        builder.HasIndex(index => index.title).IsUnique(true);
+        builder.HasIndex(index => index.Title).IsUnique(true);
         builder.ToTable("Resource");
     }
 }

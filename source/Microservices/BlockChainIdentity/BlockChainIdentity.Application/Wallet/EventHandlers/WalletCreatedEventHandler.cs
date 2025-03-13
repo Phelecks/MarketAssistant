@@ -27,9 +27,7 @@ public class WalletCreatedEventHandler : INotificationHandler<WalletCreatedEvent
            notification.GetType().Name, notification.Item), cancellationToken);
 
         await _massTransitService.SendAsync(
-            new CreateUserMessage(notification.Item.address, notification.Item.address, string.Empty, string.Empty, notification.ClientId, null),
+            new CreateUserMessage(notification.Item.Address, notification.Item.Address, string.Empty, string.Empty, notification.ClientId, null),
             Queues.CreateUserMessageQueueName);
-
-        //return Task.CompletedTask;
     }
 }

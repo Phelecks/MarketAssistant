@@ -21,7 +21,7 @@ public class CreateTokenCommandValidator : AbstractValidator<CreateTokenCommand>
 
     async Task<bool> BeWalletExistsAsync(string WalletAddress, CancellationToken cancellationToken)
     {
-        return await _context.Wallets.AnyAsync(exp => exp.address.Equals(WalletAddress), cancellationToken);
+        return await _context.Wallets.AnyAsync(exp => exp.Address.Equals(WalletAddress), cancellationToken);
     }
 
     async Task<bool> BeValidClientAsync(long ClientId, CancellationToken cancellationToken)

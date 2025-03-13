@@ -24,8 +24,8 @@ public class Handler : IRequestHandler<CreateWalletCommand, string>
 
         var entity = new Domain.Entities.Wallet
         {
-            address = request.Address,
-            chainId = request.ChainId
+            Address = request.Address,
+            ChainId = request.ChainId
         };
 
         await _context.Wallets.AddAsync(entity, cancellationToken);
@@ -34,6 +34,6 @@ public class Handler : IRequestHandler<CreateWalletCommand, string>
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.address;
+        return entity.Address;
     }
 }

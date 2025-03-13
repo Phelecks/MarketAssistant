@@ -22,7 +22,7 @@ public static class ConfigureServices
         builder.AddServiceDefaults();
 
         builder.AddRedisDistributedCache("cache");
-        //builder.AddRabbitMQClient("messaging");
+        builder.AddRabbitMQClient("messaging");
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
@@ -132,8 +132,6 @@ public static class ConfigureServices
 
         app.MapControllers();
 
-        //app.MapGrpcService<BaseparametersServiceV1>();
-        //app.MapGrpcService<SchedulesServiceV1>();
         app.MapGet("/", () => "Welcome to Wallet Track application");
 
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();

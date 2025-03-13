@@ -27,17 +27,17 @@ public class Handler : IRequestHandler<CreateTokenCommand, long>
 
         var entity = new Domain.Entities.Token
         {
-            issuedAt = request.IssuedAt,
-            expireAt = request.ExpireAt,
-            enabled = request.Enabled,
-            nonce = request.Nonce,
-            notBefore = request.NotBefore,
-            requestId = request.RequestId,
+            IssuedAt = request.IssuedAt,
+            ExpireAt = request.ExpireAt,
+            Enabled = request.Enabled,
+            Nonce = request.Nonce,
+            NotBefore = request.NotBefore,
+            RequestId = request.RequestId,
             statement = request.Statement,
             version = request.Version,
-            walletAddress = request.WalletAddress,
-            resources = string.Join(',', client.ClientResources.Select(s => s.resource.title).ToList()),
-            uri = request.Uri
+            WalletAddress = request.WalletAddress,
+            Resources = string.Join(',', client.ClientResources.Select(s => s.resource.Title).ToList()),
+            Uri = request.Uri
         };
 
         await _context.Tokens.AddAsync(entity, cancellationToken);

@@ -26,7 +26,7 @@ public class RemoveWalletFromRoleCommandValidator : AbstractValidator<RemoveWall
 
     async Task<bool> BeWalletExistsAsync(string walletAddress, CancellationToken cancellationToken)
     {
-        return await _context.Wallets.AnyAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
+        return await _context.Wallets.AnyAsync(exp => exp.Address.Equals(walletAddress), cancellationToken);
     }
 
     async Task<bool> BeRoleExistsAsync(long roleId, CancellationToken cancellationToken)

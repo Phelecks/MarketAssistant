@@ -2,5 +2,5 @@
 
 public class ConfigurationOptions
 {
-    public string Issuer { get; set; }
+    public required string Issuer { get; set; }
 }

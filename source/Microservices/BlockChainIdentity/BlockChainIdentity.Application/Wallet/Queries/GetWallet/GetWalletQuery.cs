@@ -24,7 +24,7 @@ public class Handler : IRequestHandler<GetWalletQuery, WalletDto>
 
     public async Task<WalletDto> Handle(GetWalletQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Wallets.SingleOrDefaultAsync(exp => exp.address.Equals(request.Address), cancellationToken);
+        var entity = await _context.Wallets.SingleOrDefaultAsync(exp => exp.Address.Equals(request.Address), cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.Wallet), request.Address);

@@ -7,7 +7,7 @@ public class WalletConfiguration : IEntityTypeConfiguration<Domain.Entities.Wall
 {
     public void Configure(EntityTypeBuilder<Domain.Entities.Wallet> builder)
     {
-        builder.HasIndex(index => new { index.address, index.chainId }).IsUnique(true);
+        builder.HasIndex(index => new { index.Address, index.ChainId }).IsUnique(true);
         builder.ToTable("Wallet");
     }
 }

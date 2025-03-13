@@ -5,7 +5,8 @@ namespace BlockChainIdentity.Application.Role.Queries.GetRoles;
 
 public class RoleDto : IMapFrom<Domain.Entities.Role>
 {
-    public long id { get; set; }
+    public long Id { get; set; }
+
     [Required]
-    public string title { get; set; }
+    public required string Title { get; set; }
 }

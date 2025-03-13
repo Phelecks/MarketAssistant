@@ -7,10 +7,10 @@ namespace BlockChainIdentity.Domain.Entities;
 public class Wallet : BaseAuditEntityWithNoPrimaryKey
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public string address { get; set; }
+    public required string Address { get; set; }
 
-    public int chainId { get; set; }
+    public int ChainId { get; set; }
 
-    public virtual ICollection<WalletRole> walletRoles { get; set; }
-    public virtual ICollection<Token> tokens { get; set; }
+    public virtual ICollection<WalletRole> WalletRoles { get; set; }
+    public virtual ICollection<Token> Tokens { get; set; }
 }

@@ -5,60 +5,61 @@ namespace BlockChainIdentity.Application.Token.Queries.GetTokens;
 
 public class TokenDto : IMapFrom<Domain.Entities.Token>
 {
-    public long id { get; set; }
+    public long Id { get; set; }
+    
     /// <summary>
     /// ISO 8601 datetime string of the current time. 
     /// </summary>
-    public DateTime issuedAt { get; set; }
+    public DateTime IssuedAt { get; set; }
 
     /// <summary>
     /// ISO 8601 datetime string that, if present, indicates when the signed authentication message is no longer valid. 
     /// </summary>
-    public DateTime expireAt { get; set; }
+    public DateTime ExpireAt { get; set; }
 
     /// <summary>
     /// ISO 8601 datetime string that, if present, indicates when the signed authentication message will become valid. 
     /// </summary>
-    public DateTime notBefore { get; set; }
+    public DateTime NotBefore { get; set; }
 
     /// <summary>
     /// Human-readable ASCII assertion that the user will sign, and it must not contain `\n`. 
     /// </summary>
-    public string statement { get; set; }
+    public required string Statement { get; set; }
 
     /// <summary>
     /// RFC 3986 URI referring to the resource that is the subject of the signing
     /// (as in the __subject__ of a claim).
     /// </summary>
-    private string url { get; set; }
+    private string Url { get; set; }
     //[NotMapped]
-    [BackingField(nameof(url))]
-    public Uri uri { get { return new Uri(url); } set { url = value.AbsoluteUri; } }
+    [BackingField(nameof(Url))]
+    public Uri Uri { get { return new Uri(Url); } set { Url = value.AbsoluteUri; } }
 
     /// <summary>
     /// Current version of the message. 
     /// </summary>
-    public string version { get; set; }
+    public required string Version { get; set; }
 
     /// <summary>
     /// Randomized token used to prevent replay attacks, at least 8 alphanumeric characters. 
     /// </summary>
-    public string nonce { get; set; }
+    public required string Nonce { get; set; }
 
     /// <summary>
     /// System-specific identifier that may be used to uniquely refer to the sign-in request
     /// </summary>
 
-    public string requestId { get; set; }
+    public required string RequestId { get; set; }
 
     /// <summary>
     /// List of information or references to information the user wishes to have resolved as part of authentication by the relying party. They are expressed as RFC 3986 URIs separated by `\n- `
     /// Comma separated
     /// </summary>
-    public string resources { get; set; }
+    public required string Resources { get; set; }
 
     /// <summary>
     /// Control validity of token manualy
     /// </summary>
-    public bool enabled { get; set; }
+    public bool Enabled { get; set; }
 }

@@ -6,7 +6,7 @@ namespace BlockChainIdentity.Domain.Entities;
 public class Resource : BaseAuditEntity
 {
     [Required]
-    public string title { get; set; }
+    public required string Title { get; set; }
 
-    public virtual ICollection<ClientResource> clientResources { get; set; }
+    public virtual ICollection<ClientResource> ClientResources { get; set; }
 }

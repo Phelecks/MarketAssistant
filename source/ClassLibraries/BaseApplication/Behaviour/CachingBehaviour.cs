@@ -44,7 +44,7 @@ public class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,
                 response = result;
 				_logger.LogInformation("Fetched from Cache -> '{CacheKey}'.", request.cacheKey);
             }
-			catch (Exception exception)
+			catch (Exception)
 			{
                 return await next();
             }

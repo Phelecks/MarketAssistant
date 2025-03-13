@@ -20,8 +20,8 @@ public class Handler : IRequestHandler<RevokeTokensCommand, Unit>
 
     public async Task<Unit> Handle(RevokeTokensCommand request, CancellationToken cancellationToken)
     {
-        var tokens = await _context.Tokens.Where(exp => exp.walletAddress.Equals(request.WalletAddress)).ToListAsync(cancellationToken);
-        tokens.ForEach(item => item.enabled = false);
+        var tokens = await _context.Tokens.Where(exp => exp.WalletAddress.Equals(request.WalletAddress)).ToListAsync(cancellationToken);
+        tokens.ForEach(item => item.Enabled = false);
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

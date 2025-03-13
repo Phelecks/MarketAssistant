@@ -44,7 +44,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                         var roles = await GetWalletRolesAsync(siweMessage.Address, request.chainId, cancellationToken);
                         var policies = await GetWalletPoliciesAsync(siweMessage.Address, request.chainId, cancellationToken);
                         var tokenResult = await _identityService.GenerateTokenAsync(siweMessage, signature, 
-                            roles.Select(s => s.title).ToList(), client.ClientResources.Select(s => s.resource.title).ToList(), 
+                            roles.Select(s => s.title).ToList(), client.ClientResources.Select(s => s.resource.Title).ToList(), 
                             policies, client.Uri, client.Version, request.chainId,
                             siweMessage.RequestId, client.Statement, cancellationToken);
                         
@@ -70,15 +70,15 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
     {
         var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
 
-        var wallet = await _context.Wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).SingleOrDefaultAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
+        var wallet = await _context.Wallets.Include(inc => inc.WalletRoles).ThenInclude(inc => inc.role).SingleOrDefaultAsync(exp => exp.Address.Equals(walletAddress), cancellationToken);
         if (wallet == null)
         {
             var defaultRole = await _context.Roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
             wallet = new Domain.Entities.Wallet
             {
-                address = walletAddress,
-                chainId = chainId,
-                walletRoles = new List<Domain.Entities.WalletRole>
+                Address = walletAddress,
+                ChainId = chainId,
+                WalletRoles = new List<Domain.Entities.WalletRole>
                 {
                     new Domain.Entities.WalletRole
                     {
@@ -93,17 +93,17 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
 
         var entity = new Domain.Entities.Token
         {
-            issuedAt = issuedAt,
-            expireAt = expireAt,
-            enabled = enabled,
-            nonce = nonce,
-            notBefore = notBefore,
-            requestId = requestId,
+            IssuedAt = issuedAt,
+            ExpireAt = expireAt,
+            Enabled = enabled,
+            Nonce = nonce,
+            NotBefore = notBefore,
+            RequestId = requestId,
             statement = statement,
             version = version,
-            walletAddress = walletAddress,
-            resources = string.Join(',', client.ClientResources.Select(s => s.resource.title).ToList()),
-            uri = uri
+            WalletAddress = walletAddress,
+            Resources = string.Join(',', client.ClientResources.Select(s => s.resource.Title).ToList()),
+            Uri = uri
         };
         await _context.Tokens.AddAsync(entity, cancellationToken);
 
@@ -123,7 +123,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
 
     async Task<List<Domain.Entities.Role>> GetWalletRolesAsync(string address, int chainId, CancellationToken cancellationToken)
     {
-        var wallet = await _context.Wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).AsNoTracking().SingleOrDefaultAsync(exp => exp.address.Equals(address) && exp.chainId == chainId, cancellationToken);
+        var wallet = await _context.Wallets.Include(inc => inc.WalletRoles).ThenInclude(inc => inc.role).AsNoTracking().SingleOrDefaultAsync(exp => exp.Address.Equals(address) && exp.ChainId == chainId, cancellationToken);
         if(wallet == null)
         {
             var defaultRole = await _context.Roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
@@ -132,7 +132,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                 defaultRole
             };
         }
-        return wallet.walletRoles.Select(s => s.role).ToList();
+        return wallet.WalletRoles.Select(s => s.role).ToList();
     }
 
     async Task<List<string>> GetWalletPoliciesAsync(string address, int chainId, CancellationToken cancellationToken)

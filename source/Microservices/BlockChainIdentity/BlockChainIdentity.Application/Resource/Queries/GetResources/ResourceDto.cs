@@ -5,7 +5,8 @@ namespace BlockChainIdentity.Application.Resource.Queries.GetResources;
 
 public class ResourceDto : IMapFrom<Domain.Entities.Resource>
 {
-    public long id { get; set; }
+    public long Id { get; set; }
+
     [Required]
-    public string title { get; set; }
+    public required string Title { get; set; }
 }

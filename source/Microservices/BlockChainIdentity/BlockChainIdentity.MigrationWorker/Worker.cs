@@ -33,7 +33,7 @@ public class Worker(IServiceProvider serviceProvider,
 
             await EnsureDatabaseAsync(context, stoppingToken);
             await RunMigrationAsync(context, stoppingToken);
-            await SeedDataAsync(context, configuration, stoppingToken);
+            await SeedDataAsync(context, stoppingToken);
         }
         catch (Exception ex)
         {
@@ -72,14 +72,14 @@ public class Worker(IServiceProvider serviceProvider,
         });
     }
 
-    private static async Task SeedDataAsync(ApplicationDbContext context, IConfiguration configuration, CancellationToken stoppingToken)
+    private static async Task SeedDataAsync(ApplicationDbContext context, CancellationToken stoppingToken)
     {
         var strategy = context.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
         {
             // Seed the database
             await using var transaction = await context.Database.BeginTransactionAsync(stoppingToken);
-            await TrySeedRolesAsync(context, configuration, stoppingToken);
+            await TrySeedRolesAsync(context, stoppingToken);
             await TrySeedAdministratorWalletAsync(context, stoppingToken);
             await TrySeedResourcesAsync(context, stoppingToken);
             await TrySeedClientsAsync(context, stoppingToken);
@@ -89,9 +89,9 @@ public class Worker(IServiceProvider serviceProvider,
         });
     }
 
-    private static async Task TrySeedRolesAsync(ApplicationDbContext context, IConfiguration configuration, CancellationToken stoppingToken)
+    private static async Task TrySeedRolesAsync(ApplicationDbContext context, CancellationToken stoppingToken)
     {
-        if (!await context.Roles.AnyAsync())
+        if (!await context.Roles.AnyAsync(stoppingToken))
         {
             await context.Roles.AddRangeAsync(new List<Domain.Entities.Role>
             {
@@ -103,9 +103,9 @@ public class Worker(IServiceProvider serviceProvider,
                 {
                     title = "Users"
                 }
-            });
+            }, stoppingToken);
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(stoppingToken);
         }
     }
     private static async Task TrySeedAdministratorWalletAsync(ApplicationDbContext context, CancellationToken stoppingToken)
@@ -117,12 +117,12 @@ public class Worker(IServiceProvider serviceProvider,
             await context.Wallets.AddRangeAsync(new List<Domain.Entities.Wallet>
             {
                 new() {
-                    address = !string.IsNullOrEmpty(environment) && (environment.Equals("Development") || environment.Contains("Test"))
+                    Address = !string.IsNullOrEmpty(environment) && (environment.Equals("Development") || environment.Contains("Test"))
                         ? "0xe1BA310dC3481EE3a242B1aDDbDE4049F70784B9"
                         : "0x599c632a9A37b749F7F14b7C7d842c42496d34C0",
-                    chainId = 137,
+                    ChainId = 137,
                     Created = DateTime.UtcNow,
-                    walletRoles = new List<Domain.Entities.WalletRole>
+                    WalletRoles = new List<Domain.Entities.WalletRole>
                     {
                         new Domain.Entities.WalletRole
                         {
@@ -146,47 +146,47 @@ public class Worker(IServiceProvider serviceProvider,
             {
                 new()
                     {
-                        title = "BlockChainIdentity"
+                        Title = "BlockChainIdentity"
                     },
                 new()
                     {
-                        title = "Financial"
+                        Title = "Financial"
                     },
                 new()
                 {
-                    title = "BlockChainLogProcessor"
+                    Title = "BlockChainLogProcessor"
                 },
                 new()
                     {
-                        title = "BlockChainPayment"
+                        Title = "BlockChainPayment"
                     },
                 new()
                     {
-                        title = "BlockChain"
+                        Title = "BlockChain"
                     },
                 new()
                     {
-                        title = "BlockChainTransfer"
+                        Title = "BlockChainTransfer"
                     },
                 new()
                     {
-                        title = "Order"
+                        Title = "Order"
                     },
                 new()
                     {
-                        title = "Basket"
+                        Title = "Basket"
                     },
                 new()
                     {
-                        title = "Catalog"
+                        Title = "Catalog"
                     },
                 new()
                     {
-                        title = "Customer"
+                        Title = "Customer"
                     },
                 new()
                     {
-                        title = "Informing"
+                        Title = "Informing"
                     }
             }, stoppingToken);
             await context.SaveChangesAsync(stoppingToken);
@@ -199,17 +199,17 @@ public class Worker(IServiceProvider serviceProvider,
         // Seed, if necessary
         if (!await context.Clients.AnyAsync(stoppingToken))
         {
-            var BlockChainIdentityResource = await context.Resources.SingleAsync(exp => exp.title.Equals("BlockChainIdentity"));
-            var FinancialResource = await context.Resources.SingleAsync(exp => exp.title.Equals("Financial"));
-            var BlockChainLogProcessorResource = await context.Resources.SingleAsync(exp => exp.title.Equals("BlockChainLogProcessor"));
-            var BlockChainPaymentResource = await context.Resources.SingleAsync(exp => exp.title.Equals("BlockChainPayment"));
-            var BlockChainResource = await context.Resources.SingleAsync(exp => exp.title.Equals("BlockChain"));
-            var BlockChainTransferResource = await context.Resources.SingleAsync(exp => exp.title.Equals("BlockChainTransfer"));
-            var OrderResource = await context.Resources.SingleAsync(exp => exp.title.Equals("Order"));
-            var BasketResource = await context.Resources.SingleAsync(exp => exp.title.Equals("Basket"));
-            var CatalogResource = await context.Resources.SingleAsync(exp => exp.title.Equals("Catalog"));
-            var CustomerResource = await context.Resources.SingleAsync(exp => exp.title.Equals("Customer"));
-            var InformingResource = await context.Resources.SingleAsync(exp => exp.title.Equals("Informing"));
+            var BlockChainIdentityResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainIdentity"));
+            var FinancialResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Financial"));
+            var BlockChainLogProcessorResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainLogProcessor"));
+            var BlockChainPaymentResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainPayment"));
+            var BlockChainResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChain"));
+            var BlockChainTransferResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainTransfer"));
+            var OrderResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Order"));
+            var BasketResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Basket"));
+            var CatalogResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Catalog"));
+            var CustomerResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Customer"));
+            var InformingResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Informing"));
 
             await context.Clients.AddRangeAsync(new List<Client>
             {
