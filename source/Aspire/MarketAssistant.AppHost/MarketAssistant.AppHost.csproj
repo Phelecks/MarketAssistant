@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Microservices\BlockChainIdentity\BlockChainIdentity.MigrationWorker\BlockChainIdentity.MigrationWorker.csproj" />
     <ProjectReference Include="..\..\Gateways\ReverseProxy.Gateway\ReverseProxy.Gateway.csproj" />
     <ProjectReference Include="..\..\Microservices\BlockChainIdentity\BlockChainIdentity.Grpc\BlockChainIdentity.Grpc.csproj" />
     <ProjectReference Include="..\..\Microservices\BlockProcessor\BlockProcessor.Api\BlockProcessor.Api.csproj" />

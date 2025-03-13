@@ -68,12 +68,12 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
      string version, string nonce, string requestId, bool enabled, string walletAddress, int chainId,
      long clientId, CancellationToken cancellationToken)
     {
-        var client = await _context.clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
+        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
 
-        var wallet = await _context.wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).SingleOrDefaultAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
+        var wallet = await _context.Wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).SingleOrDefaultAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
         if (wallet == null)
         {
-            var defaultRole = await _context.roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
+            var defaultRole = await _context.Roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
             wallet = new Domain.Entities.Wallet
             {
                 address = walletAddress,
@@ -87,7 +87,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                 }
             };
 
-            await _context.wallets.AddAsync(wallet, cancellationToken);
+            await _context.Wallets.AddAsync(wallet, cancellationToken);
             wallet.AddDomainEvent(new WalletCreatedEvent(wallet, client.ClientId));
         }
 
@@ -105,7 +105,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
             resources = string.Join(',', client.ClientResources.Select(s => s.resource.title).ToList()),
             uri = uri
         };
-        await _context.tokens.AddAsync(entity, cancellationToken);
+        await _context.Tokens.AddAsync(entity, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
     }
@@ -115,7 +115,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
         var clientResult = _identityService.GetClient(clientKey);
         if (!clientResult.IsSuccess()) throw new ForbiddenAccessException();
 
-        var client = await _context.clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
+        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
             exp.ClientSecret.Equals(clientResult.data.ClientSecret) && exp.Enabled, cancellationToken);
         if (client == null) throw new ForbiddenAccessException();
         return client;
@@ -123,10 +123,10 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
 
     async Task<List<Domain.Entities.Role>> GetWalletRolesAsync(string address, int chainId, CancellationToken cancellationToken)
     {
-        var wallet = await _context.wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).AsNoTracking().SingleOrDefaultAsync(exp => exp.address.Equals(address) && exp.chainId == chainId, cancellationToken);
+        var wallet = await _context.Wallets.Include(inc => inc.walletRoles).ThenInclude(inc => inc.role).AsNoTracking().SingleOrDefaultAsync(exp => exp.address.Equals(address) && exp.chainId == chainId, cancellationToken);
         if(wallet == null)
         {
-            var defaultRole = await _context.roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
+            var defaultRole = await _context.Roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
             return new List<Domain.Entities.Role>
             {
                 defaultRole

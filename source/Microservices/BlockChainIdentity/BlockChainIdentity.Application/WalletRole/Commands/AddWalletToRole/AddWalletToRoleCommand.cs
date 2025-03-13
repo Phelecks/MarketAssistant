@@ -25,7 +25,7 @@ public class Handler : IRequestHandler<AddWalletToRoleCommand, long>
             roleId = request.RoleId
         };
 
-        await _context.walletRoles.AddAsync(entity, cancellationToken);
+        await _context.WalletRoles.AddAsync(entity, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

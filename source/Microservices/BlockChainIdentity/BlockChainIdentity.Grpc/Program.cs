@@ -8,6 +8,6 @@ var app = builder.Build();
 
 await app.AddConfiguration();
 
-app.Run();
+await app.RunAsync();
 
 public partial class Program { }

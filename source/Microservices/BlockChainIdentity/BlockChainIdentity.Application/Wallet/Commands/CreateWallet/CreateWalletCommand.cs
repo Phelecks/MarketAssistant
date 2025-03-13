@@ -20,7 +20,7 @@ public class Handler : IRequestHandler<CreateWalletCommand, string>
 
     public async Task<string> Handle(CreateWalletCommand request, CancellationToken cancellationToken)
     {
-        var client = await _context.clients.SingleAsync(exp => exp.Id == request.ClientId, cancellationToken);
+        var client = await _context.Clients.SingleAsync(exp => exp.Id == request.ClientId, cancellationToken);
 
         var entity = new Domain.Entities.Wallet
         {
@@ -28,7 +28,7 @@ public class Handler : IRequestHandler<CreateWalletCommand, string>
             chainId = request.ChainId
         };
 
-        await _context.wallets.AddAsync(entity, cancellationToken);
+        await _context.Wallets.AddAsync(entity, cancellationToken);
 
         entity.AddDomainEvent(new WalletCreatedEvent(entity, client.ClientId));
 

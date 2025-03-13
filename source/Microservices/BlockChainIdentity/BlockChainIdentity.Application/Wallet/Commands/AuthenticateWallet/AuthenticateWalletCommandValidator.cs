@@ -35,7 +35,7 @@ public class AuthenticateWalletCommandValidator : AbstractValidator<Authenticate
         var clientResult = _identityService.GetClient(clientKey);
         if (!clientResult.IsSuccess()) throw new ForbiddenAccessException();
 
-        var client = await _context.clients.SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
+        var client = await _context.Clients.SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
             exp.ClientSecret.Equals(clientResult.data.ClientSecret) && exp.Enabled, cancellationToken);
         if (client == null) throw new ForbiddenAccessException();
         return true;

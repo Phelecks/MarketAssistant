@@ -25,7 +25,7 @@ public class Handler : IRequestHandler<GetWalletTokensQuery, PaginatedList<Walle
 
     public async Task<PaginatedList<WalletTokenDto>> Handle(GetWalletTokensQuery request, CancellationToken cancellationToken)
     {
-        return await _context.tokens
+        return await _context.Tokens
             .Where(exp => exp.walletAddress.Equals(request.address))
             .ProjectTo<WalletTokenDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);

@@ -22,6 +22,6 @@ public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
 
     async Task<bool> BeUniqueRoleTitleAsync(string title, CancellationToken cancellationToken)
     {
-        return await _context.roles.AllAsync(l => !l.title.Equals(title), cancellationToken);
+        return await _context.Roles.AllAsync(l => !l.title.Equals(title), cancellationToken);
     }
 }

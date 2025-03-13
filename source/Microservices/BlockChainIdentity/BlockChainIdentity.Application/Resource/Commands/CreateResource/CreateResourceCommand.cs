@@ -19,7 +19,7 @@ public class Handler : IRequestHandler<CreateResourceCommand, Unit>
 
     public async Task<Unit> Handle(CreateResourceCommand request, CancellationToken cancellationToken)
     {
-        if(await _context.resources.AnyAsync(exp => exp.title.Equals(request.Title), cancellationToken))
+        if(await _context.Resources.AnyAsync(exp => exp.title.Equals(request.Title), cancellationToken))
             return Unit.Value;
 
         var entity = new Domain.Entities.Resource
@@ -27,7 +27,7 @@ public class Handler : IRequestHandler<CreateResourceCommand, Unit>
             title = request.Title,
         };
 
-        await _context.resources.AddAsync(entity, cancellationToken);
+        await _context.Resources.AddAsync(entity, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

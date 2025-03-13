@@ -28,7 +28,7 @@ public class Handler : IRequestHandler<GetSiweMessageQuery, SiweMessageDto>
     {
         var clientResult = _identityService.GetClient(request.ClientKey);
 
-        var client = await _context.clients.SingleAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
+        var client = await _context.Clients.SingleAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
             exp.ClientSecret.Equals(clientResult.data.ClientSecret) && exp.Enabled, cancellationToken);
 
         var siweMessage = _identityService.GenerateSiweMessage(request.Address, client.Uri, client.Statement, client.Version, request.chainId, Guid.NewGuid().ToString(), _dateTimeService.UtcNow.AddSeconds(client.TokenLifeTimeInSeconds));

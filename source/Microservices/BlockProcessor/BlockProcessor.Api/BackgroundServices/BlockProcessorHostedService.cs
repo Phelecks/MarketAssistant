@@ -5,9 +5,9 @@ using MediatR;
 
 namespace BlockProcessor.Api.BackgroundServices;
 
-public class BlockProcessorHostedService(IServiceProvider serviceProvider, ILogger<BlockProcessorHostedService> logger) : BackgroundService
+public class BlockProcessorHostedService(IServiceScopeFactory serviceProvider, ILogger<BlockProcessorHostedService> logger) : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly IServiceScopeFactory _serviceProvider = serviceProvider;
     private readonly ILogger<BlockProcessorHostedService> _logger = logger;
     private readonly List<Nethereum.Signer.Chain> _blockProcessors = [];
 

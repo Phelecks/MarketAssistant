@@ -43,7 +43,7 @@ public class Handler : IRequestHandler<CreateBaseParameterCommand, long>
     public async Task<long> Handle(CreateBaseParameterCommand request, CancellationToken cancellationToken)
     {
         var entity =
-            await _context.baseParameters.SingleOrDefaultAsync(
+            await _context.BaseParameters.SingleOrDefaultAsync(
                 exp => exp.KernelBaseParameterId == request.kernelBaseParameterId, cancellationToken);
         if (entity is not null)
             entity.Value = request.value;
@@ -57,7 +57,7 @@ public class Handler : IRequestHandler<CreateBaseParameterCommand, long>
                 KernelBaseParameterId = request.kernelBaseParameterId
             };
 
-            await _context.baseParameters.AddAsync(entity, cancellationToken);
+            await _context.BaseParameters.AddAsync(entity, cancellationToken);
         }
 
         await _context.SaveChangesAsync(cancellationToken);

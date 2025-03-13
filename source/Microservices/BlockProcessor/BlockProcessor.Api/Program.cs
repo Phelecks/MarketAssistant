@@ -9,3 +9,5 @@ var app = builder.Build();
 await app.AddConfiguration();
 
 await app.RunAsync();
+
+public partial class Program { }

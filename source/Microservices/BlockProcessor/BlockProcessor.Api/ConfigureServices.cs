@@ -39,10 +39,9 @@ public static class ConfigureServices
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
-        var useInMemoryDb = builder.Configuration.GetValue("USE-INMEMORY-DATABASE", true);
-
-        builder.AddSqlServerClient(connectionName: "informingdb", configureSettings: options =>
+        builder.AddSqlServerClient(connectionName: "blockprocessingdb", configureSettings: options =>
         {
+            var useInMemoryDb = builder.Configuration.GetValue("USE-INMEMORY-DATABASE", true);
             if (useInMemoryDb) options.DisableHealthChecks = true;
         });
         services.AddInfrastructureServices();

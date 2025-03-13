@@ -23,11 +23,11 @@ public class AddWalletToRoleCommandValidator : AbstractValidator<AddWalletToRole
 
     async Task<bool> BeWalletExistsAsync(string walletAddress, CancellationToken cancellationToken)
     {
-        return await _context.wallets.AnyAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
+        return await _context.Wallets.AnyAsync(exp => exp.address.Equals(walletAddress), cancellationToken);
     }
 
     async Task<bool> BeRoleExistsAsync(long roleId, CancellationToken cancellationToken)
     {
-        return await _context.roles.AnyAsync(exp => exp.Id == roleId, cancellationToken);
+        return await _context.Roles.AnyAsync(exp => exp.Id == roleId, cancellationToken);
     }
 }

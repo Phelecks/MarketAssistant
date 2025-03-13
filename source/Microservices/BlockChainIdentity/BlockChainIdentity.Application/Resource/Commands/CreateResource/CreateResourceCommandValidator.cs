@@ -19,6 +19,6 @@ public class CreateResourceCommandValidator : AbstractValidator<CreateResourceCo
 
     async Task<bool> BeUniqueTitleAsync(string title, CancellationToken cancellationToken)
     {
-        return !await _context.resources.AnyAsync(exp => exp.title.Equals(title), cancellationToken);
+        return !await _context.Resources.AnyAsync(exp => exp.title.Equals(title), cancellationToken);
     }
 }

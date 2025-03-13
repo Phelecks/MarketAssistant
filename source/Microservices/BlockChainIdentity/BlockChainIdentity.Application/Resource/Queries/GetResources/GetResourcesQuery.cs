@@ -25,7 +25,7 @@ public class Handler : IRequestHandler<GetResourcesQuery, PaginatedList<Resource
 
     public async Task<PaginatedList<ResourceDto>> Handle(GetResourcesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.resources
+        return await _context.Resources
             .ProjectTo<ResourceDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

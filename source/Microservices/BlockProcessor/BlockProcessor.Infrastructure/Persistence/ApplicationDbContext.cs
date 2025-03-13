@@ -11,6 +11,7 @@ namespace BlockProcessor.Infrastructure.Persistence;
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly IEncryptionProvider _encryptionProvider;
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
     {
         var encryptionKey = configuration.GetValue<string>("DATABASE-ENCRYPTION-KEY");

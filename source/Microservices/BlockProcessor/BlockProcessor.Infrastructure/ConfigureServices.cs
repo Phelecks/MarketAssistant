@@ -18,28 +18,28 @@ public static class ConfigureServices
         services.AddBaseInfrastructureServices();
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+        {
+            var configService = serviceProvider.GetRequiredService<IConfiguration>();
+            var useInMemoryDb = configService.GetValue("USE-INMEMORY-DATABASE", true);
+            if(useInMemoryDb)
             {
-                var configService = serviceProvider.GetRequiredService<IConfiguration>();
-                var useInMemoryDb = configService.GetValue("USE-INMEMORY-DATABASE", true);
-                if(useInMemoryDb)
-                {
-                    var databaseName = configService.GetValue<string>("ApplicationName");
-                    options.UseInMemoryDatabase(databaseName is null ? Guid.NewGuid().ToString() : databaseName)
-                        .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
-                }
-                else
-                {
-                    var connectionString = configService.GetConnectionString("blockprocessordb");
-                    options.UseSqlServer(connectionString,
-                        builder =>
-                        {
-                            builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
-                            builder.EnableRetryOnFailure();
-                        })
-                        .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
-                }
+                var databaseName = configService.GetValue<string>("ApplicationName");
+                options.UseInMemoryDatabase(databaseName is null ? Guid.NewGuid().ToString() : databaseName)
+                    .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+            }
+            else
+            {
+                var connectionString = configService.GetConnectionString("blockprocessordb");
+                options.UseSqlServer(connectionString,
+                    builder =>
+                    {
+                        builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                        builder.EnableRetryOnFailure();
+                    })
+                    .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+            }
                 
-            });
+        });
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 

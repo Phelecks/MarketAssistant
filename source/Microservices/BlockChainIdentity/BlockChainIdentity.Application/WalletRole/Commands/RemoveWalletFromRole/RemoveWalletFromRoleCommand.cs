@@ -25,7 +25,7 @@ public class Handler : IRequestHandler<RemoveWalletFromRoleCommand, Unit>
             roleId = request.RoleId
         };
 
-        _context.walletRoles.Remove(entity);
+        _context.WalletRoles.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 

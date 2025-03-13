@@ -24,7 +24,7 @@ public class Handler : IRequestHandler<GetClientsQuery, PaginatedList<ClientDto>
 
     public async Task<PaginatedList<ClientDto>> Handle(GetClientsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.clients
+        return await _context.Clients
             //.Include(inc => inc.clientResources).ThenInclude(inc => inc.resource)
             .ProjectTo<ClientDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);

@@ -9,11 +9,11 @@ namespace WalletTracker.Api.BackgroundServices;
 
 public class MainHostedService : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _serviceProvider;
     private readonly ILogger<MainHostedService> _logger;
     private readonly IConfiguration _configuration;
 
-    public MainHostedService(IServiceProvider serviceProvider, ILogger<MainHostedService> logger, IConfiguration configuration)
+    public MainHostedService(IServiceScopeFactory serviceProvider, ILogger<MainHostedService> logger, IConfiguration configuration)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;

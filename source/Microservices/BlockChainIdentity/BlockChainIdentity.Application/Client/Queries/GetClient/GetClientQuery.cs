@@ -23,7 +23,7 @@ public class Handler : IRequestHandler<GetClientQuery, ClientDto>
 
     public async Task<ClientDto> Handle(GetClientQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
+        var entity = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.Id);

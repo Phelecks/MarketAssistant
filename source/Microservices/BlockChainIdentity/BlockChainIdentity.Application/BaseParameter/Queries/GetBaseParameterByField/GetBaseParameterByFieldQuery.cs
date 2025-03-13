@@ -17,7 +17,7 @@ public class Handler(IApplicationDbContext context, IMapper mapper) : IRequestHa
 
     public async Task<BaseParameterDto> Handle(GetBaseParameterByFieldQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.baseParameters.SingleOrDefaultAsync(exp => exp.Field == request.Field, cancellationToken);
+        var entity = await _context.BaseParameters.SingleOrDefaultAsync(exp => exp.Field == request.Field, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.Field);

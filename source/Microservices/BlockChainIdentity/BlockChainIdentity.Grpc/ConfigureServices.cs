@@ -3,9 +3,7 @@ using System.Reflection;
 using IdentityHelper;
 using BlockChainIdentity.Application;
 using BlockChainIdentity.Infrastructure;
-using BlockChainIdentity.Infrastructure.Persistence;
 using BaseInfrastructure.Interceptors;
-using BaseInfrastructure.Services;
 using IdentityHelper.Helpers;
 using BlockChainIdentity.Grpc.Filters;
 using FluentValidation.AspNetCore;
@@ -13,7 +11,6 @@ using BlockChainIdentity.Grpc.Handlers;
 using Asp.Versioning;
 using MassTransit;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using MassTransitManager.Services;
 
 namespace BlockChainIdentity.Grpc;
 
@@ -33,10 +30,9 @@ public static class ConfigureServices
 
         services.AddSingleton<IIdentityHelper, Helpers.IdentityHelper>();
 
-        var useInMemoryDb = builder.Configuration.GetValue("USE-INMEMORY-DATABASE", true);
-        
         builder.AddSqlServerClient(connectionName: "identitydb", configureSettings: options =>
         {
+            var useInMemoryDb = builder.Configuration.GetValue("USE-INMEMORY-DATABASE", true);
             if (useInMemoryDb) options.DisableHealthChecks = true;
         });
         services.AddInfrastructureServices();
@@ -74,7 +70,7 @@ public static class ConfigureServices
             // reporting api versions will return the headers
             // "api-supported-versions" and "api-deprecated-versions"
             options.ReportApiVersions = true;
-
+            options.DefaultApiVersion = new ApiVersion(majorVersion: 1, minorVersion: 0);
             options.ApiVersionReader = ApiVersionReader.Combine(
                 new HeaderApiVersionReader()
                 {
@@ -116,12 +112,6 @@ public static class ConfigureServices
             app.UseHsts();
         }
 
-        // Initialise and seed database
-        using var scope = app.Services.CreateScope();
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        await initializer.InitialiseAsync();
-        await initializer.SeedAsync();
-
         app.UseRouting();
 
         app.UseAuthentication();
@@ -135,5 +125,7 @@ public static class ConfigureServices
         if (app.Environment.IsDevelopment()) app.MapGrpcReflectionService();
 
         app.MapDefaultEndpoints();
+
+        await Task.CompletedTask;
     }
 }

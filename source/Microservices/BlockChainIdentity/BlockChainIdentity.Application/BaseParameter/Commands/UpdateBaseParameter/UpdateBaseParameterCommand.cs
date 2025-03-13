@@ -30,7 +30,7 @@ public class Handler : IRequestHandler<UpdateBaseParameterCommand, Unit>
 
     public async Task<Unit> Handle(UpdateBaseParameterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.baseParameters
+        var entity = await _context.BaseParameters
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)

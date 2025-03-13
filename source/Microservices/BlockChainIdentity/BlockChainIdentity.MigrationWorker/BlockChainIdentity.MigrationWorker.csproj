@@ -4,7 +4,8 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>dotnet-BlockProcessor.MigrationWorker-f48d43db-26e7-4553-8be9-bc6886786495</UserSecretsId>
+		<UserSecretsId>dotnet-BlockChainIdentity.MigrationWorker-94c1a51a-034e-42d1-800c-7287a5093177</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,6 +19,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
-		<ProjectReference Include="..\BlockProcessor.Infrastructure\BlockProcessor.Infrastructure.csproj" />
+		<ProjectReference Include="..\BlockChainIdentity.Infrastructure\BlockChainIdentity.Infrastructure.csproj" />
 	</ItemGroup>
 </Project>

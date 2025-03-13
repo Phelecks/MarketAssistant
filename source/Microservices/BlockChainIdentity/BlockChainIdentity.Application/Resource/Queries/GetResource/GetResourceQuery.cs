@@ -24,7 +24,7 @@ public class Handler : IRequestHandler<GetResourceQuery, ResourceDto>
 
     public async Task<ResourceDto> Handle(GetResourceQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.resources.SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
+        var entity = await _context.Resources.SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.Role), request.Id);

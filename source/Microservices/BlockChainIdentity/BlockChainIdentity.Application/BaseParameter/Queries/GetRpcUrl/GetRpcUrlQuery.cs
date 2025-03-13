@@ -18,10 +18,10 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<GetRpcUrlQ
     {
         Domain.Entities.BaseParameter baseParameter = request.chainId switch
         {
-            137 => await _context.baseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentPolygonMainNetRpcUrl, cancellationToken),
-            8001 => await _context.baseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentPolygonTestNetRpcUrl, cancellationToken),
-            1 => await _context.baseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentEthereumMainNetRpcUrl, cancellationToken),
-            2 => await _context.baseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentEthereumTestNetRpcUrl, cancellationToken),
+            137 => await _context.BaseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentPolygonMainNetRpcUrl, cancellationToken),
+            8001 => await _context.BaseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentPolygonTestNetRpcUrl, cancellationToken),
+            1 => await _context.BaseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentEthereumMainNetRpcUrl, cancellationToken),
+            2 => await _context.BaseParameters.SingleAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainPaymentEthereumTestNetRpcUrl, cancellationToken),
             _ => throw new NotFoundException($"Cannot find ChainId of chain {request.chainId}"),
         };
         return baseParameter.Value;

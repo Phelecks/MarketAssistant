@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using BaseDomain.Helpers;
 using BlockChainIdentity.Application.Interfaces;
 using BlockChainIdentity.Domain.Entities;
 using EntityFrameworkCore.EncryptColumn.Extension;
@@ -20,14 +19,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         _encryptionProvider = new GenerateEncryptionProvider(encryptionKey);
     }
 
-    public DbSet<BaseParameter> baseParameters => Set<BaseParameter>();
-    public DbSet<Client> clients => Set<Client>();
-    public DbSet<ClientResource> clientResources => Set<ClientResource>();
-    public DbSet<Resource> resources => Set<Resource>();
-    public DbSet<Domain.Entities.Role> roles => Set<Domain.Entities.Role>();
-    public DbSet<Token> tokens => Set<Token>();
-    public DbSet<Domain.Entities.Wallet> wallets => Set<Domain.Entities.Wallet>();
-    public DbSet<WalletRole> walletRoles => Set<WalletRole>();
+    public DbSet<BaseParameter> BaseParameters => Set<BaseParameter>();
+    public DbSet<Client> Clients => Set<Client>();
+    public DbSet<ClientResource> ClientResources => Set<ClientResource>();
+    public DbSet<Resource> Resources => Set<Resource>();
+    public DbSet<Domain.Entities.Role> Roles => Set<Domain.Entities.Role>();
+    public DbSet<Token> Tokens => Set<Token>();
+    public DbSet<Wallet> Wallets => Set<Wallet>();
+    public DbSet<WalletRole> WalletRoles => Set<WalletRole>();
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

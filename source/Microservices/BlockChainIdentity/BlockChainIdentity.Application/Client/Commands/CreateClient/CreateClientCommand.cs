@@ -15,13 +15,13 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<CreateClie
 
     public async Task<long> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
-        var resources = await _context.resources.Where(exp => request.Resources.Any(resourceId => resourceId == exp.Id)).ToListAsync(cancellationToken);
+        var resources = await _context.Resources.Where(exp => request.Resources.Any(resourceId => resourceId == exp.Id)).ToListAsync(cancellationToken);
 
         int tokenLifeTime;
         if (request.tokenLifeTimeInSeconds.HasValue) tokenLifeTime = request.tokenLifeTimeInSeconds.Value;
         else
         {
-            var baseParameter = await _context.baseParameters.SingleOrDefaultAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime, cancellationToken);
+            var baseParameter = await _context.BaseParameters.SingleOrDefaultAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime, cancellationToken);
             if (baseParameter == null) tokenLifeTime = 60;
             else tokenLifeTime = int.Parse(baseParameter.Value);
         }
@@ -41,7 +41,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<CreateClie
             }).ToList()
         };
 
-        await _context.clients.AddAsync(entity, cancellationToken);
+        await _context.Clients.AddAsync(entity, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

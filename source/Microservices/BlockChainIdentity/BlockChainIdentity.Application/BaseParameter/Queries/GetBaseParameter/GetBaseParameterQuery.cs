@@ -21,7 +21,7 @@ public class Handler : IRequestHandler<GetBaseParameterQuery, BaseParameterDto>
 
     public async Task<BaseParameterDto> Handle(GetBaseParameterQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.baseParameters
+        var entity = await _context.BaseParameters
             .FindAsync([request.Id], cancellationToken);
 
         if (entity == null)
