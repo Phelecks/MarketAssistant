@@ -20,12 +20,12 @@ COPY ["Microservices/WalletTracker/WalletTracker.Api/WalletTracker.Api.csproj", 
 RUN dotnet restore "./Microservices/WalletTracker/WalletTracker.Api/WalletTracker.Api.csproj"
 COPY . .
 WORKDIR "/src/Microservices/WalletTracker/WalletTracker.Api"
-RUN dotnet build "./WalletTracker.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./WalletTracker.Api.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WalletTracker.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
+RUN dotnet publish "./WalletTracker.Api.csproj" -c "$BUILD_CONFIGURATION" -o /app/publish /p:UseAppHost=true
 
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)

@@ -14,12 +14,15 @@ COPY ["BlockChainIdentity.MigrationWorker/BlockChainIdentity.MigrationWorker.csp
 RUN dotnet restore "./BlockChainIdentity.MigrationWorker/BlockChainIdentity.MigrationWorker.csproj"
 COPY . .
 WORKDIR "/src/BlockChainIdentity.MigrationWorker"
-RUN dotnet build "./BlockChainIdentity.MigrationWorker.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./BlockChainIdentity.MigrationWorker.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./BlockChainIdentity.MigrationWorker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./BlockChainIdentity.MigrationWorker.csproj" \
+	-c "$BUILD_CONFIGURATION" \
+	-o /app/publish \
+	/p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final

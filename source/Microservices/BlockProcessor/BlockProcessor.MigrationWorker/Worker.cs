@@ -79,7 +79,6 @@ public class Worker(IServiceProvider serviceProvider,
             await using var transaction = await context.Database.BeginTransactionAsync(stoppingToken);
             await TrySeedRpcUrlsAsync(context, configuration, stoppingToken);
             await TrySeedWalletAddresesAsync(context, stoppingToken);
-            await TrySeedBlockProgressAsync(context, stoppingToken);
             await context.SaveChangesAsync(stoppingToken);
             await transaction.CommitAsync(stoppingToken);
         });
@@ -111,7 +110,7 @@ public class Worker(IServiceProvider serviceProvider,
             await context.RpcUrls.AddRangeAsync(records, stoppingToken);
         }
     }
-
+    
     private static async Task TrySeedWalletAddresesAsync(ApplicationDbContext context, CancellationToken stoppingToken)
     {
         if (!await context.WalletAddresses.AnyAsync(stoppingToken))
@@ -125,26 +124,6 @@ public class Worker(IServiceProvider serviceProvider,
             };
 
             await context.WalletAddresses.AddRangeAsync(walletAddresses, stoppingToken);
-        }
-    }
-
-    private static async Task TrySeedBlockProgressAsync(ApplicationDbContext context, CancellationToken stoppingToken)
-    {
-        if (!await context.BlockProgresses.AnyAsync(stoppingToken))
-        {
-            var records = new List<Domain.Entities.BlockProgress>
-            {
-                new() { Chain = Nethereum.Signer.Chain.Polygon, BlockNumber = 68654002, Status = Domain.Entities.BlockProgress.BlockProgressStatus.Processed}
-            };
-
-            if(!context.Database.IsSqlServer())
-            {
-                int index = 1;
-                foreach(var record in records)
-                    record.Id = index++;
-            }
-
-            await context.BlockProgresses.AddRangeAsync(records, stoppingToken);
         }
     }
 }
