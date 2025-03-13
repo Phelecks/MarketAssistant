@@ -25,7 +25,7 @@ public class GetGroupsQueryHandler : IRequestHandler<GetGroupsQuery, PaginatedLi
 
     public async Task<PaginatedList<GroupDto>> Handle(GetGroupsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.groups
+        return await _context.Groups
             .ProjectTo<GroupDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

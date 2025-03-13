@@ -10,7 +10,6 @@ using Informing.Grpc.Filters;
 using Informing.Grpc.Handlers;
 using Informing.Grpc.Hubs;
 using Informing.Infrastructure;
-using Informing.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
@@ -81,7 +80,7 @@ public static class ConfigureServices
         builder.Services.AddAuthentication(SiweAuthenticationOptions.DefaultScheme)
            .AddScheme<SiweAuthenticationOptions, SiweAuthenticationHandler>(SiweAuthenticationOptions.DefaultScheme, options =>
            {
-               options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION_NAME")!;
+               options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION-NAME")!;
                options.ValidIssuers = new[] { builder.Configuration.GetValue<string>("TOKEN-ISSUER")! };
                options.Events = new JwtBearerEvents
                {
@@ -128,12 +127,6 @@ public static class ConfigureServices
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-
-        // Initialise and seed database
-        using var scope = app.Services.CreateScope();
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        await initializer.InitialiseAsync();
-        await initializer.SeedAsync();
 
         app.UseRouting();
 

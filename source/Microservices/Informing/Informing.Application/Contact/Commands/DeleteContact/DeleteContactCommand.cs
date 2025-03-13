@@ -35,7 +35,7 @@ public class DeleteContactCommandHandler : IRequestHandler<DeleteContactCommand,
     //}
     public async Task<Unit> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.contacts
+        var entity = await _context.Contacts
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
@@ -43,7 +43,7 @@ public class DeleteContactCommandHandler : IRequestHandler<DeleteContactCommand,
             throw new NotFoundException(nameof(Domain.Entities.Contact), request.id);
         }
 
-        _context.contacts.Remove(entity);
+        _context.Contacts.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 

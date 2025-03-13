@@ -20,13 +20,13 @@ public class CreateContactCommandValidator : AbstractValidator<CreateContactComm
 
     public async Task<bool> BeUniqueUserIdAsync(string userId, CancellationToken cancellationToken)
     {
-        return await _context.contacts
-            .AllAsync(l => l.userId != userId, cancellationToken);
+        return await _context.Contacts
+            .AllAsync(l => l.UserId != userId, cancellationToken);
     }
 
     public async Task<bool> BeUniqueUsernameAsync(string username, CancellationToken cancellationToken)
     {
-        return await _context.contacts
-            .AllAsync(l => l.username != username, cancellationToken);
+        return await _context.Contacts
+            .AllAsync(l => l.Username != username, cancellationToken);
     }
 }

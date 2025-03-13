@@ -7,6 +7,7 @@ const string EnsureDeletedDatabaseOnStartup = "ENSURE-DELETED-DATABASE-ON-STARTU
 const string IdentitySecret = "IDENTITY_SECRET";
 const string TokenIssuer = "TOKEN-ISSUER";
 const string DatabaseEncryptionKey = "DATABASE-ENCRYPTION-KEY";
+const string ApplicationName = "APPLICATION-NAME";
 
 // Add a secret parameters
 var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
@@ -27,19 +28,26 @@ var informingDb = sql.AddDatabase(name: "informingdb", databaseName: "informing"
 var identityDb = sql.AddDatabase(name: "identitydb", databaseName: "identity");
 var blockProcessorDb = sql.AddDatabase(name: "blockprocessordb", databaseName: "blockProcessor");
 
-// var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
-//    .WithReference(redis)
-//    .WithReference(rabbit)
-//    .WithReference(informingDb)
-//    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
-//    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
-//    .WithEnvironment(name: "APPLICATION_NAME", value: "Informing")
-//    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
-//    .WithEnvironment(name: IdentitySecret, identitySecret)
-//    .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
-//    .WaitFor(redis)
-//    .WaitFor(rabbit)
-//    .WaitFor(informingDb);
+var informingMigration = builder.AddProject<Projects.Informing_MigrationWorker>("informing-migrations")
+        .WithReference(informingDb)
+        .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+        .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+        .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
+        .WaitFor(identityDb);
+var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
+   .WithReference(redis)
+   .WithReference(rabbit)
+   .WithReference(informingDb)
+   .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+   .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+   .WithEnvironment(name: ApplicationName, value: "Informing")
+   .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
+   .WithEnvironment(name: IdentitySecret, identitySecret)
+   .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
+   .WaitFor(redis)
+   .WaitFor(rabbit)
+   .WaitFor(informingDb)
+   .WaitFor(informingMigration);
 
 var identityMigration = builder.AddProject<Projects.BlockChainIdentity_MigrationWorker>("blockchainidentity-migrations")
         .WithReference(identityDb)
@@ -53,7 +61,7 @@ var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
    .WithReference(identityDb)
    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
-   .WithEnvironment(name: "APPLICATION_NAME", value: "Identity")
+   .WithEnvironment(name: ApplicationName, value: "Identity")
    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
    .WithEnvironment(name: IdentitySecret, identitySecret)
    .WithEnvironment(name: DatabaseEncryptionKey, value: builder.Configuration.GetValue<string>(DatabaseEncryptionKey))
@@ -75,7 +83,7 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WithReference(blockProcessorDb)
     .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
     .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
-    .WithEnvironment(name: "APPLICATION_NAME", value: "BlockProcessor")
+    .WithEnvironment(name: ApplicationName, value: "BlockProcessor")
     .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
     .WithEnvironment(name: IdentitySecret, parameter: identitySecret)
     .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
@@ -98,11 +106,11 @@ builder.AddProject<Projects.ReverseProxy_Gateway>("reverseproxy-gateway")
    //.WithReference(identity)
    //.WithReference(informing)
    .WithReference(blockProcessor)
-   .WithEnvironment(name: "APPLICATION_NAME", value: "ReverseProxy.Gateway")
+   .WithEnvironment(name: ApplicationName, value: "ReverseProxy.Gateway")
    .WaitFor(redis)
    .WaitFor(rabbit)
    .WaitFor(identity)
-   //.WaitFor(informing)
+   .WaitFor(informing)
    .WaitFor(blockProcessor);
 
 await builder.Build().RunAsync();

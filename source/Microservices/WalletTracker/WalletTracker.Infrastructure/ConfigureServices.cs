@@ -17,7 +17,7 @@ public static class ConfigureServices
         //        var useInMemoryDb = configService.GetValue("USE-INMEMORY-DATABASE", true);
         //        if(useInMemoryDb)
         //        {
-        //            options.UseInMemoryDatabase(configService.GetValue<string>("ApplicationName", Guid.NewGuid().ToString()))
+        //            options.UseInMemoryDatabase(configService.GetValue<string>("APPLICATION-NAME", Guid.NewGuid().ToString()))
         //                .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
         //        }
         //        else

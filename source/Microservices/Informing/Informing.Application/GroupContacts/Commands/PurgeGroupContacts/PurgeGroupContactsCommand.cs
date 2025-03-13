@@ -26,7 +26,7 @@ public class PurgeGroupContactsCommandHandler : IRequestHandler<PurgeGroupContac
     //}
     public async Task<Unit> Handle(PurgeGroupContactsCommand request, CancellationToken cancellationToken)
     {
-        _context.groupContacts.RemoveRange(_context.groupContacts);
+        _context.GroupContacts.RemoveRange(_context.GroupContacts);
 
         await _context.SaveChangesAsync(cancellationToken);
 

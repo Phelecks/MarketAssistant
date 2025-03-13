@@ -34,7 +34,7 @@ namespace Informing.Application.GroupContacts.Commands.DeleteGroupContact
         //}
         public async Task<Unit> Handle(DeleteGroupContactCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.groupContacts
+            var entity = await _context.GroupContacts
                 .FindAsync(new object[] { request.id }, cancellationToken);
 
             if (entity == null)
@@ -42,7 +42,7 @@ namespace Informing.Application.GroupContacts.Commands.DeleteGroupContact
                 throw new NotFoundException(nameof(Domain.Entities.GroupContact), request.id);
             }
 
-            _context.groupContacts.Remove(entity);
+            _context.GroupContacts.Remove(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
 

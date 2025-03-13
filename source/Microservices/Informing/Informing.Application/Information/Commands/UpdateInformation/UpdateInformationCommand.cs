@@ -38,14 +38,14 @@ public class UpdateContactCommandHandler : IRequestHandler<UpdateInformationComm
     //}
     public async Task<Unit> Handle(UpdateInformationCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.information
+        var entity = await _context.Information
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.Information), request.id);
 
-        entity.title = request.title;
-        entity.content = request.content;
+        entity.Title = request.title;
+        entity.Content = request.content;
 
         entity.AddDomainEvent(new InformationUpdatedEvent(entity));
 

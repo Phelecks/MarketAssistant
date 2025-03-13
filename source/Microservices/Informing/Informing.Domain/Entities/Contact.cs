@@ -12,33 +12,33 @@ public class Contact : BaseAuditEntity
     /// User identifier
     /// </summary>
     [Required]
-    public string userId { get; set; }
+    public required string UserId { get; set; }
 
     /// <summary>
     /// Phone Number
     /// </summary>
-    public string? phoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
 
     /// <summary>
     /// Email
     /// </summary>
-    public string? emailAddress { get; set; }
+    public string? EmailAddress { get; set; }
 
     /// <summary>
     /// Username, it comes from identity microservice
     /// </summary>
     [Required]
-    public string username { get; set; }
+    public required string Username { get; set; }
 
     /// <summary>
     /// Full Name, it come from customer microservice
     /// </summary>
-    public string? fullname { get; set; } = null;
+    public string? Fullname { get; set; } = null;
 
 
 
 
-    public virtual ICollection<InformationLog> informationLogs { get; set; }
-    public virtual ICollection<GroupContact> groupContacts { get; set; }
-    public virtual ICollection<Device> devices { get; set; }
+    public virtual ICollection<InformationLog> InformationLogs { get; set; }
+    public virtual ICollection<GroupContact> GroupContacts { get; set; }
+    public virtual ICollection<Device> Devices { get; set; }
 }

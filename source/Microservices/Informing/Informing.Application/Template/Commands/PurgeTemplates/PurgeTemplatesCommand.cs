@@ -26,7 +26,7 @@ public class PurgeTemplatesCommandHandler : IRequestHandler<PurgeTemplatesComman
     //}
     public async Task<Unit> Handle(PurgeTemplatesCommand request, CancellationToken cancellationToken)
     {
-        _context.templates.RemoveRange(_context.templates);
+        _context.Templates.RemoveRange(_context.Templates);
 
         await _context.SaveChangesAsync(cancellationToken);
 

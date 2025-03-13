@@ -20,11 +20,11 @@ public class CreateGroupContactCommandHandler : IRequestHandler<CreateGroupConta
     {
         var entity = new Domain.Entities.GroupContact
         {
-            groupId = request.groupId,
-            contactId = request.contactId
+            GroupId = request.groupId,
+            ContactId = request.contactId
         };
 
-        await _context.groupContacts.AddAsync(entity, cancellationToken);
+        await _context.GroupContacts.AddAsync(entity, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

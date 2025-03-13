@@ -24,10 +24,10 @@ public class ContactService : IContactService
         switch (destinationType)
         {
             case DestinationHelper.DestinationType.EmailAddress:
-                contact = await _context.contacts.SingleOrDefaultAsync(exp => exp.emailAddress != null && exp.emailAddress.Equals(destination), cancellationToken);
+                contact = await _context.Contacts.SingleOrDefaultAsync(exp => exp.EmailAddress != null && exp.EmailAddress.Equals(destination), cancellationToken);
                 break;
             case DestinationHelper.DestinationType.PhoneNumber:
-                contact = await _context.contacts.SingleOrDefaultAsync(exp => exp.phoneNumber != null && exp.phoneNumber.Equals(destination), cancellationToken);
+                contact = await _context.Contacts.SingleOrDefaultAsync(exp => exp.PhoneNumber != null && exp.PhoneNumber.Equals(destination), cancellationToken);
                 break;
             default:
                 break;

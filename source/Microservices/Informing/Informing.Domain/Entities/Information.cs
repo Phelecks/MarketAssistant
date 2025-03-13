@@ -1,4 +1,5 @@
 ﻿using BaseDomain.Common;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Informing.Domain.Entities;
@@ -8,31 +9,28 @@ public class Information : BaseAuditEntity
     /// <summary>
     /// Title
     /// </summary>
-    public string title { get; set; }
+    [Required]
+    public required string Title { get; set; }
 
     /// <summary>
     /// Content
     /// </summary>
-    public string content { get; set; }
-
-    ///// <summary>
-    ///// Destination (Sms = phone number, Email = email address)
-    ///// </summary>
-    //public string? destination { get; set; }
+    [Required]
+    public required string Content { get; set; }
 
     /// <summary>
     /// Information type
     /// </summary>
-    public InformationType type { get; set; }
+    public InformationType Type { get; set; }
 
     /// <summary>
     /// Is enable
     /// </summary>
-    public bool enabled { get; set; } = true;
+    public bool Enabled { get; set; } = true;
 
-    public virtual ICollection<ContactInformation> contactInformations { get; set; }
-    public virtual ICollection<GroupInformation> groupInformations { get; set; }
-    public virtual ICollection<InformationLog> informationLogs { get; set; }
+    public virtual ICollection<ContactInformation> ContactInformations { get; set; }
+    public virtual ICollection<GroupInformation> GroupInformations { get; set; }
+    public virtual ICollection<InformationLog> InformationLogs { get; set; }
 }
 
 

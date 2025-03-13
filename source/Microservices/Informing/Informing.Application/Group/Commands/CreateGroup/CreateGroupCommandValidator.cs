@@ -18,7 +18,7 @@ public class CreateGroupCommandValidator : AbstractValidator<CreateGroupCommand>
 
     public async Task<bool> BeUniqueTitleAsync(string title, CancellationToken cancellationToken)
     {
-        return await _context.groups
-            .AnyAsync(exp => exp.title.Equals(title), cancellationToken);
+        return await _context.Groups
+            .AnyAsync(exp => exp.Title.Equals(title), cancellationToken);
     }
 }

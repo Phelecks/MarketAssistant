@@ -28,10 +28,10 @@ public class GetUserInformationQueryHandler : IRequestHandler<GetUserInformation
 
     public async Task<PaginatedList<UserInformationDto>> Handle(GetUserInformationQuery request, CancellationToken cancellationToken)
     {
-        return await _context.information
-            .Where(exp => exp.enabled && exp.type == Domain.Entities.InformationType.News 
-                && (exp.contactInformations.Any(ciExp => ciExp.contact.userId.Equals(_identityHelper.GetUserIdentity()))
-                || exp.groupInformations.Any(giExp => giExp.group.groupContacts.Any(gcExp => gcExp.contact.userId.Equals(_identityHelper.GetUserIdentity())))))
+        return await _context.Information
+            .Where(exp => exp.Enabled && exp.Type == Domain.Entities.InformationType.News 
+                && (exp.ContactInformations.Any(ciExp => ciExp.Contact.UserId.Equals(_identityHelper.GetUserIdentity()))
+                || exp.GroupInformations.Any(giExp => giExp.Group.GroupContacts.Any(gcExp => gcExp.Contact.UserId.Equals(_identityHelper.GetUserIdentity())))))
             .ProjectTo<UserInformationDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

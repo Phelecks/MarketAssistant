@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Informing.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240217154250_Init")]
+    [Migration("20250313120155_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -20,48 +20,48 @@ namespace Informing.Infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Informing.Domain.Entities.BaseParameter", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("category")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("createdBy")
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("field")
+                    b.Property<int>("Field")
                         .HasColumnType("int");
 
-                    b.Property<long>("kernelBaseParameterId")
+                    b.Property<long>("KernelBaseParameterId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("lastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("lastModifiedBy")
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("value")
+                    b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("field")
+                    b.HasIndex("Field")
                         .IsUnique();
 
                     b.ToTable("BaseParameter", (string)null);
@@ -69,44 +69,44 @@ namespace Informing.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Informing.Domain.Entities.Contact", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("createdBy")
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("emailAddress")
+                    b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("fullname")
+                    b.Property<string>("Fullname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("lastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("lastModifiedBy")
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("phoneNumber")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userId")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("username")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("userId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Contact", (string)null);
@@ -114,69 +114,69 @@ namespace Informing.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Informing.Domain.Entities.ContactInformation", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("contactId")
+                    b.Property<long>("ContactId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("infromationId")
+                    b.Property<long>("InfromationId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("contactId");
+                    b.HasIndex("ContactId");
 
-                    b.HasIndex("infromationId");
+                    b.HasIndex("InfromationId");
 
                     b.ToTable("ContactInformation", (string)null);
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.Device", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("Contactid")
+                    b.Property<long?>("ContactId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("createdBy")
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("deviceToken")
+                    b.Property<string>("DeviceToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("enabled")
+                    b.Property<bool>("Enabled")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("lastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("lastModifiedBy")
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("platformType")
+                    b.Property<int>("PlatformType")
                         .HasColumnType("int");
 
-                    b.Property<string>("version")
+                    b.Property<string>("Version")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("Contactid");
+                    b.HasIndex("ContactId");
 
-                    b.HasIndex("deviceToken")
+                    b.HasIndex("DeviceToken")
                         .IsUnique();
 
                     b.ToTable("Device", (string)null);
@@ -184,22 +184,22 @@ namespace Informing.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Informing.Domain.Entities.Group", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("description")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("title")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("title")
+                    b.HasIndex("Title")
                         .IsUnique();
 
                     b.ToTable("Group", (string)null);
@@ -207,260 +207,260 @@ namespace Informing.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Informing.Domain.Entities.GroupContact", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("contactId")
+                    b.Property<long>("ContactId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("groupId")
+                    b.Property<long>("GroupId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("contactId");
+                    b.HasIndex("ContactId");
 
-                    b.HasIndex("groupId");
+                    b.HasIndex("GroupId");
 
                     b.ToTable("GroupContact", (string)null);
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.GroupInformation", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("groupId")
+                    b.Property<long>("GroupId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("infromationId")
+                    b.Property<long>("InfromationId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("groupId");
+                    b.HasIndex("GroupId");
 
-                    b.HasIndex("infromationId");
+                    b.HasIndex("InfromationId");
 
                     b.ToTable("GroupInformation", (string)null);
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.Information", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("content")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("createdBy")
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("enabled")
+                    b.Property<bool>("Enabled")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("lastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("lastModifiedBy")
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("title")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("type")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("title");
+                    b.HasIndex("Title");
 
                     b.ToTable("Information", (string)null);
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.InformationLog", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("contactId")
+                    b.Property<long>("ContactId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("createdBy")
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("informationId")
+                    b.Property<long>("InformationId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("lastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("lastModifiedBy")
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("type")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("contactId");
+                    b.HasIndex("ContactId");
 
-                    b.HasIndex("informationId");
+                    b.HasIndex("InformationId");
 
                     b.ToTable("InformationLog", (string)null);
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.Template", b =>
                 {
-                    b.Property<long>("id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("content")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("informingSendType")
+                    b.Property<int>("InformingSendType")
                         .HasColumnType("int");
 
-                    b.Property<int>("informingType")
+                    b.Property<int>("InformingType")
                         .HasColumnType("int");
 
-                    b.Property<string>("title")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Template", (string)null);
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.ContactInformation", b =>
                 {
-                    b.HasOne("Informing.Domain.Entities.Contact", "contact")
+                    b.HasOne("Informing.Domain.Entities.Contact", "Contact")
                         .WithMany()
-                        .HasForeignKey("contactId")
+                        .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Informing.Domain.Entities.Information", "information")
-                        .WithMany("contactInformations")
-                        .HasForeignKey("infromationId")
+                    b.HasOne("Informing.Domain.Entities.Information", "Information")
+                        .WithMany("ContactInformations")
+                        .HasForeignKey("InfromationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("contact");
+                    b.Navigation("Contact");
 
-                    b.Navigation("information");
+                    b.Navigation("Information");
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.Device", b =>
                 {
                     b.HasOne("Informing.Domain.Entities.Contact", null)
-                        .WithMany("devices")
-                        .HasForeignKey("Contactid");
+                        .WithMany("Devices")
+                        .HasForeignKey("ContactId");
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.GroupContact", b =>
                 {
-                    b.HasOne("Informing.Domain.Entities.Contact", "contact")
-                        .WithMany("groupContacts")
-                        .HasForeignKey("contactId")
+                    b.HasOne("Informing.Domain.Entities.Contact", "Contact")
+                        .WithMany("GroupContacts")
+                        .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Informing.Domain.Entities.Group", "group")
-                        .WithMany("groupContacts")
-                        .HasForeignKey("groupId")
+                    b.HasOne("Informing.Domain.Entities.Group", "Group")
+                        .WithMany("GroupContacts")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("contact");
+                    b.Navigation("Contact");
 
-                    b.Navigation("group");
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.GroupInformation", b =>
                 {
-                    b.HasOne("Informing.Domain.Entities.Group", "group")
+                    b.HasOne("Informing.Domain.Entities.Group", "Group")
                         .WithMany()
-                        .HasForeignKey("groupId")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Informing.Domain.Entities.Information", "information")
-                        .WithMany("groupInformations")
-                        .HasForeignKey("infromationId")
+                    b.HasOne("Informing.Domain.Entities.Information", "Information")
+                        .WithMany("GroupInformations")
+                        .HasForeignKey("InfromationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("group");
+                    b.Navigation("Group");
 
-                    b.Navigation("information");
+                    b.Navigation("Information");
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.InformationLog", b =>
                 {
-                    b.HasOne("Informing.Domain.Entities.Contact", "contact")
-                        .WithMany("informationLogs")
-                        .HasForeignKey("contactId")
+                    b.HasOne("Informing.Domain.Entities.Contact", "Contact")
+                        .WithMany("InformationLogs")
+                        .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Informing.Domain.Entities.Information", "information")
-                        .WithMany("informationLogs")
-                        .HasForeignKey("informationId")
+                    b.HasOne("Informing.Domain.Entities.Information", "Information")
+                        .WithMany("InformationLogs")
+                        .HasForeignKey("InformationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("contact");
+                    b.Navigation("Contact");
 
-                    b.Navigation("information");
+                    b.Navigation("Information");
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.Contact", b =>
                 {
-                    b.Navigation("devices");
+                    b.Navigation("Devices");
 
-                    b.Navigation("groupContacts");
+                    b.Navigation("GroupContacts");
 
-                    b.Navigation("informationLogs");
+                    b.Navigation("InformationLogs");
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.Group", b =>
                 {
-                    b.Navigation("groupContacts");
+                    b.Navigation("GroupContacts");
                 });
 
             modelBuilder.Entity("Informing.Domain.Entities.Information", b =>
                 {
-                    b.Navigation("contactInformations");
+                    b.Navigation("ContactInformations");
 
-                    b.Navigation("groupInformations");
+                    b.Navigation("GroupInformations");
 
-                    b.Navigation("informationLogs");
+                    b.Navigation("InformationLogs");
                 });
 #pragma warning restore 612, 618
         }

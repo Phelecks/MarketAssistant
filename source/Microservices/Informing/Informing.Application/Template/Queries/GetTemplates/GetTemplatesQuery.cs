@@ -25,7 +25,7 @@ public class GetTemplatesQueryHandler : IRequestHandler<GetTemplatesQuery, Pagin
 
     public async Task<PaginatedList<TemplatesDto>> Handle(GetTemplatesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.templates
+        return await _context.Templates
             .ProjectTo<TemplatesDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

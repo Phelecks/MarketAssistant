@@ -26,7 +26,7 @@ public class PurgeInformationCommandHandler : IRequestHandler<PurgeInformationCo
     //}
     public async Task<Unit> Handle(PurgeInformationCommand request, CancellationToken cancellationToken)
     {
-        _context.information.RemoveRange(_context.information);
+        _context.Information.RemoveRange(_context.Information);
 
         await _context.SaveChangesAsync(cancellationToken);
 

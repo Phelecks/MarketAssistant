@@ -35,7 +35,7 @@ public class DeleteInformationCommandHandler : IRequestHandler<DeleteInformation
     //}
     public async Task<Unit> Handle(DeleteInformationCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.information
+        var entity = await _context.Information
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
@@ -43,7 +43,7 @@ public class DeleteInformationCommandHandler : IRequestHandler<DeleteInformation
             throw new NotFoundException(nameof(Domain.Entities.Contact), request.id);
         }
 
-        _context.information.Remove(entity);
+        _context.Information.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 

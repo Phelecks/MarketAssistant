@@ -8,7 +8,7 @@ public class TemplateConfiguration : IEntityTypeConfiguration<Template>
 {
     public void Configure(EntityTypeBuilder<Template> builder)
     {
-        builder.Property(t => t.content)
+        builder.Property(t => t.Content)
             .IsRequired();
         builder.ToTable("Template");
     }

@@ -20,11 +20,11 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, lon
     {
         var entity = new Domain.Entities.Group
         {
-            title = request.title,
-            description = request.description
+            Title = request.title,
+            Description = request.description
         };
 
-        _context.groups.Add(entity);
+        _context.Groups.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 

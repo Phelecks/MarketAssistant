@@ -27,21 +27,21 @@ public class CreateInformationCommandHandler : IRequestHandler<CreateInformation
         
         var entity = new Domain.Entities.Information
         {
-            content = request.content,
+            Content = request.content,
             //destination = request.destination,
-            type = request.type,
-            title = request.title,
-            enabled = true,
-            contactInformations = new List<ContactInformation>()
+            Type = request.type,
+            Title = request.title,
+            Enabled = true,
+            ContactInformations = new List<ContactInformation>()
             {
                 new ContactInformation
                 {
-                    contact = contact
+                    Contact = contact
                 }
             }
         };
 
-        await _context.information.AddAsync(entity, cancellationToken);
+        await _context.Information.AddAsync(entity, cancellationToken);
 
         entity.AddDomainEvent(new InformationCreatedEvent(entity));
 

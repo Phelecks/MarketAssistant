@@ -20,13 +20,13 @@ public class CreateContactCommandHandler : IRequestHandler<CreateContactCommand,
     {
         var entity = new Domain.Entities.Contact
         {
-            userId = request.userId,
-            username = request.username,
-            phoneNumber = request.phoneNumber,
-            emailAddress = request.emailAddress
+            UserId = request.userId,
+            Username = request.username,
+            PhoneNumber = request.phoneNumber,
+            EmailAddress = request.emailAddress
         };
 
-        await _context.contacts.AddAsync(entity, cancellationToken);
+        await _context.Contacts.AddAsync(entity, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -26,7 +26,7 @@ public class Handler : IRequestHandler<PurgeBaseParametersCommand, Unit>
     //}
     public async Task<Unit> Handle(PurgeBaseParametersCommand request, CancellationToken cancellationToken)
     {
-        _context.baseParameters.RemoveRange(_context.baseParameters);
+        _context.BaseParameters.RemoveRange(_context.BaseParameters);
 
         await _context.SaveChangesAsync(cancellationToken);
 

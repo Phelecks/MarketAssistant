@@ -23,7 +23,7 @@ public class GetGroupsQueryHandler : IRequestHandler<GetGroupContactsQuery, Pagi
 
     public async Task<PaginatedList<GroupContactDto>> Handle(GetGroupContactsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.groupContacts
+        return await _context.GroupContacts
             .ProjectTo<GroupContactDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

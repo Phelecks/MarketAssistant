@@ -25,7 +25,7 @@ public class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, Paginat
 
     public async Task<PaginatedList<ContactsDto>> Handle(GetContactsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.contacts
+        return await _context.Contacts
             .ProjectTo<ContactsDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

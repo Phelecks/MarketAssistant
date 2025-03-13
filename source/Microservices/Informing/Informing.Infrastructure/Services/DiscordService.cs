@@ -33,14 +33,14 @@ public class DiscordService : IDiscordService
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
-        var botToken = await context.baseParameters.SingleOrDefaultAsync(exp => exp.field == BaseDomain.Enums.BaseParameterField.InformingDiscordBotToken, cancellationToken);
+        var botToken = await context.BaseParameters.SingleOrDefaultAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.InformingDiscordBotToken, cancellationToken);
         if(botToken is null)
         {
             Initialized = false;
             return;
         }
 
-        await _discord.LoginAsync(TokenType.Bot, botToken.value);
+        await _discord.LoginAsync(TokenType.Bot, botToken.Value);
         await _discord.StartAsync();
         Initialized = true;
     }

@@ -47,13 +47,13 @@ public class Handler : IRequestHandler<UpdateBaseParameterCommand>
     //}
     public async Task Handle(UpdateBaseParameterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.baseParameters
+        var entity = await _context.BaseParameters
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.id);
 
-        entity.value = request.value;
+        entity.Value = request.value;
 
         entity.AddDomainEvent(new BaseParameterUpdatedEvent(entity));
 

@@ -39,15 +39,15 @@ public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand,
     //}
     public async Task<Unit> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.contacts
+        var entity = await _context.Contacts
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.Contact), request.id);
 
-        entity.phoneNumber = request.phoneNumber;
-        entity.emailAddress = request.emailAddress;
-        entity.fullname = request.fullname;
+        entity.PhoneNumber = request.phoneNumber;
+        entity.EmailAddress = request.emailAddress;
+        entity.Fullname = request.fullname;
 
         entity.AddDomainEvent(new ContactUpdatedEvent(entity));
 

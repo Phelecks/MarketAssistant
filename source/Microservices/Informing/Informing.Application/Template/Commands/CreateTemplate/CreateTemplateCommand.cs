@@ -42,13 +42,13 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
     {
         var entity = new Domain.Entities.Template
         {
-            content= request.content,
-            informingType=request.informingType,
-            informingSendType=request.informingSendType,
-            title =request.title,
+            Content= request.content,
+            InformingType=request.informingType,
+            InformingSendType=request.informingSendType,
+            Title =request.title,
         };
 
-        await _context.templates.AddAsync(entity, cancellationToken);
+        await _context.Templates.AddAsync(entity, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

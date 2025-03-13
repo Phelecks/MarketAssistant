@@ -5,11 +5,11 @@ namespace Informing.Domain.Entities;
 
 public class GroupContact : BaseEntity
 {
-    public long contactId { get; set; }
-    public virtual Contact contact { get; set; }
+    public long ContactId { get; set; }
+    public virtual Contact Contact { get; set; }
 
 
 
-    public long groupId { get; set; }
-    public virtual Group group { get; set; }
+    public long GroupId { get; set; }
+    public virtual Group Group { get; set; }
 }

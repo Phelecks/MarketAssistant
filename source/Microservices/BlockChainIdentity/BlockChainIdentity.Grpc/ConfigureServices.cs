@@ -83,7 +83,7 @@ public static class ConfigureServices
         builder.Services.AddAuthentication(SiweAuthenticationOptions.DefaultScheme)
            .AddScheme<SiweAuthenticationOptions, SiweAuthenticationHandler>(SiweAuthenticationOptions.DefaultScheme, options =>
            {
-               options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION_NAME")!;
+               options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION-NAME")!;
                options.ValidIssuers = [builder.Configuration.GetValue<string>("TOKEN-ISSUER")!];
            });
 

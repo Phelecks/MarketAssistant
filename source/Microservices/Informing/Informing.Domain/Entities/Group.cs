@@ -7,14 +7,14 @@ namespace Informing.Domain.Entities;
 public class Group : BaseEntity
 {
     [Required]
-    public string title { get; set; }
+    public required string Title { get; set; }
 
-    public string? description { get; set; }
-
-
+    public string? Description { get; set; }
 
 
 
 
-    public virtual ICollection<GroupContact> groupContacts { get; set; }
+
+
+    public virtual ICollection<GroupContact> GroupContacts { get; set; }
 }

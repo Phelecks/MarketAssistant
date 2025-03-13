@@ -20,7 +20,7 @@ public class UpdateContactByUserIdValidator : AbstractValidator<UpdateContactByU
 
     private async Task<bool> BeExistsAsync(string userId, CancellationToken cancellationToken)
     {
-        return await _context.contacts
-            .AnyAsync(exp => exp.userId.Equals(userId), cancellationToken);
+        return await _context.Contacts
+            .AnyAsync(exp => exp.UserId.Equals(userId), cancellationToken);
     }
 }

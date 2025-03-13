@@ -26,7 +26,7 @@ public class PurgeGroupsCommandHandler : IRequestHandler<PurgeGroupsCommand, Uni
     //}
     public async Task<Unit> Handle(PurgeGroupsCommand request, CancellationToken cancellationToken)
     {
-        _context.groups.RemoveRange(_context.groups);
+        _context.Groups.RemoveRange(_context.Groups);
 
         await _context.SaveChangesAsync(cancellationToken);
 

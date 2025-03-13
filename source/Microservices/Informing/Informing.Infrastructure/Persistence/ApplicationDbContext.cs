@@ -11,16 +11,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<BaseParameter> baseParameters => Set<BaseParameter>();
-    public DbSet<Contact> contacts => Set<Contact>();
-    public DbSet<Information> information => Set<Information>();
-    public DbSet<InformationLog> informationLogs => Set<InformationLog>();
-    public DbSet<Template> templates => Set<Template>();
-    public DbSet<Group> groups => Set<Group>();
-    public DbSet<GroupContact> groupContacts => Set<GroupContact>();
-    public DbSet<Device> devices => Set<Device>();
-    public DbSet<ContactInformation> contactInformations => Set<ContactInformation>(); 
-    public DbSet<GroupInformation> groupInformations => Set<GroupInformation>();
+    public DbSet<BaseParameter> BaseParameters => Set<BaseParameter>();
+    public DbSet<Contact> Contacts => Set<Contact>();
+    public DbSet<Information> Information => Set<Information>();
+    public DbSet<InformationLog> InformationLogs => Set<InformationLog>();
+    public DbSet<Template> Templates => Set<Template>();
+    public DbSet<Group> Groups => Set<Group>();
+    public DbSet<GroupContact> GroupContacts => Set<GroupContact>();
+    public DbSet<Device> Devices => Set<Device>();
+    public DbSet<ContactInformation> ContactInformations => Set<ContactInformation>(); 
+    public DbSet<GroupInformation> GroupInformations => Set<GroupInformation>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

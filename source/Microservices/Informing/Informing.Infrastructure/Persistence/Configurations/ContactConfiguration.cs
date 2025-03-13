@@ -8,10 +8,10 @@ public class ContactConfiguration : IEntityTypeConfiguration<Contact>
 {
     public void Configure(EntityTypeBuilder<Contact> builder)
     {
-        builder.Property(t => t.userId)
+        builder.Property(t => t.UserId)
             .IsRequired();
-        builder.Property(t => t.username)
+        builder.Property(t => t.Username)
             .IsRequired();
-        builder.ToTable("Contact").HasIndex(index => index.userId).IsUnique();
+        builder.ToTable("Contact").HasIndex(index => index.UserId).IsUnique();
     }
 }

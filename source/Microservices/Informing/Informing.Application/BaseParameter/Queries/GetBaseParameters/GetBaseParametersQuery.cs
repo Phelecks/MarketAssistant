@@ -25,7 +25,7 @@ public class Handler : IRequestHandler<GetBaseParametersQuery, PaginatedList<Bas
 
     public async Task<PaginatedList<BaseParametersDto>> Handle(GetBaseParametersQuery request, CancellationToken cancellationToken)
     {
-        return await _context.baseParameters
+        return await _context.BaseParameters
             .ProjectTo<BaseParametersDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

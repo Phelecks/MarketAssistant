@@ -28,19 +28,19 @@ public class CreateTemplateCommandValidator : AbstractValidator<CreateTemplateCo
 
     private async Task<bool> BeUniqueSmsInformingTypeAsync(BaseDomain.Enums.InformingEnums.InformingType informingType, CancellationToken cancellationToken)
     {
-        return !await _context.templates
-            .AnyAsync(exp => exp.informingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Sms && exp.informingType == informingType, cancellationToken);
+        return !await _context.Templates
+            .AnyAsync(exp => exp.InformingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Sms && exp.InformingType == informingType, cancellationToken);
     }
 
     private async Task<bool> BeUniqueEmailInformingTypeAsync(BaseDomain.Enums.InformingEnums.InformingType informingType, CancellationToken cancellationToken)
     {
-        return !await _context.templates
-            .AnyAsync(exp => exp.informingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Email && exp.informingType == informingType, cancellationToken);
+        return !await _context.Templates
+            .AnyAsync(exp => exp.InformingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Email && exp.InformingType == informingType, cancellationToken);
     }
 
     private async Task<bool> BeUniqueNotificationInformingTypeAsync(BaseDomain.Enums.InformingEnums.InformingType informingType, CancellationToken cancellationToken)
     {
-        return !await _context.templates
-            .AnyAsync(exp => exp.informingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Notification && exp.informingType == informingType, cancellationToken);
+        return !await _context.Templates
+            .AnyAsync(exp => exp.InformingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Notification && exp.InformingType == informingType, cancellationToken);
     }
 }

@@ -24,6 +24,8 @@
     <ProjectReference Include="..\..\Microservices\BlockProcessor\BlockProcessor.MigrationWorker\BlockProcessor.MigrationWorker.csproj" />
     <ProjectReference Include="..\..\Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj" />
     <ProjectReference Include="..\..\Microservices\WalletTracker\WalletTracker.Api\WalletTracker.Api.csproj" />
+    <ProjectReference Include="..\..\Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj" />
+    <ProjectReference Include="..\..\Microservices\Informing\Informing.MigrationWorker\Informing.MigrationWorker.csproj" />
   </ItemGroup>
 
 </Project>

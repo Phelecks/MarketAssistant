@@ -25,7 +25,7 @@ public class GetInformationQueryHandler : IRequestHandler<GetInformationQuery, P
 
     public async Task<PaginatedList<InformationDto>> Handle(GetInformationQuery request, CancellationToken cancellationToken)
     {
-        return await _context.information
+        return await _context.Information
             .ProjectTo<InformationDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

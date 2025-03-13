@@ -8,8 +8,8 @@ public class DeviceConfiguration : IEntityTypeConfiguration<Device>
 {
     public void Configure(EntityTypeBuilder<Device> builder)
     {
-        builder.Property(t => t.deviceToken)
+        builder.Property(t => t.DeviceToken)
             .IsRequired();
-        builder.ToTable("Device").HasIndex(index => index.deviceToken).IsUnique();
+        builder.ToTable("Device").HasIndex(index => index.DeviceToken).IsUnique();
     }
 }

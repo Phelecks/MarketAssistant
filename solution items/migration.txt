@@ -1,3 +1,5 @@
 dotnet ef migrations add Init --project .\source\Microservices\BlockProcessor\BlockProcessor.Infrastructure\BlockProcessor.Infrastructure.csproj --startup-project .\source\Microservices\BlockProcessor\BlockProcessor.MigrationWorker\BlockProcessor.MigrationWorker.csproj --output-dir Persistence/Migrations
 
 dotnet ef migrations add Init --project .\source\Microservices\BlockChainIdentity\BlockChainIdentity.Infrastructure\BlockChainIdentity.Infrastructure.csproj --startup-project .\source\Microservices\BlockChainIdentity\BlockChainIdentity.MigrationWorker\BlockChainIdentity.MigrationWorker.csproj --output-dir Persistence/Migrations
+
+dotnet ef migrations add Init --project .\source\Microservices\Informing\Informing.Infrastructure\Informing.Infrastructure.csproj --startup-project .\source\Microservices\Informing\Informing.MigrationWorker\Informing.MigrationWorker.csproj --output-dir Persistence/Migrations

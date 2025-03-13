@@ -35,7 +35,7 @@ public class DeleteTemplateCommandHandler : IRequestHandler<DeleteTemplateComman
     //}
     public async Task<Unit> Handle(DeleteTemplateCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.templates
+        var entity = await _context.Templates
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
@@ -43,7 +43,7 @@ public class DeleteTemplateCommandHandler : IRequestHandler<DeleteTemplateComman
             throw new NotFoundException(nameof(Domain.Entities.Template), request.id);
         }
 
-        _context.templates.Remove(entity);
+        _context.Templates.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 

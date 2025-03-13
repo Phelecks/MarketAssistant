@@ -5,15 +5,15 @@ namespace Informing.Domain.Entities;
 
 public class InformationLog : BaseAuditEntity
 {
-    public InformationLogType type { get; set; }
+    public InformationLogType Type { get; set; }
 
-    [ForeignKey("contact")]
-    public long contactId { get; set; }
-    public virtual Contact contact { get; set; }
+    [ForeignKey("Contact")]
+    public long ContactId { get; set; }
+    public virtual Contact Contact { get; set; }
 
-    [ForeignKey("information")]
-    public long informationId { get; set; }
-    public virtual Information information { get; set; }
+    [ForeignKey("Information")]
+    public long InformationId { get; set; }
+    public virtual Information Information { get; set; }
 }
 
 

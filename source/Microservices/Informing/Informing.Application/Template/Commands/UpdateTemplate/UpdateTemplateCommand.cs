@@ -58,14 +58,14 @@ public class Handler : IRequestHandler<UpdateTemplateCommand>
     //}
     public async Task Handle(UpdateTemplateCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.templates
+        var entity = await _context.Templates
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.id);
 
-        entity.content = request.content;
-        entity.title = request.title;
+        entity.Content = request.content;
+        entity.Title = request.title;
 
         entity.AddDomainEvent(new TemplateUpdatedEvent(entity));
 

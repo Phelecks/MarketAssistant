@@ -35,7 +35,7 @@ public class Handler : IRequestHandler<DeleteBaseParameterCommand, Unit>
     //}
     public async Task<Unit> Handle(DeleteBaseParameterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.baseParameters
+        var entity = await _context.BaseParameters
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
@@ -43,7 +43,7 @@ public class Handler : IRequestHandler<DeleteBaseParameterCommand, Unit>
             throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.id);
         }
 
-        _context.baseParameters.Remove(entity);
+        _context.BaseParameters.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 

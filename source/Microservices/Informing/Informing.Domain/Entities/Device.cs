@@ -8,26 +8,26 @@ public class Device : BaseAuditEntity
     /// <summary>
     /// Operating system type
     /// </summary>
-    public BaseDomain.Enums.InformingEnums.PlatformType platformType { get; set; }
+    public BaseDomain.Enums.InformingEnums.PlatformType PlatformType { get; set; }
 
     /// <summary>
     /// Operation system version
     /// </summary>
-    public string version { get; set; }
+    public required string Version { get; set; } = "Unknown";
 
     /// <summary>
     /// Push notification identifier
     /// </summary>
     [Required]
-    public string deviceToken { get; set; }
+    public required string DeviceToken { get; set; }
 
     /// <summary>
     /// Enabled
     /// </summary>
-    public bool enabled { get; set; } = true;
+    public bool Enabled { get; set; } = true;
 
     /// <summary>
     /// Submit date time
     /// </summary>
-    public DateTime submitDateTime { get; }
+    public DateTime SubmitDateTime { get; }
 }

@@ -23,7 +23,7 @@ public static class ConfigureServices
             var useInMemoryDb = configService.GetValue("USE-INMEMORY-DATABASE", true);
             if(useInMemoryDb)
             {
-                var databaseName = configService.GetValue<string>("ApplicationName");
+                var databaseName = configService.GetValue<string>("APPLICATION-NAME");
                 options.UseInMemoryDatabase(databaseName is null ? Guid.NewGuid().ToString() : databaseName)
                     .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
             }

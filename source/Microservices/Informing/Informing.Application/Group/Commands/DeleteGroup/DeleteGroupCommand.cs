@@ -34,7 +34,7 @@ public class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, Uni
     //}
     public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.groups
+        var entity = await _context.Groups
             .FindAsync(new object[] { request.id }, cancellationToken);
 
         if (entity == null)
@@ -42,7 +42,7 @@ public class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, Uni
             throw new NotFoundException(nameof(Domain.Entities.Group), request.id);
         }
 
-        _context.groups.Remove(entity);
+        _context.Groups.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 

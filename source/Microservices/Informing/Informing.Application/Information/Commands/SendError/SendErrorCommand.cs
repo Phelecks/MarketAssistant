@@ -21,25 +21,25 @@ public class SendVerificationCodeCommandHandler : IRequestHandler<SendErrorComma
 
     public async Task<Unit> Handle(SendErrorCommand request, CancellationToken cancellationToken)
     {
-        var template = await _context.templates.SingleOrDefaultAsync(exp => exp.informingType == BaseDomain.Enums.InformingEnums.InformingType.SystemErrorMessage && exp.informingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Email, cancellationToken);
+        var template = await _context.Templates.SingleOrDefaultAsync(exp => exp.InformingType == BaseDomain.Enums.InformingEnums.InformingType.SystemErrorMessage && exp.InformingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Email, cancellationToken);
         if (template == null) throw new NotFoundException($"Template with informingType: {BaseDomain.Enums.InformingEnums.InformingType.SystemErrorMessage} and informingSendType: {BaseDomain.Enums.InformingEnums.InformingSendType.Email}, not found.");
-        var contacts = await _context.contacts.Where(exp => exp.groupContacts.Any(gcExp => gcExp.group.title.Equals("Administrators"))).ToListAsync(cancellationToken);
+        var contacts = await _context.Contacts.Where(exp => exp.GroupContacts.Any(gcExp => gcExp.Group.Title.Equals("Administrators"))).ToListAsync(cancellationToken);
 
-        var content = template.content.Replace("@Content", request.content);
+        var content = template.Content.Replace("@Content", request.content);
 
 
         var entity = new Domain.Entities.Information
         {
-            content = content,
-            title = template.title,
-            type = InformationType.Email,
-            contactInformations = contacts.Select(s => new ContactInformation
+            Content = content,
+            Title = template.Title,
+            Type = InformationType.Email,
+            ContactInformations = contacts.Select(s => new ContactInformation
             {
-                contact = s,
+                Contact = s,
             }).ToList()
         };
 
-        await _context.information.AddAsync(entity, cancellationToken);
+        await _context.Information.AddAsync(entity, cancellationToken);
 
         entity.AddDomainEvent(new SystemErrorSentEvent(entity));
         await _context.SaveChangesAsync(cancellationToken);

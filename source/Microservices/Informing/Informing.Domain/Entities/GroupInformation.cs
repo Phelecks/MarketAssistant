@@ -7,10 +7,10 @@ namespace Informing.Domain.Entities;
 public class GroupInformation : BaseEntity
 {
     [ForeignKey("group")]
-    public long groupId { get; set; }
-    public virtual Group group { get; set; }
+    public long GroupId { get; set; }
+    public virtual Group Group { get; set; }
 
-    [ForeignKey("information")]
-    public long infromationId { get; set; }
-    public virtual Information information { get; set; }
+    [ForeignKey("Information")]
+    public long InfromationId { get; set; }
+    public virtual Information Information { get; set; }
 }

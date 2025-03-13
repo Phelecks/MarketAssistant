@@ -27,10 +27,10 @@ public class SendErrorCommandValidator : AbstractValidator<SendErrorCommand>
 
     private async Task<bool> ExistsUserIdWithEmailAddressAsync(string userId, CancellationToken cancellationToken)
     {
-        return await _context.contacts.AnyAsync(exp => exp.userId.Equals(userId) && !string.IsNullOrEmpty(exp.emailAddress), cancellationToken);
+        return await _context.Contacts.AnyAsync(exp => exp.UserId.Equals(userId) && !string.IsNullOrEmpty(exp.EmailAddress), cancellationToken);
     }
     private async Task<bool> ExistsUserIdWithPhoneNumberAsync(string userId, CancellationToken cancellationToken)
     {
-        return await _context.contacts.AnyAsync(exp => exp.userId.Equals(userId) && !string.IsNullOrEmpty(exp.phoneNumber), cancellationToken);
+        return await _context.Contacts.AnyAsync(exp => exp.UserId.Equals(userId) && !string.IsNullOrEmpty(exp.PhoneNumber), cancellationToken);
     }
 }
