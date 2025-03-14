@@ -36,6 +36,6 @@ public class GameHubProxy : IGameHubProxy
 
     public async Task NotifyMatchOverviewUpdatedsync(MatchOverviewDto dto)
     {
-        await _hubContext.Clients.Group(dto.game).MatchOverviewUpdated(dto);
+        await _hubContext.Clients.Group(dto.Game).MatchOverviewUpdated(dto);
     }
 }

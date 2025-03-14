@@ -2,5 +2,5 @@
 
 public class MatchOverviewDto
 {
-    public string game { get; set; }
+    public required string Game { get; set; }
 }

@@ -37,7 +37,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<CreateClie
             Version = request.Version,
             ClientResources = resources.Select(s => new Domain.Entities.ClientResource
             {
-                resourceId = s.Id
+                ResourceId = s.Id
             }).ToList()
         };
 

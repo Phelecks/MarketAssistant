@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using BaseDomain.Enums;
-using BlockChainIdentity.Domain.Entities;
 using BlockChainIdentity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -33,7 +32,7 @@ public class Worker(IServiceProvider serviceProvider,
 
             await EnsureDatabaseAsync(context, stoppingToken);
             await RunMigrationAsync(context, stoppingToken);
-            await SeedDataAsync(context, stoppingToken);
+            await SeedDataAsync(context, configuration, stoppingToken);
         }
         catch (Exception ex)
         {
@@ -72,7 +71,7 @@ public class Worker(IServiceProvider serviceProvider,
         });
     }
 
-    private static async Task SeedDataAsync(ApplicationDbContext context, CancellationToken stoppingToken)
+    private static async Task SeedDataAsync(ApplicationDbContext context, IConfiguration configuration, CancellationToken stoppingToken)
     {
         var strategy = context.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
@@ -84,6 +83,7 @@ public class Worker(IServiceProvider serviceProvider,
             await TrySeedResourcesAsync(context, stoppingToken);
             await TrySeedClientsAsync(context, stoppingToken);
             await TrySeedBaseParametersAsync(context, stoppingToken);
+            await TrySeedRpcUrlsAsync(context, configuration, stoppingToken);
             await context.SaveChangesAsync(stoppingToken);
             await transaction.CommitAsync(stoppingToken);
         });
@@ -96,10 +96,10 @@ public class Worker(IServiceProvider serviceProvider,
             await context.Roles.AddRangeAsync(
             [
                 new() {
-                    title = "Administrators"
+                    Title = "Administrators"
                 },
                 new() {
-                    title = "Users"
+                    Title = "Users"
                 }
             ], stoppingToken);
 
@@ -111,9 +111,9 @@ public class Worker(IServiceProvider serviceProvider,
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         if (!await context.Wallets.AnyAsync(stoppingToken))
         {
-            var adminRole = await context.Roles.SingleAsync(exp => exp.title.Equals("Administrators"), cancellationToken: stoppingToken);
-            await context.Wallets.AddRangeAsync(new List<Domain.Entities.Wallet>
-            {
+            var adminRole = await context.Roles.SingleAsync(exp => exp.Title.Equals("Administrators"), cancellationToken: stoppingToken);
+            await context.Wallets.AddRangeAsync(
+            [
                 new() {
                     Address = !string.IsNullOrEmpty(environment) && (environment.Equals("Development") || environment.Contains("Test"))
                         ? "0xe1BA310dC3481EE3a242B1aDDbDE4049F70784B9"
@@ -130,7 +130,7 @@ public class Worker(IServiceProvider serviceProvider,
                         }
                     ]
                 }
-            });
+            ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);
         }
@@ -191,9 +191,6 @@ public class Worker(IServiceProvider serviceProvider,
     }
     private static async Task TrySeedClientsAsync(ApplicationDbContext context, CancellationToken stoppingToken)
     {
-
-        // Default data
-        // Seed, if necessary
         if (!await context.Clients.AnyAsync(stoppingToken))
         {
             var BlockChainIdentityResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainIdentity"), stoppingToken);
@@ -221,37 +218,37 @@ public class Worker(IServiceProvider serviceProvider,
                     ClientResources =
                     [
                         new() {
-                            resource = BlockChainIdentityResource
+                            Resource = BlockChainIdentityResource
                         },
                         new() {
-                            resource = FinancialResource
+                            Resource = FinancialResource
                         },
                         new() {
-                            resource = LogProcessorResource
+                            Resource = LogProcessorResource
                         },
                         new() {
-                            resource = BlockProcessorResource
+                            Resource = BlockProcessorResource
                         },
                         new() {
-                            resource = BlockChainResource
+                            Resource = BlockChainResource
                         },
                         new() {
-                            resource = BlockChainTransferResource
+                            Resource = BlockChainTransferResource
                         },
                         new() {
-                            resource = OrderResource
+                            Resource = OrderResource
                         },
                         new() {
-                            resource = BasketResource
+                            Resource = BasketResource
                         },
                         new() {
-                            resource = CatalogResource
+                            Resource = CatalogResource
                         },
                         new() {
-                            resource = CustomerResource
+                            Resource = CustomerResource
                         },
                         new() {
-                            resource = InformingResource
+                            Resource = InformingResource
                         }
                     ]
                 },
@@ -266,37 +263,37 @@ public class Worker(IServiceProvider serviceProvider,
                     ClientResources =
                     [
                         new() {
-                            resource = BlockChainIdentityResource
+                            Resource = BlockChainIdentityResource
                         },
                         new() {
-                            resource = FinancialResource
+                            Resource = FinancialResource
                         },
                         new() {
-                            resource = LogProcessorResource
+                            Resource = LogProcessorResource
                         },
                         new() {
-                            resource = BlockProcessorResource
+                            Resource = BlockProcessorResource
                         },
                         new() {
-                            resource = BlockChainResource
+                            Resource = BlockChainResource
                         },
                         new() {
-                            resource = BlockChainTransferResource
+                            Resource = BlockChainTransferResource
                         },
                         new() {
-                            resource = OrderResource
+                            Resource = OrderResource
                         },
                         new() {
-                            resource = BasketResource
+                            Resource = BasketResource
                         },
                         new() {
-                            resource = CatalogResource
+                            Resource = CatalogResource
                         },
                         new() {
-                            resource = CustomerResource
+                            Resource = CustomerResource
                         },
                         new() {
-                            resource = InformingResource
+                            Resource = InformingResource
                         },
                     ]
                 }
@@ -307,9 +304,6 @@ public class Worker(IServiceProvider serviceProvider,
     }
     private static async Task TrySeedBaseParametersAsync(ApplicationDbContext context, CancellationToken stoppingToken)
     {
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        // Default data
-        // Seed, if necessary
         if (!await context.BaseParameters.AnyAsync(stoppingToken))
         {
             await context.BaseParameters.AddRangeAsync(
@@ -320,27 +314,38 @@ public class Worker(IServiceProvider serviceProvider,
                     Category = BaseParameterCategory.BlockChainIdentityConfiguration,
                     Field = BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
                     Value = "60"
-                },
-                new()
-                {
-                    Category = BaseParameterCategory.BlockChainIdentityConfiguration,
-                    Field = BaseParameterField.BlockChainIdentityPolygonMainNetRpcUrl,
-                    Value = !string.IsNullOrEmpty(environment) && environment.Contains("Development")
-                        ? "https://polygon-mainnet.g.alchemy.com/v2/22Jr03KTaxzY9R6szSsaYs2zumuPef9u"
-                        : !string.IsNullOrEmpty(environment) && environment.Contains("Staging")
-                            ? "https://polygon-mainnet.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
-                            :"https://polygon-mainnet.g.alchemy.com/v2/qt44--X9fNPny4QLv8Lx72ICeJgr-b8p"
-                },
-                new()
-                {
-                    Category = BaseParameterCategory.BlockChainIdentityConfiguration,
-                    Field = BaseParameterField.BlockChainIdentityPolygonTestNetRpcUrl,
-                    Value = "https://polygon-amoy.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
-                },
+                }
                 #endregion
             ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);
+        }
+    }
+
+     private sealed record RpcUrl(int Chain, string Url);
+    private static async Task TrySeedRpcUrlsAsync(ApplicationDbContext context, IConfiguration configuration, CancellationToken stoppingToken)
+    {
+        var rpcUrlsString = configuration.GetValue<string>("RPC-URLS");
+        if(string.IsNullOrEmpty(rpcUrlsString)) throw new InvalidOperationException("RPC-URLS is not set in configuration");
+        var rpcUrls = System.Text.Json.JsonSerializer.Deserialize<List<RpcUrl>>(rpcUrlsString) ?? throw new InvalidOperationException("RPC-URLS is not set or not in correct format in configuration");
+        if (!await context.RpcUrls.AnyAsync(stoppingToken))
+        {
+            var records = new List<Domain.Entities.RpcUrl>();
+            foreach(var rpcUrl in rpcUrls)
+            {
+                records.Add(
+                    new() { Chain = (Nethereum.Signer.Chain)rpcUrl.Chain, Uri = new Uri(rpcUrl.Url) }
+                );
+            }
+
+            if(!context.Database.IsSqlServer())
+            {
+                int index = 1;
+                foreach(var record in records)
+                    record.Id = index++;
+            }
+
+            await context.RpcUrls.AddRangeAsync(records, stoppingToken);
         }
     }
 }

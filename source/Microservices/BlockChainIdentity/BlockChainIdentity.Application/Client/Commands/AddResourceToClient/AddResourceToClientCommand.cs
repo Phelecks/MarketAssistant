@@ -30,8 +30,8 @@ public class Handler : IRequestHandler<AddResourceToClientCommand, Unit>
         {
             entity.ClientResources.Add(new Domain.Entities.ClientResource
             {
-                clientId = entity.Id,
-                resourceId = resource.Id
+                ClientId = entity.Id,
+                ResourceId = resource.Id
             });
         }
 

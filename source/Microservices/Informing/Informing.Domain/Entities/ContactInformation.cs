@@ -8,7 +8,7 @@ public class ContactInformation : BaseEntity
 {
     [ForeignKey("contact")]
     public long ContactId { get; set; }
-    public virtual required Contact Contact { get; set; }
+    public virtual Contact Contact { get; set; }
 
     [ForeignKey("Information")]
     public long InfromationId { get; set; }

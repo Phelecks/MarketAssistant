@@ -27,6 +27,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Token> Tokens => Set<Token>();
     public DbSet<Wallet> Wallets => Set<Wallet>();
     public DbSet<WalletRole> WalletRoles => Set<WalletRole>();
+    public DbSet<RpcUrl> RpcUrls => Set<RpcUrl>();
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

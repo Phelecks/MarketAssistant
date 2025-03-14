@@ -44,7 +44,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                         var roles = await GetWalletRolesAsync(siweMessage.Address, request.chainId, cancellationToken);
                         var policies = await GetWalletPoliciesAsync(siweMessage.Address, request.chainId, cancellationToken);
                         var tokenResult = await _identityService.GenerateTokenAsync(siweMessage, signature, 
-                            roles.Select(s => s.title).ToList(), client.ClientResources.Select(s => s.resource.Title).ToList(), 
+                            roles.Select(s => s.Title).ToList(), client.ClientResources.Select(s => s.Resource.Title).ToList(), 
                             policies, client.Uri, client.Version, request.chainId,
                             siweMessage.RequestId, client.Statement, cancellationToken);
                         
@@ -68,12 +68,12 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
      string version, string nonce, string requestId, bool enabled, string walletAddress, int chainId,
      long clientId, CancellationToken cancellationToken)
     {
-        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
+        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.Resource).AsNoTracking().SingleAsync(exp => exp.Id == clientId, cancellationToken);
 
         var wallet = await _context.Wallets.Include(inc => inc.WalletRoles).ThenInclude(inc => inc.role).SingleOrDefaultAsync(exp => exp.Address.Equals(walletAddress), cancellationToken);
         if (wallet == null)
         {
-            var defaultRole = await _context.Roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
+            var defaultRole = await _context.Roles.SingleAsync(exp => exp.Title.Equals("Users"), cancellationToken);
             wallet = new Domain.Entities.Wallet
             {
                 Address = walletAddress,
@@ -102,7 +102,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
             statement = statement,
             version = version,
             WalletAddress = walletAddress,
-            Resources = string.Join(',', client.ClientResources.Select(s => s.resource.Title).ToList()),
+            Resources = string.Join(',', client.ClientResources.Select(s => s.Resource.Title).ToList()),
             Uri = uri
         };
         await _context.Tokens.AddAsync(entity, cancellationToken);
@@ -115,7 +115,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
         var clientResult = _identityService.GetClient(clientKey);
         if (!clientResult.IsSuccess()) throw new ForbiddenAccessException();
 
-        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
+        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.Resource).SingleOrDefaultAsync(exp => exp.ClientId.Equals(clientResult.data.ClientId) &&
             exp.ClientSecret.Equals(clientResult.data.ClientSecret) && exp.Enabled, cancellationToken);
         if (client == null) throw new ForbiddenAccessException();
         return client;
@@ -126,7 +126,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
         var wallet = await _context.Wallets.Include(inc => inc.WalletRoles).ThenInclude(inc => inc.role).AsNoTracking().SingleOrDefaultAsync(exp => exp.Address.Equals(address) && exp.ChainId == chainId, cancellationToken);
         if(wallet == null)
         {
-            var defaultRole = await _context.Roles.SingleAsync(exp => exp.title.Equals("Users"), cancellationToken);
+            var defaultRole = await _context.Roles.SingleAsync(exp => exp.Title.Equals("Users"), cancellationToken);
             return new List<Domain.Entities.Role>
             {
                 defaultRole

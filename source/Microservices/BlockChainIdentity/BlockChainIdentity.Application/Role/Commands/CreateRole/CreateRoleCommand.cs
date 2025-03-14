@@ -21,7 +21,7 @@ public class Handler : IRequestHandler<CreateRoleCommand, long>
     {
         var entity = new Domain.Entities.Role
         {
-            title = request.Title,
+            Title = request.Title,
         };
 
         await _context.Roles.AddAsync(entity, cancellationToken);

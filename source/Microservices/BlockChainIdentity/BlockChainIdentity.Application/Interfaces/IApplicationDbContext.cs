@@ -12,4 +12,5 @@ public interface IApplicationDbContext : BaseApplication.Interfaces.IBaseApplica
     DbSet<Domain.Entities.ClientResource> ClientResources { get; }
     DbSet<Domain.Entities.Role> Roles { get; }
     DbSet<Domain.Entities.WalletRole> WalletRoles { get; }
+    DbSet<Domain.Entities.RpcUrl> RpcUrls { get; }
 }

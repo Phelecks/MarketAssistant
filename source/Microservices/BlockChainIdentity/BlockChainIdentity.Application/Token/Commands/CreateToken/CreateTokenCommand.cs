@@ -23,7 +23,7 @@ public class Handler : IRequestHandler<CreateTokenCommand, long>
 
     public async Task<long> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
     {
-        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.resource).SingleAsync(exp => exp.Id == request.ClientId, cancellationToken);
+        var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.Resource).SingleAsync(exp => exp.Id == request.ClientId, cancellationToken);
 
         var entity = new Domain.Entities.Token
         {
@@ -36,7 +36,7 @@ public class Handler : IRequestHandler<CreateTokenCommand, long>
             statement = request.Statement,
             version = request.Version,
             WalletAddress = request.WalletAddress,
-            Resources = string.Join(',', client.ClientResources.Select(s => s.resource.Title).ToList()),
+            Resources = string.Join(',', client.ClientResources.Select(s => s.Resource.Title).ToList()),
             Uri = request.Uri
         };
 

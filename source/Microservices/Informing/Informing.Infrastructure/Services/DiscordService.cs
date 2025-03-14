@@ -361,7 +361,7 @@ public class DiscordService : IDiscordService
 
 
 
-    private string GetTimesLeft(double minutesLeft)
+    private static string GetTimesLeft(double minutesLeft)
     {
         var hoursLeft = (int)(minutesLeft / 60);
 

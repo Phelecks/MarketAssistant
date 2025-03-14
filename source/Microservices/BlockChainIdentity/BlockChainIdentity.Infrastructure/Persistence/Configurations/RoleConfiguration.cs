@@ -7,7 +7,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Domain.Entities.Role>
 {
     public void Configure(EntityTypeBuilder<Domain.Entities.Role> builder)
     {
-        builder.HasIndex(index => index.title).IsUnique(true);
+        builder.HasIndex(index => index.Title).IsUnique(true);
         builder.ToTable("Role");
     }
 }

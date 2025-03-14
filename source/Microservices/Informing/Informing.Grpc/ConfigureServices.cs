@@ -143,5 +143,7 @@ public static class ConfigureServices
         app.AddSignalRConfigurations();
 
         app.MapDefaultEndpoints();
+
+        await Task.CompletedTask;
     }
 }

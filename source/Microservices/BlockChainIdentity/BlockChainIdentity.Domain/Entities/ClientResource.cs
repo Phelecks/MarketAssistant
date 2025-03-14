@@ -5,11 +5,11 @@ namespace BlockChainIdentity.Domain.Entities;
 
 public class ClientResource : BaseEntity
 {
-    [ForeignKey("client")]
-    public long clientId { get; set; }
-    public virtual Client client { get; set; }
+    [ForeignKey("Client")]
+    public long ClientId { get; set; }
+    public virtual Client Client { get; set; }
 
-    [ForeignKey("resource")]
-    public long resourceId { get; set; }
-    public virtual Resource resource { get; set; }
+    [ForeignKey("Resource")]
+    public long ResourceId { get; set; }
+    public virtual Resource Resource { get; set; }
 }

@@ -8,6 +8,7 @@ const string IdentitySecret = "IDENTITY_SECRET";
 const string TokenIssuer = "TOKEN-ISSUER";
 const string DatabaseEncryptionKey = "DATABASE-ENCRYPTION-KEY";
 const string ApplicationName = "APPLICATION-NAME";
+const string RpcUrls = "RPC-URLS";
 
 // Add a secret parameters
 var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
@@ -54,6 +55,7 @@ var identityMigration = builder.AddProject<Projects.BlockChainIdentity_Migration
         .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
         .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
         .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
+        .WithEnvironment(name: RpcUrls, value: builder.Configuration.GetValue<string>(RpcUrls))
         .WaitFor(identityDb);
 var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
    .WithReference(redis)
@@ -74,7 +76,7 @@ var blockProcessorMigration = builder.AddProject<Projects.BlockProcessor_Migrati
     .WithReference(blockProcessorDb)
     .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
     .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
-    .WithEnvironment(name: "RPC-URLS", value: builder.Configuration.GetValue<string>("RPC-URLS"))
+    .WithEnvironment(name: RpcUrls, value: builder.Configuration.GetValue<string>(RpcUrls))
     .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
     .WaitFor(blockProcessorDb);
 var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockprocessor")

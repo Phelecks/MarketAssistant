@@ -1,0 +1,17 @@
+﻿using BlockChainIdentity.Application.Interfaces;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace BlockChainIdentity.Application.RpcUrl.Queries.GetAllChains;
+
+public record GetAllChainsQuery() : IRequest<List<Nethereum.Signer.Chain>>;
+
+public class Handler(IApplicationDbContext context) : IRequestHandler<GetAllChainsQuery, List<Nethereum.Signer.Chain>>
+{
+    private readonly IApplicationDbContext _context = context;
+
+    public async Task<List<Nethereum.Signer.Chain>> Handle(GetAllChainsQuery request, CancellationToken cancellationToken)
+    {
+        return await _context.RpcUrls.Select(s => s.Chain).Distinct().ToListAsync(cancellationToken);
+    }
+}

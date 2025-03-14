@@ -6,7 +6,7 @@ namespace BlockChainIdentity.Domain.Entities;
 public class Role : BaseAuditEntity
 {
     [Required]
-    public string title { get; set; }
+    public required string Title { get; set; }
 
-    public virtual ICollection<WalletRole> walletRoles { get; set; }
+    public virtual ICollection<WalletRole> WalletRoles { get; set; }
 }

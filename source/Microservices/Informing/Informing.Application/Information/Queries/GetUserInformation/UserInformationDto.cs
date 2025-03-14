@@ -8,12 +8,12 @@ public class UserInformationDto : IMapFrom<Domain.Entities.Information>
     /// <summary>
     /// Title
     /// </summary>
-    public string title { get; set; }
+    public required string Title { get; set; }
 
     /// <summary>
     /// Content
     /// </summary>
-    public string content { get; set; }
+    public required string Content { get; set; }
 
     /// <summary>
     /// Information type

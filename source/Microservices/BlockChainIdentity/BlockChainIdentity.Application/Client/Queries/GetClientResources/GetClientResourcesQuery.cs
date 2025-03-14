@@ -26,7 +26,7 @@ public class Handler : IRequestHandler<GetClientResourcesQuery, PaginatedList<Re
     public async Task<PaginatedList<ResourceDto>> Handle(GetClientResourcesQuery request, CancellationToken cancellationToken)
     {
         return await _context.Resources
-            .Where(exp => exp.ClientResources.Any(clientResource => clientResource.clientId == request.clientId))
+            .Where(exp => exp.ClientResources.Any(clientResource => clientResource.ClientId == request.clientId))
             .ProjectTo<ResourceDto>(_mapper.ConfigurationProvider)
             .ProjectToPaginatedListAsync(request.PageNumber, request.PageSize, request.OrderBy, cancellationToken);
     }

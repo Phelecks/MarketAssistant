@@ -71,25 +71,9 @@ public enum BaseParameterField
     [Description("Customer can define its referral less than this threshold")]
     CustomerAllowReferralThresholdInMinutes,
 
-    [Description("Polygon mainnet url")]
-    BlockChainPolygonMainNetRpcUrl,
-    [Description("Polygon testnet url")]
-    BlockChainPolygonTestNetRpcUrl,
-    [Description("Ethereum mainnet url")]
-    BlockChainEthereumMainNetRpcUrl,
-    [Description("Ethereum testnet url")]
-    BlockChainEthereumTestNetRpcUrl,
     [Description("CoinMarketCap API Key")]
     CoinMarketCapApiKey,
 
-    [Description("Polygon mainnet url")]
-    BlockChainLogProcessorPolygonMainNetRpcUrl,
-    [Description("Polygon testnet url")]
-    BlockChainLogProcessorPolygonTestNetRpcUrl,
-    [Description("Ethereum mainnet url")]
-    BlockChainLogProcessorEthereumMainNetRpcUrl,
-    [Description("Ethereum testnet url")]
-    BlockChainLogProcessorEthereumTestNetRpcUrl,
     [Description("Wait interval between inquiry log from rpc in seconds")]
     BlockChainLogProcessorWaitInterval,
     [Description("Number of blocks that inquiry per batch")]
@@ -99,15 +83,6 @@ public enum BaseParameterField
     [Description("Minimum block confirmation that needs to process the block")]
     BlockChainLogProcessorMinimumBlockConfirmations,
 
-
-    [Description("Polygon mainnet url")]
-    BlockChainPaymentPolygonMainNetRpcUrl,
-    [Description("Polygon testnet url")]
-    BlockChainPaymentPolygonTestNetRpcUrl,
-    [Description("Ethereum mainnet url")]
-    BlockChainPaymentEthereumMainNetRpcUrl,
-    [Description("Ethereum testnet url")]
-    BlockChainPaymentEthereumTestNetRpcUrl,
     [Description("Wait interval between inquiry log from rpc in seconds")]
     BlockChainPaymentWaitInterval,
     [Description("Number of blocks that inquiry per batch")]
@@ -118,20 +93,8 @@ public enum BaseParameterField
     BlockChainPaymentMinimumBlockConfirmationsToInitiatePayment,
     [Description("Minimum block confirmation that needs to process the block to confirm the payment")]
     BlockChainPaymentMinimumBlockConfirmationsToConfirmPayment,
-
-    [Description("Polygon mainnet url")]
-    BlockChainTransferPolygonMainNetRpcUrl,
-    [Description("Polygon testnet url")]
-    BlockChainTransferPolygonTestNetRpcUrl,
-    [Description("Ethereum mainnet url")]
-    BlockChainTransferEthereumMainNetRpcUrl,
-    [Description("Ethereum testnet url")]
-    BlockChainTransferEthereumTestNetRpcUrl,
-
     [Description("Block chain identity default generated siwe message lifetime in seconds")]
     BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
-    BlockChainIdentityPolygonMainNetRpcUrl,
-    BlockChainIdentityPolygonTestNetRpcUrl,
 
 
     GameMatchIntervalMinutes,
