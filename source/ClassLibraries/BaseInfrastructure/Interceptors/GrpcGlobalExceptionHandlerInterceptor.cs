@@ -7,14 +7,9 @@ using LoggerService.Helpers;
 
 namespace BaseInfrastructure.Interceptors;
 
-public class GrpcGlobalExceptionHandlerInterceptor : Interceptor
+public class GrpcGlobalExceptionHandlerInterceptor(ILogger<GrpcGlobalExceptionHandlerInterceptor> logger) : Interceptor
 {
-    private readonly ILogger<GrpcGlobalExceptionHandlerInterceptor> _logger;
-
-    public GrpcGlobalExceptionHandlerInterceptor(ILogger<GrpcGlobalExceptionHandlerInterceptor> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<GrpcGlobalExceptionHandlerInterceptor> _logger = logger;
 
     public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request,
         ServerCallContext context,
@@ -48,7 +43,7 @@ public class GrpcGlobalExceptionHandlerInterceptor : Interceptor
         {
             _ = Task.Run(() => _logger.LogError(
                 eventId: EventTool.GetEventInformation(eventType: EventType.General, eventName: "Exception"),
-                exception, exception.Message), context.CancellationToken);
+                exception, nameof(GrpcGlobalExceptionHandlerInterceptor)), context.CancellationToken);
 
             var response = ResponseHelper.Error();
             throw new RpcException(new Status(response.GrpcStatusCode(), response.ResponseInformation));

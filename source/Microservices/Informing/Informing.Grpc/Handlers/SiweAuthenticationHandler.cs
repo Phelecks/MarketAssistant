@@ -20,14 +20,11 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
     }
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (Request.Path.HasValue && (Request.Path.Value.Contains("/grpc.health.v1.Health/Check") || Request.Path.Value.Equals("/health")))
+        if (IsHealthCheckRequest())
             return await Task.FromResult(AuthenticateResult.NoResult());
 
-        var user = Request.HttpContext.User;
-        if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated) return await Task.FromResult(AuthenticateResult.NoResult());
-
-        if (user is not null && !string.IsNullOrWhiteSpace(user.Identity?.Name))
-            return await Task.FromResult(AuthenticateResult.NoResult()); //Already authenticated 
+        var claimsPrincipal = Request.HttpContext.User;
+        if (AlreadyAuthenticated(claimsPrincipal)) return await Task.FromResult(AuthenticateResult.NoResult());
 
         string? siweToken = null;
         if(Request.Path.HasValue && Request.Path.Value.Contains("/hubs") && Request.QueryString.HasValue)
@@ -55,6 +52,22 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
         return AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(new ClaimsIdentity(validationResult.claims, Scheme.Name)), Scheme.Name));
     }
 
+    bool IsHealthCheckRequest()
+    {
+        if (Request.Path.HasValue && (Request.Path.Value.Contains("/grpc.health.v1.Health/Check") || Request.Path.Value.Equals("/health")))
+            return true;
+        return false;
+    }
+
+    static bool AlreadyAuthenticated(ClaimsPrincipal? claimsPrincipal)
+    { 
+        if (claimsPrincipal is not null && !string.IsNullOrWhiteSpace(claimsPrincipal.Identity?.Name))
+            return false;
+        if (claimsPrincipal is not null && !string.IsNullOrWhiteSpace(claimsPrincipal.Identity?.Name))
+            return false;
+        return true;
+    }
+
     string GetSecret()
     {
         return _configuration.GetValue("IDENTITY-SECRET", "DefaultSecretValue123")!;
@@ -66,6 +79,6 @@ public class SiweAuthenticationOptions : AuthenticationSchemeOptions
 {
     public const string DefaultScheme = "Siwe";
     public string TokenHeaderName { get; set; } = "Siwe";
-    public string ApplicationName { get; set; }
-    public string[] ValidIssuers { get; set; }
+    public string ApplicationName { get; set; } = string.Empty;
+    public string[] ValidIssuers { get; set; } = [];
 }

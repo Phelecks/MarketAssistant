@@ -13,8 +13,8 @@ const string ApplicationName = "APPLICATION-NAME";
 var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
 var identitySecret = builder.AddParameter("IDENTITY-SECRET", secret: true);
 var sqlPassword = builder.AddParameter("SQL-SA-PASSWORD", secret: true);
-var rabbitUsername = builder.AddParameter("RABBIT-USERNAME", secret: true);
-var rabbitPassword = builder.AddParameter("RABBIT-PASSWORD", secret: true);
+//var rabbitUsername = builder.AddParameter("RABBIT-USERNAME", secret: true);
+//var rabbitPassword = builder.AddParameter("RABBIT-PASSWORD", secret: true);
 var databaseEncryptionKey = builder.AddParameter("DATABASE-ENCRYPTION-KEY", secret: true);
 
 var redis = builder.AddRedis("cache").WithDataVolume();
@@ -92,19 +92,21 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WaitFor(blockProcessorDb)
     .WaitFor(blockProcessorMigration)
     .WaitFor(identity)
-    //.WaitFor(informing)
+    .WaitFor(informing)
     .WithReplicas(2);
 
-//builder.AddProject<Projects.WalletTracker_Api>("wallettracker")
-//    .WithReference(redis)
-//    .WithReference(rabbit)
-//    .WaitFor(redis)
-//    .WaitFor(rabbit);
+bool RunWalletTracker = builder.Configuration.GetValue("RUN-WALLET-TRACKER", false);
+if(RunWalletTracker)
+    builder.AddProject<Projects.WalletTracker_Api>("wallettracker")
+       .WithReference(redis)
+       .WithReference(rabbit)
+       .WaitFor(redis)
+       .WaitFor(rabbit);
 
 builder.AddProject<Projects.ReverseProxy_Gateway>("reverseproxy-gateway")
    .WithReference(redis)
-   //.WithReference(identity)
-   //.WithReference(informing)
+   .WithReference(identity)
+   .WithReference(informing)
    .WithReference(blockProcessor)
    .WithEnvironment(name: ApplicationName, value: "ReverseProxy.Gateway")
    .WaitFor(redis)

@@ -4,7 +4,7 @@ namespace BlockChainIdentity.Application.Wallet.Queries.GetWallet;
 
 public class WalletDto : IMapFrom<Domain.Entities.Wallet>
 {
-    public string address { get; set; }
+    public required string Address { get; set; }
 
-    public int chainId { get; set; }
+    public int ChainId { get; set; }
 }

@@ -26,7 +26,7 @@ namespace EntityFrameworkCore.EncryptColumn.Extension
                     if(property.ClrType == typeof(string) && !IsDiscriminator(property))
                     {
                         object[] attributes = property.PropertyInfo.GetCustomAttributes(typeof(EncryptColumnAttribute), false);
-                        if(attributes.Any())
+                        if(attributes.Length != 0)
                             property.SetValueConverter(encryptionConverter);
                     }
                 }

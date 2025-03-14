@@ -38,7 +38,7 @@ public class TransferService : ITransferService
     /// <param name="contractAddress"></param>
     /// <param name="request"></param>
     /// <returns></returns>
-    public async Task<string> TransferAsync(Web3 web3, string contractAddress,
+    public static async Task<string> TransferAsync(Web3 web3, string contractAddress,
         Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferFromFunction request)
     {
         var handler = web3.Eth.ERC721.GetContractService(contractAddress);
@@ -79,7 +79,7 @@ public class TransferService : ITransferService
     /// <param name="contractAddress"></param>
     /// <param name="request"></param>
     /// <returns></returns>
-    public async Task<Nethereum.RPC.Eth.DTOs.TransactionReceipt?> TransferAndWaitForReceiptAsync(Web3 web3, string contractAddress,
+    public static async Task<Nethereum.RPC.Eth.DTOs.TransactionReceipt?> TransferAndWaitForReceiptAsync(Web3 web3, string contractAddress,
         Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferFromFunction request)
     {
         var handler = web3.Eth.ERC721.GetContractService(contractAddress);

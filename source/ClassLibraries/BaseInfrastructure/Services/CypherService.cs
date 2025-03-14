@@ -37,7 +37,7 @@ public class CypherService : ICypherService
 
 
 
-    private byte[] DeriveKeyFromPassword(string password)
+    private static byte[] DeriveKeyFromPassword(string password)
     {
         var emptySalt = Array.Empty<byte>();
         var iterations = 1000;
@@ -64,7 +64,7 @@ public class CypherService : ICypherService
         return inputString;
     }
 
-    private byte[] IV =
+    private readonly byte[] IV =
     {
         0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
         0x09, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16

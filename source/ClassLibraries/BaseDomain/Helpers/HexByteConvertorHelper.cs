@@ -4,7 +4,7 @@ public static class HexByteConvertorHelper
 {
     //From article http://blogs.msdn.com/b/heikkiri/archive/2012/07/17/hex-string-to-corresponding-byte-array.aspx
 
-    private static readonly byte[] Empty = new byte[0];
+    private static readonly byte[] Empty = [];
 
     public static string ToHex(this byte[] value, bool prefix = false)
     {

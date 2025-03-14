@@ -19,7 +19,7 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
                     v.ValidateAsync(context, cancellationToken)));
 
             var failures = validationResults
-                .Where(r => r.Errors.Any())
+                .Where(r => r.Errors.Count != 0)
                 .SelectMany(r => r.Errors)
                 .ToList();
 

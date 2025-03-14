@@ -93,17 +93,15 @@ public class Worker(IServiceProvider serviceProvider,
     {
         if (!await context.Roles.AnyAsync(stoppingToken))
         {
-            await context.Roles.AddRangeAsync(new List<Domain.Entities.Role>
-            {
-                new Domain.Entities.Role
-                {
+            await context.Roles.AddRangeAsync(
+            [
+                new() {
                     title = "Administrators"
                 },
-                new Domain.Entities.Role
-                {
+                new() {
                     title = "Users"
                 }
-            }, stoppingToken);
+            ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);
         }
@@ -122,16 +120,15 @@ public class Worker(IServiceProvider serviceProvider,
                         : "0x599c632a9A37b749F7F14b7C7d842c42496d34C0",
                     ChainId = 137,
                     Created = DateTime.UtcNow,
-                    WalletRoles = new List<Domain.Entities.WalletRole>
-                    {
-                        new Domain.Entities.WalletRole
-                        {
+                    WalletRoles =
+                    [
+                        new() {
                             role = adminRole,
                             walletAddress = !string.IsNullOrEmpty(environment) && (environment.Equals("Development") || environment.Contains("Test"))
                                 ? "0xe1BA310dC3481EE3a242B1aDDbDE4049F70784B9"
                                 : "0x599c632a9A37b749F7F14b7C7d842c42496d34C0",
                         }
-                    }
+                    ]
                 }
             });
 
@@ -142,53 +139,53 @@ public class Worker(IServiceProvider serviceProvider,
     {
         if (!await context.Resources.AnyAsync(stoppingToken))
         {
-            await context.Resources.AddRangeAsync(new List<Resource>
-            {
-                new()
-                    {
-                        Title = "BlockChainIdentity"
-                    },
-                new()
-                    {
-                        Title = "Financial"
-                    },
+            await context.Resources.AddRangeAsync(
+            [
                 new()
                 {
-                    Title = "BlockChainLogProcessor"
+                    Title = "BlockChainIdentity"
                 },
                 new()
-                    {
-                        Title = "BlockChainPayment"
-                    },
+                {
+                    Title = "Financial"
+                },
                 new()
-                    {
-                        Title = "BlockChain"
-                    },
+                {
+                    Title = "LogProcessor"
+                },
                 new()
-                    {
-                        Title = "BlockChainTransfer"
-                    },
+                {
+                    Title = "BlockProcessor"
+                },
                 new()
-                    {
-                        Title = "Order"
-                    },
+                {
+                    Title = "BlockChain"
+                },
                 new()
-                    {
-                        Title = "Basket"
-                    },
+                {
+                    Title = "BlockChainTransfer"
+                },
                 new()
-                    {
-                        Title = "Catalog"
-                    },
+                {
+                    Title = "Order"
+                },
                 new()
-                    {
-                        Title = "Customer"
-                    },
+                {
+                    Title = "Basket"
+                },
                 new()
-                    {
-                        Title = "Informing"
-                    }
-            }, stoppingToken);
+                {
+                    Title = "Catalog"
+                },
+                new()
+                {
+                    Title = "Customer"
+                },
+                new()
+                {
+                    Title = "Informing"
+                }
+            ], stoppingToken);
             await context.SaveChangesAsync(stoppingToken);
         }
     }
@@ -199,20 +196,20 @@ public class Worker(IServiceProvider serviceProvider,
         // Seed, if necessary
         if (!await context.Clients.AnyAsync(stoppingToken))
         {
-            var BlockChainIdentityResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainIdentity"));
-            var FinancialResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Financial"));
-            var BlockChainLogProcessorResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainLogProcessor"));
-            var BlockChainPaymentResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainPayment"));
-            var BlockChainResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChain"));
-            var BlockChainTransferResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainTransfer"));
-            var OrderResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Order"));
-            var BasketResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Basket"));
-            var CatalogResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Catalog"));
-            var CustomerResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Customer"));
-            var InformingResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Informing"));
+            var BlockChainIdentityResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainIdentity"), stoppingToken);
+            var FinancialResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Financial"), stoppingToken);
+            var LogProcessorResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("LogProcessor"), stoppingToken);
+            var BlockProcessorResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockProcessor"), stoppingToken);
+            var BlockChainResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChain"), stoppingToken);
+            var BlockChainTransferResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("BlockChainTransfer"), stoppingToken);
+            var OrderResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Order"), stoppingToken);
+            var BasketResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Basket"), stoppingToken);
+            var CatalogResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Catalog"), stoppingToken);
+            var CustomerResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Customer"), stoppingToken);
+            var InformingResource = await context.Resources.SingleAsync(exp => exp.Title.Equals("Informing"), stoppingToken);
 
-            await context.Clients.AddRangeAsync(new List<Client>
-            {
+            await context.Clients.AddRangeAsync(
+            [
                 new() {
                     ClientId = "adminPanelClientId",
                     ClientSecret = "!AdminPanel@Tricksfor#2024",
@@ -221,56 +218,44 @@ public class Worker(IServiceProvider serviceProvider,
                     Statement = "You are about to connect to Tricksfor Admin panel.",
                     Uri = new Uri("https://marketassitantadmin.tricksfor.com"),
                     Version = "1",
-                    ClientResources = new List<ClientResource>
-                    {
-                        new ClientResource
-                        {
+                    ClientResources =
+                    [
+                        new() {
                             resource = BlockChainIdentityResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = FinancialResource
                         },
-                        new ClientResource
-                        {
-                            resource = BlockChainLogProcessorResource
+                        new() {
+                            resource = LogProcessorResource
                         },
-                        new ClientResource
-                        {
-                            resource = BlockChainPaymentResource
+                        new() {
+                            resource = BlockProcessorResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = BlockChainResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = BlockChainTransferResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = OrderResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = BasketResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = CatalogResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = CustomerResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = InformingResource
                         }
-                    }
+                    ]
                 },
-                new Client
-                {
+                new() {
                     ClientId = "WebAppClientId",
                     ClientSecret = "(APP)&(Tricksfor)*2024",
                     TokenLifeTimeInSeconds = 43200,
@@ -278,55 +263,44 @@ public class Worker(IServiceProvider serviceProvider,
                     Statement = "You are about to connect to marketassistant.tricksfor.com.",
                     Uri = new Uri("https://marketassistant.tricksfor.com"),
                     Version = "1",
-                    ClientResources = new List<ClientResource>
-                    {
-                        new ClientResource
-                        {
+                    ClientResources =
+                    [
+                        new() {
                             resource = BlockChainIdentityResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = FinancialResource
                         },
-                        new ClientResource
-                        {
-                            resource = BlockChainLogProcessorResource
+                        new() {
+                            resource = LogProcessorResource
                         },
-                        new ClientResource
-                        {
-                            resource = BlockChainPaymentResource
+                        new() {
+                            resource = BlockProcessorResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = BlockChainResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = BlockChainTransferResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = OrderResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = BasketResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = CatalogResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = CustomerResource
                         },
-                        new ClientResource
-                        {
+                        new() {
                             resource = InformingResource
                         },
-                    }
+                    ]
                 }
-            }, stoppingToken);
+            ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);
         }
@@ -338,8 +312,8 @@ public class Worker(IServiceProvider serviceProvider,
         // Seed, if necessary
         if (!await context.BaseParameters.AnyAsync(stoppingToken))
         {
-            await context.BaseParameters.AddRangeAsync(new List<BaseParameter>
-            {
+            await context.BaseParameters.AddRangeAsync(
+            [
                 #region BlockChain Identity
                 new()
                 {
@@ -364,7 +338,7 @@ public class Worker(IServiceProvider serviceProvider,
                     Value = "https://polygon-amoy.g.alchemy.com/v2/obsDhx84u8_cHMhDWIsXqi4BpVyrLw3E"
                 },
                 #endregion
-            }, stoppingToken);
+            ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);
         }

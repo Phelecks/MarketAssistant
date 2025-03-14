@@ -20,14 +20,11 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
     }
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (Request.Path.HasValue && (Request.Path.Value.Contains("/grpc.health.v1.Health/Check") || Request.Path.Value.Equals("/health")))
+        if (IsHealthCheckRequest())
             return await Task.FromResult(AuthenticateResult.NoResult());
 
-        var user = Request.HttpContext.User;
-        if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated) return await Task.FromResult(AuthenticateResult.NoResult());
-
-        if (user is not null && !string.IsNullOrWhiteSpace(user.Identity?.Name))
-            return await Task.FromResult(AuthenticateResult.NoResult()); //Already authenticated 
+        var claimsPrincipal = Request.HttpContext.User;
+        if (AlreadyAuthenticated(claimsPrincipal)) return await Task.FromResult(AuthenticateResult.NoResult()); 
 
         if(!AuthenticationHeaderValue.TryParse(Request.Headers.Authorization, out var tokenHeaderValue))
             return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
@@ -48,16 +45,25 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
 
         //usually, this is where you decrypt a token and/or lookup a database.
         if (!validationResult.Authorized)
-        {
             return AuthenticateResult.Fail(string.IsNullOrEmpty(validationResult.ErrorMessage) ? "An error occured during authentication, please try later." : validationResult.ErrorMessage);
-        }
-        //Success! Add details here that identifies the user
-        var claims = validationResult.claims;
+        
+        return AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(new ClaimsIdentity(validationResult.claims, Scheme.Name)), Scheme.Name));
+    }
 
-        var claimsIdentity = new ClaimsIdentity(claims, Scheme.Name);
-        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+    bool IsHealthCheckRequest()
+    {
+        if (Request.Path.HasValue && (Request.Path.Value.Contains("/grpc.health.v1.Health/Check") || Request.Path.Value.Equals("/health")))
+            return true;
+        return false;
+    }
 
-        return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name));
+    static bool AlreadyAuthenticated(ClaimsPrincipal? claimsPrincipal)
+    { 
+        if (claimsPrincipal is not null && !string.IsNullOrWhiteSpace(claimsPrincipal.Identity?.Name))
+            return false;
+        if (claimsPrincipal is not null && !string.IsNullOrWhiteSpace(claimsPrincipal.Identity?.Name))
+            return false;
+        return true;
     }
 
     string GetSecret()
