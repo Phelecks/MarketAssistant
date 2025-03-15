@@ -22,7 +22,9 @@ public class Handler(IApplicationDbContext context, IDistributedLockService<long
 
     public async Task<long> Handle(GetNextProcessingBlockQuery request, CancellationToken cancellationToken)
     {
-        return await _distributedLockService.RunWithLockAsync(async () => await GetNextProcessingBlock(request.Chain, cancellationToken), $"BlockProcessor_NextProcessingBlock_{request.Chain}", cancellationToken: cancellationToken);
+        return await _distributedLockService.RunWithLockAsync(async () => await GetNextProcessingBlock(request.Chain, cancellationToken), 
+            key: $"BlockProcessor_NextProcessingBlock_{request.Chain}",
+            expiryInSecond: 30, waitInSecond: 3 * 60, retryInSecond: 5, cancellationToken: cancellationToken);
     }
 
     private async Task<long> GetNextProcessingBlock(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)

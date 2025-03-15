@@ -51,12 +51,14 @@ public class DistributedLockService<TResult> : IDistributedLockService<TResult>
     public async Task<TResult> RunWithLockAsync(Func<Task<TResult>> func, string key, int expiryInSecond = 30, int waitInSecond = 10, int retryInSecond = 1, CancellationToken cancellationToken = default)
     {
         // blocks until acquired or 'wait' timeout
-        await using var redLock = await _redLockFactory.CreateLockAsync(key, TimeSpan.FromSeconds(expiryInSecond), TimeSpan.FromSeconds(waitInSecond),
-            TimeSpan.FromSeconds(retryInSecond), cancellationToken);
+        await using var redLock = await _redLockFactory.CreateLockAsync(key, 
+            expiryTime: TimeSpan.FromSeconds(expiryInSecond), 
+            waitTime: TimeSpan.FromSeconds(waitInSecond),
+            retryTime: TimeSpan.FromSeconds(retryInSecond), cancellationToken);
 
         if (redLock.IsAcquired)
             return await func();
-
+            
         // if we did not acquire the lock, throw an exception to let the client know that must try again!
         throw new InvalidOperationException("Resource is locked right now. Try again later!");
     }
