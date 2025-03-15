@@ -57,8 +57,10 @@ public class DiscordService : IDiscordService
                     return;
             }
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(text: message);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(text: message);
+            }
         }
         catch (Exception exception)
         {
@@ -95,8 +97,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
@@ -131,8 +135,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
@@ -167,8 +173,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
@@ -203,8 +211,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
@@ -239,8 +249,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
@@ -275,8 +287,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
@@ -312,8 +326,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
@@ -346,8 +362,10 @@ public class DiscordService : IDiscordService
                 .WithCurrentTimestamp();
             var embed = embedBuilder.Build();
 
-            var channel = await _discord.GetChannelAsync(channelId) as IMessageChannel;
-            await channel.SendMessageAsync(embed: embed);
+            if (await _discord.GetChannelAsync(channelId) is IMessageChannel channel)
+            {
+                await channel.SendMessageAsync(embed: embed);
+            }
         }
         catch (Exception exception)
         {
