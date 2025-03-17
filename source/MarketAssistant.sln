@@ -97,6 +97,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainIdentity.Migratio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informing.MigrationWorker", "Microservices\Informing\Informing.MigrationWorker\Informing.MigrationWorker.csproj", "{2019DB02-95BB-48D2-A901-E65EFF8E03AA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestrators", "Orchestrators", "{C7FCDD3B-87DF-F49A-73B9-BE569E638E4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SagaOrchestrator", "Orchestrators\SagaOrchestrator\SagaOrchestrator.csproj", "{450F6FDF-CD7B-4C51-B82D-330CC959812A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -575,6 +579,18 @@ Global
 		{2019DB02-95BB-48D2-A901-E65EFF8E03AA}.Release|x64.Build.0 = Release|Any CPU
 		{2019DB02-95BB-48D2-A901-E65EFF8E03AA}.Release|x86.ActiveCfg = Release|Any CPU
 		{2019DB02-95BB-48D2-A901-E65EFF8E03AA}.Release|x86.Build.0 = Release|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Debug|x64.Build.0 = Debug|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Debug|x86.Build.0 = Debug|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Release|x64.ActiveCfg = Release|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Release|x64.Build.0 = Release|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Release|x86.ActiveCfg = Release|Any CPU
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -623,6 +639,7 @@ Global
 		{B0BDF487-E226-5F14-9BFA-5CD6DBC5B03A} = {36DF701C-02BA-486B-BCC3-1F94E71A09DF}
 		{BD3DAAA1-16E0-F393-963F-7CAC451E06A9} = {3BA571D6-D688-4245-895A-CF076E3009C6}
 		{2019DB02-95BB-48D2-A901-E65EFF8E03AA} = {13D76127-275C-4087-AD68-A06DD19D8240}
+		{450F6FDF-CD7B-4C51-B82D-330CC959812A} = {C7FCDD3B-87DF-F49A-73B9-BE569E638E4C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18F9C98C-0AB3-4767-B4E3-1A1B455AE6B4}

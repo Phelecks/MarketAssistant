@@ -25,7 +25,7 @@ public class TransferInitiatedEventHandler : INotificationHandler<TransferInitia
             notification.Entity.Hash, notification.Entity.Chain), cancellationToken);
 
         await _massTransitService.PublishAsync<MassTransitManager.Events.Interfaces.ITransferInitiatedEvent>(
-                    new MassTransitManager.Events.TransferInitiatedEvent((int)notification.Entity.Chain, notification.Entity.Hash, notification.Entity.From, notification.Entity.To, notification.Entity.Value, 
+                    new MassTransitManager.Events.TransferInitiatedEvent(notification.Entity.Id, (int)notification.Entity.Chain, notification.Entity.Hash, notification.Entity.From, notification.Entity.To, notification.Entity.Value, 
                         notification.Entity.ConfirmedDatetime, new MassTransitManager.Events.TransferInitiatedEvent.TransferDetails(
                             notification.Entity.Erc20Transfers?.Select(erc20Transfer => new MassTransitManager.Events.Interfaces.ITransferInitiatedEvent.Erc20Transfer(erc20Transfer.From, erc20Transfer.To, erc20Transfer.Value, erc20Transfer.ContractAddress)).ToList(), 
                             notification.Entity.Erc721Transfers?.Select(erc721Transfer => new MassTransitManager.Events.Interfaces.ITransferInitiatedEvent.Erc721Transfer(erc721Transfer.From, erc721Transfer.To, erc721Transfer.TokenId, erc721Transfer.ContractAddress)).ToList()

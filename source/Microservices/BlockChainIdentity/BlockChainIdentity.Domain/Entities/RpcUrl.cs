@@ -5,13 +5,8 @@ namespace BlockChainIdentity.Domain.Entities;
 
 public class RpcUrl : BaseEntity
 {
-    private int _chain;
     [Required]
-    public Nethereum.Signer.Chain Chain
-    {
-        get => (Nethereum.Signer.Chain)_chain;
-        set => _chain = (int)value;
-    }
+    public Nethereum.Signer.Chain Chain { get; set; }
 
     private string _url = string.Empty;
     [Required]

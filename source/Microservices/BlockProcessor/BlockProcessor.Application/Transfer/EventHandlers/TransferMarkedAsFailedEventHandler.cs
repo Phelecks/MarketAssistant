@@ -25,7 +25,7 @@ public class TransferMarkedAsFailedEventHandler : INotificationHandler<TransferM
             notification.Entity.Hash, notification.Entity.Chain), cancellationToken);
 
         await _massTransitService.PublishAsync<MassTransitManager.Events.Interfaces.ITransferFailedEvent>(
-                    new MassTransitManager.Events.TransferFailedEvent((int)notification.Entity.Chain, notification.Entity.Hash),
+                    new MassTransitManager.Events.TransferFailedEvent(notification.Entity.Id, notification.ErrorMessage),
                         cancellationToken);
     }
 }

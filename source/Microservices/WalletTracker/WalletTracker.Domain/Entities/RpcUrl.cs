@@ -5,20 +5,21 @@ namespace WalletTracker.Domain.Entities;
 
 public class RpcUrl : BaseEntity
 {
-    public RpcUrl(long id, Nethereum.Signer.Chain chain, string rpcUrl)
+    public RpcUrl(long id, Nethereum.Signer.Chain chain, Uri uri)
     {
         Id = id;
-        _chain = (int)chain;
-        this.rpcUrl = rpcUrl;
+        Chain = chain;
+        Uri = uri;
     }
 
-    private int _chain;
     [Required]
-    public Nethereum.Signer.Chain chain
-    {
-        get => (Nethereum.Signer.Chain)_chain;
-        set => _chain = (int)value;
-    }
+    public Nethereum.Signer.Chain Chain { get; set; }
 
-    public string rpcUrl { get; set; }
+    private string _url = string.Empty;
+    [Required]
+    public Uri Uri
+    {
+        get => new(_url);
+        set => _url = value.ToString();
+    }
 }

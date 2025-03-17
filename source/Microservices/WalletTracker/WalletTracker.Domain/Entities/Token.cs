@@ -3,37 +3,22 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WalletTracker.Domain.Entities;
-public class Token : BaseEntityWithNoPrimaryKey
+public class Token(long id, string symbol, Nethereum.Signer.Chain chain, BaseDomain.Enums.BlockChainEnums.TokenType tokenType, bool enabled, string? contractAddress, int decimals) : BaseEntityWithNoPrimaryKey
 {
-    public Token(long id, string symbol, Nethereum.Signer.Chain chain, BaseDomain.Enums.BlockChainEnums.TokenType tokenType, bool enabled, string? contractAddress, int decimals)
-    {
-        this.id = id;
-        this.symbol = symbol;
-        _chain = (int)chain;
-        this.tokenType = tokenType;
-        this.enabled = enabled;
-        this.contractAddress = contractAddress;
-        this.decimals = decimals;
-    }
-
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public long id { get; set; }
+    public long Id { get; set; } = id;
 
     [Required]
-    public string symbol { get; set; }
+    public string Symbol { get; set; } = symbol;
 
-    private int _chain;
     [Required]
-    public Nethereum.Signer.Chain chain {
-        get => (Nethereum.Signer.Chain)_chain;
-        set => _chain = (int)value;
-    }
+    public Nethereum.Signer.Chain Chain { get; set; } = chain;
 
-    public BaseDomain.Enums.BlockChainEnums.TokenType tokenType { get; set; }
+    public BaseDomain.Enums.BlockChainEnums.TokenType TokenType { get; set; } = tokenType;
 
-    public bool enabled { get; set; }
+    public bool Enabled { get; set; } = enabled;
 
-    public string? contractAddress { get; set; }
+    public string? ContractAddress { get; set; } = contractAddress;
 
-    public int decimals { get; set; }
+    public int Decimals { get; set; } = decimals;
 }

@@ -1,7 +1,8 @@
-﻿namespace MassTransitManager.Events.Interfaces;
+﻿using MassTransit;
 
-public interface ITransferFailedEvent
+namespace MassTransitManager.Events.Interfaces;
+
+public interface ITransferFailedEvent : CorrelatedBy<Guid>
 {
-    int Chain { get; }
-    string Hash { get; }
+    string ErrorMessage { get; }
 }

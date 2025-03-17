@@ -2,8 +2,8 @@
 
 namespace MassTransitManager.Events;
 
-public class TransferFailedEvent(int chain, string hash) : ITransferFailedEvent
+public class TransferFailedEvent(Guid correlationId, string errorMessage) : ITransferFailedEvent
 {
-    public int Chain { get; } = chain;
-    public string Hash { get; } = hash;
+    public Guid CorrelationId { get;} = correlationId;
+    public string ErrorMessage { get; } = errorMessage;
 }

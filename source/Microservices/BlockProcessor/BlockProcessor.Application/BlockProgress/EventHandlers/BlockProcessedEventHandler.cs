@@ -40,7 +40,7 @@ public class BlockProcessedEventHandler(IApplicationDbContext context, ILogger<B
             if(blockChainTransaction is null)
             {
                 blockTransfer.State = Domain.Entities.Transfer.TransferState.Failed;
-                blockTransfer.AddDomainEvent(new TransferMarkedAsFailedEvent(blockTransfer));
+                blockTransfer.AddDomainEvent(new TransferMarkedAsFailedEvent(blockTransfer, "Transaction not found or reveresed."));
             }
             else
             {

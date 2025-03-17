@@ -19,13 +19,8 @@ public class Transfer : BaseAuditEntityWithNoPrimaryKey
     [Required]
     public required string To { get; set; }
 
-    private int _chain;
     [Required]
-    public Nethereum.Signer.Chain Chain
-    {
-        get => (Nethereum.Signer.Chain)_chain;
-        set => _chain = (int)value;
-    }
+    public Nethereum.Signer.Chain Chain { get; set; }
 
     private decimal _value;
     [Required]

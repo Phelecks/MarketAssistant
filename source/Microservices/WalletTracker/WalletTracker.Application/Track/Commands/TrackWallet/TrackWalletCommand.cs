@@ -50,7 +50,7 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
             BigInteger estimatedGas, gasPrice;
 
             var erc20Tokens = _tokenService.GetErc20Tokens();
-            foreach (var erc20TokenContractAddress in erc20Tokens.Select(s => s.contractAddress))
+            foreach (var erc20TokenContractAddress in erc20Tokens.Select(s => s.ContractAddress))
             {
                 if(!string.IsNullOrEmpty(erc20TokenContractAddress))
                 {
@@ -74,7 +74,7 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
 
             var token = _tokenService.GetMainToken(request.chain) ?? throw new NotFoundException(nameof(Domain.Entities.Token), request.chain);
             
-            estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateTransferGasAsync(web3, destinationAddress.Address, Web3.Convert.FromWei(balance, token.decimals), cancellationToken), cancellationToken);
+            estimatedGas = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.EstimateTransferGasAsync(web3, destinationAddress.Address, Web3.Convert.FromWei(balance, token.Decimals), cancellationToken), cancellationToken);
             gasPrice = await _pollyPipeline.ExecuteAsync(async ct => await _gasService.GetGasPriceAsync(request.rpcUrl, cancellationToken), cancellationToken);
             var transferValue = CalculatedValue(balance, estimatedGas, gasPrice);
             var hash = await _pollyPipeline.ExecuteAsync(async ct => await _transferService.TransferAsync(web3, 
@@ -91,7 +91,7 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
                 await _pollyPipeline.ExecuteAsync(async ct => await _transferService.TransferAsync(web3, new Nethereum.RPC.Eth.DTOs.TransactionInput
                 {
                     To = destinationAddress.Address,
-                    Value = Web3.Convert.ToWei(value, token.decimals).ToHexBigInteger(),
+                    Value = Web3.Convert.ToWei(value, token.Decimals).ToHexBigInteger(),
                 }), cancellationToken);
             }
         }

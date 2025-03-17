@@ -1,6 +1,8 @@
-﻿namespace MassTransitManager.Events.Interfaces;
+﻿using MassTransit;
 
-public interface ITransferConfirmedEvent
+namespace MassTransitManager.Events.Interfaces;
+
+public interface ITransferConfirmedEvent : CorrelatedBy<Guid>
 {
     int Chain { get; }
     string Hash { get; }

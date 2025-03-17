@@ -14,6 +14,6 @@ public class AddressService : IAddressService
 
     public Domain.Entities.DestinationAddress? GetDestinationAddress(Nethereum.Signer.Chain chain)
     {
-        return _addresses.FirstOrDefault(x => x.chain == chain);
+        return _addresses.FirstOrDefault(x => x.Chain == chain);
     }
 }

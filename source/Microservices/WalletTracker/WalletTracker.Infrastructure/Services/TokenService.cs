@@ -20,21 +20,21 @@ public class TokenService : ITokenService
 
     public List<Domain.Entities.Token> GetErc20Tokens()
     {
-        return _tokens.Where(x => x.tokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Erc20).ToList();
+        return _tokens.Where(x => x.TokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Erc20).ToList();
     }
 
     public List<Domain.Entities.Token> GetErc721Tokens()
     {
-        return _tokens.Where(x => x.tokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Erc721).ToList();
+        return _tokens.Where(x => x.TokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Erc721).ToList();
     }
 
     public Domain.Entities.Token? GetMainToken(Chain chain)
     {
-        return _tokens.FirstOrDefault(x => x.chain == chain && x.tokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Main);
+        return _tokens.FirstOrDefault(x => x.Chain == chain && x.TokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Main);
     }
 
     public List<Domain.Entities.Token> GetMainTokens()
     {
-        return _tokens.Where(x => x.tokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Main).ToList();
+        return _tokens.Where(x => x.TokenType == BaseDomain.Enums.BlockChainEnums.TokenType.Main).ToList();
     }
 }

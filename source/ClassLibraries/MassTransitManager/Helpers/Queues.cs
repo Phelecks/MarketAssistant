@@ -1,6 +1,6 @@
 ﻿namespace MassTransitManager.Helpers;
 
-public class Queues
+public static class Queues
 {
     #region General
     public const string UpdateInformingContactMessageQueueName = "update-informing-contact-message-queue";
@@ -196,5 +196,9 @@ public class Queues
     #region BlockProcessor
     public const string BlockProcessorCreateWalletAddressEventQueueName = "blockprocessor:create-wallet-address-event-queue";
     public const string BlockProcessorDeleteWalletAddressEventQueueName = "blockprocessor:delete-wallet-address-event-queue";
+    #endregion
+
+    #region Transfer Flow
+    public const string NotifyTransferConfirmedMessageQueueName = "transfer-flow:notify-transfer-confirmed-message-queue";
     #endregion
 }

@@ -8,13 +8,8 @@ public class BlockProgress : BaseAuditEntity
     [Required]
     public long BlockNumber { get; set; }
 
-    private int _chain;
     [Required]
-    public Nethereum.Signer.Chain Chain
-    {
-        get => (Nethereum.Signer.Chain)_chain;
-        set => _chain = (int)value;
-    }
+    public Nethereum.Signer.Chain Chain { get; set; }
 
     public BlockProgressStatus Status { get; set; }
 

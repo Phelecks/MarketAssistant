@@ -2,8 +2,9 @@
 
 namespace MassTransitManager.Events;
 
-public class TransferInitiatedEvent(int chain, string hash, string from, string to, decimal value, DateTime dateTime, TransferInitiatedEvent.TransferDetails transferDetails) : ITransferInitiatedEvent
+public class TransferInitiatedEvent(Guid correlationId, int chain, string hash, string from, string to, decimal value, DateTime dateTime, TransferInitiatedEvent.TransferDetails transferDetails) : ITransferInitiatedEvent
 {
+    public Guid CorrelationId { get;} = correlationId;
     public int Chain { get; } = chain;
     public string Hash { get; } = hash;
     public string From { get; } = from;

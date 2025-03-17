@@ -15,6 +15,6 @@ public class RpcUrlService : IRpcUrlService
 
     public string? GetRpcUrl(Chain chain)
     {
-        return _rpcUrls.Single(x => x.chain == chain)?.rpcUrl;
+        return _rpcUrls.Single(x => x.Chain == chain)?.Uri.ToString();
     }
 }
