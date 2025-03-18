@@ -6,10 +6,10 @@ namespace BlockChainIdentity.Domain.Entities;
 public class WalletRole : BaseAuditEntity
 {
     [ForeignKey("wallet")]
-    public string walletAddress { get; set; }
-    public virtual Wallet wallet { get; set; }
+    public required string WalletAddress { get; set; }
+    public virtual Wallet Wallet { get; set; }
 
     [ForeignKey("role")]
-    public long roleId { get; set; }
-    public virtual Role role { get; set; }
+    public long RoleId { get; set; }
+    public virtual Role Role { get; set; }
 }

@@ -13,9 +13,6 @@ internal static class MassTransitConfiguration
     {
         services.AddMassTransit(x =>
         {
-            //Events
-            // x.AddConsumer<InformingBaseParameterUpdatedEventConsumer>();
-
             //Messages
             x.AddConsumer<UpdateInformingContactMessageConsumer>();
             x.AddConsumer<SendSignUpVerificationCodeMessageConsumer>();
@@ -29,6 +26,7 @@ internal static class MassTransitConfiguration
             x.AddConsumer<NotifyRewardPaidMessageConsumer>();
             x.AddConsumer<NotifyMatchOverviewMessageConsumer>();
             x.AddConsumer<NotifyMatchMinutesLeftMessageConsumer>();
+            x.AddConsumer<NotifyTransferConfirmedMessageConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -86,6 +84,10 @@ internal static class MassTransitConfiguration
                 cfg.ReceiveEndpoint(Queues.NotifyMatchMinutesLeftMessageQueueName, e =>
                 {
                     e.ConfigureConsumer<NotifyMatchMinutesLeftMessageConsumer>(context);
+                });
+                cfg.ReceiveEndpoint(Queues.NotifyTransferConfirmedMessageQueueName, e =>
+                {
+                    e.ConfigureConsumer<NotifyTransferConfirmedMessageConsumer>(context);
                 });
             });
         });

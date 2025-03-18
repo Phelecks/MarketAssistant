@@ -26,6 +26,8 @@
     <ProjectReference Include="..\..\Microservices\WalletTracker\WalletTracker.Api\WalletTracker.Api.csproj" />
     <ProjectReference Include="..\..\Microservices\Informing\Informing.Grpc\Informing.Grpc.csproj" />
     <ProjectReference Include="..\..\Microservices\Informing\Informing.MigrationWorker\Informing.MigrationWorker.csproj" />
+    <ProjectReference Include="..\..\Microservices\BlockChain\BlockChain.Api\BlockChain.Api.csproj" />
+    <ProjectReference Include="..\..\Microservices\BlockChain\BlockChain.MigrationWorker\BlockChain.MigrationWorker.csproj" />
   </ItemGroup>
 
 </Project>

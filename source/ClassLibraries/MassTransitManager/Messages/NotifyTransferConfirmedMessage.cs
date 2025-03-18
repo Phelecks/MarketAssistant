@@ -2,10 +2,11 @@
 
 namespace MassTransitManager.Messages;
 
-public class NotifyTransferConfirmedMessage(Guid correlationId, string userId, NotifyTransferConfirmedMessage.Transfer transfer) : INotifyTransferConfirmedMessage
+public class NotifyTransferConfirmedMessage(Guid correlationId, string userId, INotifyTransferConfirmedMessage.DiscordMessage? discord, NotifyTransferConfirmedMessage.Transfer transfer) : INotifyTransferConfirmedMessage
 {
     public Guid CorrelationId { get;} = correlationId;
     public string UserId { get; } = userId;
+    public INotifyTransferConfirmedMessage.DiscordMessage? Discord { get; } = discord;
     public Nethereum.Signer.Chain Chain { get; } = transfer.Chain;
     public string Hash { get; } = transfer.Hash;
     public string From { get; } = transfer.From;

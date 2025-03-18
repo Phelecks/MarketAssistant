@@ -21,9 +21,7 @@ public class TemplateUpdatedEventHandler : INotificationHandler<TemplateUpdatedE
            "Informing domain event, {@object} updated to {@item}.",
            notification.GetType().Name, notification.item), cancellationToken);
 
-        //Todo: Send email or sms to end user
 
-
-        //return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 }

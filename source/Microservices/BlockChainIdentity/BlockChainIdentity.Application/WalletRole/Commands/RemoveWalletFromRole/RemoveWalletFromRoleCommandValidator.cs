@@ -36,6 +36,6 @@ public class RemoveWalletFromRoleCommandValidator : AbstractValidator<RemoveWall
 
     async Task<bool> BeWaletRoleExistsAsync(RemoveWalletFromRoleCommand request, CancellationToken cancellationToken)
     {
-        return await _context.WalletRoles.AnyAsync(exp => exp.Id == request.RoleId && exp.walletAddress.Equals(request.WalletAddress), cancellationToken);
+        return await _context.WalletRoles.AnyAsync(exp => exp.Id == request.RoleId && exp.WalletAddress.Equals(request.WalletAddress), cancellationToken);
     }
 }

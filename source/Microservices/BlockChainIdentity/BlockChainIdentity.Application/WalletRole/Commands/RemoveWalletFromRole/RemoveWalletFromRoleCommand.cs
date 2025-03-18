@@ -21,8 +21,8 @@ public class Handler : IRequestHandler<RemoveWalletFromRoleCommand, Unit>
     {
         var entity = new Domain.Entities.WalletRole
         {
-            walletAddress = request.WalletAddress,
-            roleId = request.RoleId
+            WalletAddress = request.WalletAddress,
+            RoleId = request.RoleId
         };
 
         _context.WalletRoles.Remove(entity);

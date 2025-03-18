@@ -123,8 +123,8 @@ public class Worker(IServiceProvider serviceProvider,
                     WalletRoles =
                     [
                         new() {
-                            role = adminRole,
-                            walletAddress = !string.IsNullOrEmpty(environment) && (environment.Equals("Development") || environment.Contains("Test"))
+                            Role = adminRole,
+                            WalletAddress = !string.IsNullOrEmpty(environment) && (environment.Equals("Development") || environment.Contains("Test"))
                                 ? "0xe1BA310dC3481EE3a242B1aDDbDE4049F70784B9"
                                 : "0x599c632a9A37b749F7F14b7C7d842c42496d34C0",
                         }

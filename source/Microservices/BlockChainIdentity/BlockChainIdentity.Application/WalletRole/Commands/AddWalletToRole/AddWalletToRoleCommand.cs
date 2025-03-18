@@ -21,8 +21,8 @@ public class Handler : IRequestHandler<AddWalletToRoleCommand, long>
     {
         var entity = new Domain.Entities.WalletRole
         {
-            walletAddress = request.WalletAddress,
-            roleId = request.RoleId
+            WalletAddress = request.WalletAddress,
+            RoleId = request.RoleId
         };
 
         await _context.WalletRoles.AddAsync(entity, cancellationToken);

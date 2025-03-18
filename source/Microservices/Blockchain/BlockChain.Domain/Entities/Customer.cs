@@ -11,4 +11,5 @@ public class Customer : BaseAuditEntityWithNoPrimaryKey
     public required string WalletAddress { get; set; }
 
     public virtual ICollection<Track>? Tracks { get; set; }
+    public virtual ICollection<Notification>? Notifications { get; set; }
 }

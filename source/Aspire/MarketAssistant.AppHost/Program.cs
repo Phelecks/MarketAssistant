@@ -9,6 +9,7 @@ const string TokenIssuer = "TOKEN-ISSUER";
 const string DatabaseEncryptionKey = "DATABASE-ENCRYPTION-KEY";
 const string ApplicationName = "APPLICATION-NAME";
 const string RpcUrls = "RPC-URLS";
+const string IdentityIssuer = "https://identity.contoso.com";
 
 // Add a secret parameters
 var discordBotToken = builder.AddParameter("DISCORD-BOT-TOKEN", secret: true);
@@ -28,6 +29,7 @@ var sql = builder.AddSqlServer("sql", password: sqlPassword, 1433).WithDataVolum
 var informingDb = sql.AddDatabase(name: "informingdb", databaseName: "informing");
 var identityDb = sql.AddDatabase(name: "identitydb", databaseName: "identity");
 var blockProcessorDb = sql.AddDatabase(name: "blockprocessordb", databaseName: "blockProcessor");
+var blockChainDb = sql.AddDatabase(name: "blockchaindb", databaseName: "blockChain");
 
 var informingMigration = builder.AddProject<Projects.Informing_MigrationWorker>("informing-migrations")
         .WithReference(informingDb)
@@ -42,7 +44,7 @@ var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
    .WithEnvironment(name: ApplicationName, value: "Informing")
-   .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
+   .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, IdentityIssuer))
    .WithEnvironment(name: IdentitySecret, identitySecret)
    .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
    .WaitFor(redis)
@@ -64,7 +66,7 @@ var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
    .WithEnvironment(name: ApplicationName, value: "Identity")
-   .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
+   .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, IdentityIssuer))
    .WithEnvironment(name: IdentitySecret, identitySecret)
    .WithEnvironment(name: DatabaseEncryptionKey, value: builder.Configuration.GetValue<string>(DatabaseEncryptionKey))
    .WaitFor(redis)
@@ -86,7 +88,7 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
     .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
     .WithEnvironment(name: ApplicationName, value: "BlockProcessor")
-    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, "https://identity.contoso.com"))
+    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, IdentityIssuer))
     .WithEnvironment(name: IdentitySecret, parameter: identitySecret)
     .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
     .WaitFor(redis)
@@ -96,6 +98,29 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WaitFor(identity)
     .WaitFor(informing)
     .WithReplicas(2);
+
+var blockChainMigration = builder.AddProject<Projects.BlockChain_MigrationWorker>("blockchain-migrations")
+    .WithReference(blockChainDb)
+    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+    .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
+    .WaitFor(blockChainDb);
+var blockChain = builder.AddProject<Projects.BlockChain_Api>("blockchain")
+    .WithReference(redis)
+    .WithReference(rabbit)
+    .WithReference(blockChainDb)
+    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+    .WithEnvironment(name: ApplicationName, value: "BlockChain")
+    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, IdentityIssuer))
+    .WithEnvironment(name: IdentitySecret, parameter: identitySecret)
+    .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
+    .WaitFor(redis)
+    .WaitFor(rabbit)
+    .WaitFor(blockChainDb)
+    .WaitFor(blockChainMigration)
+    .WaitFor(identity)
+    .WithReplicas(1);
 
 bool RunWalletTracker = builder.Configuration.GetValue("RUN-WALLET-TRACKER", false);
 if(RunWalletTracker)
@@ -110,11 +135,13 @@ builder.AddProject<Projects.ReverseProxy_Gateway>("reverseproxy-gateway")
    .WithReference(identity)
    .WithReference(informing)
    .WithReference(blockProcessor)
+   .WithReference(blockChain)
    .WithEnvironment(name: ApplicationName, value: "ReverseProxy.Gateway")
    .WaitFor(redis)
    .WaitFor(rabbit)
    .WaitFor(identity)
    .WaitFor(informing)
-   .WaitFor(blockProcessor);
+   .WaitFor(blockProcessor)
+   .WaitFor(blockChain);
 
 await builder.Build().RunAsync();

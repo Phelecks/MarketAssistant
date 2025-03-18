@@ -41,7 +41,10 @@ public class TransferStateMachine : MassTransitStateMachine<TransferStateMachine
                 })
                 .Send(
                     destinationAddress: new Uri($"queue:{Queues.NotifyTransferConfirmedMessageQueueName}"),
-                    context => new NotifyTransferConfirmedMessage(context.Saga.CorrelationId, "admin", 
+                    context => new NotifyTransferConfirmedMessage(
+                        correlationId: context.Saga.CorrelationId, 
+                        userId: "admin", 
+                        discord: null,
                         transfer: new NotifyTransferConfirmedMessage.Transfer(
                             Chain: context.Saga.Chain,
                             Hash: context.Saga.Hash,

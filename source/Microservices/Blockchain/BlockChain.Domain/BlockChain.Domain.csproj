@@ -8,6 +8,7 @@
 
   <ItemGroup>
 		<ProjectReference Include="..\..\..\ClassLibraries\BaseDomain\BaseDomain.csproj" />
+    <ProjectReference Include="..\..\..\ClassLibraries\EntityFramework.Core.EncryptDBColumn\EntityFrameworkCore.EncryptColumn.csproj" />
 	</ItemGroup>
 
 </Project>
