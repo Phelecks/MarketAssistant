@@ -3,6 +3,7 @@ using LoggerService.Helpers;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using MassTransitManager.Services;
+using MassTransitManager.Helpers;
 
 namespace BlockProcessor.Application.Transfer.EventHandlers;
 
@@ -24,11 +25,11 @@ public class TransferInitiatedEventHandler : INotificationHandler<TransferInitia
            "BlockProcessor domain event, payment hash: {@Hash} initiated in chain: {@Chain}.",
             notification.Entity.Hash, notification.Entity.Chain), cancellationToken);
 
-        await _massTransitService.PublishAsync<MassTransitManager.Events.Interfaces.ITransferInitiatedEvent>(
+        await _massTransitService.SendAsync<MassTransitManager.Events.Interfaces.ITransferInitiatedEvent>(
                     new MassTransitManager.Events.TransferInitiatedEvent(
                         correlationId: notification.Entity.Id, 
                         transfer: new MassTransitManager.Events.TransferInitiatedEvent.Transfer(
-                            Chain: (int)notification.Entity.Chain, 
+                            Chain: notification.Entity.Chain, 
                             Hash: notification.Entity.Hash, 
                             From: notification.Entity.From, 
                             To: notification.Entity.To, 
@@ -37,6 +38,7 @@ public class TransferInitiatedEventHandler : INotificationHandler<TransferInitia
                             Erc20Transfers: notification.Entity.Erc20Transfers?.Select(erc20Transfer => new MassTransitManager.Events.Interfaces.ITransferInitiatedEvent.Erc20Transfer(erc20Transfer.From, erc20Transfer.To, erc20Transfer.Value, erc20Transfer.ContractAddress)).ToList(), 
                             Erc721Transfers: notification.Entity.Erc721Transfers?.Select(erc721Transfer => new MassTransitManager.Events.Interfaces.ITransferInitiatedEvent.Erc721Transfer(erc721Transfer.From, erc721Transfer.To, erc721Transfer.TokenId, erc721Transfer.ContractAddress)).ToList()
                             )),
+                        Queues.TransferInitiatedMessageQueueName,
                         cancellationToken);
     }
 }

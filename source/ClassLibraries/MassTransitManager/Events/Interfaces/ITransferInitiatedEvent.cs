@@ -4,7 +4,7 @@ namespace MassTransitManager.Events.Interfaces;
 
 public interface ITransferInitiatedEvent : CorrelatedBy<Guid>
 {
-    int Chain { get; }
+    Nethereum.Signer.Chain Chain { get; }
     string Hash { get; }
     string From { get; }
     string To { get; }

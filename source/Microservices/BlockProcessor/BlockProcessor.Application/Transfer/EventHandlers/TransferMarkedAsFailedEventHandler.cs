@@ -1,5 +1,6 @@
 ﻿using BlockProcessor.Domain.Events.Transfer;
 using LoggerService.Helpers;
+using MassTransitManager.Helpers;
 using MassTransitManager.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -24,8 +25,9 @@ public class TransferMarkedAsFailedEventHandler : INotificationHandler<TransferM
            "BlockChain Payment domain event, payment {@Hash} failed in chain: {@Chain}.",
             notification.Entity.Hash, notification.Entity.Chain), cancellationToken);
 
-        await _massTransitService.PublishAsync<MassTransitManager.Events.Interfaces.ITransferFailedEvent>(
+        await _massTransitService.SendAsync<MassTransitManager.Events.Interfaces.ITransferFailedEvent>(
                     new MassTransitManager.Events.TransferFailedEvent(notification.Entity.Id, notification.ErrorMessage),
-                        cancellationToken);
+                    Queues.TransferFailedMessageQueueName,
+                    cancellationToken);
     }
 }

@@ -9,7 +9,7 @@ public class TransferStateMachineInstance : SagaStateMachineInstance, ITransferC
 
     public required State CurrentState { get; set; }
 
-    public int Chain { get; set; }
+    public Nethereum.Signer.Chain Chain { get; set; }
 
     public required string Hash { get; set; }
 

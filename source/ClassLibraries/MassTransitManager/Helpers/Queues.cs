@@ -199,6 +199,9 @@ public static class Queues
     #endregion
 
     #region Transfer Flow
-    public const string NotifyTransferConfirmedMessageQueueName = "transfer-flow:notify-transfer-confirmed-message-queue";
+    public const string TransferInitiatedMessageQueueName = "transfer-initiated-message-queue";
+    public const string TransferConfirmedMessageQueueName = "transfer-confirmed-message-queue";
+    public const string TransferFailedMessageQueueName = "transfer-failed-message-queue";
+    public const string NotifyTransferConfirmedMessageQueueName = "notify-transfer-confirmed-message-queue";
     #endregion
 }

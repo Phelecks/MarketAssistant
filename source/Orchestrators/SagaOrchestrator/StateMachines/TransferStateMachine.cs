@@ -42,8 +42,15 @@ public class TransferStateMachine : MassTransitStateMachine<TransferStateMachine
                 .Send(
                     destinationAddress: new Uri($"queue:{Queues.NotifyTransferConfirmedMessageQueueName}"),
                     context => new NotifyTransferConfirmedMessage(context.Saga.CorrelationId, "admin", 
-                        transfer: new NotifyTransferConfirmedMessage.Transfer(context.Saga.Chain, context.Saga.Hash, context.Saga.From, context.Saga.To, context.Saga.Value, context.Saga.DateTime),
-                        transferDetails: new NotifyTransferConfirmedMessage.TransferDetails(erc20Transfers: context.Saga.Erc20Transfers, erc721Transfers: context.Saga.Erc721Transfers)))
+                        transfer: new NotifyTransferConfirmedMessage.Transfer(
+                            Chain: context.Saga.Chain,
+                            Hash: context.Saga.Hash,
+                            From: context.Saga.From,
+                            To: context.Saga.To,
+                            Value: context.Saga.Value,
+                            DateTime: context.Saga.DateTime, 
+                            Erc20Transfers: context.Saga.Erc20Transfers, 
+                            Erc721Transfers: context.Saga.Erc721Transfers)))
                 .TransitionTo(TransferConfirmed)
                 .Finalize()
             );

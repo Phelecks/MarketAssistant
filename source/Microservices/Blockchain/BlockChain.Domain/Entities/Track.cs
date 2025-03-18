@@ -7,10 +7,6 @@ namespace BlockChain.Domain.Entities;
 public class Track : BaseAuditEntity
 {
     [Required]
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public required string UserId { get; set; }
-
-    [Required]
     public required string WalletAddress { get; set; }
 
     [ForeignKey("Customer")]
