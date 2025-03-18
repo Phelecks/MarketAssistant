@@ -2,21 +2,17 @@
 
 namespace MassTransitManager.Events;
 
-public class TransferConfirmedEvent(Guid correlationId, int chain, string hash, string from, string to, decimal value, DateTime dateTime, TransferConfirmedEvent.TransferDetails transferDetails) : ITransferConfirmedEvent
+public class TransferConfirmedEvent(Guid correlationId, TransferConfirmedEvent.Transfer transfer) : ITransferConfirmedEvent
 {
     public Guid CorrelationId { get;} = correlationId;
-    public int Chain { get; } = chain;
-    public string Hash { get; } = hash;
-    public string From { get; } = from;
-    public string To { get; } = to;
-    public decimal Value { get; } = value;
-    public DateTime DateTime { get; } = dateTime;
-    public List<ITransferConfirmedEvent.Erc20Transfer>? Erc20Transfers { get; } = transferDetails.Erc20Transfers;
-    public List<ITransferConfirmedEvent.Erc721Transfer>? Erc721Transfers { get; } = transferDetails.Erc721Transfers;
+    public int Chain { get; } = transfer.Chain;
+    public string Hash { get; } = transfer.Hash;
+    public string From { get; } = transfer.From;
+    public string To { get; } = transfer.To;
+    public decimal Value { get; } = transfer.Value;
+    public DateTime DateTime { get; } = transfer.DateTime;
+    public List<ITransferConfirmedEvent.Erc20Transfer>? Erc20Transfers { get; } = transfer.Erc20Transfers;
+    public List<ITransferConfirmedEvent.Erc721Transfer>? Erc721Transfers { get; } = transfer.Erc721Transfers;
 
-    public class TransferDetails(List<ITransferConfirmedEvent.Erc20Transfer>? erc20Transfers, List<ITransferConfirmedEvent.Erc721Transfer>? erc721Transfers)
-    {
-        public List<ITransferConfirmedEvent.Erc20Transfer>? Erc20Transfers { get; } = erc20Transfers;
-        public List<ITransferConfirmedEvent.Erc721Transfer>? Erc721Transfers { get; } = erc721Transfers;
-    }
+    public record Transfer(int Chain, string Hash, string From, string To, decimal Value, DateTime DateTime, List<ITransferConfirmedEvent.Erc20Transfer>? Erc20Transfers, List<ITransferConfirmedEvent.Erc721Transfer>? Erc721Transfers);
 }

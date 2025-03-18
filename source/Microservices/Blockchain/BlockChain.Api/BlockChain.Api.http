@@ -1,0 +1,6 @@
+@BlockChain.Api_HostAddress = http://localhost:5121
+
+GET {{BlockChain.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
