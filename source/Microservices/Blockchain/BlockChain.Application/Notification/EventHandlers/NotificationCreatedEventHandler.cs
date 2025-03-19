@@ -6,6 +6,7 @@ using MassTransitManager.Services;
 using MassTransitManager.Helpers;
 using BlockChain.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MassTransitManager.Messages.Interfaces;
 
 namespace BlockChain.Application.Notification.EventHandlers;
 
@@ -36,8 +37,8 @@ public class NotificationCreatedEventHandler(ILogger<NotificationCreatedEventHan
                             To: notification.To, 
                             Value: notification.Value, 
                             DateTime: notification.DateTime,
-                            Erc20Transfers: notification.Erc20Transfers?.Select(erc20Transfer => new MassTransitManager.Events.Interfaces.ITransferConfirmedEvent.Erc20Transfer(erc20Transfer.From, erc20Transfer.To, erc20Transfer.Value, erc20Transfer.ContractAddress)).ToList(), 
-                            Erc721Transfers: notification.Erc721Transfers?.Select(erc721Transfer => new MassTransitManager.Events.Interfaces.ITransferConfirmedEvent.Erc721Transfer(erc721Transfer.From, erc721Transfer.To, erc721Transfer.TokenId, erc721Transfer.ContractAddress)).ToList()
+                            Erc20Transfers: notification.Erc20Transfers?.Select(erc20Transfer => new ITransferConfirmedMessage.Erc20Transfer(erc20Transfer.From, erc20Transfer.To, erc20Transfer.Value, erc20Transfer.ContractAddress)).ToList(), 
+                            Erc721Transfers: notification.Erc721Transfers?.Select(erc721Transfer => new ITransferConfirmedMessage.Erc721Transfer(erc721Transfer.From, erc721Transfer.To, erc721Transfer.TokenId, erc721Transfer.ContractAddress)).ToList()
                             )),
                         Queues.NotifyTransferConfirmedMessageQueueName,                            
                         cancellationToken);

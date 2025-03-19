@@ -1,7 +1,7 @@
 using MassTransit;
-using MassTransitManager.Events.Interfaces;
 using MassTransitManager.Helpers;
 using MassTransitManager.Messages;
+using MassTransitManager.Messages.Interfaces;
 using SagaOrchestrator.StatemachineInstances;
 
 namespace SagaOrchestrator.StateMachines;
@@ -14,7 +14,7 @@ public class TransferStateMachine : MassTransitStateMachine<TransferStateMachine
     #endregion
 
     #region Events
-    public Event<ITransferConfirmedEvent> TransferConfirmedEvent { get; private set; } = null!;
+    public Event<ITransferConfirmedMessage> TransferConfirmedEvent { get; private set; } = null!;
     #endregion
 
     public TransferStateMachine()

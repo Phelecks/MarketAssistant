@@ -89,7 +89,7 @@ public class Worker(IServiceProvider serviceProvider,
         {
             var customers = new List<Domain.Entities.Customer>
             {
-                new() { WalletAddress = "Admin", Tracks = [new() { CustomerWalletAddress = "Admin", WalletAddress = "0x46b05Ea9031648E7F16F94e9876e73ab7d818633"}], Notifications = [new () { Identifier = "", CustomerWalletAddress = "Admin", Type = Domain.Entities.Notification.NotificationType.Discord}] },
+                new() { WalletAddress = "Admin", Tracks = [new() { CustomerWalletAddress = "Admin", WalletAddress = "0x429B8474BD7308b7787d364985bB4b8eA7De1D47"}], Notifications = [new () { Identifier = "1292911958881734756", CustomerWalletAddress = "Admin", Type = Domain.Entities.Notification.NotificationType.Discord}] },
             };
             await context.Customers.AddRangeAsync(customers, stoppingToken);
         }

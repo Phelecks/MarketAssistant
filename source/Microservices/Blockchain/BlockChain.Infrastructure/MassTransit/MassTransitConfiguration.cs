@@ -1,5 +1,7 @@
-﻿using MassTransit;
+﻿using BlockChain.Infrastructure.MassTransit.Consumers.Messages;
+using MassTransit;
 using MassTransitManager;
+using MassTransitManager.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +13,7 @@ internal static class MassTransitConfiguration
     {
         services.AddMassTransit(x =>
         {
+            x.AddConsumer<TransferConfirmedMessageConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -19,6 +22,11 @@ internal static class MassTransitConfiguration
                 cfg.Host(connectionString);
 
                 cfg.UseMessageRetry(r => r.Exponential(retryLimit: 10, minInterval: TimeSpan.FromMinutes(1), maxInterval: TimeSpan.FromMinutes(20), intervalDelta: TimeSpan.FromMinutes(2)));
+
+                cfg.ReceiveEndpoint(Queues.TransferConfirmedMessageQueueName, e =>
+                {
+                    e.ConfigureConsumer<TransferConfirmedMessageConsumer>(context);
+                });
             });
         });
         services.AddMassTransitBaseDependencyInjections();

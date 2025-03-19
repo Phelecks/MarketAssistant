@@ -1,9 +1,9 @@
 using MassTransit;
-using MassTransitManager.Events.Interfaces;
+using MassTransitManager.Messages.Interfaces;
 
 namespace SagaOrchestrator.StatemachineInstances;
 
-public class TransferStateMachineInstance : SagaStateMachineInstance, ITransferConfirmedEvent
+public class TransferStateMachineInstance : SagaStateMachineInstance, ITransferConfirmedMessage
 {
     public Guid CorrelationId { get; set; }
 
@@ -21,7 +21,7 @@ public class TransferStateMachineInstance : SagaStateMachineInstance, ITransferC
 
     public DateTime DateTime { get; set; }
 
-    public List<ITransferConfirmedEvent.Erc20Transfer>? Erc20Transfers { get; set; }
+    public List<ITransferConfirmedMessage.Erc20Transfer>? Erc20Transfers { get; set; }
 
-    public List<ITransferConfirmedEvent.Erc721Transfer>? Erc721Transfers { get; set; }
+    public List<ITransferConfirmedMessage.Erc721Transfer>? Erc721Transfers { get; set; }
 }

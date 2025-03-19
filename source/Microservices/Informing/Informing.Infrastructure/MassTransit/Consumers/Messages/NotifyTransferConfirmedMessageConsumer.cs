@@ -4,14 +4,10 @@ using MassTransitManager.Messages.Interfaces;
 
 namespace Informing.Infrastructure.MassTransit.Consumers.Messages;
 
-public class NotifyTransferConfirmedMessageConsumer : IConsumer<INotifyTransferConfirmedMessage>
+public class NotifyTransferConfirmedMessageConsumer(IDiscordService discordService) : IConsumer<INotifyTransferConfirmedMessage>
 {
-    private readonly IDiscordService _discordService;
+    private readonly IDiscordService _discordService = discordService;
 
-    public NotifyTransferConfirmedMessageConsumer(IDiscordService discordService)
-    {
-        _discordService = discordService;
-    }
     public async Task Consume(ConsumeContext<INotifyTransferConfirmedMessage> context)
     {
         if (context.Message.Discord is not null)

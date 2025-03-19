@@ -36,6 +36,7 @@ var informingMigration = builder.AddProject<Projects.Informing_MigrationWorker>(
         .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
         .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
         .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
+        .WithEnvironment(name: "DISCORD-BOT-TOKEN", discordBotToken)
         .WaitFor(identityDb);
 var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
    .WithReference(redis)
@@ -46,11 +47,10 @@ var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
    .WithEnvironment(name: ApplicationName, value: "Informing")
    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, IdentityIssuer))
    .WithEnvironment(name: IdentitySecret, identitySecret)
-   .WithEnvironment(name: "DISCORD_BOT_TOKEN", discordBotToken)
    .WaitFor(redis)
    .WaitFor(rabbit)
    .WaitFor(informingDb)
-   .WaitFor(informingMigration);
+   .WaitForCompletion(informingMigration);
 
 var identityMigration = builder.AddProject<Projects.BlockChainIdentity_MigrationWorker>("blockchainidentity-migrations")
         .WithReference(identityDb)
@@ -72,7 +72,7 @@ var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
    .WaitFor(redis)
    .WaitFor(rabbit)
    .WaitFor(identityDb)
-   .WaitFor(identityMigration);
+   .WaitForCompletion(identityMigration);
 
 var blockProcessorMigration = builder.AddProject<Projects.BlockProcessor_MigrationWorker>("blockprocessor-migrations")
     .WithReference(blockProcessorDb)
@@ -94,10 +94,10 @@ var blockProcessor = builder.AddProject<Projects.BlockProcessor_Api>("blockproce
     .WaitFor(redis)
     .WaitFor(rabbit)
     .WaitFor(blockProcessorDb)
-    .WaitFor(blockProcessorMigration)
+    .WaitForCompletion(blockProcessorMigration)
     .WaitFor(identity)
     .WaitFor(informing)
-    .WithReplicas(2);
+    .WithReplicas(1);
 
 var blockChainMigration = builder.AddProject<Projects.BlockChain_MigrationWorker>("blockchain-migrations")
     .WithReference(blockChainDb)
@@ -118,7 +118,7 @@ var blockChain = builder.AddProject<Projects.BlockChain_Api>("blockchain")
     .WaitFor(redis)
     .WaitFor(rabbit)
     .WaitFor(blockChainDb)
-    .WaitFor(blockChainMigration)
+    .WaitForCompletion(blockChainMigration)
     .WaitFor(identity)
     .WithReplicas(1);
 

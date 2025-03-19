@@ -179,8 +179,8 @@ namespace BlockChainIdentity.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    walletAddress = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    roleId = table.Column<long>(type: "bigint", nullable: false),
+                    WalletAddress = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<long>(type: "bigint", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -190,14 +190,14 @@ namespace BlockChainIdentity.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_WalletRole", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WalletRole_Role_roleId",
-                        column: x => x.roleId,
+                        name: "FK_WalletRole_Role_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WalletRole_Wallet_walletAddress",
-                        column: x => x.walletAddress,
+                        name: "FK_WalletRole_Wallet_WalletAddress",
+                        column: x => x.WalletAddress,
                         principalTable: "Wallet",
                         principalColumn: "Address",
                         onDelete: ReferentialAction.Cascade);
@@ -249,14 +249,14 @@ namespace BlockChainIdentity.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_WalletRole_roleId",
+                name: "IX_WalletRole_RoleId",
                 table: "WalletRole",
-                column: "roleId");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WalletRole_walletAddress",
+                name: "IX_WalletRole_WalletAddress",
                 table: "WalletRole",
-                column: "walletAddress");
+                column: "WalletAddress");
         }
 
         /// <inheritdoc />

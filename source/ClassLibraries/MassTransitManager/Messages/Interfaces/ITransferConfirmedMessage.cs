@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 
-namespace MassTransitManager.Events.Interfaces;
+namespace MassTransitManager.Messages.Interfaces;
 
-public interface ITransferConfirmedEvent : CorrelatedBy<Guid>
+public interface ITransferConfirmedMessage : CorrelatedBy<Guid>
 {
     Nethereum.Signer.Chain Chain { get; }
     string Hash { get; }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlockChainIdentity.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250314143206_Init")]
+    [Migration("20250319160550_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -331,18 +331,18 @@ namespace BlockChainIdentity.Infrastructure.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("roleId")
+                    b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("walletAddress")
+                    b.Property<string>("WalletAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("roleId");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("walletAddress");
+                    b.HasIndex("WalletAddress");
 
                     b.ToTable("WalletRole", (string)null);
                 });
@@ -379,21 +379,21 @@ namespace BlockChainIdentity.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("BlockChainIdentity.Domain.Entities.WalletRole", b =>
                 {
-                    b.HasOne("BlockChainIdentity.Domain.Entities.Role", "role")
+                    b.HasOne("BlockChainIdentity.Domain.Entities.Role", "Role")
                         .WithMany("WalletRoles")
-                        .HasForeignKey("roleId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BlockChainIdentity.Domain.Entities.Wallet", "wallet")
+                    b.HasOne("BlockChainIdentity.Domain.Entities.Wallet", "Wallet")
                         .WithMany("WalletRoles")
-                        .HasForeignKey("walletAddress")
+                        .HasForeignKey("WalletAddress")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("role");
+                    b.Navigation("Role");
 
-                    b.Navigation("wallet");
+                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("BlockChainIdentity.Domain.Entities.Client", b =>

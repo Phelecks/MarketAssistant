@@ -1,7 +1,6 @@
-﻿
-namespace MassTransitManager.Messages.Interfaces;
+﻿namespace MassTransitManager.Messages.Interfaces;
 
-public interface INotifyTransferConfirmedMessage : Events.Interfaces.ITransferConfirmedEvent
+public interface INotifyTransferConfirmedMessage : ITransferConfirmedMessage
 {
     string UserId { get; }
     DiscordMessage? Discord { get; }

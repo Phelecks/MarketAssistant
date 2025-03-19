@@ -82,7 +82,8 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
                 {
                     new Domain.Entities.WalletRole
                     {
-                        RoleId = defaultRole.Id
+                        RoleId = defaultRole.Id,
+                        WalletAddress = walletAddress
                     }
                 }
             };
