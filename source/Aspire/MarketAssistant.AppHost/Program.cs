@@ -50,7 +50,8 @@ var informing = builder.AddProject<Projects.Informing_Grpc>("informing")
    .WaitFor(redis)
    .WaitFor(rabbit)
    .WaitFor(informingDb)
-   .WaitForCompletion(informingMigration);
+   .WaitForCompletion(informingMigration)
+   .WithReplicas(1);
 
 var identityMigration = builder.AddProject<Projects.BlockChainIdentity_MigrationWorker>("blockchainidentity-migrations")
         .WithReference(identityDb)
@@ -72,7 +73,8 @@ var identity = builder.AddProject<Projects.BlockChainIdentity_Grpc>("identity")
    .WaitFor(redis)
    .WaitFor(rabbit)
    .WaitFor(identityDb)
-   .WaitForCompletion(identityMigration);
+   .WaitForCompletion(identityMigration)
+   .WithReplicas(1);
 
 var blockProcessorMigration = builder.AddProject<Projects.BlockProcessor_MigrationWorker>("blockprocessor-migrations")
     .WithReference(blockProcessorDb)
