@@ -10,7 +10,7 @@ public class Web3ProviderService(DistributedNonceService distributedNonceService
 {
     private readonly DistributedNonceService _distributedNonceService = distributedNonceService;
 
-    public Web3 CreateWeb3(Chain chain, string rpcUrl)
+    public Web3 CreateWeb3(string rpcUrl)
     {
         return new Web3(rpcUrl);
     }

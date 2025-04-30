@@ -198,6 +198,11 @@ public static class Queues
     public const string BlockProcessorDeleteWalletAddressEventQueueName = "blockprocessor:delete-wallet-address-event-queue";
     #endregion
 
+    #region LogProcessor
+    public const string LogProcessorCreateTokenEventQueueName = "logprocessor:create-token-event-queue";
+    public const string LogProcessorDeleteTokenEventQueueName = "logprocessor:delete-token-event-queue";
+    #endregion
+
     #region Transfer Flow
     public const string TransferInitiatedMessageQueueName = "transfer-initiated-message-queue";
     public const string TransferConfirmedMessageQueueName = "transfer-confirmed-message-queue";

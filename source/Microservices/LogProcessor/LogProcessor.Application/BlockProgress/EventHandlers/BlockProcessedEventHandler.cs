@@ -1,14 +1,14 @@
 ﻿using BlockChainQueryHelper.Interfaces;
 using BlockChainWeb3ProviderHelper.Interfaces;
-using BlockProcessor.Application.Interfaces;
-using BlockProcessor.Domain.Events.BlockProgress;
-using BlockProcessor.Domain.Events.Transfer;
+using LogProcessor.Domain.Events.BlockProgress;
+using LogProcessor.Domain.Events.Transfer;
 using LoggerService.Helpers;
+using LogProcessor.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace BlockProcessor.Application.BlockProgress.EventHandlers;
+namespace LogProcessor.Application.BlockProgress.EventHandlers;
 
 public class BlockProcessedEventHandler(IApplicationDbContext context, ILogger<BlockProcessedEventHandler> logger, IWeb3ProviderService web3ProviderService, ITransactionService transactionService) : INotificationHandler<BlockProcessedEvent>
 {

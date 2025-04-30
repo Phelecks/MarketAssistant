@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseDomain\BaseDomain.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\EntityFramework.Core.EncryptDBColumn\EntityFrameworkCore.EncryptColumn.csproj" />
+	</ItemGroup>
+</Project>

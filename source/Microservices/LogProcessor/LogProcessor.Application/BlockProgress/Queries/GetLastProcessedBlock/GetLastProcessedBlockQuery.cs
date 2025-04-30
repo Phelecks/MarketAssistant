@@ -1,12 +1,12 @@
 ﻿using BaseApplication.Exceptions;
 using BlockChainQueryHelper.Interfaces;
 using BlockChainWeb3ProviderHelper.Interfaces;
-using BlockProcessor.Application.Interfaces;
+using LogProcessor.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlockProcessor.Application.BlockProgress.Queries.GetLastProcessedBlock;
+namespace LogProcessor.Application.BlockProgress.Queries.GetLastProcessedBlock;
 
 public record GetLastProcessedBlockQuery([property: Required] Nethereum.Signer.Chain Chain) : IRequest<long>;
 

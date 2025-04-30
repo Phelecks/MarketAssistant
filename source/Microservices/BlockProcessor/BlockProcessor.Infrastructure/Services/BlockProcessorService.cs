@@ -29,15 +29,15 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
     private readonly ILogger<BlockProcessorService> _logger = logger;
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
     private readonly IDateTimeService _dateTimeService = dateTimeService;
-    private readonly AddressUtil _addressUtil =  new();
     private readonly ResiliencePipeline _pollyPipeline = pollyPipeline;
     
     private List<string> _addresses = [];
+
     public async Task StartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
     {
         var waitInterval = await _sender.Send(new GetWaitIntervalOfBlockProgressQuery(chain), cancellationToken);
         var rpcUrl = await _sender.Send(new GetRpcUrlQuery(chain), cancellationToken);
-        var web3 = _web3ProviderService.CreateWeb3(chain, rpcUrl);
+        var web3 = _web3ProviderService.CreateWeb3(rpcUrl);
         
         _addresses = await _sender.Send(new GetAllAddressesQuery(), cancellationToken);
         
@@ -46,18 +46,20 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
         //Filter destination address only
         blockProcessingSteps.TransactionStep.SetMatchCriteria(criteria =>
             _addresses is not null &&
-            _addresses.Any(address => _addressUtil.AreAddressesTheSame(address, criteria.Transaction.To) || _addressUtil.AreAddressesTheSame(address, criteria.Transaction.From))
+            _addresses.Any(address => 
+                // criteria for transaction with source and destination matches with any address in the list
+                criteria.Transaction.IsFrom(address) || criteria.Transaction.IsTo(address))
            );
         blockProcessingSteps.FilterLogStep.SetMatchCriteria(criteria =>
             criteria.IsLogForEvent<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferEventDTO>()
             &&
             _addresses is not null &&
-            _addresses.Any(address => criteria.IsTo(address) || _addressUtil.AreAddressesTheSame(address, criteria.Transaction.From)));
+            _addresses.Any(address => criteria.IsTo(address) || criteria.Transaction.IsFrom(address)));
         blockProcessingSteps.FilterLogStep.SetMatchCriteria(criteria =>
             criteria.IsLogForEvent<Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferEventDTO>()
             &&
             _addresses is not null &&
-            _addresses.Any(address => criteria.IsTo(address) || _addressUtil.AreAddressesTheSame(address, criteria.Transaction.From)));
+            _addresses.Any(address => criteria.IsTo(address) || criteria.Transaction.IsFrom(address)));
 
         blockProcessingSteps.TransactionReceiptStep.AddProcessorHandler(async (transactionReceipt) => await ProcessTransactionAsync(chain, transactionReceipt, cancellationToken));
 

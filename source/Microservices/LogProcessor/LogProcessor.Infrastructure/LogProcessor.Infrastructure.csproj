@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseInfrastructure\BaseInfrastructure.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\DistributedProcessManager\DistributedProcessManager.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\MassTransitManager\MassTransitManager.csproj" />
+		<ProjectReference Include="..\LogProcessor.Application\LogProcessor.Application.csproj" />
+		<ProjectReference Include="..\LogProcessor.Domain\LogProcessor.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+  	</ItemGroup>
+</Project>

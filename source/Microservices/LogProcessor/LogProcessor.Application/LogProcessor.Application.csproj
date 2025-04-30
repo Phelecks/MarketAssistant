@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\BlockChainQueryHelper\BlockChainQueryHelper.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\BlockChainWeb3ProviderHelper\BlockChainWeb3ProviderHelper.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\CacheManager\CacheManager.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\MassTransitManager\MassTransitManager.csproj" />
+		<ProjectReference Include="..\LogProcessor.Domain\LogProcessor.Domain.csproj" />
+	</ItemGroup>
+</Project>

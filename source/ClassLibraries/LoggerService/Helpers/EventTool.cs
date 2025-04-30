@@ -163,15 +163,15 @@
         /// <summary>
         /// Block chain
         /// </summary>
-        BlockChainLogProcessor = 15003,
+        LogProcessor = 15003,
         /// <summary>
         /// Block chain exception
         /// </summary>
-        BlockChainLogProcessorException = 15004,
+        LogProcessorException = 15004,
         /// <summary>
         /// Block chain background tasks
         /// </summary>
-        BlockChainLogProcessorBackgroundTasks = 15005,
+        LogProcessorBackgroundTasks = 15005,
         /// <summary>
         /// Block chain
         /// </summary>

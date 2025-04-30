@@ -9,7 +9,7 @@ public interface IWeb3ProviderService
     /// </summary>
     /// <param name="chain"></param>
     /// <returns></returns>
-    Web3 CreateWeb3(Nethereum.Signer.Chain chain, string rpcUrl);
+    Web3 CreateWeb3(string rpcUrl);
 
     /// <summary>
     /// Use it for transactions
