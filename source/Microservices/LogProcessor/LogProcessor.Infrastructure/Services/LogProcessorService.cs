@@ -38,7 +38,7 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
         var rpcUrl = await _sender.Send(new GetRpcUrlQuery(chain), cancellationToken);
         var web3 = _web3ProviderService.CreateWeb3(rpcUrl.Uri.ToString());
          
-        await ExecuteAsync(web3, chain, rpcUrl.WaitInterval, cancellationToken);
+        await ExecuteAsync(web3, chain, rpcUrl.WaitInterval, rpcUrl.MaxDegreeOfParallelism, cancellationToken);
     }
 
     public Task StopAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
@@ -52,11 +52,9 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
     }
 
     public async Task ExecuteAsync(Web3 web3, Nethereum.Signer.Chain chain,
-        int waitInterval,
+        int waitInterval, int maxDegreeOfParallelism,
         CancellationToken cancellationToken)
     {
-        var numberOfProcessors = Environment.ProcessorCount;
-
         IEnumerable<ProcessorHandler<FilterLog>> logProcessorHandlers =
         [
             //erc721EventLogProcessorHandler
@@ -71,12 +69,6 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
         {
             await Task.Delay(waitInterval, cancellationToken);
 
-            var parallelOptions = new ParallelOptions()
-            {
-                MaxDegreeOfParallelism = numberOfProcessors < 3 ? numberOfProcessors : 3,
-                CancellationToken = cancellationToken
-            };
-
             var tokens = await _sender.Send(new GetAllTokensQuery(chain), cancellationToken);
 
             var filterInput = new NewFilterInput
@@ -84,27 +76,35 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
                 Address = [.. tokens.Select(s => s.ContractAddress)]
             };
 
-            var nextProcessingBlocks = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
-            await ParallelProcessBlocksAsync(chain, web3, logProcessorHandlers, filterInput, nextProcessingBlocks, parallelOptions, cancellationToken);
+            var processingBlocks = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
+            await ParallelProcessBlocksAsync(chain, web3, logProcessorHandlers, filterInput, processingBlocks, maxDegreeOfParallelism, cancellationToken);
         }
     }
 
     async ValueTask ParallelProcessBlocksAsync(Nethereum.Signer.Chain chain, Web3 web3, 
         IEnumerable<ProcessorHandler<FilterLog>> logProcessorHandlers, NewFilterInput filterInput, 
-        BigInteger[] nextProcessingBlocks, ParallelOptions parallelOptions, 
+        BigInteger[] processingBlocks, int maxDegreeOfParallelism, 
         CancellationToken cancellationToken)
     {
         ConcurrentBag<BlockStatus> blockStatuses = [];
+        var numberOfProcessors = Environment.ProcessorCount;
+
         void TryAddBlockStatus(BlockStatus blockStatus)
         {
             if(blockStatuses.Any(item => item.BlockNumber == blockStatus.BlockNumber)) return;
             blockStatuses.Add(blockStatus);
         }
+
+        var parallelOptions = new ParallelOptions()
+        {
+            MaxDegreeOfParallelism = numberOfProcessors < maxDegreeOfParallelism ? numberOfProcessors : maxDegreeOfParallelism,
+            CancellationToken = cancellationToken
+        };
         
         try
         {
             await Parallel.ForEachAsync(
-                source: nextProcessingBlocks,
+                source: processingBlocks,
                 parallelOptions: parallelOptions,
                 body: async (blockNumber, CancellationToken) =>
                 {
@@ -121,8 +121,8 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
         }
         catch (Exception exception)
         {
-            foreach(var nextProcessingBlock in nextProcessingBlocks.Where(nextProcessingBlock => !blockStatuses.Any(blockStatus => nextProcessingBlock == blockStatus.BlockNumber)))
-                TryAddBlockStatus(new BlockStatus(false, nextProcessingBlock));
+            foreach(var processingBlock in processingBlocks.Where(processingBlock => !blockStatuses.Any(blockStatus => processingBlock == blockStatus.BlockNumber)))
+                TryAddBlockStatus(new BlockStatus(false, processingBlock));
             _ = Task.Run(() => _logger.LogError(
                 eventId: EventTool.GetEventInformation(eventType: EventType.LogProcessorException, eventName: "LogProcessorException"),
                 exception: exception, message: exception.Message, cancellationToken), cancellationToken);
@@ -133,10 +133,11 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
                 await _sender.Send(new MarkBlockAsProcessedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
             foreach(var blockStatus in blockStatuses.Where(exp => !exp.Processed))
                 await _sender.Send(new MarkBlockAsFailedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
-            foreach(var blockNumber in nextProcessingBlocks.Where(nextProcessingBlock => !blockStatuses.Any(blockStatus => blockStatus.BlockNumber == nextProcessingBlock)))
-                await _sender.Send(new MarkBlockAsFailedCommand(chain, (long)blockNumber), cancellationToken);
+            foreach(var processingBlock in processingBlocks.Where(processingBlock => !blockStatuses.Any(blockStatus => blockStatus.BlockNumber == processingBlock)))
+                await _sender.Send(new MarkBlockAsFailedCommand(chain, (long)processingBlock), cancellationToken);
         }
     }
+    
     async ValueTask ProcessBlockAsync(Web3 web3, BigInteger blockNumber, IEnumerable<ProcessorHandler<FilterLog>> logProcessorHandlers, NewFilterInput filterInput, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();

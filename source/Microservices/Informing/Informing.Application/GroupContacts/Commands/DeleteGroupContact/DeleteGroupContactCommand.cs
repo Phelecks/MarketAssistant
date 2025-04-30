@@ -35,7 +35,7 @@ namespace Informing.Application.GroupContacts.Commands.DeleteGroupContact
         public async Task<Unit> Handle(DeleteGroupContactCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.GroupContacts
-                .FindAsync(new object[] { request.id }, cancellationToken);
+                .FindAsync([request.id], cancellationToken);
 
             if (entity == null)
             {

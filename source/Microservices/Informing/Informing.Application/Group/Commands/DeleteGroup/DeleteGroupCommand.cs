@@ -35,7 +35,7 @@ public class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, Uni
     public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Groups
-            .FindAsync(new object[] { request.id }, cancellationToken);
+            .FindAsync([request.id], cancellationToken);
 
         if (entity == null)
         {

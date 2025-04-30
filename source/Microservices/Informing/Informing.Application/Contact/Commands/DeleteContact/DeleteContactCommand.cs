@@ -36,7 +36,7 @@ public class DeleteContactCommandHandler : IRequestHandler<DeleteContactCommand,
     public async Task<Unit> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Contacts
-            .FindAsync(new object[] { request.id }, cancellationToken);
+            .FindAsync([request.id], cancellationToken);
 
         if (entity == null)
         {

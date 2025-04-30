@@ -37,7 +37,7 @@ public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, Uni
     public async Task<Unit> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Groups
-            .FindAsync(new object[] { request.id }, cancellationToken);
+            .FindAsync([request.id], cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.Group), request.id);

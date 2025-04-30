@@ -36,4 +36,8 @@ public class RpcUrl : BaseEntity
     /// </summary>
     [Required]
     public int MaxDegreeOfParallelism {get; set;} = 3;
+
+    public bool Enabled { get; set; } = true;
+
+    public string? ErrorMessage { get; set; }
 }

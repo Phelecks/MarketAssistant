@@ -15,6 +15,6 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<GetWaitInt
     {
         var rpcUrl = await _context.RpcUrls.FirstOrDefaultAsync(exp => exp.Chain == request.Chain, cancellationToken);
         if(rpcUrl is null) return 10;
-        return rpcUrl.WaitIntervalOfBlockProgress;
+        return rpcUrl.WaitInterval;
     }
 }

@@ -36,7 +36,7 @@ public class DeleteInformationCommandHandler : IRequestHandler<DeleteInformation
     public async Task<Unit> Handle(DeleteInformationCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Information
-            .FindAsync(new object[] { request.id }, cancellationToken);
+            .FindAsync([request.id], cancellationToken);
 
         if (entity == null)
         {

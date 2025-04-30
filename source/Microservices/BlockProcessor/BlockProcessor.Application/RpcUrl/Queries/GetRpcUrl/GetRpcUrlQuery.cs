@@ -7,18 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlockProcessor.Application.RpcUrl.Queries.GetRpcUrl;
 
-public record GetRpcUrlQuery([property: Required] Nethereum.Signer.Chain Chain) : IRequest<string>;
+public record GetRpcUrlQuery([property: Required] Nethereum.Signer.Chain Chain) : IRequest<Domain.Entities.RpcUrl>;
 
-public class Handler(IApplicationDbContext context, IShuffleService<Uri> shuffleService) : IRequestHandler<GetRpcUrlQuery, string>
+public class Handler(IApplicationDbContext context) : IRequestHandler<GetRpcUrlQuery, Domain.Entities.RpcUrl>
 {
     private readonly IApplicationDbContext _context = context;
-    private readonly IShuffleService<Uri> _shuffleService = shuffleService;
 
-    public async Task<string> Handle(GetRpcUrlQuery request, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.RpcUrl> Handle(GetRpcUrlQuery request, CancellationToken cancellationToken)
     {
-        var rpcUrls = await _context.RpcUrls.Where(exp => exp.Chain == request.Chain).Select(s => s.Uri).ToListAsync(cancellationToken);
+        var rpcUrls = await _context.RpcUrls.Where(exp => exp.Chain == request.Chain && exp.Enabled).ToListAsync(cancellationToken);
         if(rpcUrls.Count == 0) throw new NotFoundException(nameof(Domain.Entities.RpcUrl), request.Chain);
-        var result = _shuffleService.Shuffle(rpcUrls);
-        return result.ToString();
+        var result = rpcUrls.OrderByDescending(o => o.MaxDegreeOfParallelism).First();
+        return result;
     }
 }

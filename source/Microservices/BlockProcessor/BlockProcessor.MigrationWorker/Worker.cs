@@ -96,7 +96,7 @@ public class Worker(IServiceProvider serviceProvider,
             foreach(var rpcUrl in rpcUrls)
             {
                 records.Add(
-                    new() { Chain = (Nethereum.Signer.Chain)rpcUrl.Chain, WaitIntervalOfBlockProgress = 100, BlockOfConfirmation = 3, Uri = new Uri(rpcUrl.Url) }
+                    new() { Chain = (Nethereum.Signer.Chain)rpcUrl.Chain, WaitInterval = 100, BlockOfConfirmation = 3, Uri = new Uri(rpcUrl.Url) }
                 );
             }
 

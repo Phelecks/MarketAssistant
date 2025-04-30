@@ -18,8 +18,7 @@ public class UpdateContactCommandValidator : AbstractValidator<UpdateInformation
 
     private async Task<bool> BeNewsAsync(long id, CancellationToken cancellationToken)
     {
-        var entity = await _context.Information
-            .FindAsync(new object[] { id }, cancellationToken);
+        var entity = await _context.Information.FindAsync([id], cancellationToken);
         if (entity == null) return false;
 
         if (entity.Type == Domain.Entities.InformationType.News)

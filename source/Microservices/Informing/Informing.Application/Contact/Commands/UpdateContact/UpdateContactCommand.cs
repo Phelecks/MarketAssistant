@@ -40,7 +40,7 @@ public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand,
     public async Task<Unit> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Contacts
-            .FindAsync(new object[] { request.id }, cancellationToken);
+            .FindAsync([request.id], cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(Domain.Entities.Contact), request.id);
