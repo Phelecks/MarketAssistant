@@ -28,6 +28,8 @@
     <ProjectReference Include="..\..\Microservices\Informing\Informing.MigrationWorker\Informing.MigrationWorker.csproj" />
     <ProjectReference Include="..\..\Microservices\BlockChain\BlockChain.Api\BlockChain.Api.csproj" />
     <ProjectReference Include="..\..\Microservices\BlockChain\BlockChain.MigrationWorker\BlockChain.MigrationWorker.csproj" />
+    <ProjectReference Include="..\..\Microservices\LogProcessor\LogProcessor.Api\LogProcessor.Api.csproj" />
+    <ProjectReference Include="..\..\Microservices\LogProcessor\LogProcessor.MigrationWorker\LogProcessor.MigrationWorker.csproj" />
   </ItemGroup>
 
 </Project>

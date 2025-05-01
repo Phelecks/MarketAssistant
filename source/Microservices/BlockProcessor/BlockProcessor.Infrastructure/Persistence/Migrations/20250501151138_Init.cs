@@ -39,7 +39,11 @@ namespace BlockProcessor.Infrastructure.Persistence.Migrations
                     Chain = table.Column<int>(type: "int", nullable: false),
                     Uri = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BlockOfConfirmation = table.Column<int>(type: "int", nullable: false),
-                    WaitIntervalOfBlockProgress = table.Column<int>(type: "int", nullable: false)
+                    WaitInterval = table.Column<int>(type: "int", nullable: false),
+                    MaxNumberOfBlocksPerProcess = table.Column<int>(type: "int", nullable: false),
+                    MaxDegreeOfParallelism = table.Column<int>(type: "int", nullable: false),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

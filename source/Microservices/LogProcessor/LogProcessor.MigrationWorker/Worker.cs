@@ -1,10 +1,10 @@
 using System.Diagnostics;
-using BlockProcessor.Infrastructure.Persistence;
+using LogProcessor.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace BlockProcessor.MigrationWorker;
+namespace LogProcessor.MigrationWorker;
 
 public class Worker(IServiceProvider serviceProvider,
     IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
@@ -116,17 +116,14 @@ public class Worker(IServiceProvider serviceProvider,
     
     private static async Task TrySeedWalletAddresesAsync(ApplicationDbContext context, CancellationToken stoppingToken)
     {
-        if (!await context.WalletAddresses.AnyAsync(stoppingToken))
+        if (!await context.Tokens.AnyAsync(stoppingToken))
         {
-            var walletAddresses = new List<Domain.Entities.WalletAddress>
+            var tokens = new List<Domain.Entities.Token>
             {
-                new() { Address = "0x0B33Da9E1d07B72A8344948644eB5254919aa312" },
-                new() { Address = "0x46b05Ea9031648E7F16F94e9876e73ab7d818633" },
-                new() { Address = "0x429B8474BD7308b7787d364985bB4b8eA7De1D47" },
-                new() { Address = "0x6b2F207484054773D9DE78a45E6f94683bfE40fa" }
+                new() { Chain = Nethereum.Signer.Chain.Polygon, ContractAddress = "", Decimals = 1 }
             };
 
-            await context.WalletAddresses.AddRangeAsync(walletAddresses, stoppingToken);
+            await context.Tokens.AddRangeAsync(tokens, stoppingToken);
         }
     }
 }

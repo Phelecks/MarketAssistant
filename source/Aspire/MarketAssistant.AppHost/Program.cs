@@ -30,6 +30,7 @@ var informingDb = sql.AddDatabase(name: "informingdb", databaseName: "informing"
 var identityDb = sql.AddDatabase(name: "identitydb", databaseName: "identity");
 var blockProcessorDb = sql.AddDatabase(name: "blockprocessordb", databaseName: "blockProcessor");
 var blockChainDb = sql.AddDatabase(name: "blockchaindb", databaseName: "blockChain");
+var logProcessorDb = sql.AddDatabase(name: "logprocessordb", databaseName: "logProcessor");
 
 var informingMigration = builder.AddProject<Projects.Informing_MigrationWorker>("informing-migrations")
         .WithReference(informingDb)
@@ -124,6 +125,31 @@ var blockChain = builder.AddProject<Projects.BlockChain_Api>("blockchain")
     .WaitFor(identity)
     .WithReplicas(1);
 
+var logProcessorMigration = builder.AddProject<Projects.LogProcessor_MigrationWorker>("logprocessor-migrations")
+    .WithReference(logProcessorDb)
+    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+    .WithEnvironment(name: RpcUrls, value: builder.Configuration.GetValue<string>(RpcUrls))
+    .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
+    .WaitFor(logProcessorDb);
+var logProcessor = builder.AddProject<Projects.LogProcessor_Api>("logprocessor")
+    .WithReference(redis)
+    .WithReference(rabbit)
+    .WithReference(logProcessorDb)
+    .WithEnvironment(name: UseInMemoryDatabase, value: builder.Configuration.GetValue(UseInMemoryDatabase, "true"))
+    .WithEnvironment(name: EnsureDeletedDatabaseOnStartup, value: builder.Configuration.GetValue(EnsureDeletedDatabaseOnStartup, "false"))
+    .WithEnvironment(name: ApplicationName, value: "logProcessor")
+    .WithEnvironment(name: TokenIssuer, value: builder.Configuration.GetValue(TokenIssuer, IdentityIssuer))
+    .WithEnvironment(name: IdentitySecret, parameter: identitySecret)
+    .WithEnvironment(name: DatabaseEncryptionKey, parameter: databaseEncryptionKey)
+    .WaitFor(redis)
+    .WaitFor(rabbit)
+    .WaitFor(logProcessorDb)
+    .WaitForCompletion(logProcessorMigration)
+    .WaitFor(identity)
+    .WaitFor(informing)
+    .WithReplicas(1);
+
 bool RunWalletTracker = builder.Configuration.GetValue("RUN-WALLET-TRACKER", false);
 if(RunWalletTracker)
     builder.AddProject<Projects.WalletTracker_Api>("wallettracker")
@@ -144,6 +170,7 @@ builder.AddProject<Projects.ReverseProxy_Gateway>("reverseproxy-gateway")
    .WaitFor(identity)
    .WaitFor(informing)
    .WaitFor(blockProcessor)
+   .WaitFor(logProcessor)
    .WaitFor(blockChain);
 
 await builder.Build().RunAsync();
