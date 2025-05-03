@@ -7,19 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
-		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-		<PackageReference Include="Grpc.AspNetCore" Version="2.70.0" />
-		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.70.0" />
-		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.70.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.2" />
-		<PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.5.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
-		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" Version="9.1.0" />
-		<PackageReference Include="Aspire.RabbitMQ.Client.v7" Version="9.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
+		<PackageReference Include="FluentValidation.AspNetCore" />
+		<PackageReference Include="Grpc.AspNetCore" />
+		<PackageReference Include="Grpc.AspNetCore.Web" />
+		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+		<PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" />
+		<PackageReference Include="Swashbuckle.AspNetCore" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" />
+		<PackageReference Include="Aspire.RabbitMQ.Client.v7" />
 	</ItemGroup>
 
 	<ItemGroup>

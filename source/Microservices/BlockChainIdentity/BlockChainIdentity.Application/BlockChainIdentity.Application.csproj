@@ -7,10 +7,10 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-		<PackageReference Include="Nethereum.Siwe.Core" Version="4.29.0" />
-		<PackageReference Include="Nethereum.Siwe" Version="4.29.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+		<PackageReference Include="Nethereum.Siwe.Core" />
+		<PackageReference Include="Nethereum.Siwe" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" />
 	</ItemGroup>
 
 	<ItemGroup>
