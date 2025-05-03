@@ -1,5 +1,4 @@
 ﻿using BaseApplication.Exceptions;
-using BaseApplication.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -25,10 +24,8 @@ public class ApiExceptionFilter : IActionFilter, IOrderedFilter
 
             context.Result = new BadRequestObjectResult(details);
         }
-        else if (context.Exception is NotFoundException)
+        else if (context.Exception is NotFoundException exception)
         {
-            var exception = (NotFoundException)context.Exception;
-
             var details = new ProblemDetails()
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
@@ -52,7 +49,7 @@ public class ApiExceptionFilter : IActionFilter, IOrderedFilter
                 StatusCode = StatusCodes.Status401Unauthorized
             };
         }
-        else if(context.Exception is ForbiddenAccessException)
+        else if (context.Exception is ForbiddenAccessException)
         {
             var details = new ProblemDetails
             {

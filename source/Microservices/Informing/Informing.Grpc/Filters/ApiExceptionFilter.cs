@@ -24,10 +24,8 @@ public class ApiExceptionFilter : IActionFilter, IOrderedFilter
 
             context.Result = new BadRequestObjectResult(details);
         }
-        else if (context.Exception is NotFoundException)
+        else if (context.Exception is NotFoundException exception)
         {
-            var exception = (NotFoundException)context.Exception;
-
             var details = new ProblemDetails()
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",

@@ -73,7 +73,7 @@ public class IdentityHelper : IIdentityHelper
         UsernameType type = UsernameType.Username;
         try
         {
-            if (!username.EndsWith(".") &&
+            if (!username.EndsWith('.') &&
                 new System.Net.Mail.MailAddress(username).Address == username)
                 type = UsernameType.Email;
         }
