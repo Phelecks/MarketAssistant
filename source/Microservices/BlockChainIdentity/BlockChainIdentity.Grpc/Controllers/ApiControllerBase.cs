@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
+namespace BlockChainIdentity.Grpc.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 public abstract class ApiControllerBase : ControllerBase

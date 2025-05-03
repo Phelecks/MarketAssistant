@@ -1,5 +1,7 @@
 using MassTransitManager.Messages.Interfaces;
 
+namespace MassTransitManager.Messages;
+
 public class SendGeneralVerificationCodeMessage : ISendGeneralVerificationCodeMessage
 {
     public string UserId { get; }
