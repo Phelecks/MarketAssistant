@@ -1,5 +1,4 @@
-﻿using BlockChainIdentity.Infrastructure.MassTransit.Consumers.Events;
-using BlockChainIdentity.Infrastructure.MassTransit.Consumers.Messages;
+﻿using BlockChainIdentity.Infrastructure.MassTransit.Consumers.Messages;
 using MassTransit;
 using MassTransitManager;
 using MassTransitManager.Helpers;
@@ -15,7 +14,6 @@ internal static class MassTransitConfiguration
         services.AddMassTransit(x =>
         {
             x.AddConsumer<CreateResourceMessageConsumer>();
-            x.AddConsumer<BlockChainIdentityProcessorBaseParameterUpdatedEventConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -28,11 +26,6 @@ internal static class MassTransitConfiguration
                 cfg.ReceiveEndpoint(Queues.CreateResourceMessageQueueName, e =>
                 {
                     e.ConfigureConsumer<CreateResourceMessageConsumer>(context);
-                });
-
-                cfg.ReceiveEndpoint(Queues.BlockChainIdentityBaseParameterUpdatedEventQueueName, e =>
-                {
-                    e.ConfigureConsumer<BlockChainIdentityProcessorBaseParameterUpdatedEventConsumer>(context);
                 });
             });
         });

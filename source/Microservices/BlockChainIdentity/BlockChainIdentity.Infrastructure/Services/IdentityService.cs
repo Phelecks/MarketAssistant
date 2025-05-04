@@ -12,13 +12,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace BlockChainIdentity.Infrastructure.Services;
 
-public class IdentityService : Application.Interfaces.IIdentityService
+public class IdentityService(SiweMessageService siweMessageService, IConfiguration configuration, ICypherService cypherService, IDateTimeService dateTimeService, IOptions<Domain.ConfigurationOptions> options) : Application.Interfaces.IIdentityService
 {
-    private readonly SiweMessageService _siweMessageService;
-    private readonly IConfiguration _configuration;
-    private readonly ICypherService _cypherService;
-    private readonly IDateTimeService _dateTimeService;
-    private readonly string _issuer;
+    private readonly SiweMessageService _siweMessageService = siweMessageService;
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ICypherService _cypherService = cypherService;
+    private readonly IDateTimeService _dateTimeService = dateTimeService;
+    private readonly string _issuer = options.Value.Issuer;
 
 
     private const string ClaimTypeAddress = "address";
@@ -37,15 +37,6 @@ public class IdentityService : Application.Interfaces.IIdentityService
     private const string ClaimTypeChainId = "chainId";
     private const string ClaimTypeRequestId = "requestId";
     private const string ClaimTypeStatement = "statement";
-
-    public IdentityService(SiweMessageService siweMessageService, IConfiguration configuration, ISender sender, ICypherService cypherService, IDateTimeService dateTimeService, IOptions<Domain.ConfigurationOptions> options)
-    {
-        _siweMessageService = siweMessageService;
-        _configuration = configuration;
-        _cypherService = cypherService;
-        _dateTimeService = dateTimeService;
-        _issuer = options.Value.Issuer;
-    }
 
     public async Task<(string token, SecurityTokenDescriptor tokenDescriptor)> GenerateTokenAsync(
         SiweMessage siweMessage, string signature, List<string> roles, List<string> resources, List<string> policies, 

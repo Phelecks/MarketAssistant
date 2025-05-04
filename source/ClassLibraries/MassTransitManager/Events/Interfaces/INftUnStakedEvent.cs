@@ -2,13 +2,12 @@
 
 public interface INftUnStakedEvent
 {
+     Nethereum.Signer.Chain Chain { get; }
     string TransactionHash { get; }
-    string Erc721From { get; }
-    string Erc721To { get; }
-    int NftId { get; }
     DateTime DateTime { get; }
-    SmartContractDto SmartContract { get; }
+    Erc721TransferDto Erc721Transfer { get; }
 
 
-    record SmartContractDto(string ContractAddress, string OwnerWalletAddress, string? RoyaltyWalletAddress, int ChainId, long ExternalTokenId);
+    record Erc721TransferDto(string From, string To, List<TokenDto> Tokens);
+    record TokenDto(int Id, string ContractAddress);
 }

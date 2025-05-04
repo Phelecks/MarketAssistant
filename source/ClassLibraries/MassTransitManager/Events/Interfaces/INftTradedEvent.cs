@@ -2,17 +2,14 @@
 
 public interface INftTradedEvent
 {
+    Nethereum.Signer.Chain Chain { get; }
     string TransactionHash { get; }
     DateTime DateTime { get; }
-    string Erc721From { get; }
-    string Erc721To { get; }
-    decimal TradeValue { get; }
-    SmartContractDto SmartContract { get; }
-    List<NftDto> Tokens { get; }
-    List<Erc20TransferDto> Transfers { get; }
+    Erc721TransferDto Erc721Transfer { get; }
+    List<Erc20TransferDto> Erc20Transfers { get; }
 
-
-    record SmartContractDto(string ContractAddress, string OwnerWalletAddress, string? RoyaltyWalletAddress, int ChainId, long ExternalTokenId);
-    record NftDto(int NftId);
-    record Erc20TransferDto(string From, string To, decimal Value, long externalTokenId);
+    record Erc721TransferDto(string From, string To, List<TokenDto> Tokens);
+    record TokenDto(int Id, string ContractAddress);
+    
+    record Erc20TransferDto(string From, string To, decimal Value, string? ContractAddress);
 }
