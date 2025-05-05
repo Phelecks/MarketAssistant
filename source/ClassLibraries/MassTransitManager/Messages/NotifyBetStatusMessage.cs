@@ -2,32 +2,21 @@
 
 namespace MassTransitManager.Messages;
 
-public class NotifyBetStatusMessage : INotifyBetStatusMessage
+public class NotifyBetStatusMessage(NotifyBetStatusMessage.MatchDto match, 
+    NotifyBetStatusMessage.TransactionDto transaction, INotifyBetStatusMessage.OptionDto option, string userId, INotifyBetStatusMessage.BetStatus status, INotifyBetStatusMessage.DiscordMessageDto? discordMessage) : INotifyBetStatusMessage
 {
-    public NotifyBetStatusMessage(string game, long matchId, Guid id, decimal value, long externalTokenId, string transactionHash, DateTime dateTime, INotifyBetStatusMessage.OptionDto option, string userId, INotifyBetStatusMessage.BetStatus status, INotifyBetStatusMessage.DiscordMessageDto? discordMessage)
-    {
-        Game = game;
-        MatchId = matchId;
-        Id = id;
-        Value = value;
-        ExternalTokenId = externalTokenId;
-        TransactionHash = transactionHash;
-        DateTime = dateTime;
-        Option = option;
-        UserId = userId;
-        Status = status;
-        DiscordMessage = discordMessage;
-    }
+    public string Game { get; } = match.Game;
+    public long MatchId { get; } = match.MatchId;
+    public Guid Id { get; } = transaction.Id;
+    public decimal Value { get; } = transaction.Value;
+    public long ExternalTokenId { get; } = transaction.ExternalTokenId;
+    public string TransactionHash { get; } = transaction.TransactionHash;
+    public DateTime DateTime { get; } = transaction.DateTime;
+    public INotifyBetStatusMessage.OptionDto Option { get; } = option;
+    public string UserId { get; } = userId;
+    public INotifyBetStatusMessage.BetStatus Status { get; } = status;
+    public INotifyBetStatusMessage.DiscordMessageDto? DiscordMessage { get; } = discordMessage;
 
-    public string Game { get; }
-    public long MatchId { get; }
-    public Guid Id { get; }
-    public decimal Value { get; }
-    public long ExternalTokenId { get; }
-    public string TransactionHash { get; }
-    public DateTime DateTime { get; }
-    public INotifyBetStatusMessage.OptionDto Option { get; }
-    public string UserId { get; }
-    public INotifyBetStatusMessage.BetStatus Status { get; }
-    public INotifyBetStatusMessage.DiscordMessageDto? DiscordMessage { get; }
+    public record MatchDto(string Game, long MatchId);
+    public record TransactionDto(Guid Id, decimal Value, long ExternalTokenId, string TransactionHash, DateTime DateTime);
 }

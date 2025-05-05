@@ -17,8 +17,6 @@ public static class ConfigureServices
 
         //Add custom behaviour
 
-        //services.AddTransient<BlockProcessedEventHandler>();
-
         return services;
     }
 }

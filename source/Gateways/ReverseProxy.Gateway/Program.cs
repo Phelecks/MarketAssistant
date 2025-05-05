@@ -60,8 +60,9 @@ app.UseRateLimiter();
 
 app.MapReverseProxy(proxyPipeline =>
 {
-    //proxyPipeline.UseSessionAffinity();
-    //proxyPipeline.UseLoadBalancing();
+    /// proxyPipeline.UseSessionAffinity();
+
+    /// proxyPipeline.UseLoadBalancing();
 });
 
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

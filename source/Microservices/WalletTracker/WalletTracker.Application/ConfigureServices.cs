@@ -22,7 +22,6 @@ public static class ConfigureServices
 
         //Add custom behaviour
 
-        //services.AddTransient<BlockProcessedEventHandler>();
         services.AddBlockChainGasDependencyInjections();
         services.AddBlockChainBalanceDependencyInjections();
         services.AddBlockChainHDWalletDependencyInjections();

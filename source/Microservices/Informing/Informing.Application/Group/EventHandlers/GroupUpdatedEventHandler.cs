@@ -5,14 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Informing.Application.Group.EventHandlers;
 
-public class GroupUpdatedEventHandler : INotificationHandler<GroupUpdatedEvent>
+public class GroupUpdatedEventHandler(ILogger<GroupUpdatedEventHandler> logger) : INotificationHandler<GroupUpdatedEvent>
 {
-    private readonly ILogger<GroupUpdatedEventHandler> _logger;
-
-    public GroupUpdatedEventHandler(ILogger<GroupUpdatedEventHandler> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<GroupUpdatedEventHandler> _logger = logger;
 
     public async Task Handle(GroupUpdatedEvent notification, CancellationToken cancellationToken)
     {
@@ -21,9 +16,7 @@ public class GroupUpdatedEventHandler : INotificationHandler<GroupUpdatedEvent>
            "Informing domain event, {@object} updated to {@item}.",
            notification.GetType().Name, notification.item), cancellationToken);
 
-        //Todo: Send email or sms to end user
 
-
-        //return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 }
