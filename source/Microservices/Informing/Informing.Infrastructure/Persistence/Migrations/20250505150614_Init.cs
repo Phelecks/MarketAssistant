@@ -12,26 +12,6 @@ namespace Informing.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BaseParameter",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Category = table.Column<int>(type: "int", nullable: false),
-                    Field = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    KernelBaseParameterId = table.Column<long>(type: "bigint", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BaseParameter", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Contact",
                 columns: table => new
                 {
@@ -238,12 +218,6 @@ namespace Informing.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseParameter_Field",
-                table: "BaseParameter",
-                column: "Field",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Contact_UserId",
                 table: "Contact",
                 column: "UserId",
@@ -315,9 +289,6 @@ namespace Informing.Infrastructure.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "BaseParameter");
-
             migrationBuilder.DropTable(
                 name: "ContactInformation");
 

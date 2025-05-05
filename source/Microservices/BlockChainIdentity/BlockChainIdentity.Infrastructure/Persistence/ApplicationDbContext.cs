@@ -19,7 +19,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         _encryptionProvider = new GenerateEncryptionProvider(encryptionKey);
     }
 
-    public DbSet<BaseParameter> BaseParameters => Set<BaseParameter>();
     public DbSet<Client> Clients => Set<Client>();
     public DbSet<ClientResource> ClientResources => Set<ClientResource>();
     public DbSet<Resource> Resources => Set<Resource>();

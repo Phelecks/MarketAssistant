@@ -79,7 +79,6 @@ public class Worker(IServiceProvider serviceProvider,
         {
             // Seed the database
             await using var transaction = await context.Database.BeginTransactionAsync(stoppingToken);
-            await TrySeedBaseParametersAsync(context, configuration, stoppingToken);
             await TrySeedTemplatesAsync(context, stoppingToken);
             await TrySeedAdministratorsAsync(context, stoppingToken);
             await context.SaveChangesAsync(stoppingToken);
@@ -87,40 +86,12 @@ public class Worker(IServiceProvider serviceProvider,
         });
     }
 
-    private static async Task TrySeedBaseParametersAsync(ApplicationDbContext context, IConfiguration configuration, CancellationToken stoppingToken)
-    {
-        if (!await context.BaseParameters.AnyAsync(stoppingToken))
-        {
-            await context.BaseParameters.AddRangeAsync(new List<BaseParameter>
-            {
-                new()
-                {
-                    Category = BaseParameterCategory.InformingConfiguration,
-                    Field = BaseParameterField.InformingDiscordBotToken,
-                    Value = configuration.GetValue("DISCORD-BOT-TOKEN", "MyDiscordBotToken123")!
-                }
-            }, stoppingToken);
-
-            await context.SaveChangesAsync();
-        }
-
-        if (!await context.BaseParameters.AnyAsync(exp => exp.Field == BaseParameterField.BlockChainTransferOrphanTransferThresholdInMinutes, cancellationToken: stoppingToken))
-        {
-            await context.BaseParameters.AddAsync(new()
-            {
-                Category = BaseParameterCategory.BlockChainTransferConfiguration,
-                Field = BaseParameterField.BlockChainTransferOrphanTransferThresholdInMinutes,
-                Value = "1440"
-            });
-            await context.SaveChangesAsync(stoppingToken);
-        }
-    }
     private static async Task TrySeedTemplatesAsync(ApplicationDbContext context, CancellationToken stoppingToken)
     {
         if (!await context.Templates.AnyAsync(stoppingToken))
         {
-            await context.Templates.AddRangeAsync(new List<Template>
-            {
+            await context.Templates.AddRangeAsync(
+            [
                 new()
                 {
                     Content = "Verification Code From MYAPPLICATION: <b>@VerificationCode</b>",
@@ -135,7 +106,7 @@ public class Worker(IServiceProvider serviceProvider,
                     InformingSendType = InformingEnums.InformingSendType.Email,
                     InformingType = InformingEnums.InformingType.SystemErrorMessage
                 },
-            }, stoppingToken);
+            ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);
         }
@@ -144,8 +115,8 @@ public class Worker(IServiceProvider serviceProvider,
     {
         if (!await context.Contacts.AnyAsync(contact => contact.GroupContacts.Any(groupContact => groupContact.Group.Title.Equals("Administrators")), stoppingToken))
         {
-            await context.Contacts.AddRangeAsync(new List<Contact>
-            {
+            await context.Contacts.AddRangeAsync(
+            [
                 new()
                 {
                     Fullname = "Hamid Shayanian",
@@ -155,8 +126,7 @@ public class Worker(IServiceProvider serviceProvider,
                     Username = "hamid.shayanian@outlook.com",
                     GroupContacts = new List<GroupContact> 
                     {
-                        new GroupContact
-                        {
+                        new() {
                             Group = new Group
                             {
                                 Title = "Administrators",
@@ -165,7 +135,7 @@ public class Worker(IServiceProvider serviceProvider,
                         }
                     }
                 },
-            }, stoppingToken);
+            ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);
         }

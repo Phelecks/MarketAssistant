@@ -4,7 +4,6 @@ namespace Informing.Application.Interfaces;
 
 public interface IApplicationDbContext : BaseApplication.Interfaces.IBaseApplicationDbContext
 {
-    DbSet<Domain.Entities.BaseParameter> BaseParameters { get; }
     DbSet<Domain.Entities.Contact> Contacts { get; }
     DbSet<Domain.Entities.Information> Information { get; }
     DbSet<Domain.Entities.InformationLog> InformationLogs { get; }

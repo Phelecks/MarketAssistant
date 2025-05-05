@@ -4,7 +4,6 @@ namespace BlockChainIdentity.Application.Interfaces;
 
 public interface IApplicationDbContext : BaseApplication.Interfaces.IBaseApplicationDbContext
 {
-    DbSet<Domain.Entities.BaseParameter> BaseParameters { get; }
     DbSet<Domain.Entities.Wallet> Wallets { get; }
     DbSet<Domain.Entities.Token> Tokens { get; }
     DbSet<Domain.Entities.Client> Clients { get; }

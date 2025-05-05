@@ -26,7 +26,7 @@ public class Handler : IRequestHandler<GetClientQuery, ClientDto>
         var entity = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.Resource).SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 
         if (entity == null)
-            throw new NotFoundException(nameof(Domain.Entities.BaseParameter), request.Id);
+            throw new NotFoundException(nameof(Domain.Entities.Client), request.Id);
 
         return _mapper.Map<Domain.Entities.Client, ClientDto>(entity);
     }

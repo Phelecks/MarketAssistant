@@ -18,13 +18,11 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<CreateClie
         var resources = await _context.Resources.Where(exp => request.Resources.Any(resourceId => resourceId == exp.Id)).ToListAsync(cancellationToken);
 
         int tokenLifeTime;
-        if (request.tokenLifeTimeInSeconds.HasValue) tokenLifeTime = request.tokenLifeTimeInSeconds.Value;
+        if (request.tokenLifeTimeInSeconds.HasValue) 
+            tokenLifeTime = request.tokenLifeTimeInSeconds.Value;
         else
-        {
-            var baseParameter = await _context.BaseParameters.SingleOrDefaultAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime, cancellationToken);
-            if (baseParameter == null) tokenLifeTime = 60;
-            else tokenLifeTime = int.Parse(baseParameter.Value);
-        }
+            tokenLifeTime = 60 * 60; // 1 hour
+        
 
         var entity = new Domain.Entities.Client
         {

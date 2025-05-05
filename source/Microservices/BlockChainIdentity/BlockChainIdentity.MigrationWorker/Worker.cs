@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using BaseDomain.Enums;
 using BlockChainIdentity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -82,7 +81,6 @@ public class Worker(IServiceProvider serviceProvider,
             await TrySeedAdministratorWalletAsync(context, stoppingToken);
             await TrySeedResourcesAsync(context, stoppingToken);
             await TrySeedClientsAsync(context, stoppingToken);
-            await TrySeedBaseParametersAsync(context, stoppingToken);
             await TrySeedRpcUrlsAsync(context, configuration, stoppingToken);
             await context.SaveChangesAsync(stoppingToken);
             await transaction.CommitAsync(stoppingToken);
@@ -297,25 +295,6 @@ public class Worker(IServiceProvider serviceProvider,
                         },
                     ]
                 }
-            ], stoppingToken);
-
-            await context.SaveChangesAsync(stoppingToken);
-        }
-    }
-    private static async Task TrySeedBaseParametersAsync(ApplicationDbContext context, CancellationToken stoppingToken)
-    {
-        if (!await context.BaseParameters.AnyAsync(stoppingToken))
-        {
-            await context.BaseParameters.AddRangeAsync(
-            [
-                #region BlockChain Identity
-                new()
-                {
-                    Category = BaseParameterCategory.BlockChainIdentityConfiguration,
-                    Field = BaseParameterField.BlockChainIdentityDefaultGeneratedSiweMessageLifeTime,
-                    Value = "60"
-                }
-                #endregion
             ], stoppingToken);
 
             await context.SaveChangesAsync(stoppingToken);

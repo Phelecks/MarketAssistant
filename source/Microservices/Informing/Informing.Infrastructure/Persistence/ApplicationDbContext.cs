@@ -11,7 +11,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<BaseParameter> BaseParameters => Set<BaseParameter>();
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Information> Information => Set<Information>();
     public DbSet<InformationLog> InformationLogs => Set<InformationLog>();

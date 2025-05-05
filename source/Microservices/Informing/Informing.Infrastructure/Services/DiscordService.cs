@@ -5,6 +5,7 @@ using Informing.Application.Interfaces;
 using Informing.Infrastructure.Helpers;
 using LoggerService.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -18,29 +19,31 @@ public class DiscordService : IDiscordService
     private readonly DiscordSocketClient _discord;
     private readonly IShuffleService<string> _shuffleService;
     private readonly ILogger<DiscordSocketClient> _logger;
+    private readonly IConfiguration _configuration;
     private bool Initialized = false;
 
-    public DiscordService(IServiceProvider serviceProvider, DiscordSocketClient discord, IShuffleService<string> shuffleService, ILogger<DiscordSocketClient> logger)
+    public DiscordService(IServiceProvider serviceProvider, DiscordSocketClient discord, IShuffleService<string> shuffleService, ILogger<DiscordSocketClient> logger, IConfiguration configuration)
     {
         _serviceProvider = serviceProvider;
         _shuffleService = shuffleService;
         _discord = discord;
         _logger = logger;
         _discord.Log += msg => DiscordLogHelper.OnLogAsync(_logger, msg);
+        _configuration = configuration;
     }
 
     public async Task InitializeAsync(CancellationToken cancellationToken)
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
-        var botToken = await context.BaseParameters.SingleOrDefaultAsync(exp => exp.Field == BaseDomain.Enums.BaseParameterField.InformingDiscordBotToken, cancellationToken);
-        if(botToken is null)
+        var botToken = _configuration.GetValue<string>("DISCORD-BOT-TOKEN", "MyDiscordBotToken123");
+        if(string.IsNullOrEmpty(botToken))
         {
             Initialized = false;
             return;
         }
 
-        await _discord.LoginAsync(TokenType.Bot, botToken.Value);
+        await _discord.LoginAsync(TokenType.Bot, botToken);
         await _discord.StartAsync();
         Initialized = true;
     }
