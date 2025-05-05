@@ -6,7 +6,7 @@ builder.Services.AddServices(builder);
 
 var app = builder.Build();
 
-await app.AddConfiguration();
+app.AddConfiguration();
 
 await app.RunAsync();
 

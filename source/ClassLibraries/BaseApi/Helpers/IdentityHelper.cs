@@ -1,7 +1,7 @@
 ﻿using IdentityHelper.Helpers;
 using System.Security.Claims;
 
-namespace BlockChainIdentity.Grpc.Helpers;
+namespace BaseApi.Helpers;
 
 /// <summary>
 /// Identity service

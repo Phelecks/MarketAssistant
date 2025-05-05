@@ -1,4 +1,4 @@
-namespace LogProcessor.Api.Interfaces;
+namespace BaseApi.Interfaces;
 
 public interface IEndpointDefinition
 {

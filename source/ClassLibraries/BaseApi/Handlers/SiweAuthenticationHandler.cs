@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace BlockChainIdentity.Grpc.Handlers;
+namespace BaseApi.Handlers;
 
 public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticationOptions>
 {
@@ -30,7 +30,7 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
             return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
         var scheme = tokenHeaderValue.Scheme;
         if (!scheme.Equals(Options.TokenHeaderName)) return await Task.FromResult(AuthenticateResult.NoResult());
-        
+
         var siweToken = tokenHeaderValue.Parameter;
         if(string.IsNullOrEmpty(siweToken)) return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
 

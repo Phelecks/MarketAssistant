@@ -125,6 +125,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogProcessor.Api", "Microse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogProcessor.MigrationWorker", "Microservices\LogProcessor\LogProcessor.MigrationWorker\LogProcessor.MigrationWorker.csproj", "{F3FB48F2-527D-4419-805C-7E8E08A2A9D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseApi", "ClassLibraries\BaseApi\BaseApi.csproj", "{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -735,6 +737,18 @@ Global
 		{F3FB48F2-527D-4419-805C-7E8E08A2A9D8}.Release|x64.Build.0 = Release|Any CPU
 		{F3FB48F2-527D-4419-805C-7E8E08A2A9D8}.Release|x86.ActiveCfg = Release|Any CPU
 		{F3FB48F2-527D-4419-805C-7E8E08A2A9D8}.Release|x86.Build.0 = Release|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Debug|x64.Build.0 = Debug|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Debug|x86.Build.0 = Debug|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Release|x64.ActiveCfg = Release|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Release|x64.Build.0 = Release|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Release|x86.ActiveCfg = Release|Any CPU
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -796,6 +810,7 @@ Global
 		{CA70F1F5-3EB3-4001-8B99-A39D0B736081} = {4D470D16-9676-C25F-65BD-25206E81282F}
 		{A7F15921-35FC-4593-AD26-281102E0BCFB} = {4D470D16-9676-C25F-65BD-25206E81282F}
 		{F3FB48F2-527D-4419-805C-7E8E08A2A9D8} = {4D470D16-9676-C25F-65BD-25206E81282F}
+		{5C6FDF02-018B-4E6E-B7E6-45E3D2D39CE0} = {E3D6E84E-B038-4339-854F-A3F2BE048EC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18F9C98C-0AB3-4767-B4E3-1A1B455AE6B4}

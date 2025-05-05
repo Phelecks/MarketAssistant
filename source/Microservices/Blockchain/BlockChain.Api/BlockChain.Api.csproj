@@ -7,26 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
-		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
-		<PackageReference Include="FluentValidation.AspNetCore" />
-		<PackageReference Include="Grpc.AspNetCore" />
-		<PackageReference Include="Grpc.AspNetCore.Web" />
-		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
-		<PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" />
-		<PackageReference Include="Swashbuckle.AspNetCore" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" />
-		<PackageReference Include="Aspire.RabbitMQ.Client.v7" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
-		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
-		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
-		<ProjectReference Include="..\BlockChain.Infrastructure\BlockChain.Infrastructure.csproj" />
-	</ItemGroup>
+	<ProjectReference Include="..\..\..\ClassLibraries\BaseApi\BaseApi.csproj" />
+	<ProjectReference Include="..\BlockChain.Infrastructure\BlockChain.Infrastructure.csproj" />
+  </ItemGroup>
 
 </Project>

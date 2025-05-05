@@ -1,12 +1,14 @@
-using BlockProcessor.Api.Interfaces;
+using System.Reflection;
+using BaseApi.Interfaces;
 
-namespace BlockProcessor.Api.Extensions;
+namespace BaseApi.Extensions;
 
 public static class MinimalApiExtension
 {
     public static void RegisterEndpointDefinitions(this WebApplication app)
     {
-        var endpointDefinitions = typeof(Program).Assembly
+        // You can replcae with typeof(Program).Assembly
+        var endpointDefinitions = Assembly.GetExecutingAssembly()
             .GetTypes()
             .Where(t => t.IsAssignableTo(typeof(IEndpointDefinition)) && !t.IsAbstract
             && !t.IsInterface)

@@ -14,40 +14,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
-		<PackageReference Include="Aspire.RabbitMQ.Client.v7" />
-		<PackageReference Include="FluentValidation.AspNetCore" />
-		<PackageReference Include="Grpc.AspNetCore" />
-		<PackageReference Include="Grpc.AspNetCore.Web" />
-		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-		<PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" />
-		<PackageReference Include="Swashbuckle.AspNetCore" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
-		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
-		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
-		<!-- <ProjectReference Include="..\..\Identity\Identity.AccessTokenValidation\Identity.AccessTokenValidation.csproj" /> -->
-		<ProjectReference Include="..\BlockChainIdentity.Infrastructure\BlockChainIdentity.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Update="appsettings.Development.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Update="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseApi\BaseApi.csproj" />
+		<ProjectReference Include="..\BlockProcessor.Infrastructure\BlockProcessor.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

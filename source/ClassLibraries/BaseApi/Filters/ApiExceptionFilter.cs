@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LogProcessor.Api.Filters;
+namespace BaseApi.Filters;
 
 public class ApiExceptionFilter : IActionFilter, IOrderedFilter
 {

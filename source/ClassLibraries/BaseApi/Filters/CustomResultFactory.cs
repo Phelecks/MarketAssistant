@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
 
-namespace BlockProcessor.Api.Filters;
+namespace BaseApi.Filters;
 
 public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
 {
