@@ -7,7 +7,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        builder.Services.AddBaseApiServices(builder, sqlConnectionName: "informingdb", redisDistributedCacheConnectionName: "cache", rabbitMQConnectionName: "messaging");
+        builder.Services.AddBaseApiServices(builder, sqlConnectionName: "informingdb", redisDistributedCacheConnectionName: "cache", rabbitMQConnectionName: "messaging", supportSignalR: true);
 
         builder.Services.AddSignalRServices(builder.Configuration.GetConnectionString("cache"));
 

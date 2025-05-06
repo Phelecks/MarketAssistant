@@ -17,7 +17,8 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddBaseApiServices(this IServiceCollection services, WebApplicationBuilder builder,
         string sqlConnectionName,
-        string? redisDistributedCacheConnectionName, string? rabbitMQConnectionName)
+        string? redisDistributedCacheConnectionName, string? rabbitMQConnectionName,
+        bool supportSignalR = false)
         
     {
         builder.AddServiceDefaults();
@@ -92,6 +93,7 @@ public static class ConfigureServices
            {
                options.ApplicationName = builder.Configuration.GetValue<string>("APPLICATION-NAME")!;
                options.ValidIssuers = [builder.Configuration.GetValue<string>("TOKEN-ISSUER")!];
+               options.SupportSignalR = supportSignalR;
            });
 
         builder.Services.AddEndpointsApiExplorer();
