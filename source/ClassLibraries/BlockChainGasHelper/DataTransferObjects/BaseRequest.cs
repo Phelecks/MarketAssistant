@@ -6,7 +6,8 @@ namespace BlockChainGasHelper.DataTransferObjects;
 internal class BaseRequest
 {
     [JsonPropertyName("id")]
-    public int id { get; set; } = AlchemyParameters.DefaultId;
+    public int Id { get; set; } = AlchemyParameters.DefaultId;
+
     [JsonPropertyName("jsonrpc")]
-    public readonly string jsonrpc = AlchemyParameters.DefaultJsonRpc;
+    public readonly string JsonRpc = AlchemyParameters.DefaultJsonRpc;
 }

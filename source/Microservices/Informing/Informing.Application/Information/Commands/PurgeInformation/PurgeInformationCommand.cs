@@ -7,23 +7,10 @@ namespace Informing.Application.Information.Commands.PurgeInformation;
 [Authorize(roles = "Administrators")]
 public record PurgeInformationCommand : IRequest<Unit>;
 
-public class PurgeInformationCommandHandler : IRequestHandler<PurgeInformationCommand, Unit>
+public class PurgeInformationCommandHandler(IApplicationDbContext context) : IRequestHandler<PurgeInformationCommand, Unit>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _context = context;
 
-    public PurgeInformationCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-    //public async Task<Unit> Handle(PurgeInformationCommand request, CancellationToken cancellationToken)
-    //{
-    //    _context.information.RemoveRange(_context.information);
-
-    //    await _context.SaveChangesAsync(cancellationToken);
-
-    //    return Unit.Value;
-    //}
     public async Task<Unit> Handle(PurgeInformationCommand request, CancellationToken cancellationToken)
     {
         _context.Information.RemoveRange(_context.Information);

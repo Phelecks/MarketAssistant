@@ -1,8 +1,15 @@
-﻿namespace BlockChainGasHelper.DataTransferObjects;
+﻿using System.Text.Json.Serialization;
+
+namespace BlockChainGasHelper.DataTransferObjects;
 
 internal class BaseResponse
 {
-    public int id { get; set; }
-    public required string jsonrpc { get; set; }
-    public required string result { get; set; }
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+
+    [JsonPropertyName("jsonrpc")]
+    public required string JsonRpc { get; set; }
+
+    [JsonPropertyName("result")]
+    public required string Result { get; set; }
 }

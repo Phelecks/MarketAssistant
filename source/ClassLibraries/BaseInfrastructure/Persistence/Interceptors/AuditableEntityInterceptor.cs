@@ -13,6 +13,7 @@ public class AuditableEntityInterceptor(
 {
     private readonly IIdentityHelper _identityHelper = identityHelper;
     private readonly IDateTimeService _dateTimeService = dateTimeService;
+    private const string SystemUser = "System";
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
@@ -43,13 +44,13 @@ public class AuditableEntityInterceptor(
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = _identityHelper.GetUserIdentity() ?? "System";
+                    entry.Entity.CreatedBy = _identityHelper.GetUserIdentity() ?? SystemUser;
                     entry.Entity.Created = _dateTimeService.UtcNow;
                 }
 
                 if (entry.State is EntityState.Added or EntityState.Modified || entry.HasChangedOwnedEntities())
                 {
-                    entry.Entity.LastModifiedBy = _identityHelper.GetUserIdentity() ?? "System";
+                    entry.Entity.LastModifiedBy = _identityHelper.GetUserIdentity() ?? SystemUser;
                     entry.Entity.LastModified = _dateTimeService.UtcNow;
                 }
             }
@@ -61,13 +62,13 @@ public class AuditableEntityInterceptor(
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = _identityHelper.GetUserIdentity() ?? "System";
+                    entry.Entity.CreatedBy = _identityHelper.GetUserIdentity() ?? SystemUser;
                     entry.Entity.Created = _dateTimeService.UtcNow;
                 }
 
                 if (entry.State is EntityState.Added or EntityState.Modified || entry.HasChangedOwnedEntities())
                 {
-                    entry.Entity.LastModifiedBy = _identityHelper.GetUserIdentity() ?? "System";
+                    entry.Entity.LastModifiedBy = _identityHelper.GetUserIdentity() ?? SystemUser;
                     entry.Entity.LastModified = _dateTimeService.UtcNow;
                 }
             }

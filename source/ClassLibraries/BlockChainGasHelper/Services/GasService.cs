@@ -22,13 +22,12 @@ public class GasService : IGasService
         var requestDto = new GasPriceRequest();
         var request = new HttpRequestMessage(HttpMethod.Post, rpcUrl);
         request.Headers.Add("accept", "application/json");
-        var content = new StringContent($"{{\"id\": {requestDto.id},\"jsonrpc\": \"{requestDto.jsonrpc}\",\"method\": \"{requestDto.method}\"}}", null, "application/json");
+        var content = new StringContent($"{{\"id\": {requestDto.Id},\"jsonrpc\": \"{requestDto.JsonRpc}\",\"method\": \"{requestDto.Method}\"}}", null, "application/json");
         request.Content = content;
         var response = await _httpClient.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
-        var result = await response.Content.ReadFromJsonAsync<GasPriceResponse>(cancellationToken);
-        if (result is null) throw new InvalidOperationException("Cannot parse alchemy response.");
-        return new HexBigInteger(result.result).Value;
+        var result = await response.Content.ReadFromJsonAsync<BaseResponse>(cancellationToken) ?? throw new InvalidOperationException("Cannot parse alchemy response.");
+        return new HexBigInteger(result.Result).Value;
     }
 
     public async Task<BigInteger> EstimateTransferGasAsync(Web3 web3, string toAddress, decimal value, CancellationToken cancellationToken = default)

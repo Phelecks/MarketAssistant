@@ -7,31 +7,10 @@ namespace Informing.Application.GroupContacts.Commands.DeleteGroupContact
 
     public record DeleteGroupContactCommand(long id) : IRequest<Unit>;
 
-    public class DeleteGroupContactCommandHandler : IRequestHandler<DeleteGroupContactCommand, Unit>
+    public class DeleteGroupContactCommandHandler(IApplicationDbContext context) : IRequestHandler<DeleteGroupContactCommand, Unit>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IApplicationDbContext _context = context;
 
-        public DeleteGroupContactCommandHandler(IApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        //public async Task<Unit> Handle(DeleteGroupContactCommand request, CancellationToken cancellationToken)
-        //{
-        //    var entity = await _context.groupContacts
-        //        .FindAsync(new object[] { request.id }, cancellationToken);
-
-        //    if (entity == null)
-        //    {
-        //        throw new NotFoundException(nameof(Domain.Entities.GroupContact), request.id);
-        //    }
-
-        //    _context.groupContacts.Remove(entity);
-
-        //    await _context.SaveChangesAsync(cancellationToken);
-
-        //    return Unit.Value;
-        //}
         public async Task<Unit> Handle(DeleteGroupContactCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.GroupContacts

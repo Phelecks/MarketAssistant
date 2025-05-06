@@ -5,5 +5,5 @@ namespace BlockChainGasHelper.DataTransferObjects;
 internal class GasPriceRequest : BaseRequest
 {
     [JsonPropertyName("method")]
-    internal readonly string method = "eth_gasPrice";
+    internal readonly string Method = "eth_gasPrice";
 }
