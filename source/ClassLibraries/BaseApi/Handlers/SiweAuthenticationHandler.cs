@@ -7,17 +7,12 @@ using System.Text.Encodings.Web;
 
 namespace BaseApi.Handlers;
 
-public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticationOptions>
+public class SiweAuthenticationHandler(IOptionsMonitor<SiweAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder,
+    TimeProvider timeProvider, IConfiguration configuration, ISiweService siweService) : AuthenticationHandler<SiweAuthenticationOptions>(options, logger, encoder)
 {
-    private readonly IConfiguration _configuration;
-    private readonly ISiweService _siweService;
+    private readonly IConfiguration _configuration = configuration;
+    private readonly ISiweService _siweService = siweService;
 
-    public SiweAuthenticationHandler(IOptionsMonitor<SiweAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder,
-        TimeProvider timeProvider, IConfiguration configuration, ISiweService siweService) : base(options, logger, encoder)
-    {
-        _configuration = configuration;
-        _siweService = siweService;
-    }
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (IsHealthCheckRequest())
@@ -26,12 +21,18 @@ public class SiweAuthenticationHandler : AuthenticationHandler<SiweAuthenticatio
         var claimsPrincipal = Request.HttpContext.User;
         if (AlreadyAuthenticated(claimsPrincipal)) return await Task.FromResult(AuthenticateResult.NoResult());
 
-        if(!AuthenticationHeaderValue.TryParse(Request.Headers.Authorization, out var tokenHeaderValue))
-            return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
-        var scheme = tokenHeaderValue.Scheme;
-        if (!scheme.Equals(Options.TokenHeaderName)) return await Task.FromResult(AuthenticateResult.NoResult());
+        string? siweToken = null;
+        if(Options.SupportSignalR && Request.Path.HasValue && Request.Path.Value.Contains("/hubs") && Request.QueryString.HasValue)
+            siweToken = Request.Query["access_token"];
+        if(string.IsNullOrEmpty(siweToken))
+        {
+            if(!AuthenticationHeaderValue.TryParse(Request.Headers.Authorization, out var tokenHeaderValue))
+                return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
+            var scheme = tokenHeaderValue.Scheme;
+            if (!scheme.Equals(Options.TokenHeaderName)) return await Task.FromResult(AuthenticateResult.NoResult());
+            siweToken = tokenHeaderValue.Parameter;
+        }
 
-        var siweToken = tokenHeaderValue.Parameter;
         if(string.IsNullOrEmpty(siweToken)) return await Task.FromResult(AuthenticateResult.Fail($"Missing Authorization Header: {Options.TokenHeaderName}"));
 
         var securityKey = GetSecret();
@@ -79,4 +80,5 @@ public class SiweAuthenticationOptions : AuthenticationSchemeOptions
     public string TokenHeaderName { get; set; } = "Siwe";
     public string ApplicationName { get; set; } = string.Empty;
     public string[] ValidIssuers { get; set; } = [];
+    public bool SupportSignalR { get; set; } = false;
 }

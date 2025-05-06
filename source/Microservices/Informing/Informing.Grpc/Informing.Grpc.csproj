@@ -21,34 +21,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
-		<PackageReference Include="FluentValidation.AspNetCore" />
-		<PackageReference Include="Grpc.AspNetCore" />
-		<PackageReference Include="Grpc.AspNetCore.Web" />
-		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" />
 		<PackageReference Include="MessagePack" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-		<PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" />
-		<PackageReference Include="Swashbuckle.AspNetCore" />
-		<PackageReference Include="Aspire.Microsoft.Data.SqlClient" />
-		<PackageReference Include="Aspire.RabbitMQ.Client.v7" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
-		<ProjectReference Include="..\..\..\Aspire\MarketAssistant.ServiceDefaults\MarketAssistant.ServiceDefaults.csproj" />
-		<ProjectReference Include="..\..\..\ClassLibraries\BaseApplication\BaseApplication.csproj" />
-		<ProjectReference Include="..\..\..\ClassLibraries\LoggerService\LoggerService.csproj" />
-		<ProjectReference Include="..\Informing.Application\Informing.Application.csproj" />
+		<ProjectReference Include="..\..\..\ClassLibraries\BaseApi\BaseApi.csproj" />
 		<ProjectReference Include="..\Informing.Infrastructure\Informing.Infrastructure.csproj" />
 	</ItemGroup>
 

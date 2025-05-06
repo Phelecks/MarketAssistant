@@ -28,6 +28,6 @@ public class WalletCreatedEventHandler : INotificationHandler<WalletCreatedEvent
 
         await _massTransitService.SendAsync(
             new CreateUserMessage(notification.Item.Address, notification.Item.Address, string.Empty, string.Empty, notification.ClientId, null),
-            Queues.CreateUserMessageQueueName);
+            Queues.CreateUserMessageQueueName, cancellationToken);
     }
 }
