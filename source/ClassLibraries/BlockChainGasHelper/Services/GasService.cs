@@ -8,14 +8,9 @@ using System.Numerics;
 
 namespace BlockChainGasHelper.Services;
 
-public class GasService : IGasService
+public class GasService(HttpClient httpClient) : IGasService
 {
-    private readonly HttpClient _httpClient;
-
-    public GasService(HttpClient httpClient)
-    {
-        _httpClient = httpClient;
-    }
+    private readonly HttpClient _httpClient = httpClient;
 
     public async Task<BigInteger> GetGasPriceAsync(string rpcUrl, CancellationToken cancellationToken)
     {
