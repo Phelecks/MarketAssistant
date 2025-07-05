@@ -1,9 +1,11 @@
+using CustomMediatR.Attributes;
 using CustomMediatR.Interfaces;
 using LoggerService.Helpers;
 using Microsoft.Extensions.Logging;
 
 namespace CustomMediatR.Behaviors;
 
+[BehaviorOrder(3)]
 public class RetryBehavior<TRequest, TResponse>(ILogger<RetryBehavior<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
@@ -23,14 +25,14 @@ public class RetryBehavior<TRequest, TResponse>(ILogger<RetryBehavior<TRequest, 
                 _ = Task.Run(() => _logger.LogError(
                     eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: "Application Retry Exception"),
                     exception: exception,
-                    message:"Application Retry Exception, {@attempt} attempt, name: {@requestName}, request: {@request},",
+                    message: "Application Retry Exception, {@attempt} attempt, name: {@requestName}, request: {@request},",
                     attempt, typeof(TRequest).Name, request), cancellationToken);
             }
         }
 
         _ = Task.Run(() => _logger.LogError(
                     eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: "Application Retry Exception"),
-                    message:"Application Retry Exception, name: {@requestName}, request: {@request},",
+                    message: "Application Retry Exception, name: {@requestName}, request: {@request},",
                     typeof(TRequest).Name, request), cancellationToken);
 
         throw new Exception($"All retries failed for {typeof(TRequest).Name}");

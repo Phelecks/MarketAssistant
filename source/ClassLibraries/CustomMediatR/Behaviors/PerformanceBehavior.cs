@@ -1,16 +1,18 @@
 using System.Diagnostics;
+using CustomMediatR.Attributes;
 using CustomMediatR.Interfaces;
 using LoggerService.Helpers;
 using Microsoft.Extensions.Logging;
 
 namespace CustomMediatR.Behaviors;
 
+[BehaviorOrder(4)]
 public class PerformanceBehavior<TRequest, TResponse>(ILogger<PerformanceBehavior<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<PerformanceBehavior<TRequest, TResponse>> _logger = logger;
     private readonly Stopwatch _timer = new();
-    
+
     public async Task<TResponse> HandleAsync(TRequest request, Func<CancellationToken, Task<TResponse>> next, CancellationToken cancellationToken)
     {
         _timer.Start();

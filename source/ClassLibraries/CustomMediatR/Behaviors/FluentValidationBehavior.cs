@@ -1,3 +1,4 @@
+using CustomMediatR.Attributes;
 using CustomMediatR.Interfaces;
 using FluentValidation;
 using LoggerService.Helpers;
@@ -5,12 +6,13 @@ using Microsoft.Extensions.Logging;
 
 namespace CustomMediatR.Behaviors;
 
+[BehaviorOrder(2)]
 public class FluentValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators, ILogger<FluentValidationBehavior<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
     private readonly ILogger<FluentValidationBehavior<TRequest, TResponse>> _logger = logger;
-    
+
     public async Task<TResponse> HandleAsync(TRequest request, Func<CancellationToken, Task<TResponse>> next, CancellationToken cancellationToken)
     {
         var context = new ValidationContext<TRequest>(request);

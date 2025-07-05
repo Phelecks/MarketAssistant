@@ -1,9 +1,11 @@
+using CustomMediatR.Attributes;
 using CustomMediatR.Interfaces;
 using LoggerService.Helpers;
 using Microsoft.Extensions.Logging;
 
 namespace CustomMediatR.Behaviors;
 
+[BehaviorOrder(1)]
 public class UnhandledExceptionBehavior<TRequest, TResponse>(ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
