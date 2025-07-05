@@ -12,13 +12,13 @@ public static class CustomMediatRConfiguration
     public static void AddCustomMediator(this IServiceCollection services)
     {
         // Register core dispatcher
-        services.AddSingleton<RequestDispatcher>();
+        services.AddScoped<RequestDispatcher>();
 
         // Register all handlers
         services.AddHandlers();
 
         // Register all validators
-        services.AddValidatorsFromAssemblies([Assembly.GetExecutingAssembly(), Assembly.GetCallingAssembly()], lifetime: ServiceLifetime.Transient);
+        services.AddValidatorsFromAssemblies([Assembly.GetExecutingAssembly(), Assembly.GetCallingAssembly()]);
 
         // Register behaviors
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
@@ -29,37 +29,9 @@ public static class CustomMediatRConfiguration
 
     private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-         
-        foreach (var type in assembly.GetTypes())
-        {
-            var interfaces = type.GetInterfaces().Where(i =>
-                i.IsGenericType && (
-                    i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>) ||
-                    i.GetGenericTypeDefinition() == typeof(INotificationHandler<>)));
+        var assembly = Assembly.GetEntryAssembly();
 
-            foreach (var iface in interfaces)
-            {
-                services.AddTransient(iface, type);
-            }
-        }
-
-        assembly = Assembly.GetCallingAssembly();
-         
-        foreach (var type in assembly.GetTypes())
-        {
-            var interfaces = type.GetInterfaces().Where(i =>
-                i.IsGenericType && (
-                    i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>) ||
-                    i.GetGenericTypeDefinition() == typeof(INotificationHandler<>)));
-
-            foreach (var iface in interfaces)
-            {
-                services.AddTransient(iface, type);
-            }
-        }
-
-        assembly = Assembly.GetEntryAssembly();
+        if (assembly is null) return services;
          
         foreach (var type in assembly.GetTypes())
         {
