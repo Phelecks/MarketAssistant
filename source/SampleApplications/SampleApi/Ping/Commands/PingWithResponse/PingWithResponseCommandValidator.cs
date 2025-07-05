@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace SampleApi.Ping.Commands;
+namespace SampleApi.Ping.Commands.PingWithResponse;
 
-public class PingCommandValidator: AbstractValidator<PingCommand>
+public class PingWithResponseCommandValidator: AbstractValidator<PingWithResponseCommand>
 {
-    public PingCommandValidator()
+    public PingWithResponseCommandValidator()
     {
         RuleFor(x => x.Content)
             .NotEmpty().WithMessage("Message must not be empty")
