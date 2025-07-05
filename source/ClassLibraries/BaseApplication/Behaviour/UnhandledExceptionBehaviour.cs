@@ -19,7 +19,7 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse>(ILogger<TRequest> 
         {
             var requestName = typeof(TRequest).Name;
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.General, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: "Exception"),
                 exception: ex, message: "Application unhandled exception, Name: {@requestName}, request: {@request}, errorMessage: {@errorMessage}",
                 requestName, request, ex.Message), cancellationToken);
 

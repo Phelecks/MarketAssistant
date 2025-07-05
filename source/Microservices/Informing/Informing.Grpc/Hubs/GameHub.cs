@@ -22,8 +22,8 @@ public class GameHub : Hub<IGameHub>
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        if (exception != null)
-            _ = Task.Run(() => _logger.LogError(EventTool.GetEventInformation(EventType.Informing, "Hub disconnected"),
+        if (exception is not null)
+            _ = Task.Run(() => _logger.LogError(EventTool.GetEventInformation(EventType.Exception, "Hub disconnected"),
                 exception, exception.Message, DateTimeOffset.Now));
         await base.OnDisconnectedAsync(exception);
     }

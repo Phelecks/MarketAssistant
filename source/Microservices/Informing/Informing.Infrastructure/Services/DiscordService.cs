@@ -68,7 +68,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -108,7 +108,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -146,7 +146,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -184,7 +184,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -222,7 +222,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -260,7 +260,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -298,7 +298,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -337,7 +337,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }
@@ -373,7 +373,7 @@ public class DiscordService : IDiscordService
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.InformingException, eventName: DiscordException),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: DiscordException),
                 exception: exception, message: exception.Message), cancellationToken);
         }
     }

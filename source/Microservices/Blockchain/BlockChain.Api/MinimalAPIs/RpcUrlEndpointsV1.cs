@@ -1,4 +1,4 @@
-using BlockChain.Api.Interfaces;
+using BaseApi.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

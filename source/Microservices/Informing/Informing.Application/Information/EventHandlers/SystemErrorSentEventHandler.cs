@@ -17,7 +17,7 @@ public class SystemErrorSentEventHandler : INotificationHandler<SystemErrorSentE
     public async Task Handle(SystemErrorSentEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.Informing, eventName: "System error created"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "System error created"),
            "Informing domain event, {@object} created: {@item}.",
            notification.GetType().Name, notification.item), cancellationToken);
         

@@ -29,7 +29,7 @@ public class LogProcessorHostedService(IServiceScopeFactory serviceProvider, ILo
                     _ = Task.Run(() => StartLogProcessorAsync(chain, stoppingToken), stoppingToken);
 
             _ = Task.Run(() => _logger.LogInformation(
-                 eventId: EventTool.GetEventInformation(eventType: EventType.LogProcessorBackgroundTasks, eventName: $"{nameof(LogProcessorHostedService)}"),
+                 eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: $"{nameof(LogProcessorHostedService)}"),
                  "{@HostedServiceName} is delaying for {@Delay} minutes.", nameof(LogProcessorHostedService), intervalsInMinutes), stoppingToken);
             await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), stoppingToken);
         }
@@ -38,7 +38,7 @@ public class LogProcessorHostedService(IServiceScopeFactory serviceProvider, ILo
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.LogProcessorBackgroundTasks, eventName: nameof(LogProcessorHostedService)),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Debug, eventName: nameof(LogProcessorHostedService)),
            "{@HostedServiceName} is starting.", nameof(LogProcessorHostedService)), cancellationToken);
 
         await base.StartAsync(cancellationToken);
@@ -46,7 +46,7 @@ public class LogProcessorHostedService(IServiceScopeFactory serviceProvider, ILo
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.LogProcessorBackgroundTasks, eventName: nameof(LogProcessorHostedService)),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: nameof(LogProcessorHostedService)),
            "{@HostedServiceName} is stopping.", nameof(LogProcessorHostedService)), cancellationToken);
 
         await base.StopAsync(cancellationToken);
@@ -66,7 +66,7 @@ public class LogProcessorHostedService(IServiceScopeFactory serviceProvider, ILo
         catch(Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.LogProcessorBackgroundTasks, eventName: nameof(LogProcessorHostedService)),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: nameof(LogProcessorHostedService)),
                 exception, exception.Message), cancellationToken);
         }
         finally

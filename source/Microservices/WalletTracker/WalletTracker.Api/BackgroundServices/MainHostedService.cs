@@ -35,13 +35,13 @@ public class MainHostedService : BackgroundService
             catch (Exception exception)
             {
                 _ = Task.Run(() => _logger.LogError(
-                     eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
+                     eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: $"{nameof(MainHostedService)}"),
                      exception, exception.Message, stoppingToken), stoppingToken);
             }
             
 
             _ = Task.Run(() => _logger.LogInformation(
-                 eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: $"{nameof(MainHostedService)}"),
+                 eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: $"{nameof(MainHostedService)}"),
                  "{@HostedServiceName} is delaying for {@Delay} minutes.", nameof(MainHostedService), intervalsInMinutes), stoppingToken);
             await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), stoppingToken);
         }
@@ -52,7 +52,7 @@ public class MainHostedService : BackgroundService
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: nameof(MainHostedService)),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: nameof(MainHostedService)),
            "{@HostedServiceName} is starting.", nameof(MainHostedService)), cancellationToken);
 
         await base.StartAsync(cancellationToken);
@@ -60,7 +60,7 @@ public class MainHostedService : BackgroundService
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: nameof(MainHostedService)),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: nameof(MainHostedService)),
            "{@HostedServiceName} is stopping.", nameof(MainHostedService)), cancellationToken);
 
         await base.StopAsync(cancellationToken);
@@ -188,7 +188,7 @@ public class MainHostedService : BackgroundService
             catch (Exception exception)
             {
                 _ = Task.Run(() => _logger.LogError(
-                    eventId: EventTool.GetEventInformation(eventType: EventType.GameBackgroundTasks, eventName: nameof(TrackWallet)),
+                    eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: nameof(TrackWallet)),
                     exception, exception.Message, cancellationToken));
             }
         }

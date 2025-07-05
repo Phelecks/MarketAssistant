@@ -12,7 +12,7 @@ public class ContactUpdatedEventHandler(ILogger<ContactUpdatedEventHandler> logg
     public async Task Handle(ContactUpdatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.Informing, eventName: "Domain Item Updated"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),
            "Informing domain event, {@object} updated to {@item}.",
            notification.GetType().Name, notification.item), cancellationToken);
         

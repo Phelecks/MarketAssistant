@@ -17,7 +17,7 @@ public class LoggingBehaviour<TRequest>(ILogger<LoggingBehaviour<TRequest>> logg
         string username = _identityHelper.GetUserName();
 
         _ = Task.Run(() => _logger.LogInformation(
-            eventId: EventTool.GetEventInformation(eventType: EventType.General, eventName: "Application Request"),
+            eventId: EventTool.GetEventInformation(eventType: EventType.Debug, eventName: "Application Request"),
             "Application request, Name: {@requestName}, UserId: {@userId}, username: {@username}, request: {@request}",
             requestName, userId, username, request), cancellationToken);
 

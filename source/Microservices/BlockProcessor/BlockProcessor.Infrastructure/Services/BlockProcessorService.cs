@@ -110,7 +110,7 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
             foreach(var processingBlock in processingBlocks.Where(processingBlock => !blockStatuses.Any(blockStatus => processingBlock == blockStatus.BlockNumber)))
                 TryAddBlockStatus(new BlockStatus(false, processingBlock));
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorException, eventName: "BlockProcessorException"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: "BlockProcessorException"),
                 exception: exception, message: exception.Message, cancellationToken), cancellationToken);
         }
         finally

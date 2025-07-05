@@ -5,14 +5,14 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.1.0" />
-    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="9.1.0" />
-    <PackageVersion Include="Aspire.Hosting.Redis" Version="9.1.0" />
-    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.1.0" />
-    <PackageVersion Include="Aspire.Microsoft.Data.SqlClient" Version="9.1.0" />
-    <PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.1.0" />
-    <PackageVersion Include="Aspire.RabbitMQ.Client.v7" Version="9.1.0" />
-    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.1.0" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.Redis" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Microsoft.Data.SqlClient" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.3.1" />
+    <PackageVersion Include="Aspire.RabbitMQ.Client.v7" Version="9.3.1" />
+    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.3.1" />
     <PackageVersion Include="AutoMapper" Version="14.0.0" />
     <PackageVersion Include="Discord.Net" Version="3.17.2" />
     <PackageVersion Include="FirebaseAdmin" Version="3.1.0" />
@@ -28,26 +28,27 @@
     <PackageVersion Include="MassTransit.RabbitMQ" Version="8.3.7" />
     <PackageVersion Include="MediatR" Version="12.4.1" />
     <PackageVersion Include="MessagePack" Version="3.1.3" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.2.0" />
-    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.1.0" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="9.1.0" />
-    <PackageVersion Include="Microsoft.Net.Http.Headers" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="9.3.1" />
+    <PackageVersion Include="Microsoft.Net.Http.Headers" Version="9.0.6" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
     <PackageVersion Include="MimeKit" Version="4.11.0" />
     <PackageVersion Include="Nethereum.BlockchainProcessing" Version="4.29.0" />
@@ -56,7 +57,6 @@
     <PackageVersion Include="Nethereum.Siwe" Version="4.29.0" />
     <PackageVersion Include="Nethereum.Siwe.Core" Version="4.29.0" />
     <PackageVersion Include="Nethereum.Web3" Version="4.29.0" />
-    <PackageVersion Include="NLog.Extensions.Logging" Version="5.4.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.11.2" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.11.2" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.11.1" />

@@ -23,7 +23,7 @@ public class TransferMarkedAsConfirmedEventHandler : INotificationHandler<Transf
     public async Task Handle(TransferMarkedAsConfirmedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessor, eventName: "Domain Item Updated"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),
            "BlockChain Payment domain event, payment hash: {@Hash} confirmed in chain: {@Chain}.",
             notification.Entity.Hash, notification.Entity.Chain), cancellationToken);
 

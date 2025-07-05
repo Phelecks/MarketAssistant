@@ -124,7 +124,7 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
             foreach(var processingBlock in processingBlocks.Where(processingBlock => !blockStatuses.Any(blockStatus => processingBlock == blockStatus.BlockNumber)))
                 TryAddBlockStatus(new BlockStatus(false, processingBlock));
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.LogProcessorException, eventName: "LogProcessorException"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: "LogProcessorException"),
                 exception: exception, message: exception.Message, cancellationToken), cancellationToken);
         }
         finally

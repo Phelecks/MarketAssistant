@@ -19,7 +19,7 @@ public class NotificationCreatedEventHandler(ILogger<NotificationCreatedEventHan
     public async Task Handle(NotificationCreatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.BlockChain, eventName: "Domain Item Created"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Created"),
            "BlockChain domain event, notification for hash: {@Hash} created in chain: {@Chain}.",
             notification.WalletAddress, notification.Chain), cancellationToken);
 

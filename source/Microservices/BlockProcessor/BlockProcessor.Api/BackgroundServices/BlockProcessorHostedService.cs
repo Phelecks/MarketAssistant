@@ -29,7 +29,7 @@ public class BlockProcessorHostedService(IServiceScopeFactory serviceProvider, I
                     _ = Task.Run(() => StartBlockProcessorAsync(chain, stoppingToken), stoppingToken);
 
             _ = Task.Run(() => _logger.LogInformation(
-                 eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorBackgroundTasks, eventName: $"{nameof(BlockProcessorHostedService)}"),
+                 eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: $"{nameof(BlockProcessorHostedService)}"),
                  "{@HostedServiceName} is delaying for {@Delay} minutes.", nameof(BlockProcessorHostedService), intervalsInMinutes), stoppingToken);
             await Task.Delay(TimeSpan.FromMinutes(intervalsInMinutes), stoppingToken);
         }
@@ -38,7 +38,7 @@ public class BlockProcessorHostedService(IServiceScopeFactory serviceProvider, I
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorBackgroundTasks, eventName: nameof(BlockProcessorHostedService)),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: nameof(BlockProcessorHostedService)),
            "{@HostedServiceName} is starting.", nameof(BlockProcessorHostedService)), cancellationToken);
 
         await base.StartAsync(cancellationToken);
@@ -46,7 +46,7 @@ public class BlockProcessorHostedService(IServiceScopeFactory serviceProvider, I
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorBackgroundTasks, eventName: nameof(BlockProcessorHostedService)),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: nameof(BlockProcessorHostedService)),
            "{@HostedServiceName} is stopping.", nameof(BlockProcessorHostedService)), cancellationToken);
 
         await base.StopAsync(cancellationToken);
@@ -66,7 +66,7 @@ public class BlockProcessorHostedService(IServiceScopeFactory serviceProvider, I
         catch(Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessorBackgroundTasks, eventName: nameof(BlockProcessorHostedService)),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: nameof(BlockProcessorHostedService)),
                 exception, exception.Message), cancellationToken);
         }
         finally

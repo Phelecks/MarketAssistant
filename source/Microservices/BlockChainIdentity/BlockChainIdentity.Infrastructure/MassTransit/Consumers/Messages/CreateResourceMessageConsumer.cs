@@ -26,7 +26,7 @@ public class CreateResourceMessageConsumer : IConsumer<ICreateResourceMessage>
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                       eventId: EventTool.GetEventInformation(eventType: EventType.IdentityException, eventName: "Create Resource Error"),
+                       eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: "Create Resource Error"),
                        exception: exception, exception.Message), context.CancellationToken);
             await Task.CompletedTask;
         }

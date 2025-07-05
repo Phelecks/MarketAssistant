@@ -22,7 +22,7 @@ public class WalletCreatedEventHandler : INotificationHandler<WalletCreatedEvent
     public async Task Handle(WalletCreatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.Informing, eventName: "Domain Item Created"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Created"),
            "BlockChainIdentity domain event, {@object} created with {@item}.",
            notification.GetType().Name, notification.Item), cancellationToken);
 

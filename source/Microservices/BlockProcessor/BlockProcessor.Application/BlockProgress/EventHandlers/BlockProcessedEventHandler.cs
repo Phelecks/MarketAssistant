@@ -20,7 +20,7 @@ public class BlockProcessedEventHandler(IApplicationDbContext context, ILogger<B
     public async Task Handle(BlockProcessedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessor, eventName: "Domain Item Updated"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),
            "BlockProcessor domain event, {@Object} updated with {@Item}.",
            notification.GetType().Name, notification.Entity), cancellationToken);
 

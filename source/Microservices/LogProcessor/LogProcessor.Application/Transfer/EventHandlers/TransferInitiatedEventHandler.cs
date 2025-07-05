@@ -21,7 +21,7 @@ public class TransferInitiatedEventHandler : INotificationHandler<TransferInitia
     public async Task Handle(TransferInitiatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessor, eventName: "Domain Item Created"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Created"),
            "BlockProcessor domain event, payment hash: {@Hash} initiated in chain: {@Chain}.",
             notification.Entity.Hash, notification.Entity.Chain), cancellationToken);
 

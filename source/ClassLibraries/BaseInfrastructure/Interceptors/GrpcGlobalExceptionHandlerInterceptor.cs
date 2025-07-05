@@ -42,7 +42,7 @@ public class GrpcGlobalExceptionHandlerInterceptor(ILogger<GrpcGlobalExceptionHa
         catch (Exception exception)
         {
             _ = Task.Run(() => _logger.LogError(
-                eventId: EventTool.GetEventInformation(eventType: EventType.General, eventName: "Exception"),
+                eventId: EventTool.GetEventInformation(eventType: EventType.Exception, eventName: "Exception"),
                 exception, nameof(GrpcGlobalExceptionHandlerInterceptor)), context.CancellationToken);
 
             var response = ResponseHelper.Error();

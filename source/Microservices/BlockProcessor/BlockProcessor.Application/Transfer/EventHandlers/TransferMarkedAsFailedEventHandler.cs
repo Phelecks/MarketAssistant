@@ -21,7 +21,7 @@ public class TransferMarkedAsFailedEventHandler : INotificationHandler<TransferM
     public async Task Handle(TransferMarkedAsFailedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
-           eventId: EventTool.GetEventInformation(eventType: EventType.BlockProcessor, eventName: "Domain Item Updated"),
+           eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),
            "BlockChain Payment domain event, payment {@Hash} failed in chain: {@Chain}.",
             notification.Entity.Hash, notification.Entity.Chain), cancellationToken);
 

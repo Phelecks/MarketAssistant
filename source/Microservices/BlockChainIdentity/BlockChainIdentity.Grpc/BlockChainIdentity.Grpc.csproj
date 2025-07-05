@@ -15,7 +15,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\ClassLibraries\BaseApi\BaseApi.csproj" />
-		<ProjectReference Include="..\BlockProcessor.Infrastructure\BlockProcessor.Infrastructure.csproj" />
+		<ProjectReference Include="..\BlockChainIdentity.Infrastructure\BlockChainIdentity.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

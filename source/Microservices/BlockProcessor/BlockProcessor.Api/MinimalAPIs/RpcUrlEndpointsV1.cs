@@ -1,4 +1,4 @@
-using BlockProcessor.Api.Interfaces;
+using BaseApi.Interfaces;
 using BlockProcessor.Application.RpcUrl.Queries.GetRpcUrls;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
