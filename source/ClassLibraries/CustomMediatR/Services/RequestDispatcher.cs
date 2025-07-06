@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace CustomMediatR.Services;
 
-public class RequestDispatcher(IServiceProvider provider)
+public class RequestDispatcher(IServiceProvider provider) : IRequestDistpacher
 {
     private readonly IServiceProvider _provider = provider;
 
@@ -46,7 +46,7 @@ public class RequestDispatcher(IServiceProvider provider)
         return await handlerDelegate(cancellationToken);
     }
 
-    public async Task PublishAsync<TNotification>(TNotification notification, CancellationToken cancellationToken = default)
+    public async Task PublishAsync<TNotification>(TNotification notification, CancellationToken cancellationToken)
         where TNotification : INotification
     {
         var handlers = _provider.GetServices<INotificationHandler<TNotification>>();

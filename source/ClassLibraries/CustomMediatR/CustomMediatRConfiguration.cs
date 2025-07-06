@@ -12,7 +12,7 @@ public static class CustomMediatRConfiguration
     public static void AddCustomMediator(this IServiceCollection services)
     {
         // Register core dispatcher
-        services.AddScoped<RequestDispatcher>();
+        services.AddScoped<IRequestDistpacher, RequestDispatcher>();
 
         // Register all handlers
         services.AddHandlers();
