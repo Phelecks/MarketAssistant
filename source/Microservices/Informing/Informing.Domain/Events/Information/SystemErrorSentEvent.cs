@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Information;
 
-public class SystemErrorSentEvent : BaseEvent
+public class SystemErrorSentEvent : INotification
 {
     public SystemErrorSentEvent(Entities.Information item)
     {

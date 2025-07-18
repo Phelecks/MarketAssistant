@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlockProcessor.Application.Interfaces;
 using CacheManager.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockProcessor.Application.WalletAddress.Commands.CreateWalletAddress;
@@ -14,7 +15,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
     private readonly IApplicationDbContext _context = context;
     private readonly IDistributedLockService _distributedLockService = distributedLockService;
 
-    public async Task<Unit> Handle(CreateWalletAddressCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(CreateWalletAddressCommand request, CancellationToken cancellationToken)
     {
         await _distributedLockService.RunWithLockAsync(AddWalletAddressToDatabaseAsync(request.Address, cancellationToken), "BlockProcessor_CreateWalletAddress", cancellationToken: cancellationToken);
         
@@ -32,7 +33,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
         };
         await _context.WalletAddresses.AddAsync(entity, cancellationToken);
 
-        entity.AddDomainEvent(new Domain.Events.WalletAddress.WalletAddressCreatedEvent(entity));
+        entity.AddDomainNotification(new Domain.Events.WalletAddress.WalletAddressCreatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
     }

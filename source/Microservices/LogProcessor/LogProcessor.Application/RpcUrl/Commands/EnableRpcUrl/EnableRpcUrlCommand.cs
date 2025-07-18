@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using LogProcessor.Domain.Events.BlockProgress;
 using LogProcessor.Application.Interfaces;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace LogProcessor.Application.RpcUrl.Commands.EnableRpcUrl;
 
@@ -12,7 +11,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<EnableRpcU
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(EnableRpcUrlCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(EnableRpcUrlCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.RpcUrls.FindAsync([request.Id], cancellationToken: cancellationToken);
         if(entity is null) return Unit.Value;

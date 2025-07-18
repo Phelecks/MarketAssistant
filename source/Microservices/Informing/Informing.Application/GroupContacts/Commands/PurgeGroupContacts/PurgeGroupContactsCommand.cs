@@ -1,6 +1,7 @@
 ﻿using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.GroupContacts.Commands.PurgeGroupContacts;
 
@@ -11,7 +12,7 @@ public class PurgeGroupContactsCommandHandler(IApplicationDbContext context) : I
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(PurgeGroupContactsCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(PurgeGroupContactsCommand request, CancellationToken cancellationToken)
     {
         _context.GroupContacts.RemoveRange(_context.GroupContacts);
 

@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Domain.Events.Wallet;
 
-public class WalletSignedOutEvent : BaseEvent
+public class WalletSignedOutEvent : INotification
 {
     public WalletSignedOutEvent(Entities.Wallet item)
     {

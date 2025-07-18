@@ -1,6 +1,7 @@
 ﻿using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.Information.Commands.PurgeInformation;
 
@@ -11,7 +12,7 @@ public class PurgeInformationCommandHandler(IApplicationDbContext context) : IRe
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(PurgeInformationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(PurgeInformationCommand request, CancellationToken cancellationToken)
     {
         _context.Information.RemoveRange(_context.Information);
 

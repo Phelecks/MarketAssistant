@@ -16,7 +16,7 @@ public static class ConfigureServices
         services.AddSingleton(typeof(IShuffleService<>), typeof(ShuffleService<>));
 
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainNotificationsInterceptor>();
 
         return services;
     }

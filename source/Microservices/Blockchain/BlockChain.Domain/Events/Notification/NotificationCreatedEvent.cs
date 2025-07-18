@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace BlockChain.Domain.Events.Notification;
 
-public class NotificationCreatedEvent(Guid correlationId, string walletAddress, NotificationCreatedEvent.Transfer transfer) : BaseEvent
+public class NotificationCreatedEvent(Guid correlationId, string walletAddress, NotificationCreatedEvent.Transfer transfer) : INotification
 {
     public Guid CorrelationId { get;} = correlationId;
     public string WalletAddress { get; } = walletAddress;

@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using BaseApplication.Mappings;
 using BaseApplication.Models;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace Informing.Application.GroupContacts.Queries.GetGroupContacts;
 
@@ -14,7 +14,7 @@ public class GetGroupsQueryHandler(IApplicationDbContext context, IMapper mapper
     private readonly IApplicationDbContext _context = context;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<PaginatedList<GroupContactDto>> Handle(GetGroupContactsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<GroupContactDto>> HandleAsync(GetGroupContactsQuery request, CancellationToken cancellationToken)
     {
         return await _context.GroupContacts
             .ProjectTo<GroupContactDto>(_mapper.ConfigurationProvider)

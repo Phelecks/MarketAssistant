@@ -2,7 +2,8 @@
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
 using Informing.Domain.Events.Information;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace Informing.Application.Information.Commands.UpdateInformation;
@@ -14,7 +15,7 @@ public class UpdateContactCommandHandler(IApplicationDbContext context) : IReque
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(UpdateInformationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(UpdateInformationCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Information
             .FindAsync(new object[] { request.id }, cancellationToken);
@@ -25,7 +26,7 @@ public class UpdateContactCommandHandler(IApplicationDbContext context) : IReque
         entity.Title = request.title;
         entity.Content = request.content;
 
-        entity.AddDomainEvent(new InformationUpdatedEvent(entity));
+        entity.AddDomainNotification(new InformationUpdatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
 

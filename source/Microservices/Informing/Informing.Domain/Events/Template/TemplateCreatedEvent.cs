@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Template;
 
-public class TemplateCreatedEvent : BaseEvent
+public class TemplateCreatedEvent : INotification
 {
     public TemplateCreatedEvent(Entities.Template item)
     {

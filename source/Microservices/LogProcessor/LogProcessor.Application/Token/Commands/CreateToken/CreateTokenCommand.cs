@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LogProcessor.Application.Interfaces;
 using CacheManager.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MediatR.Helpers;
 
-namespace LogProcessor.Application.WalletAddress.Commands.CreateWalletAddress;
-
+namespace LogProcessor.Application.Token.Commands.CreateToken;
 
 public record CreateTokenCommand([property: Required] Nethereum.Signer.Chain Chain, [property: Required] string ContractAddress,
     string? StakeContractAddress, string? OwnerWalletAddress, string? RoyaltyWalletAddress, int Decimals) : IRequest<Unit>;
@@ -15,7 +15,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
     private readonly IApplicationDbContext _context = context;
     private readonly IDistributedLockService _distributedLockService = distributedLockService;
 
-    public async Task<Unit> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(CreateTokenCommand request, CancellationToken cancellationToken)
     {
         await _distributedLockService.RunWithLockAsync(AddTokenToDatabaseAsync(request.ContractAddress, request.Chain,
             request.StakeContractAddress, request.OwnerWalletAddress, request.RoyaltyWalletAddress, request.Decimals,
@@ -42,7 +42,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
         };
         await _context.Tokens.AddAsync(entity, cancellationToken);
 
-        entity.AddDomainEvent(new Domain.Events.Token.TokenCreatedEvent(entity));
+        entity.AddDomainNotification(new Domain.Events.Token.TokenCreatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
     }

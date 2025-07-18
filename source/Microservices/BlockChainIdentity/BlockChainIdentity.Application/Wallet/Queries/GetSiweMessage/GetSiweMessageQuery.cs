@@ -1,7 +1,7 @@
 ﻿using BaseApplication.Exceptions;
 using BaseApplication.Interfaces;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using IIdentityService = BlockChainIdentity.Application.Interfaces.IIdentityService;
@@ -24,7 +24,7 @@ public class Handler : IRequestHandler<GetSiweMessageQuery, SiweMessageDto>
         _dateTimeService = dateTimeService;
     }
 
-    public async Task<SiweMessageDto> Handle(GetSiweMessageQuery request, CancellationToken cancellationToken)
+    public async Task<SiweMessageDto> HandleAsync(GetSiweMessageQuery request, CancellationToken cancellationToken)
     {
         var clientResult = _identityService.GetClient(request.ClientKey);
 

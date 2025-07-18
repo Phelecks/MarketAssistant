@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using MediatR.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Nethereum.Siwe;

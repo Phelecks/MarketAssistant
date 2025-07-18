@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LogProcessor.Application.Interfaces;
 using CacheManager.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MediatR.Helpers;
 
 namespace LogProcessor.Application.Token.Commands.DeleteToken;
 
@@ -13,7 +14,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
     private readonly IApplicationDbContext _context = context;
     private readonly IDistributedLockService _distributedLockService = distributedLockService;
 
-    public async Task<Unit> Handle(DeleteTokenCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(DeleteTokenCommand request, CancellationToken cancellationToken)
     {
         await _distributedLockService.RunWithLockAsync(RemoveTokenFromDatabaseAsync(request.ContractAddress, request.Chain, cancellationToken), "BlockProcessor_DeleteWalletAddress", cancellationToken: cancellationToken);
         
@@ -27,7 +28,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
 
         _context.Tokens.Remove(entity);
 
-        entity.AddDomainEvent(new Domain.Events.Token.TokenDeletedEvent(entity));
+        entity.AddDomainNotification(new Domain.Events.Token.TokenDeletedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
     }

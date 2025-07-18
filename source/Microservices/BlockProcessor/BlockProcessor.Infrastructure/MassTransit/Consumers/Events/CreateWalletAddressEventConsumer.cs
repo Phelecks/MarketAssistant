@@ -1,16 +1,16 @@
 ﻿using BlockProcessor.Application.WalletAddress.Commands.CreateWalletAddress;
 using MassTransit;
 using MassTransitManager.Events.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace BlockProcessor.Infrastructure.MassTransit.Consumers.Events;
 
-public class CreateWalletAddressEventConsumer(ISender sender) : IConsumer<ICreateBlockProcessingWalletAddressEvent>
+public class CreateWalletAddressEventConsumer(IRequestDispatcher dispatcher) : IConsumer<ICreateBlockProcessingWalletAddressEvent>
 {
-    private readonly ISender _sender = sender;
+    private readonly IRequestDispatcher _dispatcher = dispatcher;
 
     public async Task Consume(ConsumeContext<ICreateBlockProcessingWalletAddressEvent> context)
     {
-       await _sender.Send(new CreateWalletAddressCommand(context.Message.WalletAddress), context.CancellationToken);
+       await _dispatcher.SendAsync(new CreateWalletAddressCommand(context.Message.WalletAddress), context.CancellationToken);
     }
 }

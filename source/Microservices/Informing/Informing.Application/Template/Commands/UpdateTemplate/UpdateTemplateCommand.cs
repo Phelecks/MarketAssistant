@@ -2,12 +2,13 @@
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
 using Informing.Domain.Events.Template;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 
 namespace Informing.Application.Template.Commands.UpdateTemplate;
 
 [Authorize(roles = "Administrators")]
-public record UpdateTemplateCommand : IRequest
+public record UpdateTemplateCommand : IRequest<Unit>
 {
     public UpdateTemplateCommand(long id, string title, string content)
     {
@@ -29,11 +30,11 @@ public record UpdateTemplateCommand : IRequest
     public string content { get; }
 }
 
-public class Handler(IApplicationDbContext context) : IRequestHandler<UpdateTemplateCommand>
+public class Handler(IApplicationDbContext context) : IRequestHandler<UpdateTemplateCommand, Unit>
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task Handle(UpdateTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(UpdateTemplateCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Templates
             .FindAsync(new object[] { request.id }, cancellationToken);
@@ -44,10 +45,10 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<UpdateTemp
         entity.Content = request.content;
         entity.Title = request.title;
 
-        entity.AddDomainEvent(new TemplateUpdatedEvent(entity));
+        entity.AddDomainNotification(new TemplateUpdatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return;
+        return Unit.Value;
     }
 }

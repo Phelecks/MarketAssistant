@@ -1,6 +1,7 @@
 ﻿using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 
 namespace Informing.Application.Contact.Commands.PurgeContacts;
 
@@ -16,7 +17,7 @@ public class PurgeContactsCommandHandler : IRequestHandler<PurgeContactsCommand,
         _context = context;
     }
 
-    //public async Task<Unit> Handle(PurgeContactsCommand request, CancellationToken cancellationToken)
+    //public async Task<Unit> HandleAsync(PurgeContactsCommand request, CancellationToken cancellationToken)
     //{
     //    _context.contacts.RemoveRange(_context.contacts);
 
@@ -24,7 +25,7 @@ public class PurgeContactsCommandHandler : IRequestHandler<PurgeContactsCommand,
 
     //    return Unit.Value;
     //}
-    public async Task<Unit> Handle(PurgeContactsCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(PurgeContactsCommand request, CancellationToken cancellationToken)
     {
         _context.Contacts.RemoveRange(_context.Contacts);
 

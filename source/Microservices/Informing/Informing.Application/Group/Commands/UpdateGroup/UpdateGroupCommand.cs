@@ -2,7 +2,8 @@
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
 using Informing.Domain.Events.Group;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.Group.Commands.UpdateGroup;
 
@@ -13,7 +14,7 @@ public class UpdateGroupCommandHandler(IApplicationDbContext context) : IRequest
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(UpdateGroupCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Groups
             .FindAsync([request.id], cancellationToken);
@@ -23,7 +24,7 @@ public class UpdateGroupCommandHandler(IApplicationDbContext context) : IRequest
 
         entity.Description = request.description;
 
-        entity.AddDomainEvent(new GroupUpdatedEvent(entity));
+        entity.AddDomainNotification(new GroupUpdatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
 

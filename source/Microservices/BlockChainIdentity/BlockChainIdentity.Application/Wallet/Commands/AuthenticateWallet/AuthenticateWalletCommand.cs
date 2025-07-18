@@ -2,7 +2,7 @@
 using BaseApplication.Exceptions;
 using BlockChainIdentity.Application.Interfaces;
 using BlockChainIdentity.Domain.Events.Wallet;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Nethereum.Siwe;
 using Nethereum.Siwe.Core;
@@ -25,7 +25,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
         _siweMessageService = siweMessageService;
     }
 
-    public async Task<TokenDto> Handle(AuthenticateWalletCommand request, CancellationToken cancellationToken)
+    public async Task<TokenDto> HandleAsync(AuthenticateWalletCommand request, CancellationToken cancellationToken)
     {
         var client = await GetClientAsync(request.ClientKey, cancellationToken);
 
@@ -89,7 +89,7 @@ public class Handler : IRequestHandler<AuthenticateWalletCommand, TokenDto>
             };
 
             await _context.Wallets.AddAsync(wallet, cancellationToken);
-            wallet.AddDomainEvent(new WalletCreatedEvent(wallet, client.ClientId));
+            wallet.AddDomainNotification(new WalletCreatedEvent(wallet, client.ClientId));
         }
 
         var entity = new Domain.Entities.Token

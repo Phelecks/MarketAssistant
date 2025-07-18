@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Template;
 
-public class TemplateDeletedEvent : BaseEvent
+public class TemplateDeletedEvent : INotification
 {
     public TemplateDeletedEvent(Entities.Template item)
     {

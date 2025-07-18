@@ -1,6 +1,7 @@
 ﻿using BaseApplication.Exceptions;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.GroupContacts.Commands.DeleteGroupContact
 {
@@ -11,7 +12,7 @@ namespace Informing.Application.GroupContacts.Commands.DeleteGroupContact
     {
         private readonly IApplicationDbContext _context = context;
 
-        public async Task<Unit> Handle(DeleteGroupContactCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> HandleAsync(DeleteGroupContactCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.GroupContacts
                 .FindAsync([request.id], cancellationToken);

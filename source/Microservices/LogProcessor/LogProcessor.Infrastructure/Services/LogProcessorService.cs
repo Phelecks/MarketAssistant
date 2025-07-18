@@ -9,7 +9,7 @@ using LogProcessor.Application.Transfer.Commands.InitiateTransfer;
 using LogProcessor.Application.Token.Queries.GetAllTokens;
 using ExecutorManager.Helpers;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nethereum.Contracts;
@@ -23,11 +23,11 @@ using System.Collections.Concurrent;
 
 namespace LogProcessor.Infrastructure.Services;
 
-public class LogProcessorService(ISender sender, ILogger<LogProcessorService> logger, 
+public class LogProcessorService(IRequestDispatcher dispatcher, ILogger<LogProcessorService> logger, 
     IWeb3ProviderService web3ProviderService, [FromKeyedServices(PipelineHelper.RetryEverythingFiveTimes)] ResiliencePipeline pollyPipeline,
     IDateTimeService dateTimeService) : ILogProcessorService
 {
-    private readonly ISender _sender = sender;
+    private readonly IRequestDispatcher _dispatcher = dispatcher;
     private readonly ILogger<LogProcessorService> _logger = logger;
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
     private readonly IDateTimeService _dateTimeService = dateTimeService;
@@ -35,7 +35,7 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
     
     public async Task StartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
     {
-        var rpcUrl = await _sender.Send(new GetRpcUrlQuery(chain), cancellationToken);
+        var rpcUrl = await _dispatcher.SendAsync(new GetRpcUrlQuery(chain), cancellationToken);
         var web3 = _web3ProviderService.CreateWeb3(rpcUrl.Uri.ToString());
          
         await ExecuteAsync(web3, chain, rpcUrl.WaitInterval, rpcUrl.MaxDegreeOfParallelism, cancellationToken);
@@ -69,14 +69,14 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
         {
             await Task.Delay(waitInterval, cancellationToken);
 
-            var tokens = await _sender.Send(new GetAllTokensQuery(chain), cancellationToken);
+            var tokens = await _dispatcher.SendAsync(new GetAllTokensQuery(chain), cancellationToken);
 
             var filterInput = new NewFilterInput
             {
                 Address = [.. tokens.Select(s => s.ContractAddress)]
             };
 
-            var processingBlocks = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
+            var processingBlocks = await _dispatcher.SendAsync(new GetNextProcessingBlockQuery(chain), cancellationToken);
             await ParallelProcessBlocksAsync(chain, web3, logProcessorHandlers, filterInput, processingBlocks, maxDegreeOfParallelism, cancellationToken);
         }
     }
@@ -130,11 +130,11 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
         finally
         {
             foreach(var blockStatus in blockStatuses.Where(exp => exp.Processed))
-                await _sender.Send(new MarkBlockAsProcessedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
+                await _dispatcher.SendAsync(new MarkBlockAsProcessedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
             foreach(var blockStatus in blockStatuses.Where(exp => !exp.Processed))
-                await _sender.Send(new MarkBlockAsFailedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
+                await _dispatcher.SendAsync(new MarkBlockAsFailedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
             foreach(var processingBlock in processingBlocks.Where(processingBlock => !blockStatuses.Any(blockStatus => blockStatus.BlockNumber == processingBlock)))
-                await _sender.Send(new MarkBlockAsFailedCommand(chain, (long)processingBlock), cancellationToken);
+                await _dispatcher.SendAsync(new MarkBlockAsFailedCommand(chain, (long)processingBlock), cancellationToken);
         }
     }
     
@@ -161,7 +161,7 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
             var erc20TransferLogs = transactionReceipt.Logs.DecodeAllEvents<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferEventDTO>();
             var erc721TransferLogs = transactionReceipt.Logs.DecodeAllEvents<Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferEventDTO>();
                         
-            await _sender.Send(new InitiateTransferCommand(
+            await _dispatcher.SendAsync(new InitiateTransferCommand(
                 Hash: transactionReceipt.TransactionHash, From: transactionReceipt.From.ConvertToEthereumChecksumAddress(), To: transactionReceipt.To.ConvertToEthereumChecksumAddress(), 
                 Value: BigInteger.Zero, GasUsed: transactionReceipt.GasUsed.Value, EffectiveGasPrice: transactionReceipt.EffectiveGasPrice.Value,
                 CumulativeGasUsed: transactionReceipt.CumulativeGasUsed.Value, BlockNumber: transactionReceipt.BlockNumber.Value, ConfirmedDatetime: _dateTimeService.ConvertFromUnixTimestamp(blockWithTransactionHashes.Timestamp.Value), Chain: chain, 
@@ -181,7 +181,7 @@ public class LogProcessorService(ISender sender, ILogger<LogProcessorService> lo
             var erc20TransferLogs = transactionReceipt.Logs.DecodeAllEvents<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferEventDTO>();
             var erc721TransferLogs = transactionReceipt.Logs.DecodeAllEvents<Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferEventDTO>();
                         
-            await _sender.Send(new InitiateTransferCommand(
+            await _dispatcher.SendAsync(new InitiateTransferCommand(
                 Hash: transactionReceipt.TransactionHash, From: transactionReceipt.From.ConvertToEthereumChecksumAddress(), To: transactionReceipt.To.ConvertToEthereumChecksumAddress(), 
                 Value: BigInteger.Zero, GasUsed: transactionReceipt.GasUsed.Value, EffectiveGasPrice: transactionReceipt.EffectiveGasPrice.Value,
                 CumulativeGasUsed: transactionReceipt.CumulativeGasUsed.Value, BlockNumber: transactionReceipt.BlockNumber.Value, ConfirmedDatetime: _dateTimeService.ConvertFromUnixTimestamp(blockWithTransactionHashes.Timestamp.Value), Chain: chain, 

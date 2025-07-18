@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Information;
 
-public class VerificationCodeByEmailSentEvent : BaseEvent
+public class VerificationCodeByEmailSentEvent : INotification
 {
     public VerificationCodeByEmailSentEvent(Entities.Information item)
     {

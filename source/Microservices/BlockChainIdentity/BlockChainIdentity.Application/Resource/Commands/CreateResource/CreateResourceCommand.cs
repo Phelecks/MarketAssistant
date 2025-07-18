@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Application.Resource.Commands.CreateResource;
@@ -8,16 +9,11 @@ namespace BlockChainIdentity.Application.Resource.Commands.CreateResource;
 //[Authorize(roles = "Administrators")]
 public record CreateResourceCommand([property: Required] string Title) : IRequest<Unit>;
 
-public class Handler : IRequestHandler<CreateResourceCommand, Unit>
+public class Handler(IApplicationDbContext context) : IRequestHandler<CreateResourceCommand, Unit>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _context = context;
 
-    public Handler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<Unit> Handle(CreateResourceCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(CreateResourceCommand request, CancellationToken cancellationToken)
     {
         if(await _context.Resources.AnyAsync(exp => exp.Title.Equals(request.Title), cancellationToken))
             return Unit.Value;

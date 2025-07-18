@@ -20,7 +20,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Resource.Queries.GetResources.ResourceDto>>> Get([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetResourcesQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
+            return await Dispatcher.SendAsync(new GetResourcesQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{id:long}")]
@@ -32,7 +32,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Application.Resource.Queries.GetResource.ResourceDto>> Get(long id, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetResourceQuery(id), cancellationToken);
+            return await Dispatcher.SendAsync(new GetResourceQuery(id), cancellationToken);
         }
     }
 }

@@ -1,21 +1,21 @@
 ﻿using Informing.Application.Contact.Commands.UpdateContactByUserId;
 using MassTransit;
 using MassTransitManager.Messages.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace Informing.Infrastructure.MassTransit.Consumers.Messages;
 
 public class UpdateInformingContactMessageConsumer : IConsumer<IUpdateInformingContactMessage>
 {
-    private readonly ISender _sender;
+    private readonly IRequestDispatcher _dispatcher;
 
-    public UpdateInformingContactMessageConsumer(ISender sender)
+    public UpdateInformingContactMessageConsumer(IRequestDispatcher dispatcher)
     {
-        _sender = sender;
+        _dispatcher = dispatcher;
     }
     public async Task Consume(ConsumeContext<IUpdateInformingContactMessage> context)
     {
-        await _sender.Send(new UpdateContactByUserIdCommand(context.Message.UserId, context.Message.EmailAddress,
-            context.Message.PhoneNumber, context.Message.Fullname));
+        await _dispatcher.SendAsync(new UpdateContactByUserIdCommand(context.Message.UserId, context.Message.EmailAddress,
+            context.Message.PhoneNumber, context.Message.Fullname), context.CancellationToken);
     }
 }

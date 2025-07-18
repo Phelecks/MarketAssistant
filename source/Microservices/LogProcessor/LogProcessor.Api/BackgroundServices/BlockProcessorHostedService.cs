@@ -1,7 +1,7 @@
 ﻿using LogProcessor.Application.Interfaces;
 using LogProcessor.Application.RpcUrl.Queries.GetAllChains;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace LogProcessor.Api.BackgroundServices;
 
@@ -20,9 +20,9 @@ public class LogProcessorHostedService(IServiceScopeFactory serviceProvider, ILo
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();
-            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+            var dispatcher = scope.ServiceProvider.GetRequiredService<IRequestDispatcher>();
             
-            var chains = await sender.Send(new GetAllChainsQuery(), stoppingToken);
+            var chains = await dispatcher.SendAsync(new GetAllChainsQuery(), stoppingToken);
 
             foreach (var chain in chains)
                 if(!_logProcessors.Contains(chain))
@@ -59,7 +59,7 @@ public class LogProcessorHostedService(IServiceScopeFactory serviceProvider, ILo
             _logProcessors.Add(chain);
 
             using var scope = _serviceProvider.CreateScope();
-            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+            var sender = scope.ServiceProvider.GetRequiredService<IRequestDispatcher>();
             var logProcessors = scope.ServiceProvider.GetRequiredService<ILogProcessorService>();
             await logProcessors.StartAsync(chain, cancellationToken);
         }

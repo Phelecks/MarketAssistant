@@ -1,7 +1,7 @@
 ﻿using BaseApplication.Exceptions;
 using Informing.Domain.Entities;
 using Informing.Domain.Events.Information;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using IApplicationDbContext = Informing.Application.Interfaces.IApplicationDbContext;
 
@@ -19,7 +19,7 @@ public class SendVerificationCodeCommandHandler : IRequestHandler<SendVerificati
         _context = context;
     }
 
-    public async Task<long> Handle(SendVerificationCodeCommand request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(SendVerificationCodeCommand request, CancellationToken cancellationToken)
     {
         var template = await _context.Templates.SingleOrDefaultAsync(exp => exp.InformingType == BaseDomain.Enums.InformingEnums.InformingType.VerifyEmailAddress && exp.InformingSendType == BaseDomain.Enums.InformingEnums.InformingSendType.Email, cancellationToken);
         if (template == null) throw new NotFoundException($"Template with informingType: {BaseDomain.Enums.InformingEnums.InformingType.VerifyEmailAddress} and informingSendType: {BaseDomain.Enums.InformingEnums.InformingSendType.Email}, not found.");
@@ -42,7 +42,7 @@ public class SendVerificationCodeCommandHandler : IRequestHandler<SendVerificati
         };
 
         if (request.sendType == BaseDomain.Enums.InformingEnums.InformingSendType.Email)
-            entity.AddDomainEvent(new VerificationCodeByEmailSentEvent(entity));
+            entity.AddDomainNotification(new VerificationCodeByEmailSentEvent(entity));
 
         await _context.Information.AddAsync(entity, cancellationToken);
 

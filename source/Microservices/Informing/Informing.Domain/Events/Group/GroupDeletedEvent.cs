@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Group;
 
-public class GroupDeletedEvent : BaseEvent
+public class GroupDeletedEvent : INotification
 {
     public GroupDeletedEvent(Entities.Group item)
     {

@@ -1,6 +1,7 @@
 ﻿using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.Template.Commands.PurgeTemplates;
 
@@ -16,7 +17,7 @@ public class PurgeTemplatesCommandHandler : IRequestHandler<PurgeTemplatesComman
         _context = context;
     }
 
-    //public async Task<Unit> Handle(PurgeTemplatesCommand request, CancellationToken cancellationToken)
+    //public async Task<Unit> HandleAsync(PurgeTemplatesCommand request, CancellationToken cancellationToken)
     //{
     //    _context.templates.RemoveRange(_context.templates);
 
@@ -24,7 +25,7 @@ public class PurgeTemplatesCommandHandler : IRequestHandler<PurgeTemplatesComman
 
     //    return Unit.Value;
     //}
-    public async Task<Unit> Handle(PurgeTemplatesCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(PurgeTemplatesCommand request, CancellationToken cancellationToken)
     {
         _context.Templates.RemoveRange(_context.Templates);
 

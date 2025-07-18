@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Application.WalletRole.Commands.AddWalletToRole;
 
@@ -17,7 +17,7 @@ public class Handler : IRequestHandler<AddWalletToRoleCommand, long>
         _context = context;
     }
 
-    public async Task<long> Handle(AddWalletToRoleCommand request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(AddWalletToRoleCommand request, CancellationToken cancellationToken)
     {
         var entity = new Domain.Entities.WalletRole
         {

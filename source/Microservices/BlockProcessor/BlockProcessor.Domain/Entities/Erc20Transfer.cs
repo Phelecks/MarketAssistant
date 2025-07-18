@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using BaseDomain.Helpers;
 using BaseDomain.Common;
+using BaseDomain.Helpers;
 
 namespace BlockProcessor.Domain.Entities;
 

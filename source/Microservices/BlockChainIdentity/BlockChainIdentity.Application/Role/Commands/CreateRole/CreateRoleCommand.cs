@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Application.Role.Commands.CreateRole;
 
@@ -17,7 +17,7 @@ public class Handler : IRequestHandler<CreateRoleCommand, long>
         _context = context;
     }
 
-    public async Task<long> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         var entity = new Domain.Entities.Role
         {

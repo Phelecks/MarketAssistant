@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlockProcessor.Application.Interfaces;
 using CacheManager.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockProcessor.Application.WalletAddress.Commands.DeleteWalletAddress;
@@ -14,7 +15,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
     private readonly IApplicationDbContext _context = context;
     private readonly IDistributedLockService _distributedLockService = distributedLockService;
 
-    public async Task<Unit> Handle(DeleteWalletAddressCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(DeleteWalletAddressCommand request, CancellationToken cancellationToken)
     {
         await _distributedLockService.RunWithLockAsync(RemoveWalletAddressFromDatabaseAsync(request.Address, cancellationToken), "BlockProcessor_DeleteWalletAddress", cancellationToken: cancellationToken);
         
@@ -28,7 +29,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService dist
 
         _context.WalletAddresses.Remove(entity);
 
-        entity.AddDomainEvent(new Domain.Events.WalletAddress.WalletAddressDeletedEvent(entity));
+        entity.AddDomainNotification(new Domain.Events.WalletAddress.WalletAddressDeletedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
     }

@@ -1,7 +1,8 @@
 ﻿using BaseApplication.Exceptions;
 using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Domain.Events.Transfer;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,12 +14,12 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<MarkTransf
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(MarkTransferAsFailed request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(MarkTransferAsFailed request, CancellationToken cancellationToken)
     {
         var entity = await _context.Transfers.SingleOrDefaultAsync(exp => exp.Hash.Equals(request.Hash) && exp.Chain == request.Chain, cancellationToken) 
             ?? throw new NotFoundException(nameof(Transfer), request.Hash);
         entity.State = Domain.Entities.Transfer.TransferState.Failed;
-        entity.AddDomainEvent(new TransferMarkedAsFailedEvent(entity, "Transaction reversed or failed on blockchain."));
+        entity.AddDomainNotification(new TransferMarkedAsFailedEvent(entity, "Transaction reversed or failed on blockchain."));
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

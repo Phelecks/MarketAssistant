@@ -1,7 +1,7 @@
 ﻿using BaseApplication.Interfaces;
 using BlockChainHDWalletHelper.Interfaces;
 using ExecutorManager.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 
@@ -25,7 +25,7 @@ public class CreateContactCommandHandler : IRequestHandler<GenerateHDWalletComma
         _cypherService = cypherService;
     }
 
-    public async Task<Nethereum.HdWallet.Wallet> Handle(GenerateHDWalletCommand request, CancellationToken cancellationToken)
+    public async Task<Nethereum.HdWallet.Wallet> HandleAsync(GenerateHDWalletCommand request, CancellationToken cancellationToken)
     {
         var seedPassword = _cypherService.GeneratePassword(16);
         var hdWallet = _pollyPipeline.Execute(() => _hdWalletService.GenerateWallet(seedPassword, request.WordCount));

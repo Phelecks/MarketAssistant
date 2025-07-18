@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Device;
 
-public class DeviceUpdatedEvent : BaseEvent
+public class DeviceUpdatedEvent : INotification
 {
     public DeviceUpdatedEvent(Entities.Device item)
     {

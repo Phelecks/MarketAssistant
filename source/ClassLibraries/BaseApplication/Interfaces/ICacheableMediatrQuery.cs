@@ -1,6 +1,6 @@
 ﻿namespace BaseApplication.Interfaces;
 
-public interface ICacheableMediatrQuery
+public interface ICacheableAddDomainNotificationQuery
 {
 	bool bypassCache { get; }
 	string cacheKey { get; }

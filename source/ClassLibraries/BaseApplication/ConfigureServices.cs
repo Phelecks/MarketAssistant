@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
-using BaseApplication.Behaviour;
+using BaseApplication.Behavior;
+using BaseApplication.Behaviors;
 using CacheManager;
 using ExecutorManager;
-using FluentValidation;
 using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BaseApplication;
@@ -14,17 +15,16 @@ public static class ConfigureServices
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
        
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
-        services.AddMediatR(configuration: configuration =>
-        {
-            configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
-        });
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehaviour<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
+        // services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        // services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
+
+        services.AddMediatR();
+
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
 
         services.AddExecutorManagerDependencyInjections();
 

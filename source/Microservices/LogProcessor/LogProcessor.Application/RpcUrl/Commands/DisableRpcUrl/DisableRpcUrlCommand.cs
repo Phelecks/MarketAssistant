@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LogProcessor.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace LogProcessor.Application.RpcUrl.Commands.DisableRpcUrl;
 
@@ -10,7 +11,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<DisableRpc
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(DisableRpcUrlCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(DisableRpcUrlCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.RpcUrls.FindAsync(request.Id, cancellationToken);
         if(entity is null) return Unit.Value;

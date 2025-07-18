@@ -2,7 +2,7 @@
 using BaseApplication.Exceptions;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,7 +22,7 @@ public class Handler : IRequestHandler<GetWalletQuery, WalletDto>
         _mapper = mapper;
     }
 
-    public async Task<WalletDto> Handle(GetWalletQuery request, CancellationToken cancellationToken)
+    public async Task<WalletDto> HandleAsync(GetWalletQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Wallets.SingleOrDefaultAsync(exp => exp.Address.Equals(request.Address), cancellationToken);
 

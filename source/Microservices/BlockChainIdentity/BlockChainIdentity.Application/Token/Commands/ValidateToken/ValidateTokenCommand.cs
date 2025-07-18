@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Application.Token.Commands.ValidateToken;
 
@@ -11,7 +12,7 @@ public class Handler(IIdentityService identityService) : IRequestHandler<Validat
 {
     private readonly IIdentityService _identityService = identityService;
 
-    public async Task<Unit> Handle(ValidateTokenCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(ValidateTokenCommand request, CancellationToken cancellationToken)
     {
         var result = await _identityService.ValidateTokenAsync(request.token, cancellationToken);
         if(!result.IsSuccess())

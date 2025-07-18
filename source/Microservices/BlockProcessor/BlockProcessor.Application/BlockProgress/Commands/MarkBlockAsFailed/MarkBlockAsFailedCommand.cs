@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Domain.Events.BlockProgress;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockProcessor.Application.BlockProgress.Commands.MarkBlockAsFailed;
@@ -12,7 +13,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<MarkBlockA
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(MarkBlockAsFailedCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(MarkBlockAsFailedCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.BlockProgresses.SingleOrDefaultAsync(exp => exp.Chain == request.Chain && 
             exp.BlockNumber == request.BlockNumber && 
@@ -21,7 +22,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<MarkBlockA
         if (entity is not null)
         {
             entity.Status = Domain.Entities.BlockProgress.BlockProgressStatus.Failed;
-            entity.AddDomainEvent(new BlockFailedEvent(entity));
+            entity.AddDomainNotification(new BlockFailedEvent(entity));
             await _context.SaveChangesAsync(cancellationToken);
         }
         

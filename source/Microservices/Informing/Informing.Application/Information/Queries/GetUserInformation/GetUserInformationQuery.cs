@@ -5,7 +5,7 @@ using BaseApplication.Models;
 using BaseApplication.Security;
 using IdentityHelper.Helpers;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Informing.Application.Information.Queries.GetUserInformation;
@@ -26,7 +26,7 @@ public class GetUserInformationQueryHandler : IRequestHandler<GetUserInformation
         _identityHelper = identityHelper;
     }
 
-    public async Task<PaginatedList<UserInformationDto>> Handle(GetUserInformationQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<UserInformationDto>> HandleAsync(GetUserInformationQuery request, CancellationToken cancellationToken)
     {
         return await _context.Information
             .Where(exp => exp.Enabled && exp.Type == Domain.Entities.InformationType.News 

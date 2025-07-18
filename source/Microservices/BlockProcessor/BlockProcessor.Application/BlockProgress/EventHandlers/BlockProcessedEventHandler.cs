@@ -4,7 +4,7 @@ using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Domain.Events.BlockProgress;
 using BlockProcessor.Domain.Events.Transfer;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +17,7 @@ public class BlockProcessedEventHandler(IApplicationDbContext context, ILogger<B
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
     private readonly ITransactionService _transactionService = transactionService;
 
-    public async Task Handle(BlockProcessedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(BlockProcessedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),
@@ -40,12 +40,12 @@ public class BlockProcessedEventHandler(IApplicationDbContext context, ILogger<B
             if(blockChainTransaction is null)
             {
                 blockTransfer.State = Domain.Entities.Transfer.TransferState.Failed;
-                blockTransfer.AddDomainEvent(new TransferMarkedAsFailedEvent(blockTransfer, "Transaction not found or reveresed."));
+                blockTransfer.AddDomainNotification(new TransferMarkedAsFailedEvent(blockTransfer, "Transaction not found or reveresed."));
             }
             else
             {
                 blockTransfer.State = Domain.Entities.Transfer.TransferState.Confirmed;
-                blockTransfer.AddDomainEvent(new TransferMarkedAsConfirmedEvent(blockTransfer));
+                blockTransfer.AddDomainNotification(new TransferMarkedAsConfirmedEvent(blockTransfer));
             }
         }
     }

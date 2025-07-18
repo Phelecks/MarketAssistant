@@ -1,6 +1,6 @@
 ﻿using Informing.Domain.Events.Template;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Informing.Application.Template.EventHandlers;
@@ -14,7 +14,7 @@ public class TemplateUpdatedEventHandler : INotificationHandler<TemplateUpdatedE
         _logger = logger;
     }
 
-    public async Task Handle(TemplateUpdatedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(TemplateUpdatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),

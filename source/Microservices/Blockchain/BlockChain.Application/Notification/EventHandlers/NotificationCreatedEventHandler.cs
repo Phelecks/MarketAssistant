@@ -1,12 +1,12 @@
 ﻿using BlockChain.Domain.Events.Notification;
 using LoggerService.Helpers;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using MassTransitManager.Services;
 using MassTransitManager.Helpers;
 using BlockChain.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MassTransitManager.Messages.Interfaces;
+using MediatR.Interfaces;
 
 namespace BlockChain.Application.Notification.EventHandlers;
 
@@ -16,7 +16,7 @@ public class NotificationCreatedEventHandler(ILogger<NotificationCreatedEventHan
     private readonly IMassTransitService _massTransitService = massTransitService;
     private readonly IApplicationDbContext _context = context;
 
-    public async Task Handle(NotificationCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(NotificationCreatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Created"),

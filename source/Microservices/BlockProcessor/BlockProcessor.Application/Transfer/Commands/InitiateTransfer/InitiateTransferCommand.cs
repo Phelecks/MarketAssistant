@@ -1,7 +1,8 @@
 ﻿using BaseDomain.Helpers;
 using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Domain.Events.Transfer;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 
@@ -21,7 +22,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<InitiateTr
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(InitiateTransferCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(InitiateTransferCommand request, CancellationToken cancellationToken)
     {
         var entity = new Domain.Entities.Transfer
         {
@@ -54,7 +55,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<InitiateTr
         };
 
         await _context.Transfers.AddAsync(entity, cancellationToken);
-        entity.AddDomainEvent(new TransferInitiatedEvent(entity));
+        entity.AddDomainNotification(new TransferInitiatedEvent(entity));
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

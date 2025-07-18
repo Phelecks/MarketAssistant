@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Application.WalletRole.Commands.RemoveWalletFromRole;
 
@@ -17,7 +18,7 @@ public class Handler : IRequestHandler<RemoveWalletFromRoleCommand, Unit>
         _context = context;
     }
 
-    public async Task<Unit> Handle(RemoveWalletFromRoleCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(RemoveWalletFromRoleCommand request, CancellationToken cancellationToken)
     {
         var entity = new Domain.Entities.WalletRole
         {

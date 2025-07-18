@@ -1,16 +1,16 @@
 ﻿using LogProcessor.Application.Token.Commands.DeleteToken;
 using MassTransit;
 using MassTransitManager.Events.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace LogProcessor.Infrastructure.MassTransit.Consumers.Events;
 
-public class DeleteTokenEventConsumer(ISender sender) : IConsumer<IDeleteLogProcessingTokenEvent>
+public class DeleteTokenEventConsumer(IRequestDispatcher dispatcher) : IConsumer<IDeleteLogProcessingTokenEvent>
 {
-    private readonly ISender _sender = sender;
+    private readonly IRequestDispatcher _dispatcher = dispatcher;
 
     public async Task Consume(ConsumeContext<IDeleteLogProcessingTokenEvent> context)
     {
-        await _sender.Send(new DeleteTokenCommand(context.Message.ContractAddress, context.Message.Chain), context.CancellationToken);
+        await _dispatcher.SendAsync(new DeleteTokenCommand(context.Message.ContractAddress, context.Message.Chain), context.CancellationToken);
     }
 }

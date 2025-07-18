@@ -25,7 +25,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<SiweMessageDto>> GetSiweMessage([FromQuery] GetSiweRequest request, [FromHeader(Name = "ClientKey")] string clientKey, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetSiweMessageQuery(request.Address, clientKey, request.ChainId), cancellationToken);
+            return await Dispatcher.SendAsync(new GetSiweMessageQuery(request.Address, clientKey, request.ChainId), cancellationToken);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<TokenDto>> Token([FromBody] GetTokenRequest request, [FromHeader(Name = "ClientKey")] string clientKey, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new AuthenticateWalletCommand(request.SiweEncodedMessage, request.Signature, request.ChainId, clientKey), cancellationToken);
+            return await Dispatcher.SendAsync(new AuthenticateWalletCommand(request.SiweEncodedMessage, request.Signature, request.ChainId, clientKey), cancellationToken);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MediatR;
+using MediatR.Interfaces;
 using IApplicationDbContext = Informing.Application.Interfaces.IApplicationDbContext;
 
 namespace Informing.Application.GroupContacts.Commands.CreateGroupContact;
@@ -16,7 +16,7 @@ public class CreateGroupContactCommandHandler : IRequestHandler<CreateGroupConta
         _context = context;
     }
 
-    public async Task<long> Handle(CreateGroupContactCommand request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(CreateGroupContactCommand request, CancellationToken cancellationToken)
     {
         var entity = new Domain.Entities.GroupContact
         {

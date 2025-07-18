@@ -1,7 +1,7 @@
-﻿using BaseDomain.Common;
-using EntityFrameworkCore.EncryptColumn.Attribute;
+﻿using EntityFrameworkCore.EncryptColumn.Attribute;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using BaseDomain.Common;
 
 namespace BlockChainIdentity.Domain.Entities;
 

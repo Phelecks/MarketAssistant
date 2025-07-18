@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BaseApplication.Exceptions;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,18 +10,12 @@ namespace BlockChainIdentity.Application.Client.Queries.GetClient;
 //[Authorize(roles = "Administrators")]
 public record GetClientQuery([property: Required] long Id) : IRequest<ClientDto>;
 
-public class Handler : IRequestHandler<GetClientQuery, ClientDto>
+public class Handler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetClientQuery, ClientDto>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly IApplicationDbContext _context = context;
+    private readonly IMapper _mapper = mapper;
 
-    public Handler(IApplicationDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
-    public async Task<ClientDto> Handle(GetClientQuery request, CancellationToken cancellationToken)
+    public async Task<ClientDto> HandleAsync(GetClientQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.Resource).SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 

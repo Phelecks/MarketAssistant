@@ -1,22 +1,18 @@
-﻿using BaseDomain.Common;
-using MediatR;
+﻿using MediatR.Interfaces;
+using BaseDomain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BaseInfrastructure.Persistence.Interceptors;
 
-public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
+public class DispatchDomainNotificationsInterceptor(IRequestDispatcher dispatcher) : SaveChangesInterceptor
 {
-    private readonly IMediator _mediator;
-
-    public DispatchDomainEventsInterceptor(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
+    private readonly IRequestDispatcher _dispatcher = dispatcher;
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();
+        var token = new CancellationTokenSource().Token;
+        DispatchDomainNotifications(eventData.Context, token).GetAwaiter().GetResult();
 
         return base.SavingChanges(eventData, result);
 
@@ -24,12 +20,12 @@ public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
-        await DispatchDomainEvents(eventData.Context);
+        await DispatchDomainNotifications(eventData.Context, cancellationToken);
 
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    public async Task DispatchDomainEvents(DbContext? context)
+    public async Task DispatchDomainNotifications(DbContext? context, CancellationToken cancellationToken)
     {
         if (context == null) return;
 
@@ -37,33 +33,33 @@ public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
         {
             var entities = context.ChangeTracker
             .Entries<BaseEntity>()
-            .Where(e => e.Entity.DomainEvents.Count != 0)
+            .Where(e => e.Entity.DomainNotifications.Count != 0)
             .Select(e => e.Entity);
 
-            var domainEvents = entities
-                .SelectMany(e => e.DomainEvents)
+            var DomainNotifications = entities
+                .SelectMany(e => e.DomainNotifications)
                 .ToList();
 
-            entities.ToList().ForEach(e => e.ClearDomainEvents());
+            entities.ToList().ForEach(e => e.ClearDomainNotifications());
 
-            foreach (var domainEvent in domainEvents)
-                await _mediator.Publish(domainEvent);
+            foreach (var domainEvent in DomainNotifications)
+                await _dispatcher.PublishAsync(domainEvent, cancellationToken);
         }
         if (context.ChangeTracker.Entries<BaseEntityWithNoPrimaryKey>().Any())
         {
             var entities = context.ChangeTracker
             .Entries<BaseEntityWithNoPrimaryKey>()
-            .Where(e => e.Entity.DomainEvents.Count != 0)
+            .Where(e => e.Entity.DomainNotifications.Count != 0)
             .Select(e => e.Entity);
 
-            var domainEvents = entities
-                .SelectMany(e => e.DomainEvents)
+            var DomainNotifications = entities
+                .SelectMany(e => e.DomainNotifications)
                 .ToList();
 
-            entities.ToList().ForEach(e => e.ClearDomainEvents());
+            entities.ToList().ForEach(e => e.ClearDomainNotifications());
 
-            foreach (var domainEvent in domainEvents)
-                await _mediator.Publish(domainEvent);
+            foreach (var domainEvent in DomainNotifications)
+                await _dispatcher.PublishAsync(domainEvent, cancellationToken);
         }
     }
 }

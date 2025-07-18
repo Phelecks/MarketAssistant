@@ -5,7 +5,7 @@ using BaseApplication.Models;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
 using BlockChainIdentity.Application.Role.Queries.GetRoles;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Role.Client.GetRoles.GetClients;
@@ -24,7 +24,7 @@ public class Handler : IRequestHandler<GetRolesQuery, PaginatedList<RoleDto>>
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<RoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<RoleDto>> HandleAsync(GetRolesQuery request, CancellationToken cancellationToken)
     {
         return await _context.Roles
             .Include(inc => inc.WalletRoles).ThenInclude(inc => inc.Role)

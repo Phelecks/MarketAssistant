@@ -2,8 +2,9 @@
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
 using Informing.Domain.Events.Contact;
-using MediatR;
+using MediatR.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using MediatR.Helpers;
 
 namespace Informing.Application.Contact.Commands.UpdateContact;
 
@@ -19,7 +20,7 @@ public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand,
         _context = context;
     }
 
-    //public async Task<Unit> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
+    //public async Task<Unit> HandleAsync(UpdateContactCommand request, CancellationToken cancellationToken)
     //{
     //    var entity = await _context.contacts
     //        .FindAsync(new object[] { request.id }, cancellationToken);
@@ -31,13 +32,13 @@ public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand,
     //    entity.emailAddress = request.emailAddress;
     //    entity.fullName = request.fullname;
 
-    //    entity.AddDomainEvent(new ContactUpdatedEvent(entity));
+    //    entity.AddDomainNotification(new ContactUpdatedEvent(entity));
 
     //    await _context.SaveChangesAsync(cancellationToken);
 
     //    return Unit.Value;
     //}
-    public async Task<Unit> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(UpdateContactCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Contacts
             .FindAsync([request.id], cancellationToken);
@@ -49,7 +50,7 @@ public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand,
         entity.EmailAddress = request.emailAddress;
         entity.Fullname = request.fullname;
 
-        entity.AddDomainEvent(new ContactUpdatedEvent(entity));
+        entity.AddDomainNotification(new ContactUpdatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
 

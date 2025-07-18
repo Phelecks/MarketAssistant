@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Application.Token.Commands.RevokeTokens;
@@ -18,7 +19,7 @@ public class Handler : IRequestHandler<RevokeTokensCommand, Unit>
         _context = context;
     }
 
-    public async Task<Unit> Handle(RevokeTokensCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(RevokeTokensCommand request, CancellationToken cancellationToken)
     {
         var tokens = await _context.Tokens.Where(exp => exp.WalletAddress.Equals(request.WalletAddress)).ToListAsync(cancellationToken);
         tokens.ForEach(item => item.Enabled = false);

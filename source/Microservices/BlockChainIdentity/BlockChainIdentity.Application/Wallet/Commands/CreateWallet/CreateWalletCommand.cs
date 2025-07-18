@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlockChainIdentity.Application.Interfaces;
 using BlockChainIdentity.Domain.Events.Wallet;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Application.Wallet.Commands.CreateWallet;
@@ -18,7 +18,7 @@ public class Handler : IRequestHandler<CreateWalletCommand, string>
         _context = context;
     }
 
-    public async Task<string> Handle(CreateWalletCommand request, CancellationToken cancellationToken)
+    public async Task<string> HandleAsync(CreateWalletCommand request, CancellationToken cancellationToken)
     {
         var client = await _context.Clients.SingleAsync(exp => exp.Id == request.ClientId, cancellationToken);
 
@@ -30,7 +30,7 @@ public class Handler : IRequestHandler<CreateWalletCommand, string>
 
         await _context.Wallets.AddAsync(entity, cancellationToken);
 
-        entity.AddDomainEvent(new WalletCreatedEvent(entity, client.ClientId));
+        entity.AddDomainNotification(new WalletCreatedEvent(entity, client.ClientId));
 
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -4,7 +4,7 @@ using BaseApplication.Mappings;
 using BaseApplication.Models;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Application.Resource.Queries.GetResources;
@@ -23,7 +23,7 @@ public class Handler : IRequestHandler<GetResourcesQuery, PaginatedList<Resource
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<ResourceDto>> Handle(GetResourcesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ResourceDto>> HandleAsync(GetResourcesQuery request, CancellationToken cancellationToken)
     {
         return await _context.Resources
             .ProjectTo<ResourceDto>(_mapper.ConfigurationProvider)

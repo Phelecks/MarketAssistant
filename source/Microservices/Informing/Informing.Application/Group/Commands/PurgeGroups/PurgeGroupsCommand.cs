@@ -1,6 +1,7 @@
 ﻿using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.Group.Commands.PurgeGroups;
 
@@ -16,7 +17,7 @@ public class PurgeGroupsCommandHandler : IRequestHandler<PurgeGroupsCommand, Uni
         _context = context;
     }
 
-    //public async Task<Unit> Handle(PurgeGroupsCommand request, CancellationToken cancellationToken)
+    //public async Task<Unit> HandleAsync(PurgeGroupsCommand request, CancellationToken cancellationToken)
     //{
     //    _context.groups.RemoveRange(_context.groups);
 
@@ -24,7 +25,7 @@ public class PurgeGroupsCommandHandler : IRequestHandler<PurgeGroupsCommand, Uni
 
     //    return Unit.Value;
     //}
-    public async Task<Unit> Handle(PurgeGroupsCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(PurgeGroupsCommand request, CancellationToken cancellationToken)
     {
         _context.Groups.RemoveRange(_context.Groups);
 

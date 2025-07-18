@@ -24,7 +24,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Role.Queries.GetRoles.RoleDto>>> Get([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetRolesQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
+            return await Dispatcher.SendAsync(new GetRolesQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{id:long}")]
@@ -36,7 +36,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Application.Role.Queries.GetRole.RoleDto>> Get(long id, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetRoleQuery(id), cancellationToken);
+            return await Dispatcher.SendAsync(new GetRoleQuery(id), cancellationToken);
         }
 
         [HttpPost]
@@ -48,7 +48,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Post(CreateRoleRequest request, CancellationToken cancellationToken)
         {
-            var result = await Sender.Send(new CreateRoleCommand(request.Title), cancellationToken);
+            var result = await Dispatcher.SendAsync(new CreateRoleCommand(request.Title), cancellationToken);
 
             return Created(LinkGenerator.GetPathByAction(HttpContext, values: new { result }), result);
         }
@@ -62,7 +62,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> AddToRole(long id, [FromBody] string Address, CancellationToken cancellationToken)
         {
-            var result =  await Sender.Send(new AddWalletToRoleCommand(Address, id), cancellationToken);
+            var result =  await Dispatcher.SendAsync(new AddWalletToRoleCommand(Address, id), cancellationToken);
 
             return Created(LinkGenerator.GetPathByAction(HttpContext, values: new { result }), result);
         }
@@ -76,7 +76,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RemoveFromRole(long id, [FromBody] string Address, CancellationToken cancellationToken)
         {
-            var result = await Sender.Send(new RemoveWalletFromRoleCommand(Address, id), cancellationToken);
+            var result = await Dispatcher.SendAsync(new RemoveWalletFromRoleCommand(Address, id), cancellationToken);
 
             return Created(LinkGenerator.GetPathByAction(HttpContext, values: new { result }), result);
         }

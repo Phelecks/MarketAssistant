@@ -4,7 +4,7 @@ using BaseApplication.Mappings;
 using BaseApplication.Models;
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Informing.Application.Template.Queries.GetTemplates;
@@ -23,7 +23,7 @@ public class GetTemplatesQueryHandler : IRequestHandler<GetTemplatesQuery, Pagin
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<TemplatesDto>> Handle(GetTemplatesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<TemplatesDto>> HandleAsync(GetTemplatesQuery request, CancellationToken cancellationToken)
     {
         return await _context.Templates
             .ProjectTo<TemplatesDto>(_mapper.ConfigurationProvider)

@@ -1,6 +1,6 @@
 ﻿using LogProcessor.Domain.Events.Transfer;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 using MassTransitManager.Services;
 using MassTransitManager.Helpers;
@@ -18,7 +18,7 @@ public class TransferInitiatedEventHandler : INotificationHandler<TransferInitia
         _massTransitService = massTransitService;
     }
 
-    public async Task Handle(TransferInitiatedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(TransferInitiatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Created"),

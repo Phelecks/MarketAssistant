@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Application.Token.Commands.CreateToken;
@@ -21,7 +21,7 @@ public class Handler : IRequestHandler<CreateTokenCommand, long>
         _context = context;
     }
 
-    public async Task<long> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(CreateTokenCommand request, CancellationToken cancellationToken)
     {
         var client = await _context.Clients.Include(inc => inc.ClientResources).ThenInclude(inc => inc.Resource).SingleAsync(exp => exp.Id == request.ClientId, cancellationToken);
 

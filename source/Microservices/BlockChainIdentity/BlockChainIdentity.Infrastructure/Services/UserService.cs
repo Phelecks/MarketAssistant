@@ -1,21 +1,22 @@
 ﻿using BlockChainIdentity.Application.Interfaces;
 using BlockChainIdentity.Application.Wallet.Queries.GetWallet;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Infrastructure.Services;
 
 public class UserService : IUserService
 {
-    private readonly ISender _sender;
+    private readonly IRequestDispatcher _dispatcher;
 
-    public UserService(ISender sender)
+    public UserService(IRequestDispatcher dispatcher)
     {
-        _sender = sender;
+        _dispatcher = dispatcher;
     }
 
     public async Task<bool> IsUserAddressRegistered(string address)
     {
-        var query = await _sender.Send(new GetWalletQuery(address));
+        var cancellationToken = new CancellationTokenSource().Token;
+        var query = await _dispatcher.SendAsync(new GetWalletQuery(address), cancellationToken);
         return query != null;
     }
 }

@@ -2,7 +2,7 @@
 using BaseApplication.Exceptions;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,7 +22,7 @@ public class Handler : IRequestHandler<GetResourceQuery, ResourceDto>
         _mapper = mapper;
     }
 
-    public async Task<ResourceDto> Handle(GetResourceQuery request, CancellationToken cancellationToken)
+    public async Task<ResourceDto> HandleAsync(GetResourceQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Resources.SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 

@@ -1,21 +1,21 @@
 ﻿using Informing.Application.Information.Commands.SendVerificationCode;
 using MassTransit;
 using MassTransitManager.Messages.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace Informing.Infrastructure.MassTransit.Consumers.Messages;
 
 public class SendGeneralVerificationCodeMessageConsumer : IConsumer<ISendGeneralVerificationCodeMessage>
 {
-    private readonly ISender _sender;
+    private readonly IRequestDispatcher _dispatcher;
 
-    public SendGeneralVerificationCodeMessageConsumer(ISender sender)
+    public SendGeneralVerificationCodeMessageConsumer(IRequestDispatcher dispatcher)
     {
-        _sender = sender;
+        _dispatcher = dispatcher;
     }
     public async Task Consume(ConsumeContext<ISendGeneralVerificationCodeMessage> context)
     {
         if (context.Message.SendType == BaseDomain.Enums.InformingEnums.InformingSendType.Email)
-            await _sender.Send(new SendVerificationCodeCommand(context.Message.UserId, context.Message.SendType, context.Message.VerificationCode));
+            await _dispatcher.SendAsync(new SendVerificationCodeCommand(context.Message.UserId, context.Message.SendType, context.Message.VerificationCode), context.CancellationToken);
     }
 }

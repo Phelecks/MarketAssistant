@@ -1,6 +1,6 @@
 ﻿using Informing.Domain.Events.Group;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Informing.Application.GroupContacts.EventHandlers;
@@ -14,7 +14,7 @@ public class GroupContactUpdatedEventHandler : INotificationHandler<GroupUpdated
         _logger = logger;
     }
 
-    public async Task Handle(GroupUpdatedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(GroupUpdatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),

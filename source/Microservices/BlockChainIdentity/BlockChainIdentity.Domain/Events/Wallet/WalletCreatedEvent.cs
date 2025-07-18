@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Domain.Events.Wallet;
 
-public class WalletCreatedEvent : BaseEvent
+public class WalletCreatedEvent : INotification
 {
     public WalletCreatedEvent(Entities.Wallet item, string clientId)
     {

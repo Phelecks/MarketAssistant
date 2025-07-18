@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace BlockProcessor.Domain.Events.WalletAddress;
 
-public class WalletAddressDeletedEvent(Entities.WalletAddress entity) : BaseEvent
+public class WalletAddressDeletedEvent(Entities.WalletAddress entity) : INotification
 {
     public Entities.WalletAddress Entity { get; } = entity;
 }

@@ -1,7 +1,7 @@
 ﻿using Informing.Application.Interfaces;
 using Informing.Domain.Entities;
 using Informing.Domain.Events.Information;
-using MediatR;
+using MediatR.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using IApplicationDbContext = Informing.Application.Interfaces.IApplicationDbContext;
 
@@ -21,7 +21,7 @@ public class CreateInformationCommandHandler : IRequestHandler<CreateInformation
         _contactService = contactService;
     }
 
-    public async Task<long> Handle(CreateInformationForDestinationCommand request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(CreateInformationForDestinationCommand request, CancellationToken cancellationToken)
     {
         var contact = await _contactService.FindContactAsync(request.destination, cancellationToken);
         
@@ -43,7 +43,7 @@ public class CreateInformationCommandHandler : IRequestHandler<CreateInformation
 
         await _context.Information.AddAsync(entity, cancellationToken);
 
-        entity.AddDomainEvent(new InformationCreatedEvent(entity));
+        entity.AddDomainNotification(new InformationCreatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
 

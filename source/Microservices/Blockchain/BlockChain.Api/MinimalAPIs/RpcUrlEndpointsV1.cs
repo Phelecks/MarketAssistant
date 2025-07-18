@@ -1,5 +1,5 @@
 using BaseApi.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlockChain.Api.MinimalAPIs;
@@ -15,7 +15,7 @@ namespace BlockChain.Api.MinimalAPIs;
 //         endpointGroup.MapGet("/", GetAsync);
 //     }
 
-//     async static Task<IResult> GetAsync(ISender sender, [FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
+//     async static Task<IResult> GetAsync(IRequestDispatcher dispatcher, [FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
 //     {
 //         return TypedResults.Ok(await sender.Send(new GetRpcUrlsQuery(bypassCache: false, cacheKey: "BlockProcessor_RpcUrls", expireInMinutes: 1) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy}, cancellationToken));
 //     }

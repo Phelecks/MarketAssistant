@@ -2,26 +2,26 @@
 using LoggerService.Helpers;
 using MassTransit;
 using MassTransitManager.Messages.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace BlockChainIdentity.Infrastructure.MassTransit.Consumers.Messages;
 
 public class CreateResourceMessageConsumer : IConsumer<ICreateResourceMessage>
 {
-    private readonly ISender _sender;
+    private readonly IRequestDispatcher _dispatcher;
     private readonly ILogger<CreateResourceMessageConsumer> _logger;
 
-    public CreateResourceMessageConsumer(ISender sender, ILogger<CreateResourceMessageConsumer> logger)
+    public CreateResourceMessageConsumer(IRequestDispatcher dispatcher, ILogger<CreateResourceMessageConsumer> logger)
     {
-        _sender = sender;
+        _dispatcher = dispatcher;
         _logger = logger;
     }
     public async Task Consume(ConsumeContext<ICreateResourceMessage> context)
     {
         try
         {
-            await _sender.Send(new CreateResourceCommand(context.Message.Title));
+            await _dispatcher.SendAsync(new CreateResourceCommand(context.Message.Title), context.CancellationToken);
         }
         catch (Exception exception)
         {

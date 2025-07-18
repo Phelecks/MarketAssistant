@@ -3,7 +3,7 @@ using BaseApplication.Exceptions;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
 using BlockChainIdentity.Application.Role.Queries.GetRole;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,7 +23,7 @@ public class Handler : IRequestHandler<GetRoleQuery, RoleDto>
         _mapper = mapper;
     }
 
-    public async Task<RoleDto> Handle(GetRoleQuery request, CancellationToken cancellationToken)
+    public async Task<RoleDto> HandleAsync(GetRoleQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Roles.SingleOrDefaultAsync(exp => exp.Id == request.Id, cancellationToken);
 

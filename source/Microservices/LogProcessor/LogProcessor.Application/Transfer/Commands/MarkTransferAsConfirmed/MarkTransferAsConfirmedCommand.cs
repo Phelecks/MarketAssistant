@@ -1,9 +1,10 @@
 ﻿using BaseApplication.Exceptions;
 using LogProcessor.Domain.Events.Transfer;
 using LogProcessor.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using MediatR.Helpers;
 
 namespace LogProcessor.Application.Transfer.Commands.MarkTransferAsConfirmed;
 
@@ -13,12 +14,12 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<MarkTransf
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(MarkTransferAsConfirmedCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(MarkTransferAsConfirmedCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Transfers.SingleOrDefaultAsync(exp => exp.Hash.Equals(request.Hash) && exp.Chain == request.Chain, cancellationToken) 
             ?? throw new NotFoundException(nameof(Transfer), request.Hash);
         entity.State = Domain.Entities.Transfer.TransferState.Confirmed;
-        entity.AddDomainEvent(new TransferMarkedAsConfirmedEvent(entity));
+        entity.AddDomainNotification(new TransferMarkedAsConfirmedEvent(entity));
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

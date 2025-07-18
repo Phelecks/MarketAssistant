@@ -4,7 +4,7 @@ using BaseApplication.Mappings;
 using BaseApplication.Models;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlockChainIdentity.Application.Wallet.Queries.GetWallets;
@@ -23,7 +23,7 @@ public class Handler : IRequestHandler<GetWalletsQuery, PaginatedList<WalletDto>
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<WalletDto>> Handle(GetWalletsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<WalletDto>> HandleAsync(GetWalletsQuery request, CancellationToken cancellationToken)
     {
         return await _context.Wallets
             .ProjectTo<WalletDto>(_mapper.ConfigurationProvider)

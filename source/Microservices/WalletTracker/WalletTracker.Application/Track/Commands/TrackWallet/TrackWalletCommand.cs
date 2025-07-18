@@ -5,7 +5,8 @@ using BlockChainBalanceHelper.Interfaces;
 using BlockChainGasHelper.Interfaces;
 using BlockChainTransferHelper.Interfaces;
 using ExecutorManager.Helpers;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Web3;
@@ -38,7 +39,7 @@ public class CreateContactCommandHandler : IRequestHandler<TrackWalletCommand, U
         _pollyPipeline = pollyPipeline;
     }
 
-    public async Task<Unit> Handle(TrackWalletCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(TrackWalletCommand request, CancellationToken cancellationToken)
     {
         var destinationAddress = _addressService.GetDestinationAddress(request.chain) ?? throw new NotFoundException(nameof(Domain.Entities.DestinationAddress), request.chain);
         

@@ -1,24 +1,17 @@
 ﻿using BlockChainHDWalletHelper.Interfaces;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using WalletTracker.Application.Interfaces;
 using WalletTracker.Application.Track.Commands.TrackWallet;
 using WalletTracker.Application.Wallet.Commands.GenerateHDWallet;
 
 namespace WalletTracker.Api.BackgroundServices;
 
-public class MainHostedService : BackgroundService
+public class MainHostedService(IServiceScopeFactory serviceProvider, ILogger<MainHostedService> logger, IConfiguration configuration) : BackgroundService
 {
-    private readonly IServiceScopeFactory _serviceProvider;
-    private readonly ILogger<MainHostedService> _logger;
-    private readonly IConfiguration _configuration;
-
-    public MainHostedService(IServiceScopeFactory serviceProvider, ILogger<MainHostedService> logger, IConfiguration configuration)
-    {
-        _logger = logger;
-        _serviceProvider = serviceProvider;
-        _configuration = configuration;
-    }
+    private readonly IServiceScopeFactory _serviceProvider = serviceProvider;
+    private readonly ILogger<MainHostedService> _logger = logger;
+    private readonly IConfiguration _configuration = configuration;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -128,7 +121,7 @@ public class MainHostedService : BackgroundService
     async Task DoProcessAsync(CancellationToken cancellationToken)
     {
         using var scope = _serviceProvider.CreateScope();
-        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+        var dispatcher = scope.ServiceProvider.GetRequiredService<IRequestDispatcher>();
         var hdWalletService = scope.ServiceProvider.GetRequiredService<IHdWalletService>();
 
         while (true)
@@ -138,7 +131,7 @@ public class MainHostedService : BackgroundService
                 var hdWalletTasksQuery =
                     from wordCount in Enum.GetValues<NBitcoin.WordCount>()
                     where true
-                    select sender.Send(new GenerateHDWalletCommand(wordCount));
+                    select dispatcher.SendAsync(new GenerateHDWalletCommand(wordCount), cancellationToken);
                 var hdWalletTasks = hdWalletTasksQuery.ToList();
 
                 while (hdWalletTasks.Any())
@@ -172,7 +165,7 @@ public class MainHostedService : BackgroundService
     {
         using var scope = _serviceProvider.CreateScope();
         var rpcUrlService = scope.ServiceProvider.GetRequiredService<IRpcUrlService>();
-        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+        var dispatcher = scope.ServiceProvider.GetRequiredService<IRequestDispatcher>();
         var tokenService = scope.ServiceProvider.GetRequiredService<ITokenService>();
 
         var chains = tokenService.GetAllTokens().Select(s => s.Chain).Distinct().ToList();
@@ -183,7 +176,7 @@ public class MainHostedService : BackgroundService
             {
                 var rpcUrl = rpcUrlService.GetRpcUrl(chain);
                 if(!string.IsNullOrEmpty(rpcUrl))
-                    await sender.Send(new TrackWalletCommand(account, chain, rpcUrl));
+                    await dispatcher.SendAsync(new TrackWalletCommand(account, chain, rpcUrl), cancellationToken);
             }
             catch (Exception exception)
             {

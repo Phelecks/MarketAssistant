@@ -4,7 +4,7 @@ using BaseApplication.Mappings;
 using BaseApplication.Models;
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Informing.Application.Information.Queries.GetInformation;
@@ -23,7 +23,7 @@ public class GetInformationQueryHandler : IRequestHandler<GetInformationQuery, P
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<InformationDto>> Handle(GetInformationQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<InformationDto>> HandleAsync(GetInformationQuery request, CancellationToken cancellationToken)
     {
         return await _context.Information
             .ProjectTo<InformationDto>(_mapper.ConfigurationProvider)

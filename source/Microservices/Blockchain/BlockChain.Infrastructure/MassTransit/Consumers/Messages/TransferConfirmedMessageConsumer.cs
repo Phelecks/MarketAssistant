@@ -2,17 +2,18 @@
 using MassTransit;
 using MassTransitManager.Messages;
 using MassTransitManager.Messages.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Interfaces;
 
 namespace BlockChain.Infrastructure.MassTransit.Consumers.Messages;
 
-public class TransferConfirmedMessageConsumer(ISender sender) : IConsumer<ITransferConfirmedMessage>
+public class TransferConfirmedMessageConsumer(IRequestDispatcher dispatcher) : IConsumer<ITransferConfirmedMessage>
 {
-    private readonly ISender _sender = sender;
+    private readonly IRequestDispatcher _dispatcher = dispatcher;
 
     public async Task Consume(ConsumeContext<ITransferConfirmedMessage> context)
     {
-        await _sender.Send(new ProcessTransferConfirmedCommand(
+        await _dispatcher.SendAsync(new ProcessTransferConfirmedCommand(
             TransferConfirmedEvent: new TransferConfirmedMessage(
                 correlationId: context.Message.CorrelationId,
                 transfer: new TransferConfirmedMessage.Transfer(
@@ -24,7 +25,7 @@ public class TransferConfirmedMessageConsumer(ISender sender) : IConsumer<ITrans
                     DateTime: context.Message.DateTime,
                     Erc20Transfers: context.Message.Erc20Transfers,
                     Erc721Transfers: context.Message.Erc721Transfers
-                ))));
+                ))), context.CancellationToken);
 
     }
 }

@@ -1,7 +1,8 @@
 ﻿using BaseApplication.Exceptions;
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 
 namespace Informing.Application.Contact.Commands.DeleteContact;
 
@@ -17,7 +18,7 @@ public class DeleteContactCommandHandler : IRequestHandler<DeleteContactCommand,
         _context = context;
     }
 
-    //public async Task<Unit> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
+    //public async Task<Unit> HandleAsync(DeleteContactCommand request, CancellationToken cancellationToken)
     //{
     //    var entity = await _context.contacts
     //        .FindAsync(new object[] { request.id }, cancellationToken);
@@ -33,7 +34,7 @@ public class DeleteContactCommandHandler : IRequestHandler<DeleteContactCommand,
 
     //    return Unit.Value;
     //}
-    public async Task<Unit> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(DeleteContactCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Contacts
             .FindAsync([request.id], cancellationToken);

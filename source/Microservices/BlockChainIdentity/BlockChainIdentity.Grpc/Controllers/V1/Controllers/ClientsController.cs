@@ -23,7 +23,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Client.Queries.GetClients.ClientDto>>> Get([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetClientsQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
+            return await Dispatcher.SendAsync(new GetClientsQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{id:long}")]
@@ -35,7 +35,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Application.Client.Queries.GetClient.ClientDto>> Get(long id, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetClientQuery(id), cancellationToken);
+            return await Dispatcher.SendAsync(new GetClientQuery(id), cancellationToken);
         }
 
         [HttpGet("{id:long}/Resources")]
@@ -47,7 +47,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Client.Queries.GetClientResources.ResourceDto>>> GetClientResources(long id, [FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetClientResourcesQuery(id) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
+            return await Dispatcher.SendAsync(new GetClientResourcesQuery(id) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpPost]
@@ -59,7 +59,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Post(CreateClientRequest request, CancellationToken cancellationToken)
         {
-            var result = await Sender.Send(new CreateClientCommand(request.ClientId, request.ClientSecret, request.Uri, request.Enabled,
+            var result = await Dispatcher.SendAsync(new CreateClientCommand(request.ClientId, request.ClientSecret, request.Uri, request.Enabled,
                 request.Statement, request.Version, request.ResourceIds, request.TokenLifeTimeInSeconds), cancellationToken);
 
             return Created(LinkGenerator.GetPathByAction(HttpContext, values: new { result }), result);

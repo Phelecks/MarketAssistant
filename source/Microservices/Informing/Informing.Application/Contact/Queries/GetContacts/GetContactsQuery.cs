@@ -4,7 +4,7 @@ using BaseApplication.Mappings;
 using BaseApplication.Models;
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Informing.Application.Contact.Queries.GetContacts;
@@ -23,7 +23,7 @@ public class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, Paginat
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<ContactsDto>> Handle(GetContactsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ContactsDto>> HandleAsync(GetContactsQuery request, CancellationToken cancellationToken)
     {
         return await _context.Contacts
             .ProjectTo<ContactsDto>(_mapper.ConfigurationProvider)

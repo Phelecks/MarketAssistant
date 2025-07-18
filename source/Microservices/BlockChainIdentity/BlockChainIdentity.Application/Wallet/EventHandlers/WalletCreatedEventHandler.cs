@@ -3,23 +3,17 @@ using LoggerService.Helpers;
 using MassTransitManager.Helpers;
 using MassTransitManager.Messages;
 using MassTransitManager.Services;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace BlockChainIdentity.Application.Wallet.EventHandlers;
 
-public class WalletCreatedEventHandler : INotificationHandler<WalletCreatedEvent>
+public class WalletCreatedEventHandler(ILogger<WalletCreatedEventHandler> logger, IMassTransitService massTransitService) : INotificationHandler<WalletCreatedEvent>
 {
-    private readonly ILogger<WalletCreatedEventHandler> _logger;
-    private readonly IMassTransitService _massTransitService;
+    private readonly ILogger<WalletCreatedEventHandler> _logger = logger;
+    private readonly IMassTransitService _massTransitService = massTransitService;
 
-    public WalletCreatedEventHandler(ILogger<WalletCreatedEventHandler> logger, IMassTransitService massTransitService)
-    {
-        _logger = logger;
-        _massTransitService = massTransitService;
-    }
-
-    public async Task Handle(WalletCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(WalletCreatedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Created"),

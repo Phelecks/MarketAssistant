@@ -2,7 +2,7 @@
 using LoggerService.Helpers;
 using MassTransitManager.Helpers;
 using MassTransitManager.Services;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace BlockProcessor.Application.Transfer.EventHandlers;
@@ -18,7 +18,7 @@ public class TransferMarkedAsFailedEventHandler : INotificationHandler<TransferM
         _massTransitService = massTransitService;
     }
 
-    public async Task Handle(TransferMarkedAsFailedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(TransferMarkedAsFailedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),

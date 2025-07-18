@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Information;
 
-public class InformationDeletedEvent : BaseEvent
+public class InformationDeletedEvent : INotification
 {
     public InformationDeletedEvent(Entities.Information item)
     {

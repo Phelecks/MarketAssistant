@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Contact;
 
-public class ContactCreatedEvent : BaseEvent
+public class ContactCreatedEvent : INotification
 {
     public ContactCreatedEvent(Entities.Contact item)
     {

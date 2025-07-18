@@ -1,7 +1,8 @@
 ﻿using BaseApplication.Exceptions;
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.Template.Commands.DeleteTemplate;
 
@@ -17,7 +18,7 @@ public class DeleteTemplateCommandHandler : IRequestHandler<DeleteTemplateComman
         _context = context;
     }
 
-    //public async Task<Unit> Handle(DeleteTemplateCommand request, CancellationToken cancellationToken)
+    //public async Task<Unit> HandleAsync(DeleteTemplateCommand request, CancellationToken cancellationToken)
     //{
     //    var entity = await _context.templates
     //        .FindAsync(new object[] { request.id }, cancellationToken);
@@ -33,7 +34,7 @@ public class DeleteTemplateCommandHandler : IRequestHandler<DeleteTemplateComman
 
     //    return Unit.Value;
     //}
-    public async Task<Unit> Handle(DeleteTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(DeleteTemplateCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Templates
             .FindAsync(new object[] { request.id }, cancellationToken);

@@ -2,7 +2,7 @@
 using BlockChainQueryHelper.Interfaces;
 using BlockChainWeb3ProviderHelper.Interfaces;
 using LogProcessor.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,7 +16,7 @@ public class Handler(IApplicationDbContext context, IBlockService blockService, 
     private readonly IBlockService _blockService = blockService;
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
 
-    public async Task<long> Handle(GetLastProcessedBlockQuery request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(GetLastProcessedBlockQuery request, CancellationToken cancellationToken)
     {
         var processedBlock = await _context.BlockProgresses.SingleOrDefaultAsync(exp => exp.Chain == request.Chain && exp.Status == Domain.Entities.BlockProgress.BlockProgressStatus.Processed, cancellationToken);
         if(processedBlock is null) 

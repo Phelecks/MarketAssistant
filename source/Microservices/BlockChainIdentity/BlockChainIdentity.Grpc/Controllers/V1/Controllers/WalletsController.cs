@@ -22,7 +22,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<Application.Wallet.Queries.GetWallets.WalletDto>>> Get([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetWalletsQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
+            return await Dispatcher.SendAsync(new GetWalletsQuery { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{address}")]
@@ -34,7 +34,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Application.Wallet.Queries.GetWallet.WalletDto>> Get(string address, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetWalletQuery(address), cancellationToken);
+            return await Dispatcher.SendAsync(new GetWalletQuery(address), cancellationToken);
         }
 
         [HttpGet("{address}/Roles")]
@@ -46,7 +46,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<WalletRoleDto>>> GetWalletRoles(string address, [FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetWalletRolesQuery(address) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
+            return await Dispatcher.SendAsync(new GetWalletRolesQuery(address) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
 
         [HttpGet("{address}/Tokens")]
@@ -58,7 +58,7 @@ namespace BlockChainIdentity.Grpc.Controllers.V1.Controllers
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedList<WalletTokenDto>>> GetWalletTokens(string address, [FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string? orderBy, CancellationToken cancellationToken)
         {
-            return await Sender.Send(new GetWalletTokensQuery(address) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
+            return await Dispatcher.SendAsync(new GetWalletTokensQuery(address) { PageNumber = pageNumber, PageSize = pageSize, OrderBy = orderBy }, cancellationToken);
         }
     }
 }

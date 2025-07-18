@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using MediatR.Interfaces;
 
 namespace BaseDomain.Common;
 
@@ -6,23 +7,23 @@ public abstract class BaseEntity
 {
     public long Id { get; set; }
 
-    private readonly List<BaseEvent> _domainEvents = new();
+    private readonly List<INotification> _domainNotifications = new();
 
     [NotMapped]
-    public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
+    public IReadOnlyCollection<INotification> DomainNotifications => _domainNotifications.AsReadOnly();
 
-    public void AddDomainEvent(BaseEvent domainEvent)
+    public void AddDomainNotification(INotification domainNotification)
     {
-        _domainEvents.Add(domainEvent);
+        _domainNotifications.Add(domainNotification);
     }
 
-    public void RemoveDomainEvent(BaseEvent domainEvent)
+    public void RemoveDomainNotification(INotification domainNotification)
     {
-        _domainEvents.Remove(domainEvent);
+        _domainNotifications.Remove(domainNotification);
     }
 
-    public void ClearDomainEvents()
+    public void ClearDomainNotifications()
     {
-        _domainEvents.Clear();
+        _domainNotifications.Clear();
     }
 }

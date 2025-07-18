@@ -4,7 +4,7 @@ using MassTransitManager.Helpers;
 using MassTransitManager.Messages;
 using MassTransitManager.Messages.Interfaces;
 using MassTransitManager.Services;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace LogProcessor.Application.Transfer.EventHandlers;
@@ -20,7 +20,7 @@ public class TransferMarkedAsConfirmedEventHandler : INotificationHandler<Transf
         _massTransitService = massTransitService;
     }
 
-    public async Task Handle(TransferMarkedAsConfirmedEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(TransferMarkedAsConfirmedEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "Domain Item Updated"),

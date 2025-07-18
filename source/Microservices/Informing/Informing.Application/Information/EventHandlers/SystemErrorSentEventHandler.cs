@@ -1,6 +1,6 @@
 ﻿using Informing.Domain.Events.Information;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Informing.Application.Information.EventHandlers;
@@ -14,7 +14,7 @@ public class SystemErrorSentEventHandler : INotificationHandler<SystemErrorSentE
         _logger = logger;
     }
 
-    public async Task Handle(SystemErrorSentEvent notification, CancellationToken cancellationToken)
+    public async Task HandleAsync(SystemErrorSentEvent notification, CancellationToken cancellationToken)
     {
         _ = Task.Run(() => _logger.LogInformation(
            eventId: EventTool.GetEventInformation(eventType: EventType.Information, eventName: "System error created"),

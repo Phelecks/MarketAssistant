@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using MediatR.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlockChainIdentity.Grpc.Controllers;
@@ -7,16 +7,16 @@ namespace BlockChainIdentity.Grpc.Controllers;
 [Route("[controller]")]
 public abstract class ApiControllerBase : ControllerBase
 {
-    private ISender _sender = null!;
+    private IRequestDispatcher _dispatcher = null!;
     private LinkGenerator _linkGenerator = null!;
 
-    protected ISender Sender => _sender ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+    protected IRequestDispatcher Dispatcher => _dispatcher ??= HttpContext.RequestServices.GetRequiredService<IRequestDispatcher>();
     protected LinkGenerator LinkGenerator => _linkGenerator ??= HttpContext.RequestServices.GetRequiredService<LinkGenerator>();
 
-    //private readonly ISender Sender;
+    //private readonly IRequestDispatcher dispatcher;
 
-    //public ApiControllerBase(ISender sender)
+    //public ApiControllerBase(IRequestDispatcher dispatcher)
     //{
-    //    Sender = sender;
+    //    Sender = dispatcher;
     //}
 }

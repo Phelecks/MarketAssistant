@@ -3,7 +3,7 @@ using BlockChainQueryHelper.Interfaces;
 using BlockChainWeb3ProviderHelper.Interfaces;
 using CacheManager.Interfaces;
 using LogProcessor.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Nethereum.Util;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +21,7 @@ public class Handler(IApplicationDbContext context, IDistributedLockService<BigI
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
     private readonly CustomWaitStrategy _waitStrategy = new();
 
-    public async Task<BigInteger[]> Handle(GetNextProcessingBlockQuery request, CancellationToken cancellationToken)
+    public async Task<BigInteger[]> HandleAsync(GetNextProcessingBlockQuery request, CancellationToken cancellationToken)
     {
         return await _distributedLockService.RunWithLockAsync(async () => await GetNextProcessingBlock(request.Chain, cancellationToken), 
             key: $"BlockProcessor_NextProcessingBlock_{request.Chain}",

@@ -2,8 +2,9 @@
 using BaseApplication.Exceptions;
 using Informing.Application.Interfaces;
 using Informing.Domain.Events.Contact;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MediatR.Helpers;
 
 namespace Informing.Application.Contact.Commands.UpdateContactByUserId;
 
@@ -18,7 +19,7 @@ public class UpdateContactByUserIdCommandHandler : IRequestHandler<UpdateContact
         _context = context;
     }
 
-    //public async Task<Unit> Handle(UpdateContactByUserIdCommand request, CancellationToken cancellationToken)
+    //public async Task<Unit> HandleAsync(UpdateContactByUserIdCommand request, CancellationToken cancellationToken)
     //{
     //    var entity = await _context.contacts
     //        .SingleAsync(exp => exp.userId.Equals(request.userId), cancellationToken);
@@ -30,13 +31,13 @@ public class UpdateContactByUserIdCommandHandler : IRequestHandler<UpdateContact
     //    entity.emailAddress = request.emailAddress;
     //    entity.fullName = request.fullname;
 
-    //    entity.AddDomainEvent(new ContactUpdatedEvent(entity));
+    //    entity.AddDomainNotification(new ContactUpdatedEvent(entity));
 
     //    await _context.SaveChangesAsync(cancellationToken);
 
     //    return Unit.Value;
     //}
-    public async Task<Unit> Handle(UpdateContactByUserIdCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(UpdateContactByUserIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Contacts
             .SingleAsync(exp => exp.UserId.Equals(request.userId), cancellationToken);
@@ -48,7 +49,7 @@ public class UpdateContactByUserIdCommandHandler : IRequestHandler<UpdateContact
         entity.EmailAddress = request.emailAddress;
         entity.Fullname = request.fullname;
 
-        entity.AddDomainEvent(new ContactUpdatedEvent(entity));
+        entity.AddDomainNotification(new ContactUpdatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
 

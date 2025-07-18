@@ -1,8 +1,8 @@
-﻿using BaseDomain.Common;
+﻿using MediatR.Interfaces;
 
 namespace Informing.Domain.Events.Information;
 
-public class InformationUpdatedEvent : BaseEvent
+public class InformationUpdatedEvent : INotification
 {
     public InformationUpdatedEvent(Entities.Information item)
     {

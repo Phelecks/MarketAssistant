@@ -14,10 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Nethereum.Signer" />
     <PackageReference Include="Nethereum.Web3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediatR\MediatR.csproj" />
   </ItemGroup>
 
 </Project>

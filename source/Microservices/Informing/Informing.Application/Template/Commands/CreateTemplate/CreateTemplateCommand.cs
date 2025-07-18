@@ -1,5 +1,5 @@
 ﻿using BaseApplication.Security;
-using MediatR;
+using MediatR.Interfaces;
 using IApplicationDbContext = Informing.Application.Interfaces.IApplicationDbContext;
 
 namespace Informing.Application.Template.Commands.CreateTemplate;
@@ -38,7 +38,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
         _context = context;
     }
 
-    public async Task<long> Handle(CreateTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<long> HandleAsync(CreateTemplateCommand request, CancellationToken cancellationToken)
     {
         var entity = new Domain.Entities.Template
         {

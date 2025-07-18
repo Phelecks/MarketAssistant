@@ -11,7 +11,7 @@ using BlockProcessor.Application.Transfer.Commands.InitiateTransfer;
 using BlockProcessor.Application.WalletAddress.Queries.GetAllAddresses;
 using ExecutorManager.Helpers;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nethereum.Contracts;
@@ -22,11 +22,11 @@ using Polly;
 
 namespace BlockProcessor.Infrastructure.Services;
 
-public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService> logger, 
+public class BlockProcessorService(IRequestDispatcher dispatcher, ILogger<BlockProcessorService> logger, 
     IWeb3ProviderService web3ProviderService, [FromKeyedServices(PipelineHelper.RetryEverythingFiveTimes)] ResiliencePipeline pollyPipeline,
     IDateTimeService dateTimeService) : IBlockProcessorService
 {
-    private readonly ISender _sender = sender;
+    private readonly IRequestDispatcher _dispatcher = dispatcher;
     private readonly ILogger<BlockProcessorService> _logger = logger;
     private readonly IWeb3ProviderService _web3ProviderService = web3ProviderService;
     private readonly IDateTimeService _dateTimeService = dateTimeService;
@@ -36,7 +36,7 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
 
     public async Task StartAsync(Nethereum.Signer.Chain chain, CancellationToken cancellationToken)
     {
-        var rpcUrl = await _sender.Send(new GetRpcUrlQuery(chain), cancellationToken);
+        var rpcUrl = await _dispatcher.SendAsync(new GetRpcUrlQuery(chain), cancellationToken);
         var web3 = _web3ProviderService.CreateWeb3(rpcUrl.Uri.ToString());
         
         
@@ -61,9 +61,9 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
         {
             await Task.Delay(waitInterval, cancellationToken);
 
-            _addresses = await _sender.Send(new GetAllAddressesQuery(), cancellationToken);
+            _addresses = await _dispatcher.SendAsync(new GetAllAddressesQuery(), cancellationToken);
 
-            var processingBlocks = await _sender.Send(new GetNextProcessingBlockQuery(chain), cancellationToken);
+            var processingBlocks = await _dispatcher.SendAsync(new GetNextProcessingBlockQuery(chain), cancellationToken);
             await ParallelProcessBlocksAsync(chain, web3, processingBlocks, maxDegreeOfParallelism, minimumBlockConfirmations, cancellationToken);
         }
     }
@@ -116,11 +116,11 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
         finally
         {
             foreach(var blockStatus in blockStatuses.Where(exp => exp.Processed))
-                await _sender.Send(new MarkBlockAsProcessedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
+                await _dispatcher.SendAsync(new MarkBlockAsProcessedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
             foreach(var blockStatus in blockStatuses.Where(exp => !exp.Processed))
-                await _sender.Send(new MarkBlockAsFailedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
+                await _dispatcher.SendAsync(new MarkBlockAsFailedCommand(chain, (long)blockStatus.BlockNumber), cancellationToken);
             foreach(var processingBlock in processingBlocks.Where(processingBlock => !blockStatuses.Any(blockStatus => blockStatus.BlockNumber == processingBlock)))
-                await _sender.Send(new MarkBlockAsFailedCommand(chain, (long)processingBlock), cancellationToken);
+                await _dispatcher.SendAsync(new MarkBlockAsFailedCommand(chain, (long)processingBlock), cancellationToken);
         }
     }
 
@@ -159,7 +159,7 @@ public class BlockProcessorService(ISender sender, ILogger<BlockProcessorService
             var erc20TransferLogs = transactionReceiptVO.TransactionReceipt.Logs?.DecodeAllEvents<Nethereum.Contracts.Standards.ERC20.ContractDefinition.TransferEventDTO>();
             var erc721TransferLogs = transactionReceiptVO.TransactionReceipt.Logs?.DecodeAllEvents<Nethereum.Contracts.Standards.ERC721.ContractDefinition.TransferEventDTO>();
                         
-            await _sender.Send(new InitiateTransferCommand(
+            await _dispatcher.SendAsync(new InitiateTransferCommand(
                 Hash: transactionReceiptVO.TransactionHash, From: transactionReceiptVO.TransactionReceipt.From.ConvertToEthereumChecksumAddress(), To: transactionReceiptVO.TransactionReceipt.To.ConvertToEthereumChecksumAddress(), 
                 Value: transactionReceiptVO.Transaction.Value, GasUsed: transactionReceiptVO.TransactionReceipt.GasUsed.Value, EffectiveGasPrice: transactionReceiptVO.TransactionReceipt.EffectiveGasPrice.Value,
                 CumulativeGasUsed: transactionReceiptVO.TransactionReceipt.CumulativeGasUsed.Value, BlockNumber: transactionReceiptVO.BlockNumber.Value, ConfirmedDatetime: _dateTimeService.ConvertFromUnixTimestamp(transactionReceiptVO.BlockTimestamp), Chain: chain, 

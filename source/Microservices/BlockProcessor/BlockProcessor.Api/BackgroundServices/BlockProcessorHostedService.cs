@@ -1,7 +1,7 @@
 ﻿using BlockProcessor.Application.Interfaces;
 using BlockProcessor.Application.RpcUrl.Queries.GetAllChains;
 using LoggerService.Helpers;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace BlockProcessor.Api.BackgroundServices;
 
@@ -20,9 +20,9 @@ public class BlockProcessorHostedService(IServiceScopeFactory serviceProvider, I
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();
-            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+            var dispatcher = scope.ServiceProvider.GetRequiredService<IRequestDispatcher>();
             
-            var chains = await sender.Send(new GetAllChainsQuery(), stoppingToken);
+            var chains = await dispatcher.SendAsync(new GetAllChainsQuery(), stoppingToken);
 
             foreach (var chain in chains)
                 if(!_blockProcessors.Contains(chain))
@@ -59,7 +59,7 @@ public class BlockProcessorHostedService(IServiceScopeFactory serviceProvider, I
             _blockProcessors.Add(chain);
 
             using var scope = _serviceProvider.CreateScope();
-            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+            var sender = scope.ServiceProvider.GetRequiredService<IRequestDispatcher>();
             var blockProcessor = scope.ServiceProvider.GetRequiredService<IBlockProcessorService>();
             await blockProcessor.StartAsync(chain, cancellationToken);
         }

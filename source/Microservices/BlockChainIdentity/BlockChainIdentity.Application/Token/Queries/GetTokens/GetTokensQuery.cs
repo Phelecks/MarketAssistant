@@ -4,7 +4,7 @@ using BaseApplication.Mappings;
 using BaseApplication.Models;
 using BaseApplication.Security;
 using BlockChainIdentity.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
 
 namespace BlockChainIdentity.Application.Token.Queries.GetTokens;
 
@@ -22,7 +22,7 @@ public class Handler : IRequestHandler<GetTokensQuery, PaginatedList<TokenDto>>
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<TokenDto>> Handle(GetTokensQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<TokenDto>> HandleAsync(GetTokensQuery request, CancellationToken cancellationToken)
     {
         return await _context.Tokens
             .ProjectTo<TokenDto>(_mapper.ConfigurationProvider)

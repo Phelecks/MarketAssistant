@@ -1,6 +1,7 @@
 ﻿using BaseApplication.Exceptions;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.Group.Commands.DeleteGroup;
 
@@ -11,7 +12,7 @@ public class DeleteGroupCommandHandler(IApplicationDbContext context) : IRequest
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Groups
             .FindAsync([request.id], cancellationToken);

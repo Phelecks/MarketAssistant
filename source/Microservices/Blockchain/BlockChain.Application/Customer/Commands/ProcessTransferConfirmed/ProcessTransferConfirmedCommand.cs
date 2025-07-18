@@ -1,25 +1,26 @@
 ﻿using BlockChain.Application.Interfaces;
 using BlockChain.Domain.Events.Notification;
 using MassTransitManager.Messages.Interfaces;
-using MediatR;
+using MediatR.Helpers;
+using MediatR.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlockChain.Application.Customer.Commands.ProcessTransferConfirmed;
 
-public record ProcessTransferConfirmedCommand([property: Required] ITransferConfirmedMessage TransferConfirmedEvent) : IRequest<Unit>;
-
+public record ProcessTransferConfirmedCommand([property: Required] ITransferConfirmedMessage TransferConfirmedEvent) 
+    : IRequest<Unit>;
 
 public class Handler(IApplicationDbContext context) : IRequestHandler<ProcessTransferConfirmedCommand, Unit>
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(ProcessTransferConfirmedCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(ProcessTransferConfirmedCommand request, CancellationToken cancellationToken)
     {
         var fromTracks = await _context.Tracks.Where(exp => exp.WalletAddress.Equals(request.TransferConfirmedEvent.From)).ToListAsync(cancellationToken);
         foreach(var item in fromTracks)
         {
-            item.AddDomainEvent(new NotificationCreatedEvent(
+            item.AddDomainNotification(new NotificationCreatedEvent(
                 correlationId: request.TransferConfirmedEvent.CorrelationId, 
                 walletAddress: item.CustomerWalletAddress, 
                 transfer: new NotificationCreatedEvent.Transfer(
@@ -40,7 +41,7 @@ public class Handler(IApplicationDbContext context) : IRequestHandler<ProcessTra
                 var toTracks = await _context.Tracks.Where(exp => exp.WalletAddress.Equals(request.TransferConfirmedEvent.From)).ToListAsync(cancellationToken);
                 foreach(var item in toTracks)
                 {
-                    item.AddDomainEvent(new NotificationCreatedEvent(
+                    item.AddDomainNotification(new NotificationCreatedEvent(
                         correlationId: request.TransferConfirmedEvent.CorrelationId, 
                         walletAddress: item.CustomerWalletAddress, 
                         transfer: new NotificationCreatedEvent.Transfer(

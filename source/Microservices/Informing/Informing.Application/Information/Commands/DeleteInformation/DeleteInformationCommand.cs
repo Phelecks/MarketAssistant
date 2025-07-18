@@ -1,7 +1,8 @@
 ﻿using BaseApplication.Exceptions;
 using BaseApplication.Security;
 using Informing.Application.Interfaces;
-using MediatR;
+using MediatR.Interfaces;
+using MediatR.Helpers;
 
 namespace Informing.Application.Information.Commands.DeleteInformation;
 
@@ -12,7 +13,7 @@ public class DeleteInformationCommandHandler(IApplicationDbContext context) : IR
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Unit> Handle(DeleteInformationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> HandleAsync(DeleteInformationCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Information
             .FindAsync([request.id], cancellationToken);

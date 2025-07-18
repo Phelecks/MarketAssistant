@@ -1,7 +1,7 @@
 ﻿// using BaseApplication.Security;
 // using BlockChainIdentity.Application.Interfaces;
 // using BlockChainIdentity.Domain.Events.Wallet;
-// using MediatR;
+// using MediatR.Interfaces;
 // using Microsoft.AspNetCore.Http;
 // using Microsoft.EntityFrameworkCore;
 // using Nethereum.Siwe;
@@ -27,7 +27,7 @@
 //         _httpContext = httpContext;
 //     }
 
-//     public async Task<Unit> Handle(SignOutWalletCommand request, CancellationToken cancellationToken)
+//     public async Task<Unit> HandleAsync(SignOutWalletCommand request, CancellationToken cancellationToken)
 //     {
 //         if (_httpContext != null && _httpContext.HttpContext != null && 
 //             _httpContext.HttpContext.Items.ContainsKey(ContextSiweMessage))
@@ -39,7 +39,7 @@
 //             if(token != null)
 //             {
 //                 token.enabled = false;
-//                 token.AddDomainEvent(new WalletSignedOutEvent(token.wallet));
+//                 token.AddDomainNotification(new WalletSignedOutEvent(token.wallet));
 //                 await _context.SaveChangesAsync(cancellationToken);
 //             }
 //         }

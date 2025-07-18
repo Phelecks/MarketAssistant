@@ -1,5 +1,4 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
 using Asp.Versioning;
 using BaseInfrastructure.Interceptors;
 using FluentValidation.AspNetCore;
@@ -10,6 +9,9 @@ using BaseInfrastructure.Helpers;
 using BaseApi.Extensions;
 using BaseApi.Filters;
 using BaseApi.Handlers;
+using MediatR.Interfaces;
+using MediatR;
+
 
 namespace BaseApi;
 
@@ -58,10 +60,7 @@ public static class ConfigureServices
             options.EnableDetailedErrors = true;
         });
 
-        services.AddMediatR(configuration: configuration =>
-        {
-            configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
-        });
+        services.AddMediatR();
 
         builder.Services.AddControllers(options =>
             options.Filters.Add<ApiExceptionFilter>());
